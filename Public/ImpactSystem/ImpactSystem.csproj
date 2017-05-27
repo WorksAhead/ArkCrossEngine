@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ImpactSystem</RootNamespace>
+    <AssemblyName>ImpactSystem</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Client\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IImpactLogic.cs" />
+    <Compile Include="ImpactLogicManager.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_AppendDamage.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_BlockAndBeat.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_ChangeSkill.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_DamageImmunityShield.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_General.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_Heal.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_HitCriticalTrigger.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_HitRecover.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_IceArmor.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_Invincible.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_KillAddDamage.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_RefixDamage.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_StopImpact.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_SuperArmor.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_SuperArmorShield.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_Thorns.cs" />
+    <Compile Include="ImpactLogic\ImpactLogic_Undead.cs" />
+    <Compile Include="ImpactSystem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
+      <Project>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

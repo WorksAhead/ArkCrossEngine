@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{71ABA446-8737-4042-A18A-B6DAD57102BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataStoreClient</RootNamespace>
+    <AssemblyName>DataStoreClient</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSharpCenterClient">
+      <HintPath>..\..\Public\CSharpLibs\platform\CSharpCenterClient.dll</HintPath>
+    </Reference>
+    <Reference Include="DashFire.DataStore">
+      <HintPath>..\..\Public\Messages\PBMessages\Generated\DashFire.DataStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\Crc32.cs">
+      <Link>Crc32.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\DataStoreResultCode.cs">
+      <Link>DataStoreResultCode.cs</Link>
+    </Compile>
+    <Compile Include="Config.cs" />
+    <Compile Include="Constraints.cs" />
+    <Compile Include="DataStoreClient.cs" />
+    <Compile Include="LoadCBBox.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Public\Common\Common.csproj">
+      <Project>{22d75e22-b35a-4204-9bfb-718d9ac84c02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\Common\ServerCommon.csproj">
+      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
+      <Name>ServerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\LogSys\LogSys\LogSys.csproj">
+      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
+      <Name>LogSys</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\Messenger\Messenger\Messenger.csproj">
+      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
+      <Name>Messenger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)..\Public\Messages\PBMessages\DashFireProtoGen.exe</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

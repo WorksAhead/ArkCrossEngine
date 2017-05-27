@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!-- syntaxdefinition for PHP 2001 by Chad Smith & Mike Krueger -->
+
+<SyntaxDefinition name ="GM" extensions = ".gm">
+	
+	<Digits name ="Digits" bold ="false" italic ="false" color ="DarkBlue"/>
+	
+	<RuleSets>
+		<RuleSet ignorecase = "false">
+			<Delimiters>~!@$%^*()-+=|\#/{}[]:;"'&lt;&gt; &amp;, .?</Delimiters>
+			
+      <Span name ="LINECOMMENT0" rule = "TestSet" bold ="false" italic ="true" color ="SlateGray" stopateol ="true">
+        <Begin>#</Begin>
+      </Span>
+			
+			<Span name ="LINECOMMENT" rule = "TestSet" bold ="false" italic ="true" color ="SlateGray" stopateol ="true">
+				<Begin>//</Begin>
+			</Span>
+			
+			<Span name ="BLOCKCOMMENT" rule = "TestSet" bold ="false" italic ="true" color ="SlateGray" stopateol ="false">
+				<Begin>/*</Begin>
+				<End>*/</End>
+			</Span>
+			
+			<Span name ="STRING" bold ="false" italic ="false" color ="Magenta" stopateol ="true" escapecharacter="\">
+				<Begin>"</Begin>
+				<End>"</End>
+			</Span>
+			
+			<Span name ="CHAR" bold ="false" italic ="false" color ="Magenta" stopateol ="true" escapecharacter="\">
+				<Begin>'</Begin>
+				<End>'</End>
+			</Span>
+			
+			<MarkPrevious bold ="true" italic ="false" color ="MidnightBlue">(</MarkPrevious>
+			
+			<KeyWords name ="Punctuation" bold ="false" italic ="false" color ="DarkGreen">
+				<Key word =  "?" />
+				<Key word =  "," />
+				<Key word =  "." />
+				<Key word =  "(" />
+				<Key word =  ")" />
+				<Key word =  "[" />
+				<Key word =  "]" />
+				<Key word =  "{" />
+				<Key word =  "}" />
+				<Key word =  "+" />
+				<Key word =  "-" />
+				<Key word =  "/" />
+				<Key word =  "%" />
+				<Key word =  "*" />
+        <Key word =  "@" />
+        <Key word =  "$" />
+				<Key word =  "&lt;" />
+				<Key word =  "&gt;" />
+        <Key word =  "&lt;=" />
+        <Key word =  "&gt;=" />
+        <Key word =  "==" />
+        <Key word =  "!=" />
+				<Key word =  "^" />
+				<Key word =  "!" />
+				<Key word =  "|" />
+        <Key word =  "&amp;&amp;" />
+        <Key word =  "||" />
+        <Key word =  "~" />
+			</KeyWords>
+			
+			<KeyWords name ="OperatorKeywords" bold="true" italic = "false" color = "DarkCyan">
+				<Key word =  "true" />
+				<Key word =  "false" />
+			</KeyWords>
+			
+			
+			<KeyWords name ="SelectionStatements" bold="true" italic = "false" color = "Blue">
+				<Key word =  "else" />
+				<Key word =  "if" />
+			</KeyWords>
+			
+			<KeyWords name ="IterationStatements" bold="true" italic = "false" color = "Blue">
+				<Key word =  "loop" />
+        <Key word =  "looplist" />
+				<Key word =  "foreach" />
+				<Key word =  "while" />
+			</KeyWords>
+			
+			<KeyWords name ="Statements" bold="true" italic = "false" color = "DarkRed">
+				<Key word =  "script" />
+				<Key word =  "story" />
+				<Key word =  "local" />
+				<Key word =  "onmessage" />
+				<Key word =  "wait" />
+        <Key word =  "sleep" />
+        <Key word =  "log" />
+        <Key word =  "inc" />
+        <Key word =  "dec" />
+        <Key word =  "assign" />
+        <Key word =  "propset" />
+        <Key word =  "propget" />
+        <Key word =  "localmessage" />
+        <Key word =  "terminate" />
+        <Key word =  "time" />
+        <Key word =  "format" />
+        <Key word =  "substring" />
+			</KeyWords>
+
+      <KeyWords name ="GmCommands" bold="true" italic = "false" color = "DarkRed">
+        <Key word =  "sendmail" />
+      </KeyWords>
+            
+		</RuleSet>
+			
+		<RuleSet name ="TestSet" ignorecase = "true">
+			<Delimiters>~!@$%^*()-+=|\#/{}[]:;"'&lt;&gt; &amp;, .?</Delimiters>
+			<KeyWords name ="Testword" bold="true" italic = "true" color = "Red">
+				<Key word =  "TODO" />
+			</KeyWords>
+		</RuleSet>
+    
+	</RuleSets>
+</SyntaxDefinition>
+

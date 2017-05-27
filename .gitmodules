@@ -1,0 +1,3 @@
+[submodule "Client/Publish"]
+	path = Client/Publish
+	url = https://github.com/WorksAhead/UnityClient.git

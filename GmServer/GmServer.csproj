@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E0F7BA19-6F37-4FF1-B607-10695D4538A8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GmServer</RootNamespace>
+    <AssemblyName>GmServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSharpCenterClient">
+      <HintPath>..\Public\CSharpLibs\platform\CSharpCenterClient.dll</HintPath>
+    </Reference>
+    <Reference Include="DashFire.DataStore">
+      <HintPath>..\Public\Messages\PBMessages\Generated\DashFire.DataStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Lobby_GmServer">
+      <HintPath>..\Public\Messages\PBMessages\Generated\Lobby_GmServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DataStore\Common\DataStoreResultCode.cs">
+      <Link>DataStoreResultCode.cs</Link>
+    </Compile>
+    <Compile Include="GmServer.cs" />
+    <Compile Include="GmServerConfig.cs" />
+    <Compile Include="Mysql\DataLoadImpl.cs" />
+    <Compile Include="Mysql\DBConn.cs" />
+    <Compile Include="Mysql\DbThread.cs" />
+    <Compile Include="Mysql\DbThreadManager.cs" />
+    <Compile Include="Systems\DataScheduler.cs" />
+    <Compile Include="Systems\DataOperator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Public\Common\Common.csproj">
+      <Project>{22d75e22-b35a-4204-9bfb-718d9ac84c02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Common\ServerCommon.csproj">
+      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
+      <Name>ServerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\LogSys\LogSys\LogSys.csproj">
+      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
+      <Name>LogSys</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Messenger\Messenger\Messenger.csproj">
+      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
+      <Name>Messenger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

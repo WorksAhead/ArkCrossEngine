@@ -1,0 +1,53 @@
+function(CenterCallbackObj)
+{
+  this.onNameHandleChanged=function()
+  {
+  };
+  this.onMessage=function()
+  {
+  };
+  this.onCommand=function()
+  {
+    @src=$1;
+    @dest=$2;
+    @cmd=$3;
+    print("onCommand:"+@src+"->"+@dest+":"+@cmd);
+  };
+};
+
+function(requestQuit)
+{
+  @name = $0;
+  @cmd = $1;
+  if(client.targetHandle(@name)>0){
+    client.sendCommandByName(@name,@cmd);
+  };
+};
+
+function(main)
+{
+  @obj = new(CenterCallbackObj);
+  client.setCallback(@obj);
+  client.setConnectInfo("admin","127.0.0.1",20000);
+  for(@ct=0;@ct<100;++@ct){
+    client.tick();
+    if(client.isConnected()){
+      //requestQuit("NodeJs1","QuitNodeJs");
+      //requestQuit("NodeJs2","QuitNodeJs");
+      //requestQuit("NodeJs3","QuitNodeJs");
+      //requestQuit("NodeJs4","QuitNodeJs");
+      //requestQuit("NodeJs5","QuitNodeJs");
+      //requestQuit("NodeJs6","QuitNodeJs");
+      //requestQuit("RoomSvr1","QuitRoomServer");
+      //requestQuit("ServerBridge","QuitServerBridge");
+      //requestQuit("Lobby","QuitLobby");
+      requestQuit("DataStoreNode","QuitDataStore");
+      //client.sendCommandByHandle(0,"quit(0);");
+      print("connected.");
+    };
+    sleep(10);
+  };
+  client.disconnect();
+};
+
+return main();

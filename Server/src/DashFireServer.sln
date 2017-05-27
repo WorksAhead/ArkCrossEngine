@@ -1,0 +1,233 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\..\Public\Common\Common.csproj", "{22D75E22-B35A-4204-9BFB-718D9AC84C02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameObjects", "..\..\Public\GameObjects\GameObjects.csproj", "{DC42FF5E-E987-4E09-AB7A-E156089E3F44}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02} = {22D75E22-B35A-4204-9BFB-718D9AC84C02}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiSystem", "..\..\Public\AiSystem\AiSystem.csproj", "{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02} = {22D75E22-B35A-4204-9BFB-718D9AC84C02}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementSystem", "..\..\Public\MovementSystem\MovementSystem.csproj", "{5529C957-E6F1-4F14-AAF6-FCA76590B187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialSystem", "..\..\Public\SpatialSystem\SpatialSystem.csproj", "{07597610-F5FD-4706-9BAF-9D6C3BEC366D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashFireServer", "DashFireServer.csproj", "{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSys", "..\..\Public\LogSys\LogSys\LogSys.csproj", "{7935F58E-9F5D-48F7-B915-C6A0F455165F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger", "..\..\Public\Messenger\Messenger\Messenger.csproj", "{98BA0167-2BEB-4845-9926-50CB465C4FA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientProtoBuf", "..\..\Public\ClientProtoBuf\ClientProtoBuf.csproj", "{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptableData", "..\..\Public\ScriptableData\ScriptableData.csproj", "{7B7BD40C-1D3C-4F59-927D-1740CB672E08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpactSystem", "..\..\Public\ImpactSystem\ImpactSystem.csproj", "{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillSystem", "..\..\Public\SkillSystem\SkillSystem.csproj", "{43B2F01B-F224-4E3A-B2D4-78AB6599805C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorySystem", "..\..\Public\StorySystem\StorySystem.csproj", "{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SceneLogic", "..\..\Public\SceneLogic\SceneLogic.csproj", "{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCommon", "..\..\Public\Common\ServerCommon.csproj", "{8EAD2077-DE3A-435C-B770-09EFFE4153C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{22D75E22-B35A-4204-9BFB-718D9AC84C02}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{DC42FF5E-E987-4E09-AB7A-E156089E3F44}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5529C957-E6F1-4F14-AAF6-FCA76590B187}.Release|x86.ActiveCfg = Release|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{07597610-F5FD-4706-9BAF-9D6C3BEC366D}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|Any CPU.Build.0 = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|x86.ActiveCfg = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Debug|x86.Build.0 = Debug|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|Any CPU.ActiveCfg = Release|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|Any CPU.Build.0 = Release|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|x86.ActiveCfg = Release|x86
+		{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}.Release|x86.Build.0 = Release|x86
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Debug|x86.Build.0 = Debug|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|x86.ActiveCfg = Release|Any CPU
+		{7935F58E-9F5D-48F7-B915-C6A0F455165F}.Release|x86.Build.0 = Release|Any CPU
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Debug|x86.ActiveCfg = Debug|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Debug|x86.Build.0 = Debug|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Release|Any CPU.ActiveCfg = Release|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Release|x86.ActiveCfg = Release|x86
+		{98BA0167-2BEB-4845-9926-50CB465C4FA6}.Release|x86.Build.0 = Release|x86
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{7B7BD40C-1D3C-4F59-927D-1740CB672E08}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{43B2F01B-F224-4E3A-B2D4-78AB6599805C}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|Mixed Platforms.ActiveCfg = UnityDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|Mixed Platforms.Build.0 = UnityDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|x86.ActiveCfg = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Debug|x86.Build.0 = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|Any CPU.ActiveCfg = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|Any CPU.Build.0 = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|Mixed Platforms.ActiveCfg = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|Mixed Platforms.Build.0 = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|x86.ActiveCfg = UnrealDebug|Any CPU
+		{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}.Release|x86.Build.0 = UnrealDebug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8EAD2077-DE3A-435C-B770-09EFFE4153C1}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = DashFireServer.csproj
+	EndGlobalSection
+EndGlobal

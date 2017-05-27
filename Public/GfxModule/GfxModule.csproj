@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{574FDD1A-51B7-4964-AA17-621CB8A05ACB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GfxModule</RootNamespace>
+    <AssemblyName>GfxModule</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Client\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Client\Publish\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ScriptableDataUtility.cs" />
+    <Compile Include="Impact\GfxIImpactLogic.cs" />
+    <Compile Include="Impact\GfxImpactLogicInfo.cs" />
+    <Compile Include="Impact\GfxImpactLogicManager.cs" />
+    <Compile Include="Impact\GfxImpactLogic\GfxImpactLogic_Default.cs" />
+    <Compile Include="Impact\GfxImpactLogic\GfxImpactLogic_Grab.cs" />
+    <Compile Include="Impact\GfxImpactLogic\GfxImpactLogic_HitFly.cs" />
+    <Compile Include="Impact\GfxImpactLogic\GfxImpactLogic_KnockDown.cs" />
+    <Compile Include="Impact\GfxImpactLogic\GfxImpactLogic_Stiffness.cs" />
+    <Compile Include="Impact\GfxImpactSoundManager.cs" />
+    <Compile Include="Impact\GfxImpactSystem.cs" />
+    <Compile Include="Impact\ImpactUtility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SkillResourceAnalysis\SkillResourceAnalysis.cs" />
+    <Compile Include="SkillResourceAnalysis\Trigers\GeneralTrigers.cs" />
+    <Compile Include="Skill\GfxSkillSystem.cs" />
+    <Compile Include="Skill\SkillProduct.cs" />
+    <Compile Include="Skill\Trigers\AddLockInputTimeTrigger.cs" />
+    <Compile Include="Skill\Trigers\AnimationTrigger.cs" />
+    <Compile Include="Skill\Trigers\BlackSceneTrigger.cs" />
+    <Compile Include="Skill\Trigers\BreakSectionTrigger.cs" />
+    <Compile Include="Skill\Trigers\CameraTrigger.cs" />
+    <Compile Include="Skill\Trigers\CheckOnGroundTrigger.cs" />
+    <Compile Include="Skill\Trigers\ChooseTargetTrigger.cs" />
+    <Compile Include="Skill\Trigers\ClearDamagePoolTrigger.cs" />
+    <Compile Include="Skill\Trigers\ClearDamageStateTrigger.cs" />
+    <Compile Include="Skill\Trigers\ColliderScript.cs" />
+    <Compile Include="Skill\Trigers\ColliderTrigger.cs" />
+    <Compile Include="Skill\Trigers\ColliderTriggerUtility.cs" />
+    <Compile Include="Skill\Trigers\CreateShadowTrigger.cs" />
+    <Compile Include="Skill\Trigers\CrossSummonMoveTrigger.cs" />
+    <Compile Include="Skill\Trigers\CullingMaskTrigger.cs" />
+    <Compile Include="Skill\Trigers\DamageTrigger.cs" />
+    <Compile Include="Skill\Trigers\DestroySelfTrigger.cs" />
+    <Compile Include="Skill\Trigers\DestroySummonObjectTrigger.cs" />
+    <Compile Include="Skill\Trigers\EffectTrigger.cs" />
+    <Compile Include="Skill\Trigers\EnableChangeDirTrigger.cs" />
+    <Compile Include="Skill\Trigers\ExchangePositionTrigger.cs" />
+    <Compile Include="Skill\Trigers\FaceToAttackerTrigger.cs" />
+    <Compile Include="Skill\Trigers\FaceToTargetTrigger.cs" />
+    <Compile Include="Skill\Trigers\FieldOfViewTrigger.cs" />
+    <Compile Include="Skill\Trigers\ForbidNextSkillTrigger.cs" />
+    <Compile Include="Skill\Trigers\FruitNinjiaTrigger.cs" />
+    <Compile Include="Skill\Trigers\GeneralTrigers.cs" />
+    <Compile Include="Skill\Trigers\GotoSectionTrigger.cs" />
+    <Compile Include="Skill\Trigers\GrabTargetTrigger.cs" />
+    <Compile Include="Skill\Trigers\ImpactTrigger.cs" />
+    <Compile Include="Skill\Trigers\LockFrameTrigger.cs" />
+    <Compile Include="Skill\Trigers\Move2TargetPosTrigger.cs" />
+    <Compile Include="Skill\Trigers\MoveCameraTrigger.cs" />
+    <Compile Include="Skill\Trigers\MovementTrigger.cs" />
+    <Compile Include="Skill\Trigers\OnCrossTrigger.cs" />
+    <Compile Include="Skill\Trigers\OnInputTrigger.cs" />
+    <Compile Include="Skill\Trigers\PalmHitTrigger.cs" />
+    <Compile Include="Skill\Trigers\ParryCheckOverTrigger.cs" />
+    <Compile Include="Skill\Trigers\ParryCheckTrigger.cs" />
+    <Compile Include="Skill\Trigers\PlayPartAnimTrigger.cs" />
+    <Compile Include="Skill\Trigers\RemoveBreakSectionTrigger.cs" />
+    <Compile Include="Skill\Trigers\RestorePosTrigger.cs" />
+    <Compile Include="Skill\Trigers\RotateCameraTrigger.cs" />
+    <Compile Include="Skill\Trigers\RotateTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetChildVisibleTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetEnableTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetLayerTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetLifeTimeTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetMainCamera.cs" />
+    <Compile Include="Skill\Trigers\SetTransformTrigger.cs" />
+    <Compile Include="Skill\Trigers\SetUIVisibleTrigger.cs" />
+    <Compile Include="Skill\Trigers\ShaderPropertyTrigger.cs" />
+    <Compile Include="Skill\Trigers\SimulateMoveTrigger.cs" />
+    <Compile Include="Skill\Trigers\SkyboxMaterialTrigger.cs" />
+    <Compile Include="Skill\Trigers\SonReleaseSkillTrigger.cs" />
+    <Compile Include="Skill\Trigers\SoundTrigger.cs" />
+    <Compile Include="Skill\Trigers\StopCurSectionTrigger.cs" />
+    <Compile Include="Skill\Trigers\StopEffectTrigger.cs" />
+    <Compile Include="Skill\Trigers\SummonObjectTrigger.cs" />
+    <Compile Include="Skill\Trigers\TriggerUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
+      <Project>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GfxLogicBridge\GfxLogicBridge.csproj">
+      <Project>{4B72FA74-0478-459B-810F-C7D6E6C7EA2C}</Project>
+      <Name>GfxLogicBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptableData\ScriptableData.csproj">
+      <Project>{7B7BD40C-1D3C-4F59-927D-1740CB672E08}</Project>
+      <Name>ScriptableData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SkillSystem\SkillSystem.csproj">
+      <Project>{43B2F01B-F224-4E3A-B2D4-78AB6599805C}</Project>
+      <Name>SkillSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CrossEngine\CrossEngine\CrossEngine.csproj">
+      <Project>{2E444007-DCDA-4B89-85BD-E0E96733F099}</Project>
+      <Name>CrossEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

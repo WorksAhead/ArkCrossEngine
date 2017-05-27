@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AiSystem</RootNamespace>
+    <AssemblyName>AiSystem</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Client\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractAiCommand.cs" />
+    <Compile Include="AiCommandDispatcher.cs" />
+    <Compile Include="AiCommands\NpcAiCommand.cs" />
+    <Compile Include="AiCommands\UserAiCommand.cs" />
+    <Compile Include="AiLogicManager.cs" />
+    <Compile Include="AiLogics\AiLogicUtility.cs" />
+    <Compile Include="AiLogics\AiLogic_Boss_Hulun.cs" />
+    <Compile Include="AiLogics\AiLogic_DropOut_AutoPick.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_ActionDrive.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_Blof01.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_Blof02.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_Bluelf01.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_Bluelf02.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_Bluelf03.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_BluelfBoss.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_BossDevilWarrior.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_BossXiLie.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_CommonBoss.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_CommonLittleBoss.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_CommonMelee.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_CommonRange.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_General.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_LittleBossWithSpuerArmor.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_OneSkill.cs" />
+    <Compile Include="AiLogics\AiLogic_Npc_SmallMouse.cs" />
+    <Compile Include="AiLogics\AiLogic_UserMirror_General.cs" />
+    <Compile Include="AiLogics\AiLogic_UserSelfRange_General.cs" />
+    <Compile Include="AiLogics\AiLogic_UserSelf_General.cs" />
+    <Compile Include="AiSystem.cs" />
+    <Compile Include="IAiLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
+      <Project>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpatialSystem\SpatialSystem.csproj">
+      <Project>{07597610-F5FD-4706-9BAF-9D6C3BEC366D}</Project>
+      <Name>SpatialSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

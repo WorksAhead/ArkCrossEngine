@@ -1,0 +1,11 @@
+
+message Msg_LM_Query
+{
+	required string SelectSql = 1;
+}
+
+message Msg_ML_QueryResult
+{
+	required bool IsOk = 1;
+	required string Result = 2;
+}

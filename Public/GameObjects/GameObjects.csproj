@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GameObjects</RootNamespace>
+    <AssemblyName>GameObjects</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Client\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AiCommand\IAiCommand.cs" />
+    <Compile Include="AiInfo\AiActionInfo.cs" />
+    <Compile Include="AiInfo\AiInfo.cs" />
+    <Compile Include="AiInfo\AiPathData.cs" />
+    <Compile Include="AiInfo\NpcAiInfo.cs" />
+    <Compile Include="AiInfo\UserAiInfo.cs" />
+    <Compile Include="AttrCalc\AttrCalculateUtility.cs" />
+    <Compile Include="AttrCalc\DamageCalculator.cs" />
+    <Compile Include="AttrCalc\NpcAttrCalculator.cs" />
+    <Compile Include="AttrCalc\UserAttrCalculator.cs" />
+    <Compile Include="AutoAdjust\ControlSystem.cs" />
+    <Compile Include="AutoAdjust\IController.cs" />
+    <Compile Include="CharacterBase.cs" />
+    <Compile Include="CombatInfo\CombatStatisticInfo.cs" />
+    <Compile Include="EquipmentStateInfo\EquipmentStateInfo.cs" />
+    <Compile Include="EquipmentStateInfo\ItemDataInfo.cs" />
+    <Compile Include="EquipmentStateInfo\LegacyStateInfo.cs" />
+    <Compile Include="EquipmentStateInfo\TalentStateInfo.cs" />
+    <Compile Include="EquipmentStateInfo\XSoulPartInfo.cs" />
+    <Compile Include="MovementInfo\MovementInfo.cs" />
+    <Compile Include="NpcManager.cs" />
+    <Compile Include="ObjectInfo\NpcInfo.cs" />
+    <Compile Include="ObjectInfo\UserInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneContextInfo.cs" />
+    <Compile Include="SceneLogicInfoManager.cs" />
+    <Compile Include="SceneLogicInfo\AreaDetectLogicInfo.cs" />
+    <Compile Include="SceneLogicInfo\NpcLeaveAreaLogicInfo.cs" />
+    <Compile Include="SceneLogicInfo\RevivePointLogicInfo.cs" />
+    <Compile Include="SceneLogicInfo\SceneLogicInfo.cs" />
+    <Compile Include="SceneLogicInfo\TimeoutLogicInfo.cs" />
+    <Compile Include="SceneLogicInfo\UserEnterAreaLogicInfo.cs" />
+    <Compile Include="SceneSharedData\BlackBoard.cs" />
+    <Compile Include="SceneSharedData\PvpData.cs" />
+    <Compile Include="SightManager.cs" />
+    <Compile Include="SkillStateInfo\BuffRefixProperty.cs" />
+    <Compile Include="SkillStateInfo\ImpactInfo.cs" />
+    <Compile Include="SkillStateInfo\ISkillController.cs" />
+    <Compile Include="SkillStateInfo\SkillInfo.cs" />
+    <Compile Include="SkillStateInfo\SkillStateInfo.cs" />
+    <Compile Include="Talent\AttributeCreator.cs" />
+    <Compile Include="Talent\TalentAttribute.cs" />
+    <Compile Include="Talent\TalentAttributes\HitAddDamageRate.cs" />
+    <Compile Include="Talent\TalentAttributes\KillAddCritical.cs" />
+    <Compile Include="Talent\TalentAttributes\KillAddDamage.cs" />
+    <Compile Include="Talent\TalentAttributes\KillRefreshSkill.cs" />
+    <Compile Include="Talent\TalentCard.cs" />
+    <Compile Include="Talent\TalentManager.cs" />
+    <Compile Include="UserManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

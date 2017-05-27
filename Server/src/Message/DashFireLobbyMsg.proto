@@ -1,0 +1,1203 @@
+package DashFireMessage;
+
+message Msg_LC_StartGameResult {  
+  optional string server_ip = 1;
+  optional uint32 server_port = 2;
+  optional uint32 key = 3;
+  optional int32 hero_id = 4;
+  optional int32 camp_id = 5;
+  optional int32 scene_type = 6;
+  optional int32 match_key = 7;
+  required int32 result = 8;
+}
+
+message Msg_CL_UpdateFightingScore {
+  required int32 score = 1;
+}
+
+message Msg_CL_RoleEnter {
+  required uint64 m_Guid = 1;
+}
+
+message ItemDataMsg {
+  optional int32 ItemId = 1;
+  optional int32 Level = 2;
+  optional int32 Num = 3;
+  optional int32 AppendProperty = 4;
+}
+
+message SkillDataInfo {
+  optional int32 ID = 1;
+  optional int32 Level = 2;
+  optional int32 Postions = 3;
+}
+
+message LegacyDataMsg {
+  optional int32 ItemId = 1;
+  optional int32 Level = 2;
+  optional int32 AppendProperty = 3;
+  optional bool IsUnlock = 4;
+}
+
+message XSoulDataMsg {
+  required int32 ItemId = 1;
+  required int32 Level = 2;
+  required int32 ModelLevel = 3;
+  required int32 Experience = 4;
+}
+
+message Msg_LC_RoleEnterResult {
+  required int32 m_Result = 1;
+	optional int32 m_Money = 2;
+  optional int32 m_Gold = 3;
+	optional int32 m_Stamina = 4;
+	optional int32 m_Exp = 5;
+	optional int32 m_Level = 6;
+	optional int32 m_CitySceneId = 7;
+	optional int32 m_BuyStaminaCount = 8;
+	optional int32 m_BuyMoneyCount = 9;
+	optional int32 m_CurSellItemGoldIncome = 10;
+	optional int32 m_Vip = 11;
+	optional int32 m_NewbieGuideScene = 12;
+	message GowDataMsg {
+    optional int32 GowElo = 1;
+    optional int32 GowMatches = 2;
+    optional int32 GowWinMatches = 3;
+    optional int32 LeftMatchCount = 4;
+    optional int32 RankId = 5;
+    optional int32 Point = 6;
+    optional int32 CriticalTotalMatches = 7;
+		optional int32 CriticalAmassWinMatches = 8;
+		optional int32 CriticalAmassLossMatches = 9;
+		optional bool IsAcquirePrize = 10;
+  }
+	optional GowDataMsg m_Gow = 13;
+	repeated int32 m_NewbieGuides = 14;
+	repeated ItemDataMsg m_BagItems = 15;
+	repeated ItemDataMsg m_Equipments = 16;
+	repeated SkillDataInfo m_SkillInfo = 17;
+	message MissionInfoForSync {
+    optional int32 m_MissionId = 1;
+    optional bool m_IsCompleted = 2;
+    optional string m_Progress = 3;
+  }
+	repeated MissionInfoForSync m_Missions = 18;
+	repeated LegacyDataMsg m_Legacys = 19;
+	message SceneDataMsg {
+    optional int32 m_SceneId = 1;
+    optional int32 m_Grade = 2;
+  }
+	repeated SceneDataMsg m_SceneData = 20;
+  message ScenesCompletedCountDataMsg{
+  	optional int32 m_SceneId = 1;
+  	optional int32 m_Count = 2;
+  }
+  repeated ScenesCompletedCountDataMsg m_SceneCompletedCountData = 21;
+  repeated FriendInfoForMsg m_Friends = 22;
+  message PartnerDataMsg{
+    required int32 m_Id = 1;
+    required int32 m_AdditionLevel = 2;
+    required int32 m_SkillStage = 3;
+  }
+  repeated PartnerDataMsg m_Partners = 23;
+  required int32 m_ActivePartnerId = 24;
+  repeated XSoulDataMsg m_XSouls = 25;
+  required int32 m_AttemptAward = 26;
+  required int32 m_AttemptCurAcceptedCount = 27;
+  required int32 m_AttemptAcceptedAward = 28;
+  message ExchangeGoodsMsg{
+    required int32 m_Id = 1;
+    required int32 m_Num = 2;
+  }
+  repeated ExchangeGoodsMsg m_Exchanges = 29;
+  optional int32 m_WorldId = 30;
+  required int32 m_Vigor = 31;
+  required int32 m_SignInCountCurMonth = 32;
+  required int32 m_RestSignInCountCurDay = 33;
+  required int64 m_NewbieFlag = 34;
+  required int32 m_GoldCurAcceptedCount = 35;
+  message ExchangeRefreshMsg{
+    required int32 m_CurrencyId = 1;
+    required int32 m_Num = 2;
+  }
+  repeated ExchangeRefreshMsg m_RefreshExchangeNum = 36;
+  required int64 m_NewbieActionFlag = 37;
+  required bool m_IsGetWeeklyReward = 38;
+  repeated int32 m_WeeklyRewardRecord = 39;
+  repeated int32 m_OnlineTimeRewardedIndex = 40;
+  required int32 m_OnlineDuration = 41;
+  required int64 m_GuideFlag = 42;
+}
+
+message Msg_CL_ExpeditionReset {
+  required int32 m_Hp = 1;
+  required int32 m_Mp = 2;
+  required int32 m_Rage = 3;
+  required int32 m_RequestNum = 4;
+  required bool m_IsReset = 5;
+  required bool m_AllowCostGold = 6;
+  required int64 m_Timestamp = 7;
+}
+
+message Msg_LC_ExpeditionResetResult {
+  optional int32 m_Hp = 1;
+  optional int32 m_Mp = 2;
+  optional int32 m_Rage = 3;
+  optional int32 m_Schedule = 4;
+  optional int32 m_LastResetTimestamp = 5;
+  optional bool m_CanReset = 6;
+  message ImageDataMsg {
+  	optional uint64 Guid = 1;
+    optional int32 HeroId = 2;
+    optional string Nickname = 3;
+    optional int32 Level = 4;
+    optional int32 FightingScore = 5;
+    repeated ItemDataMsg EquipInfo = 6;
+    repeated SkillDataInfo SkillInfo = 7;
+    repeated LegacyDataMsg LegacyInfo = 8;
+  }
+  message TollgateDataForMsg {
+    optional int32 Type = 1;
+    optional bool IsFinish = 2;
+    repeated bool IsAcceptedAward = 3;
+    repeated int32 EnemyArray = 4;
+    repeated int32 EnemyAttrArray = 5;
+    repeated ImageDataMsg UserImageArray = 6;
+  }
+  optional TollgateDataForMsg Tollgates = 7;
+  optional bool m_AllowCostGold = 8;
+  optional bool m_IsUnlock = 9;
+  optional int32 m_Result = 10;
+}
+
+message Msg_LC_RoleListResult {
+  required int32 m_Result = 1;
+  required int32 m_UserInfoCount = 2;
+  message UserInfoForMessage {
+		required string m_Nickname = 1;
+		required int32 m_HeroId = 2;
+		required int32 m_Level = 3;
+		required uint64 m_UserGuid = 4;
+	}
+  repeated UserInfoForMessage m_UserInfos = 3;
+}
+
+message Msg_CL_RequestExpedition {
+	required int32 m_SceneId = 1;
+	required int32 m_TollgateNum = 2;
+}
+
+message Msg_LC_RequestExpeditionResult {
+	required uint64 m_Guid = 1;
+  required string m_ServerIp = 2;
+  required uint32 m_ServerPort = 3;
+  required uint32 m_Key = 4;
+  required int32 m_HeroId = 5;
+  required int32 m_CampId = 6;
+  required int32 m_SceneType = 7;
+  required int32 m_ActiveTollgate = 8;
+  required int32 m_Result = 9;
+}
+
+message Msg_CL_FinishExpedition {
+	required int32 m_SceneId = 1;
+	required int32 m_TollgateNum = 2;
+	required int32 m_Hp = 3;
+	required int32 m_Mp = 4;
+	required int32 m_Rage = 5;
+}
+
+message Msg_LC_FinishExpeditionResult {
+  required int32 m_SceneId = 1;
+  required int32 m_TollgateNum = 2;
+  required int32 m_Hp = 3;
+  required int32 m_Mp = 4;
+  required int32 m_Rage = 5;
+  required int32 m_Result = 6;
+}
+
+message Msg_CL_DiscardItem {
+  repeated int32 m_ItemId = 1;
+  repeated int32 m_PropertyId = 2;
+}
+
+message Msg_LC_DiscardItemResult {
+	repeated int32 m_ItemId = 1;
+  repeated int32 m_PropertyId = 2;
+  required int32 m_TotalIncome = 3;
+  required int32 m_Gold = 4;
+  required int32 m_Money = 5;
+  required int32 m_Result = 6;
+}
+
+message Msg_CL_MountEquipment {
+  required int32 m_ItemID = 1;
+  required int32 m_PropertyID = 2;
+  required int32 m_EquipPos = 3;
+}
+
+message Msg_LC_MountEquipmentResult {
+	required int32 m_ItemID = 1;
+	required int32 m_PropertyID = 2;
+  required int32 m_EquipPos = 3;
+  required int32 m_Result = 4;
+}
+
+message Msg_CL_MountSkill {
+	required int32 m_PresetIndex = 1;
+	required int32 m_SkillID = 2;
+	required int32 m_SlotPos = 3;
+}
+
+message Msg_LC_MountSkillResult {
+	required int32 m_PresetIndex = 1;
+  required int32 m_SkillID = 2;
+  required int32 m_SlotPos = 3;
+  required int32 m_Result = 4;
+}
+
+message Msg_CL_UnmountSkill {
+	required int32 m_PresetIndex = 1;
+	required int32 m_SlotPos = 2;
+}
+
+message Msg_LC_UnmountSkillResult {
+	required int32 m_PresetIndex = 1;
+  required int32 m_SlotPos = 2;
+  required int32 m_Result = 3;
+}
+
+message Msg_CL_UpgradeSkill {
+	required int32 m_PresetIndex = 1;
+	required int32 m_SkillID = 2;
+	required bool m_AllowCostGold = 3;
+}
+
+message Msg_LC_UpgradeSkillResult {
+	required int32 m_PresetIndex = 1;
+  required int32 m_SkillID = 2;
+  required bool m_AllowCostGold = 3;
+  required int32 m_Money = 4;
+  required int32 m_Gold = 5;
+  required int32 m_Vigor = 6;
+  required int32 m_Result = 7;
+}
+
+message Msg_CL_UnlockSkill {
+	required int32 m_PresetIndex = 1;
+	required int32 m_SkillID = 2;
+	required int32 m_UserLevel = 3;
+}
+
+message Msg_LC_UnlockSkillResult {
+	required int32 m_PresetIndex = 1;
+  required int32 m_SkillID = 2;
+  required int32 m_UserLevel = 3;
+  required int32 m_Result = 4;
+}
+
+message Msg_CL_LiftSkill {
+	required int32 m_SkillId = 1;
+}
+
+message Msg_LC_LiftSkillResult {
+  required int32 m_SkillID = 1;
+  required int32 m_Result = 2;
+}
+
+message Msg_CL_UpgradeItem {
+	required int32 m_Position = 1;
+  required int32 m_ItemId = 2;
+  required bool m_AllowCostGold = 3;
+}
+
+message Msg_LC_UpgradeItemResult {
+  required int32 m_Position = 1;
+  required int32 m_Money = 2;
+  required int32 m_Gold = 3;
+  required int32 m_Result = 4;
+}
+
+message Msg_CL_SwapSkill {
+	required int32 m_PresetIndex = 1;
+  required int32 m_SkillID = 2;
+  required int32 m_SourcePos = 3;
+  required int32 m_TargetPos = 4;
+}
+
+message Msg_LC_SwapSkillResult {
+  required int32 m_PresetIndex = 1;
+  required int32 m_SkillID = 2;
+  required int32 m_SourcePos = 3;
+  required int32 m_TargetPos = 4;
+  required int32 m_Result = 5;
+}
+
+message Msg_LC_BuyStaminaResult {
+  required int32 m_Result = 1;
+}
+
+message Msg_CL_FinishMission {
+  required int32 m_MissionId = 1;
+}
+
+message Msg_LC_FinishMissionResult {
+  required bool m_Success = 1;
+  required int32 m_FinishMissionId = 2;
+  required int32 m_Gold = 3;
+  required int32 m_Exp = 4;
+  required int32 m_Diamond = 5;
+  message MissionInfoForSync {
+	required int32 m_MissionId = 1;
+    required bool m_IsCompleted = 2;
+    required string m_Progress = 3;
+  }
+  repeated MissionInfoForSync m_UnlockMissions = 6;
+}
+
+message Msg_LC_BuyLifeResult {
+	required bool m_Succeed = 1;
+  required int32 m_CurDiamond = 2;
+}
+
+message Msg_CL_UnlockLegacy {
+	required int32 m_Index = 1;
+	required int32 m_ItemID = 2;
+}
+
+message Msg_LC_UnlockLegacyResult {
+	required int32 m_Index = 1;
+	required int32 m_ItemID = 2;
+	required int32 m_Result = 3;
+}
+
+message Msg_CL_UpgradeLegacy {
+	required int32 m_Index = 1;
+	required int32 m_ItemID = 2;
+	required bool m_AllowCostGold = 3;
+}
+
+message Msg_LC_UpgradeLegacyResult {
+	required int32 m_Index = 1;
+	required int32 m_ItemID = 2;
+	required bool m_AllowCostGold = 3;
+	required int32 m_Result = 4;
+}
+
+message Msg_CL_AddXSoulExperience {
+  required int32 m_XSoulPart = 1;
+  required int32 m_UseItemId = 2;
+  required int32 m_ItemNum = 3;
+}
+
+message Msg_LC_AddXSoulExperienceResult {
+  required int32 m_XSoulPart = 1;
+  required int32 m_UseItemId = 2;
+  required int32 m_ItemNum = 3;
+  required int32 m_Result = 4;
+  required int32 m_Experience = 5;
+}
+
+message Msg_CL_XSoulChangeShowModel {
+  required int32 m_XSoulPart = 1;
+  required int32 m_ModelLevel = 2;
+}
+
+message Msg_LC_XSoulChangeShowModelResult {
+  required int32 m_XSoulPart = 1;
+  required int32 m_ModelLevel = 2;
+  required int32 m_Result = 3;
+}
+
+message Msg_CL_ReadMail {
+  required uint64 m_MailGuid = 1;
+}
+message Msg_CL_ReceiveMail {
+	required uint64 m_MailGuid = 1;
+}
+
+message Msg_CL_ExpeditionAward {
+	required int32 m_TollgateNum = 1;
+}
+
+message Msg_LC_ExpeditionAwardResult {
+	required int32 m_TollgateNum = 1;
+	required int32 m_AddMoney = 2;
+	message AwardItemInfo {
+		required int32 m_Id = 1;
+    required int32 m_Num = 2;
+	}
+	repeated AwardItemInfo m_Items = 3;
+	required int32 m_Result = 4;
+}
+
+message Msg_LC_MidasTouchResult {
+	required int32 m_Count = 1;
+	required int32 m_CostGlod = 2;
+	required int32 m_GainMoney = 3;
+	required int32 m_Result = 4;
+}
+
+message Msg_CL_UnmountEquipment {
+	required int32 m_EquipPos = 1;
+}
+
+message Msg_LC_UnmountEquipmentResult {
+	required int32 m_EquipPos = 1;
+	required int32 m_Result = 2;
+}
+
+message Msg_LC_UserLevelup {
+	required int32 m_UserId = 1;
+	required int32 m_UserLevel = 2;
+}
+
+message Msg_LC_SyncStamina {
+	required int32 m_Stamina = 1;
+}
+
+message Msg_CL_StageClear {
+	optional int32 m_HitCount = 1;
+	optional int32 m_KillNpcCount = 2;
+	optional int32 m_MaxMultHitCount = 3;
+	optional int32 m_Hp = 4;
+	optional int32 m_Mp = 5;
+	optional int32 m_Gold = 6;
+    optional int32 m_MatchKey = 7;
+}
+
+message Msg_LC_StageClearResult {
+  optional int32 m_SceneId = 1;
+  optional int32 m_HitCount = 2;
+  optional int32 m_MaxMultHitCount = 3;
+  optional int64 m_Duration = 4;
+  optional int32 m_ItemId = 5;
+  optional int32 m_ItemCount = 6;
+  optional int32 m_ExpPoint = 7;
+  optional int32 m_Hp = 8;
+  optional int32 m_Mp = 9;
+  optional int32 m_Gold = 10;
+  optional int32 m_DeadCount = 11;
+  optional int32 m_CompletedRewardId = 12;
+  optional int32 m_SceneStarNum = 13;
+  message MissionInfoForSync {
+    required int32 m_MissionId = 1;
+    required bool m_IsCompleted = 2;
+    required string m_Progress = 3;
+	}
+  repeated MissionInfoForSync m_Missions = 14;
+  optional int32 m_KillNpcCount = 15;
+  required int32 m_ResultCode = 16;
+  message Teammate {
+    required string m_Nick = 1;
+    required int32 m_ResId = 2;
+    required int32 m_Money = 3;
+	}
+  repeated Teammate m_Teammate = 17;
+}
+
+message Msg_CL_AddAssets {
+	required int32 m_Money = 1;
+	required int32 m_Gold = 2;
+	required int32 m_Exp = 3;
+	required int32 m_Stamina = 4;
+}
+
+message Msg_LC_AddAssetsResult {
+	required int32 m_Money = 1;
+	required int32 m_Gold = 2;
+	required int32 m_Exp = 3;
+	required int32 m_Stamina = 4;
+	required int32 m_Result = 5;
+}
+
+message Msg_LC_SyncGowStarList {
+	message GowStarInfoForMessage {
+    required uint64 m_Guid = 1;
+    required int32 m_GowElo = 2;
+    required string m_Nick = 3;
+    required int32 m_HeroId = 4;
+    required int32 m_Level = 5;
+    required int32 m_FightingScore = 6;
+    required int32 m_RankId = 7;
+    required int32 m_Point = 8;
+    required int32 m_CriticalTotalMatches = 9;
+    required int32 m_CriticalAmassWinMatches = 10;
+    required int32 m_CriticalAmassLossMatches = 11;
+	}
+	repeated GowStarInfoForMessage m_Stars = 1;
+}
+
+message Msg_LC_SyncMpveBattleResult {
+	required int32 m_Result = 1;
+	optional int32 m_KillNpcCount = 2;
+}
+
+message Msg_LC_SyncGowBattleResult {
+	required int32 m_Result = 1;
+  required int32 m_OldGowElo = 2;
+  required int32 m_GowElo = 3;
+  required int32 m_MaxMultiHitCount = 4;
+  required int32 m_TotalDamage = 5;
+  required string m_EnemyNick = 6;
+  required int32 m_EnemyHeroId = 7;
+  required int32 m_EnemyOldGowElo = 8;
+  required int32 m_EnemyGowElo = 9;
+  required int32 m_EnemyMaxMultiHitCount = 10;
+  required int32 m_EnemyTotalDamage = 11;
+}
+
+message Msg_CL_AddFriend {
+	optional string m_TargetNick = 1;
+	optional uint64 m_TargetGuid = 2;
+}
+
+message FriendInfoForMsg {
+	required uint64 Guid = 1;
+  required string Nickname = 2;
+  required int32 HeroId = 3;
+  required int32 Level = 4;
+  required int32 FightingScore = 5;
+  required bool IsOnline = 6;
+  required bool IsBlack = 7;
+}
+
+message Msg_LC_AddFriendResult {
+	optional string m_TargetNick = 1;
+	optional FriendInfoForMsg m_FriendInfo = 2;
+	required int32 m_Result = 3;
+}
+
+message Msg_LC_SyncFriendList {
+	repeated FriendInfoForMsg m_FriendInfo = 1;
+}
+
+message Msg_CL_DeleteFriend {
+	required uint64 m_TargetGuid = 1;
+}
+
+message Msg_LC_DelFriendResult {
+	required uint64 m_TargetGuid = 1;
+	required int32 m_Result = 2;
+}
+
+message Msg_CL_ConfirmFriend {
+	required uint64 m_TargetGuid = 1;
+}
+
+message Msg_CL_QueryFriendInfo {
+	required int32 m_QueryType = 1;
+  optional string m_TargetName = 2;
+  optional int32 m_TargetLevel = 3;
+  optional int32 m_TargetScore = 4;
+  optional int32 m_TargetFortune = 5;
+  optional int32 m_TargetGender = 6;
+}
+
+message Msg_LC_QueryFriendInfoResult {
+	repeated FriendInfoForMsg m_Friends = 1;
+}
+
+message Msg_LC_MissionCompleted {
+    required int32 m_MissionId = 1;
+    required string m_Progress = 2;
+}
+
+message Msg_CL_PublishNotice {
+	required string m_Content = 2;
+	required int32 m_RollNum = 3;
+}
+
+message Msg_LC_SyncNoticeContent {
+	required string m_Content = 2;
+	required int32 m_RollNum = 3;
+}
+
+message Msg_LC_FriendOnline {
+	required uint64 m_Guid = 1;
+}
+
+message Msg_LC_FriendOffline {
+	required uint64 m_Guid = 1;
+}
+
+message Msg_LC_SyncGroupUsers {
+	message UserInfoForGroup {
+    required uint64 m_Guid = 1;
+    required int32 m_HeroId = 2;
+    required string m_Nick = 3;
+    required int32 m_Level = 4;
+    required int32 m_FightingScore = 5;
+    required int32 m_Status = 6;
+	}
+	required uint64 m_Creator = 1;
+	required int32 m_Count = 2;
+	repeated UserInfoForGroup m_Members = 3;
+	repeated UserInfoForGroup m_Confirms = 4;
+}
+
+message Msg_LC_RequestJoinGroupResult {
+	required int32 m_Result = 1;
+	optional string m_Nick = 2;
+}
+
+message Msg_LC_ConfirmJoinGroupResult {
+	required int32 m_Result = 1;
+	optional string m_Nick = 2;
+}
+
+message Msg_CL_PinviteTeam {
+	optional string m_FirstNick = 1;
+	optional string m_SecondNick = 2;
+	optional uint64 m_FirstGuid = 3;
+	optional uint64 m_SecondGuid = 4;
+}
+
+message Msg_CL_RequestJoinGroup {
+	required uint64 m_InviteeGuid = 1;
+	required string m_GroupNick = 2;
+}
+
+message Msg_CL_ConfirmJoinGroup {
+	required uint64 m_InviteeGuid = 1;
+	required string m_GroupNick = 2;
+}
+
+message Msg_CL_QuitGroup {
+	required string m_DropoutNick = 1;
+}
+
+message Msg_LC_SyncPinviteTeam {
+	required string m_LeaderNick = 1;
+	required string m_Sponsor = 2;
+}
+
+message Msg_LC_AddItemResult {
+	required int32 m_ItemId = 1;
+	required int32 m_RandomProperty = 2;
+	required int32 m_Result = 3;
+	required int32 m_ItemCount = 4;
+}
+
+message Msg_CL_GetGowStarList {
+	required int32 m_Start = 1;
+	required int32 m_Count = 2;
+}
+
+message Msg_LC_SyncLeaveGroup {
+	required int32 m_Result = 1;
+	optional string m_GroupNick = 2;
+}
+
+message Msg_CL_RefuseGroupRequest {
+	required uint64 m_RequesterGuid = 1;
+}
+
+message Msg_CL_SelectPartner{
+    required int32 m_PartnerId = 1;
+}
+
+message Msg_LC_SelectPartnerResult{
+    required int32 m_ResultCode = 1;
+    required int32 m_PartnerId = 2;
+}
+
+message Msg_CL_UpgradePartnerLevel{
+    required int32 m_PartnerId = 1;
+}
+
+message Msg_LC_UpgradePartnerLevelResult{
+    required int32 m_ResultCode = 1;
+    required int32 m_PartnerId = 2;
+    required int32 m_CurLevel = 3;
+}
+
+message Msg_CL_UpgradePartnerStage{
+    required int32 m_PartnerId = 1;
+}
+
+message Msg_LC_UpgradeParnerStageResult{
+    required int32 m_ResultCode = 1;
+    required int32 m_PartnerId = 2;
+    required int32 m_CurStage = 3;
+}
+
+message Msg_LC_GetPartner{
+    required int32 m_PartnerId = 1;
+}
+
+message Msg_LC_ChangeCaptain {
+	optional uint64 m_CreatorGuid = 1;
+}
+
+message Msg_CL_RequestMatch {
+	optional int32 m_SceneType = 1;
+}
+
+message Msg_CL_CancelMatch {
+	required int32 m_SceneType = 1;
+}
+
+message Msg_LC_MatchResult {
+	required int32 m_Result = 1;
+}
+
+message Msg_LC_MpveGeneralResult {
+	required int32 m_Result = 1;
+	optional string m_Nick = 2;
+	optional int32 m_Type = 3;
+}
+
+message Msg_CL_StartMpve {
+	required int32 m_SceneType = 1;
+}
+
+message Msg_LC_MpveAwardResult {
+	required int32 m_Result = 1;
+	required int32 m_AwardIndex = 2;
+	required int32 m_AddMoney = 3;
+	message AwardItemInfo {
+		required int32 m_Id = 1;
+    required int32 m_Num = 2;
+	}
+	repeated AwardItemInfo m_Items = 4;
+}
+
+message Msg_CL_UpdatePosition {
+  required float m_X = 1;
+  required float m_Z = 2;
+  required float m_FaceDir = 3;
+}
+
+message Msg_CL_RequestUsers {
+  required int32 m_Count = 1;
+  repeated uint64 m_AlreadyExists = 2;
+}
+
+message Msg_LC_RequestUsersResult {
+  message UserInfo {
+    required uint64 m_Guid = 1;
+    required int32 m_HeroId = 2;
+    required string m_Nick = 3;
+    required float m_X = 4;
+    required float m_Z = 5;
+    required float m_FaceDir = 6;
+    required int32 m_XSoulItemId = 7;
+    optional int32 m_XSoulLevel = 8;
+    optional int32 m_XSoulExp = 9;
+    optional int32 m_XSoulShowLevel = 10;
+    required int32 m_WingItemId = 11;
+    optional int32 m_WingLevel = 12;
+  }
+  repeated UserInfo m_Users = 1;
+}
+
+message Msg_CL_RequestUserPosition {
+  required uint64 m_User = 1;
+}
+
+message Msg_LC_RequestUserPositionResult {
+  required uint64 m_User = 1;
+  required float m_X = 2;
+  required float m_Z = 3;
+  required float m_FaceDir = 4;
+}
+
+message Msg_CL_ChangeCityScene {
+  required int32 m_SceneId = 1;
+}
+
+message Msg_CL_CompoundPartner{
+    required int32 m_PartnerId = 1;
+}
+
+message Msg_LC_CompoundPartnerResult{
+    required int32 m_ResultCode = 1;
+    required int32 m_PartnerId = 2;
+}
+message Msg_CL_SweepStage{
+    required int32 m_SceneId = 1;
+    required int32 m_SweepTime = 2;
+}
+message Msg_LC_SweepStageResult{
+    required int32 m_SceneId = 1;
+    required int32 m_ResultCode = 2;
+    repeated ItemDataMsg m_ItemInfo = 3;
+    optional int32 m_Exp = 4;
+    optional int32 m_Gold = 5;
+    optional int32 m_SweepItemCost = 6;
+}
+
+message Msg_CL_RequestPlayerInfo{
+  required string m_Nick = 1;
+}
+
+message Msg_LC_SyncPlayerInfo{
+  required string m_Nick = 1;
+  required int32 m_Level = 2;
+  required int32 m_Score = 3;
+}
+
+message Msg_CL_ExchangeGoods{
+    required int32 m_ExchangeId = 1;
+	required bool m_RequestRefresh = 2;}
+
+message Msg_LC_ExchangeGoodsResult{
+    required int32 m_ExchangeId = 1;
+	required int32 m_ExchangeNum = 2;
+	required int32 m_Result = 3;
+	required bool m_Refresh = 4;}
+
+message Msg_CL_QuitRoom {
+	required bool m_IsQuitRoom = 1;
+}
+
+message Msg_LC_SyncVigor {
+	required int32 m_Vigor = 1;
+}
+
+message Msg_CL_SignInAndGetReward{
+    required uint64 m_Guid = 1;
+}
+
+message Msg_LC_SignInAndGetRewardResult{
+    required int32 m_ResultCode = 1;
+    optional int32 m_RewardId = 2;
+}
+
+message Msg_LC_SyncSignInCount{
+    required int32 m_SignInCountCurMonth = 1;
+    required int32 m_RestSignInCountCurDay = 2;
+}
+
+message Msg_LC_SyncAttemptInfo {
+  required int32 m_AttemptAward = 1;
+  required int32 m_AttemptAcceptedAward = 2;
+  required int32 m_AttemptCurAcceptedCount = 3;
+}
+
+message Msg_CL_SetNewbieFlag {
+  required int32 m_Bit = 1;
+  required int32 m_Num = 2;
+}
+
+message Msg_LC_SyncNewbieFlag {
+  required int64 m_NewbieFlag = 1;
+}
+
+message PartnerDataMsg{
+  required int32 Id = 1;
+  required int32 AdditionLevel = 2;
+  required int32 SkillStage = 3;
+}
+
+message ArenaInfoMsg {
+  required int32 Rank = 1;
+  required uint64 Guid = 2;
+  required int32 HeroId = 3;
+  required string NickName = 4;
+  required int32 Level = 5;
+  required int32 FightScore = 6;
+  optional PartnerDataMsg ActivePartner = 7;
+  repeated ItemDataMsg EquipInfo = 8;
+  repeated SkillDataInfo ActiveSkills = 9;
+  repeated PartnerDataMsg FightParters = 10;
+  repeated LegacyDataMsg LegacyAttr = 11;
+  repeated XSoulDataMsg XSouls = 12;
+}
+
+message Msg_CL_QueryArenaInfo {
+}
+
+message Msg_LC_ArenaInfoResult {
+  required ArenaInfoMsg m_ArenaInfo = 1;
+  required int32 m_LeftBattleCount = 2;
+  required int32 m_CurFightCountByTime = 3;
+  required int64 m_BattleLeftCDTime = 4;
+}
+
+message Msg_CL_QueryArenaMatchGroup {
+}
+
+message Msg_LC_ArenaMatchGroupResult {
+  message MatchGroupData {
+    required ArenaInfoMsg One = 1;
+    required ArenaInfoMsg Two = 2;
+    required ArenaInfoMsg Three = 3;
+  }
+  repeated MatchGroupData m_MatchGroups = 1;
+}
+
+message Msg_CL_GmKickUser {
+  required string m_Nick = 1;
+  required int32 m_LockMinutes = 2;
+}
+
+message Msg_LC_GmKickUser {
+  required string m_KickedAccountId = 1;
+}
+
+message Msg_CL_GmAddExp {
+  required string m_Nick = 1;
+	required int32 m_Exp = 2;
+}
+
+message Msg_LC_GmAddExp {
+	required int32 m_Result = 1;
+}
+
+message Msg_CL_GmLockUser {
+  required string m_AccountId = 1;
+}
+
+message Msg_CL_GmUnlockUser {
+  required string m_AccountId = 1;
+}
+
+message Msg_CL_GmUpdateMaxUserCount {
+  required int32 m_MaxUserCount = 1;
+  required int32 m_MaxUserCountPerLogicServer = 2;
+  required int32 m_MaxQueueingCount = 3;
+}
+
+message Msg_LC_SyncGoldTollgateInfo {
+	required int32 m_GoldCurAcceptedCount = 1;
+}
+
+message Msg_CL_RequestRefreshExchange{
+	required bool m_RequestRefresh = 1;
+	required int32 m_CurrencyId = 2;
+}
+
+message Msg_LC_RefreshExchangeResult{
+	required int32 m_RequestRefreshResult = 1;
+	required int32 m_RefreshNum = 2;
+	required int32 m_CurrencyId = 3;
+}
+
+message Msg_CL_ArenaStartChallenge {
+  required uint64 m_TargetGuid = 1;
+}
+
+message Msg_LC_ArenaStartCallengeResult {
+  required uint64 m_TargetGuid = 1;
+  required int32 m_Sign = 2;
+  required int32 m_ResultCode = 3;
+}
+
+message Msg_CL_ArenaChallengeOver {
+  required bool IsSuccess = 1;
+  required int32 ChallengerDamage = 2;
+  required int32 TargetDamage = 3;
+  repeated DamageInfoData ChallengerPartnerDamage = 4;
+  repeated DamageInfoData TargetPartnerDamage = 5;
+  required int32 Sign = 6;
+}
+
+message Msg_LC_ArenaChallengeResult {
+  required ChallengeInfoData m_ChallengeInfo = 1;
+}
+
+message DamageInfoData {
+  required int32 OwnerId = 1;
+  required int32 Damage = 2;
+}
+
+message ChallengeEntityData {
+  required uint64 Guid = 1;
+  required int32 HeroId = 2;
+  required int32 Level = 3;
+  required int32 Rank = 4;
+  required int32 FightScore = 5;
+  required string NickName = 6;
+  required int32 UserDamage = 7;
+  repeated DamageInfoData PartnerDamage = 8;
+}
+
+message ChallengeInfoData {
+  required ChallengeEntityData Challenger = 1;
+  required ChallengeEntityData Target = 2;
+  required bool IsChallengeSuccess = 3;
+  required int64 EndTime = 4;
+}
+
+message Msg_CL_ArenaQueryRank {
+}
+
+message Msg_LC_ArenaQueryRankResult
+{
+  repeated ArenaInfoMsg RankMsg = 1;
+}
+
+message Msg_CL_ArenaQueryHistory {
+}
+
+message Msg_LC_ArenaQueryHistoryResult {
+  repeated ChallengeInfoData ChallengeHistory = 1;
+}
+
+message Msg_CL_ArenaChangePartner {
+  repeated int32 Partners = 1;
+}
+
+message Msg_LC_ArenaChangePartnerResult {
+  required int32 Result = 1;
+  repeated int32 Partners = 2;
+}
+
+message Msg_CL_ArenaBuyFightCount {
+}
+
+message Msg_LC_ArenaBuyFightCountResult {
+  required int32 Result = 1;
+  required int32 CurFightCount = 2;
+  required int32 CurBuyTime = 3;
+}
+
+message Msg_CL_ArenaBeginFight {
+}
+
+message Msg_CL_ExchangeGift {
+  required string m_GiftCode = 1;
+}
+
+message Msg_LC_ExchangeGiftResult { 
+  required int32 m_GiftId = 1;
+  required int32 m_Result = 2;
+}
+
+message Msg_CL_CompoundEquip {
+  required int32 m_PartId = 1;
+}
+
+message Msg_LC_CompoundEquipResult { 
+  required int32 m_Result = 1;
+  required int32 m_PartId = 2;
+  required int32 m_ItemId = 3;
+}
+
+message Msg_CL_SetNewbieActionFlag {
+  required int32 m_Bit = 1;
+  required int32 m_Num = 2;
+}
+
+message Msg_LC_SyncNewbieActionFlag { 
+  required int64 m_NewbieFlag = 1;
+}
+
+message Msg_LC_WeeklyLoginRewardResult{
+  required int32 m_ResultCode = 1;
+}
+
+message Msg_LC_QueueingCountResult {
+  required int32 m_QueueingCount = 1;
+}
+
+message UserBaseData {
+	required uint64 m_Guid = 1;
+	required string m_Account = 2;
+	required int32 m_LogicServerId = 3;
+	required string m_Nickname = 4;
+	required int32 m_HeroId = 5;
+	required int32 m_Level = 6;
+	required int32 m_Vip = 7;
+	required int32 m_Money = 8;
+	required int32 m_Gold = 9;
+	required string m_LastLogoutTime = 10;
+}
+
+message Msg_CL_GmQueryInfoByGuidOrNickname {
+  optional uint64 m_Guid = 1;
+  optional string m_Nickname = 2;
+}
+
+message Msg_LC_GmQueryInfoByGuidOrNickname {
+	required int32 m_Result = 1;
+	optional UserBaseData m_Info = 2;
+}
+
+message Msg_CL_GmQueryInfosByDimNickname {
+  required string m_DimNickname = 1;
+}
+
+message Msg_LC_GmQueryInfosByDimNickname {
+	required int32 m_Result = 1;
+  repeated UserBaseData m_Infos = 2;
+}
+message Msg_CL_GetOnlineTimeReward{
+  required int32 m_Index = 1;
+}
+
+message Msg_LC_GetOnlineTimeRewardResult{
+  required int32 m_ResultCode = 1;
+  required int32 m_OnlineTime = 2;
+  required int32 m_Index = 3;
+}
+
+message Msg_CL_RecordNewbieFlag{
+	required int32 m_Bit = 1;
+}
+
+message SelectedPartnerDataMsg{
+required int32 m_Id = 1;
+required int32 m_AdditionLevel = 2;
+required int32 m_SkillStage = 3;
+}
+
+message Msg_LC_SyncCombatData
+{
+  repeated LegacyDataMsg m_Legacys = 1;
+  repeated SkillDataInfo m_Skills = 2;
+  repeated XSoulDataMsg m_XSouls = 3;
+  repeated ItemDataMsg m_Equipments = 4;
+  required SelectedPartnerDataMsg m_PartnerData = 5;
+}
+
+message Msg_CL_UploadFPS
+{
+	required string m_Fps = 1;
+	required string m_Nickname = 2;
+}
+
+message Msg_LC_SyncGuideFlag
+{
+	required int64 m_Flag = 1;
+}
+
+message Msg_CL_RequestDare
+{
+	required string m_TargetNickname = 1;
+}
+
+message Msg_LC_RequestDare
+{
+	required string m_ChallengerNickname = 1;
+}
+
+message Msg_CL_RequestDareByGuid
+{
+	required uint64 m_TargetGuid = 1;
+}
+
+message Msg_LC_RequestDareResult
+{
+	required string m_Nickname = 1;
+	required int32 m_Result = 2;
+}
+
+message Msg_CL_AcceptedDare
+{
+	required string m_ChallengerNickname = 1;
+}
+
+message Msg_LC_RequestGowPrizeResult
+{
+	optional int32 m_Money = 1;
+	optional int32 m_Gold = 2;
+	message AwardItemInfo {
+		required int32 m_Id = 1;
+    required int32 m_Num = 2;
+	}
+	repeated AwardItemInfo m_Items = 3;
+	required int32 m_Result = 4;
+}

@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Client\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClientConcurrent\ClientConcurrentActionProcessor.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentDictionary.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentObjectPool.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentOrderedList.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentPoolAllocatedAction.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentQueue.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentStack.cs" />
+    <Compile Include="ClientConcurrent\ClientConcurrentTypedDataCollection.cs" />
+    <Compile Include="ClientConcurrent\ClientInterlocked.cs" />
+    <Compile Include="ClientConcurrent\ClientSpinLock.cs" />
+    <Compile Include="ClientConcurrent\ClientSpinWait.cs" />
+    <Compile Include="ClientConcurrent\ClientWatch.cs" />
+    <Compile Include="ClientConcurrent\MyTaskDispatcher.cs" />
+    <Compile Include="ClientConcurrent\MyThread.cs" />
+    <Compile Include="CommonDefine\Mail.cs" />
+    <Compile Include="DataPool\DataDictionaryMgr.cs" />
+    <Compile Include="DataPool\DataListMgr.cs" />
+    <Compile Include="DataPool\DBC.cs" />
+    <Compile Include="DataPool\DBCUtil.cs" />
+    <Compile Include="DataPool\FileReaderProxy.cs" />
+    <Compile Include="DataPool\IData.cs" />
+    <Compile Include="Data\ActionConfigProvider.cs" />
+    <Compile Include="Data\AiActionConfig.cs" />
+    <Compile Include="Data\AiConfig.cs" />
+    <Compile Include="Data\AiSkillComboList.cs" />
+    <Compile Include="Data\AppendAttributeConfig.cs" />
+    <Compile Include="Data\ArenaConfigProvider.cs" />
+    <Compile Include="Data\AttemptTollgateConfigProvider.cs" />
+    <Compile Include="Data\AttrConfigUtility.cs" />
+    <Compile Include="Data\AttributeScoreProvider.cs" />
+    <Compile Include="Data\BuffConfigProvider.cs" />
+    <Compile Include="Data\BuyMoneyConfigProvider.cs" />
+    <Compile Include="Data\BuyStaminaConfigProvider.cs" />
+    <Compile Include="Data\CameraConfig.cs" />
+    <Compile Include="Data\ChineseFirstName.cs" />
+    <Compile Include="Data\ChineseLastName.cs" />
+    <Compile Include="Data\CriticalConfigProvider.cs" />
+    <Compile Include="Data\CuteFirstName.cs" />
+    <Compile Include="Data\CuteLastName.cs" />
+    <Compile Include="Data\DataTypeDefines.cs" />
+    <Compile Include="Data\DynamicSceneConfigProvider.cs" />
+    <Compile Include="Data\EquipmentConfigProvider.cs" />
+    <Compile Include="Data\ExpeditionMonsterAttrConfigProvider.cs" />
+    <Compile Include="Data\ExpeditionMonsterConfigProvider.cs" />
+    <Compile Include="Data\ExpeditionTollgateConfigProvider.cs" />
+    <Compile Include="Data\FilePathDefine.cs" />
+    <Compile Include="Data\FirstName.cs" />
+    <Compile Include="Data\ForeignFirstName.cs" />
+    <Compile Include="Data\ForeignLastName.cs" />
+    <Compile Include="Data\GiftConfigProvider.cs" />
+    <Compile Include="Data\GlobalVariables.cs" />
+    <Compile Include="Data\GmConfigProvider.cs" />
+    <Compile Include="Data\GowConfigProvider.cs" />
+    <Compile Include="Data\HitSoundConfig.cs" />
+    <Compile Include="Data\ItemAttributeConfig.cs" />
+    <Compile Include="Data\ItemCompoundConfigProvider.cs" />
+    <Compile Include="Data\ItemConfigProvider.cs" />
+    <Compile Include="Data\ItemLevelupConfigProvider.cs" />
+    <Compile Include="Data\LastName.cs" />
+    <Compile Include="Data\LegacyComplexAttr.cs" />
+    <Compile Include="Data\LegacyLevelupConfigProvider.cs" />
+    <Compile Include="Data\LevelLockProvider.cs" />
+    <Compile Include="Data\LoadingChangeProvider.cs" />
+    <Compile Include="Data\LogicServerConfigProvider.cs" />
+    <Compile Include="Data\MainCityConfigProvider.cs" />
+    <Compile Include="Data\MissionConfig.cs" />
+    <Compile Include="Data\MonthCardConfig.cs" />
+    <Compile Include="Data\MpveMonsterConfigProvider.cs" />
+    <Compile Include="Data\MpveTimeConfigProvider.cs" />
+    <Compile Include="Data\NewbieGuide.cs" />
+    <Compile Include="Data\NotificationConfigProvider.cs" />
+    <Compile Include="Data\NpcConfigProvider.cs" />
+    <Compile Include="Data\OnlineDurationRewardConfig.cs" />
+    <Compile Include="Data\PartnerConfig.cs" />
+    <Compile Include="Data\PaymentRebateConfig.cs" />
+    <Compile Include="Data\PlayerConfigProvider.cs" />
+    <Compile Include="Data\SceneConfigProvider.cs" />
+    <Compile Include="Data\SceneElements.cs" />
+    <Compile Include="Data\SceneElementsProvider.cs" />
+    <Compile Include="Data\SceneLogicConfig.cs" />
+    <Compile Include="Data\SceneLogicConfigProvider.cs" />
+    <Compile Include="Data\ScrollMessageConfig.cs" />
+    <Compile Include="Data\ServerConfigProvider.cs" />
+    <Compile Include="Data\SignInRewardConfig.cs" />
+    <Compile Include="Data\SkillConfig.cs" />
+    <Compile Include="Data\SkillConfigProvider.cs" />
+    <Compile Include="Data\SkillLevelupConfigProvider.cs" />
+    <Compile Include="Data\SoundConfigProvider.cs" />
+    <Compile Include="Data\StoreConfigProvider.cs" />
+    <Compile Include="Data\StrDictionary.cs" />
+    <Compile Include="Data\SystemGuideConfig.cs" />
+    <Compile Include="Data\UiConfigProvider.cs" />
+    <Compile Include="Data\VersionConfigProvider.cs" />
+    <Compile Include="Data\VipConfigProvider.cs" />
+    <Compile Include="Data\WeeklyLoginConfig.cs" />
+    <Compile Include="Data\WordFilter.cs" />
+    <Compile Include="Data\XSoulLevelConfigProvider.cs" />
+    <Compile Include="EngineDefine\AnimationDefine.cs" />
+    <Compile Include="EngineDefine\EngineDefine.cs" />
+    <Compile Include="EngineDefine\InputDefine.cs" />
+    <Compile Include="EngineDefine\PhysicsDefine.cs" />
+    <Compile Include="Entity\ArenaDataInfo.cs" />
+    <Compile Include="Entity\ChallengeInfo.cs" />
+    <Compile Include="Entity\CharacterProperty.cs" />
+    <Compile Include="Entity\EntityDefines.cs" />
+    <Compile Include="Entity\TalentCardInfo.cs" />
+    <Compile Include="Entity\XSoulInfo.cs" />
+    <Compile Include="Fov\FovMath.cs" />
+    <Compile Include="Fov\ILosBoard.cs" />
+    <Compile Include="Fov\PermissiveFov.cs" />
+    <Compile Include="Fov\RadiusStrategy.cs" />
+    <Compile Include="Fov\ShadowFov.cs" />
+    <Compile Include="Fov\SpatialBoard.cs" />
+    <Compile Include="Geometry\Geometry.cs" />
+    <Compile Include="Geometry\Geometry3D.cs" />
+    <Compile Include="Geometry\KdObstacleTree.cs" />
+    <Compile Include="Geometry\KdTree.cs" />
+    <Compile Include="Geometry\PointKdTree.cs" />
+    <Compile Include="Geometry\QuadTree.cs" />
+    <Compile Include="Geometry\RvoAlgorithm.cs" />
+    <Compile Include="Log\DLog.cs" />
+    <Compile Include="Log\LogSystem.cs" />
+    <Compile Include="Math\Math.cs" />
+    <Compile Include="Message\JsonMessageDefine.cs" />
+    <Compile Include="Message\MessageDefine.cs" />
+    <Compile Include="Partner\PartnerInfo.cs" />
+    <Compile Include="Partner\PartnerStateInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skill\SkillDefine.cs" />
+    <Compile Include="Spatial\ICellMapView.cs" />
+    <Compile Include="Spatial\ISpaceObject.cs" />
+    <Compile Include="Spatial\ISpatialSystem.cs" />
+    <Compile Include="Spatial\RetCode.cs" />
+    <Compile Include="Spatial\Shape.cs" />
+    <Compile Include="Structure\Exception.cs" />
+    <Compile Include="Util\Converter.cs" />
+    <Compile Include="Util\DFProfiler.cs" />
+    <Compile Include="Util\Heap.cs" />
+    <Compile Include="Util\Helper.cs" />
+    <Compile Include="Util\HomePath.cs" />
+    <Compile Include="Util\IActionQueue.cs" />
+    <Compile Include="Util\KernelUtil.cs" />
+    <Compile Include="Util\LinkedListDictionary.cs" />
+    <Compile Include="Util\MyActionAndFunc.cs" />
+    <Compile Include="Util\MyDictionary.cs" />
+    <Compile Include="Util\ObjectPool.cs" />
+    <Compile Include="Util\PoolAllocatedAction.cs" />
+    <Compile Include="Util\TimeUtility.cs" />
+    <Compile Include="Util\TypedDataCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServerConcurrent\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

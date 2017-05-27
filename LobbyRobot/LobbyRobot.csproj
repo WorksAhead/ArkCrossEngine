@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{39038D77-9F10-4FF6-BAD0-02D6C8764D37}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LobbyRobot</RootNamespace>
+    <AssemblyName>LobbyRobot</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\Public\CSharpLibs\3rd_party\Lidgren.Network\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>..\Public\CSharpLibs\3rd_party\json\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="MyWebSocket">
+      <HintPath>..\Public\CSharpLibs\3rd_party\websocket\MyWebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\Public\CSharpLibs\3rd_party\protobuf\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtobufSerializer">
+      <HintPath>..\Public\ClientProtoBuf\bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptFrameworkLibrary">
+      <HintPath>..\Public\CSharpLibs\engine\ScriptFrameworkLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Client\Src\LobbyNetwork\JsonMessageDefine.cs">
+      <Link>Network\JsonMessageDefine.cs</Link>
+    </Compile>
+    <Compile Include="..\Public\Common\Message\ProtoNetEncoding.cs">
+      <Link>Network\ProtoNetEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\Public\Common\Message\ProtoNetSerialize.cs">
+      <Link>Network\ProtoNetSerialize.cs</Link>
+    </Compile>
+    <Compile Include="GmCommands\ClientGmStorySystem.cs" />
+    <Compile Include="GmCommands\GmCommands.cs" />
+    <Compile Include="GmCommands\StoryCommands.cs" />
+    <Compile Include="Network\JsonMessageDispatcher.cs" />
+    <Compile Include="Network\LobbyNetworkSystem.cs" />
+    <Compile Include="Network\MessageDispatch.cs" />
+    <Compile Include="Network\MsgHandler.cs" />
+    <Compile Include="Network\NetWorkSystem.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Robot.cs" />
+    <Compile Include="RobotThread.cs" />
+    <Compile Include="SkillSystem\SkillAnalysis.cs" />
+    <Compile Include="SkillSystem\Trigers\GeneralTrigers.cs" />
+    <Compile Include="SkillSystem\Trigers\ScriptableDataUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Public\ClientProtoBuf\ClientProtoBuf.csproj">
+      <Project>{c402fc70-3a7a-4ce2-956f-6aa1dfd5882e}</Project>
+      <Name>ClientProtoBuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Common\Common.csproj">
+      <Project>{288c0299-a184-4b54-9b13-783a0678b6ce}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\ScriptableData\ScriptableData.csproj">
+      <Project>{4295c1b7-d43f-4e38-85ad-33623489fbbe}</Project>
+      <Name>ScriptableData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\SkillSystem\SkillSystem.csproj">
+      <Project>{c4c08d53-e605-43ac-af41-22e2d907613c}</Project>
+      <Name>SkillSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\StorySystem\StorySystem.csproj">
+      <Project>{d498e9d2-823e-4082-b1af-727a0e9dc3d4}</Project>
+      <Name>StorySystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

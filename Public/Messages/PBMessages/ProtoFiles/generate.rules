@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenerateRules>
+  <Lobby_RoomServer>
+    <proto>MessageDefine.proto</proto>
+  </Lobby_RoomServer>
+  <Lobby_GmServer>
+    <proto>GmServerMessageDefine.proto</proto>
+  </Lobby_GmServer>
+  <DashFire.DataStore>
+    <proto>DataStore/Data.proto</proto>
+    <proto>DataStore/Message.proto</proto>
+    <proto>google/protobuf/descriptor.proto</proto>
+  </DashFire.DataStore>
+  <DashFire.Billing>
+    <proto>Billing/Billing.proto</proto>
+  </DashFire.Billing>
+</GenerateRules>

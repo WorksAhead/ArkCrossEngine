@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">UnityDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1AB0B091-F447-4EBB-8ADA-02272E4BB35D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Client</RootNamespace>
+    <AssemblyName>Client</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnrealDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\PublishUnreal\Plugins\ArkCrossClr\Binaries\Win64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\Lidgren.Network\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\json\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="MyWebSocket">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\websocket\MyWebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ProtobufSerializer">
+      <HintPath>..\..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\Publish\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Public\Common\Message\ProtoNetEncoding.cs">
+      <Link>LobbyNetwork\ProtoNetEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Public\Common\Message\ProtoNetSerialize.cs">
+      <Link>NetWork\ProtoNetSerialize.cs</Link>
+    </Compile>
+    <Compile Include="Ai\AiViewManager.cs" />
+    <Compile Include="AutoAdjust\Controller\FaceController.cs" />
+    <Compile Include="AutoAdjust\Controller\MoveController.cs" />
+    <Compile Include="AutoAdjust\ControlSystemOperation.cs" />
+    <Compile Include="ClientConfig.cs" />
+    <Compile Include="Entity\EntityManager.cs" />
+    <Compile Include="Entity\GameObjectIdManager.cs" />
+    <Compile Include="Entity\Object\CharacterView.cs" />
+    <Compile Include="Entity\Object\CharacterView_Anim.cs" />
+    <Compile Include="Entity\Object\NpcView.cs" />
+    <Compile Include="Entity\Object\SpaceInfoView.cs" />
+    <Compile Include="Entity\Object\UserView.cs" />
+    <Compile Include="GmCommands\ClientGmStorySystem.cs" />
+    <Compile Include="GmCommands\RoleCommands.cs" />
+    <Compile Include="Input\PlayerControl.cs" />
+    <Compile Include="Kernel\GameControler.cs" />
+    <Compile Include="Kernel\GameLogicNotification.cs" />
+    <Compile Include="Kernel\GameLogicThread.cs" />
+    <Compile Include="LobbyClient\AccountInfo.cs" />
+    <Compile Include="LobbyClient\ArenaInfo.cs" />
+    <Compile Include="LobbyClient\DeviceInfo.cs" />
+    <Compile Include="LobbyClient\ExpeditionInfo.cs" />
+    <Compile Include="LobbyClient\FriendInfo.cs" />
+    <Compile Include="LobbyClient\GowStarInfo.cs" />
+    <Compile Include="LobbyClient\GroupInfo.cs" />
+    <Compile Include="LobbyClient\LobbyClient.cs" />
+    <Compile Include="LobbyClient\MailInfo.cs" />
+    <Compile Include="LobbyClient\RoleInfo.cs" />
+    <Compile Include="LobbyClient\SignInRewardInfo.cs" />
+    <Compile Include="LobbyNetwork\ActivityMessageHandler.cs" />
+    <Compile Include="LobbyNetwork\FriendMessageHandler.cs" />
+    <Compile Include="LobbyNetwork\GroupMessageHandler.cs" />
+    <Compile Include="LobbyNetwork\JsonMessageDefine.cs" />
+    <Compile Include="LobbyNetwork\JsonMessageDispatcher.cs" />
+    <Compile Include="LobbyNetwork\LobbyMessageHandler.cs" />
+    <Compile Include="LobbyNetwork\LobbyNetworkSystem.cs" />
+    <Compile Include="LobbyNetwork\PartnerMessageHandler.cs" />
+    <Compile Include="Mission\MissionInfo.cs" />
+    <Compile Include="Mission\MissionStateInfo.cs" />
+    <Compile Include="NetWork\MessageDispatch.cs" />
+    <Compile Include="NetWork\MsgHandler.cs" />
+    <Compile Include="NetWork\NetWorkSystem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneLogic\SceneLogicViewManager.cs" />
+    <Compile Include="SceneLogic\SceneLogicView\SceneLogicView_General.cs" />
+    <Compile Include="Skill\ImpactViewManager.cs" />
+    <Compile Include="Skill\SkillController.cs" />
+    <Compile Include="Skill\SwordManControlHandler.cs" />
+    <Compile Include="Story\ClientStorySystem.cs" />
+    <Compile Include="Story\Commands\CameraCommands.cs" />
+    <Compile Include="Story\Commands\CharacterCommands.cs" />
+    <Compile Include="Story\Commands\GameLogicCommands.cs" />
+    <Compile Include="Story\Commands\GeneralCommands.cs" />
+    <Compile Include="Story\Commands\NpcCommands.cs" />
+    <Compile Include="Story\Commands\PlayerselfCommands.cs" />
+    <Compile Include="Story\Commands\UiControlCommands.cs" />
+    <Compile Include="Story\Values\CharacterValues.cs" />
+    <Compile Include="Story\Values\GameLogicValues.cs" />
+    <Compile Include="Story\Values\NpcValues.cs" />
+    <Compile Include="Story\Values\UserValues.cs" />
+    <Compile Include="Version.cs" />
+    <Compile Include="World\SceneResource.cs" />
+    <Compile Include="World\WorldSystem.cs" />
+    <Compile Include="World\WorldSystem_Arena.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Res\BulletConfig\" />
+    <Folder Include="Res\Scenes\Scene_0\" />
+    <Folder Include="Res\Skill\" />
+    <Folder Include="Res\System\" />
+    <Folder Include="Skill\ImpactView\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Public\AiSystem\AiSystem.csproj">
+      <Project>{5E43EAFB-76E4-473B-BA97-C45A5CDAF467}</Project>
+      <Name>AiSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\ClientProtoBuf\ClientProtoBuf.csproj">
+      <Project>{3A7AAAB6-9EE6-4F70-B156-59B44136B1E3}</Project>
+      <Name>ClientProtoBuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\Common\Common.csproj">
+      <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\GameObjects\GameObjects.csproj">
+      <Project>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\GfxLogicBridge\GfxLogicBridge.csproj">
+      <Project>{4B72FA74-0478-459B-810F-C7D6E6C7EA2C}</Project>
+      <Name>GfxLogicBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\GfxModule\GfxModule.csproj">
+      <Project>{574FDD1A-51B7-4964-AA17-621CB8A05ACB}</Project>
+      <Name>GfxModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\ImpactSystem\ImpactSystem.csproj">
+      <Project>{D45D7EA0-D146-47C8-8E17-DCB3CBE18FC2}</Project>
+      <Name>ImpactSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\SceneLogic\SceneLogic.csproj">
+      <Project>{C2DE3DEA-2318-4167-B619-F5E997A0B0F6}</Project>
+      <Name>SceneLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\ScriptableData\ScriptableData.csproj">
+      <Project>{7B7BD40C-1D3C-4F59-927D-1740CB672E08}</Project>
+      <Name>ScriptableData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\SkillSystem\SkillSystem.csproj">
+      <Project>{43B2F01B-F224-4E3A-B2D4-78AB6599805C}</Project>
+      <Name>SkillSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\SpatialSystem\SpatialSystem.csproj">
+      <Project>{07597610-F5FD-4706-9BAF-9D6C3BEC366D}</Project>
+      <Name>SpatialSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\StorySystem\StorySystem.csproj">
+      <Project>{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}</Project>
+      <Name>StorySystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CrossEngine\CrossEngine\CrossEngine.csproj">
+      <Project>{2E444007-DCDA-4B89-85BD-E0E96733F099}</Project>
+      <Name>CrossEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

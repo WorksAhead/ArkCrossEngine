@@ -1,0 +1,19 @@
+
+message LB_VerifyAccount
+{
+  required string Account = 1;
+  required int32 OpCode = 2;
+  required int32 ChannelId = 3;
+  required string Data  = 4;
+}
+
+message BL_VerifyAccountResult
+{
+  required string Account = 1;
+  required bool Result = 2;
+  required string AccountId = 3;
+  required int32 OpCode = 4;
+  required int32 ChannelId = 5;
+
+}
+

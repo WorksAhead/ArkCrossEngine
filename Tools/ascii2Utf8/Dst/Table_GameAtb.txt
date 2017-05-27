@@ -1,0 +1,53 @@
+﻿--This code create by CodeEngine ,don't modify
+
+Tab_GameAtb={	Id=1,	AtbName=2,	IsCent=3,	IsFloat=4	}
+Tab_GameAtb[1] = {	1,	"等级",	0,	0	}
+Tab_GameAtb[2] = {	2,	"性别",	0,	0	}
+Tab_GameAtb[3] = {	3,	"玩家段位",	0,	0	}
+Tab_GameAtb[4] = {	4,	"经验",	0,	0	}
+Tab_GameAtb[5] = {	5,	"经验上限",	0,	0	}
+Tab_GameAtb[6] = {	6,	"个人荣誉",	0,	0	}
+Tab_GameAtb[7] = {	7,	"生命值",	0,	0	}
+Tab_GameAtb[8] = {	8,	"生命值上限",	0,	0	}
+Tab_GameAtb[9] = {	9,	"基础移动速度",	0,	0	}
+Tab_GameAtb[10] = {	10,	"移动加速度",	0,	0	}
+Tab_GameAtb[11] = {	11,	"预留",	0,	0	}
+Tab_GameAtb[12] = {	12,	"攻击力",	0,	0	}
+Tab_GameAtb[13] = {	13,	"主动技能范围",	0,	0	}
+Tab_GameAtb[14] = {	14,	"宝藏当前持有数量",	0,	0	}
+Tab_GameAtb[15] = {	15,	"宝藏收集范围",	0,	0	}
+Tab_GameAtb[16] = {	16,	"皮肤ID1",	0,	0	}
+Tab_GameAtb[17] = {	17,	"皮肤ID2",	0,	0	}
+Tab_GameAtb[18] = {	18,	"皮肤ID3",	0,	0	}
+Tab_GameAtb[19] = {	19,	"皮肤ID4",	0,	0	}
+Tab_GameAtb[20] = {	20,	"皮肤ID5",	0,	0	}
+Tab_GameAtb[21] = {	21,	"皮肤ID6",	0,	0	}
+Tab_GameAtb[22] = {	22,	"皮肤ID7",	0,	0	}
+Tab_GameAtb[23] = {	23,	"皮肤ID8",	0,	0	}
+Tab_GameAtb[24] = {	24,	"皮肤ID9",	0,	0	}
+Tab_GameAtb[25] = {	25,	"皮肤ID10",	0,	0	}
+Tab_GameAtb[26] = {	26,	"死亡掉落宝藏百分比",	0,	0	}
+Tab_GameAtb[27] = {	27,	"死亡复活时间",	0,	0	}
+Tab_GameAtb[28] = {	28,	"角色碰撞体积",	0,	0	}
+Tab_GameAtb[29] = {	29,	"移动惯性系数",	0,	0	}
+Tab_GameAtb[30] = {	30,	"移动惯性触发间隔时间",	0,	0	}
+Tab_GameAtb[31] = {	31,	"个人小红花",	0,	0	}
+Tab_GameAtb[32] = {	32,	"个人获得勋章",	0,	0	}
+Tab_GameAtb[33] = {	33,	"个人拥有皮肤数",	0,	0	}
+Tab_GameAtb[34] = {	34,	"个人总MVP数",	0,	0	}
+Tab_GameAtb[35] = {	35,	"个人总冠军数",	0,	0	}
+Tab_GameAtb[36] = {	36,	"个人总击杀数",	0,	0	}
+Tab_GameAtb[37] = {	37,	"个人总获得宝藏数",	0,	0	}
+Tab_GameAtb[38] = {	38,	"个人kda",	0,	0	}
+Tab_GameAtb[39] = {	39,	"个人总传递数",	0,	0	}
+Tab_GameAtb[40] = {	40,	"传龙珠范围",	0,	0	}
+Tab_GameAtb[41] = {	41,	"预留",	0,	0	}
+Tab_GameAtb[42] = {	42,	"预留",	0,	0	}
+Tab_GameAtb[43] = {	43,	"预留",	0,	0	}
+Tab_GameAtb[44] = {	44,	"玩家持有点券",	0,	0	}
+Tab_GameAtb[45] = {	45,	"玩家持有游戏币",	0,	0	}
+Tab_GameAtb[46] = {	46,	"玩家持有钻石币",	0,	0	}
+Tab_GameAtb[47] = {	47,	"玩家VIP等级",	0,	0	}
+Tab_GameAtb[48] = {	48,	"预留",	0,	0	}
+Tab_GameAtb[49] = {	49,	"玩家年龄",	0,	0	}
+

@@ -1,0 +1,517 @@
+import "google/protobuf/descriptor.proto";
+
+///////////////////////////////////////////////////////////////////////////////
+// options definitions
+extend google.protobuf.FileOptions {
+  optional string version = 50000;
+}
+
+extend google.protobuf.MessageOptions {
+  // name of primary key, MUST SET
+  optional string ds_primary_key = 50000;
+}
+
+extend google.protobuf.MessageOptions {
+  // name of foreign key
+  optional string ds_foreign_key = 50001;
+}
+
+extend google.protobuf.FieldOptions {
+  optional int32 max_size = 50000;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// data definitions
+option (version) = "0.1.15";
+///////////////////////////////////////////////////////////////////////////////
+
+message DS_Guid 
+{
+  option (ds_primary_key) = "GuidType";
+  required string GuidType = 1 [(max_size) = 24];
+  required bool IsValid = 2;
+  required int64 GuidValue = 3;
+}
+
+message DS_Nickname
+{
+  option (ds_primary_key) = "Nickname";
+  required string Nickname = 1 [(max_size) = 32];
+  required bool IsValid = 2;
+  required int64 UserGuid = 3;   
+}
+
+message DS_GowStar
+{
+  option (ds_primary_key) = "Rank"; 
+  required int32 Rank = 1;
+  required bool IsValid = 2;
+  required int64 UserGuid = 3;  
+  required string Nickname = 4 [(max_size) = 32];  
+  required int32 HeroId = 5;
+  required int32 Level = 6;
+  required int32 FightingScore = 7;  
+  required int32 GowElo = 8; 
+}
+
+message DS_MailInfo
+{
+  option (ds_primary_key) = "Guid"; 
+  required int64 Guid = 1;
+  required bool IsValid = 2;
+  required int32 ModuleTypeId = 3;
+  required string Sender = 4 [(max_size) = 32]; 
+  required int64 Receiver = 5;  
+  required string SendDate = 6 [(max_size) = 24];  
+  required string ExpiryDate = 7 [(max_size) = 24];   
+  required string Title = 8 [(max_size) = 64];  
+  required string Text = 9 [(max_size) = 1024];  
+  required int32 Money = 10;  
+  required int32 Gold = 11;  
+  required int32 Stamina = 12;  
+  required string ItemIds = 13 [(max_size) = 128];  
+  required string ItemNumbers = 14 [(max_size) = 64];  
+  required int32 LevelDemand = 15;
+  required bool IsRead = 16;
+}
+
+message DS_ActivationCode
+{
+  option (ds_primary_key) = "ActivationCode";
+  required string ActivationCode = 1 [(max_size) = 32];
+  required bool IsValid = 2;
+  required bool IsActivated = 3;  
+  required string Account = 4 [(max_size) = 64];
+}
+
+message DS_GiftCode
+{
+  option (ds_primary_key) = "GiftCode";
+  required string GiftCode = 1 [(max_size) = 32];
+  required bool IsValid = 2;
+  required int32 GiftId = 3;
+  required bool IsUsed = 4;  
+  required int64 UserGuid = 5;
+}
+
+message DS_ArenaInfo
+{
+  option (ds_primary_key) = "UserGuid"; 
+  required int64 UserGuid = 1;
+  required bool IsValid = 2; 
+  required int32 Rank = 3;   
+  required bool IsRobot = 4;   
+  required bytes ArenaBytes = 5 [(max_size) = 8192];
+  required string LastBattleTime = 6 [(max_size) = 24];
+  required int32 LeftFightCount = 7;
+  required int32 BuyFightCount = 8;
+  required string LastResetFightCountTime = 9 [(max_size) = 24];
+  required string ArenaHistroyTimeList = 10 [(max_size) = 255];
+  required string ArenaHistroyRankList = 11 [(max_size) = 255];
+}
+
+message DS_ArenaRecord
+{
+  option (ds_primary_key) = "Guid"; 
+  required string Guid = 1 [(max_size) = 16];  
+  required bool IsValid = 2;
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 3;
+  required int32 Rank = 4;
+  required bool IsChallengerSuccess = 5;
+  required string BeginTime = 6 [(max_size) = 24];
+  required string EndTime = 7 [(max_size) = 24];  
+  required int64 CGuid = 8;
+  required int32 CHeroId = 9;
+  required int32 CLevel = 10;
+  required int32 CFightScore = 11;  
+  required string CNickname = 12 [(max_size) = 32];
+  required int32 CRank = 13;  
+  required int32 CUserDamage = 14; 
+  required int32 CPartnerId1 = 15;
+  required int32 CPartnerDamage1 = 16;
+  required int32 CPartnerId2 = 17;
+  required int32 CPartnerDamage2 = 18;
+  required int32 CPartnerId3 = 19;
+  required int32 CPartnerDamage3 = 20; 
+  required int64 TGuid = 21;
+  required int32 THeroId = 22;
+  required int32 TLevel = 23;
+  required int32 TFightScore = 24;  
+  required string TNickname = 25 [(max_size) = 32];
+  required int32 TRank = 26;  
+  required int32 TUserDamage = 27;
+  required int32 TPartnerId1 = 28;
+  required int32 TPartnerDamage1 = 29;
+  required int32 TPartnerId2 = 30;
+  required int32 TPartnerDamage2 = 31;
+  required int32 TPartnerId3 = 32;
+  required int32 TPartnerDamage3 = 33;  
+}
+
+//////////////////////////////////////////////////////////////////////
+message DS_Account 
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required bool IsValid = 2;
+  required bool IsBanned = 3;
+  required int64 UserGuid1 = 4;
+  required int64 UserGuid2 = 5;
+  required int64 UserGuid3 = 6; 
+}
+
+message DS_UserInfo 
+{
+  option (ds_primary_key) = "Guid";
+  required int64 Guid = 1;
+  option (ds_foreign_key) = "AccountId";
+  required string AccountId = 2 [(max_size) = 64];
+  required bool IsValid = 3;
+  required string Nickname = 4 [(max_size) = 32]; 
+  required int32 HeroId = 5;
+  required int32 Level = 6; 
+  required int32 Money = 7;
+  required int32 Gold = 8;
+  required int32 ExpPoints = 9;
+  required int32 CitySceneId = 10;
+  required int32 Vip = 11;
+  required string LastLogoutTime = 12 [(max_size) = 24];  
+  required string CreateTime = 13 [(max_size) = 24];
+  required int64 NewbieStep = 14;
+  required int64 NewbieActionFlag = 15;
+}
+
+message DS_UserInfoExtra 
+{
+  option (ds_primary_key) = "Guid";
+  required int64 Guid = 1;
+  required bool IsValid = 2;
+  required int32 GowElo = 3;
+  required int32 GowMatches = 4;
+  required int32 GowWinMatches = 5;
+  required int32 Stamina = 6;  
+  required int32 BuyStaminaCount = 7;
+  required double LastAddStaminaTimestamp = 8; 
+  required int32 BuyMoneyCount = 9;
+  required double LastBuyMoneyTimestamp = 10;  
+  required int32 SellIncome = 11;
+  required double LastSellTimestamp = 12;
+  required string LastResetStaminaTime = 13 [(max_size) = 24]; 
+  required string LastResetMidasTouchTime = 14 [(max_size) = 24];
+  required string LastResetSellTime = 15 [(max_size) = 24];  
+  required string LastResetDailyMissionTime = 16 [(max_size) = 24];  
+  required int32 ActivePartnerId = 17;
+  required int32 AttemptAward = 18;
+  required int32 AttemptCurAcceptedCount = 19;
+  required int32 AttemptAcceptedAward = 20;
+  required string LastResetAttemptAwardCountTime = 21 [(max_size) = 24];
+  required int32 GoldTollgateCount = 22;
+  required string LastResetGoldTollgateCountTime = 23 [(max_size) = 24];
+  required string ExchangeGoodList = 24 [(max_size) = 255];
+  required string ExchangeGoodNumber = 25 [(max_size) = 64];
+  required string LastResetExchangeGoodTime = 26 [(max_size) = 24];
+  required string ExchangeGoodRefreshCount = 27 [(max_size) = 255];
+  required string CompleteSceneList = 28 [(max_size) = 255];
+  required string CompleteSceneNumber = 29 [(max_size) = 64];
+  required string LastResetSceneCountTime = 30 [(max_size) = 24];
+  required int32 Vigor = 31;
+  required double LastAddVigorTimestamp = 32;    
+  required int32 UsedStamina = 33;
+  required int32 DayRestSignCount = 34;
+  required string LastResetDaySignCountTime = 35 [(max_size) = 24];
+  required int32 MonthSignCount = 36;  
+  required string LastResetMonthSignCountTime = 37 [(max_size) = 24]; 
+  required string MonthCardExpireTime = 38 [(max_size) = 24];  
+  required string GowHistroyTimeList = 39 [(max_size) = 255];
+  required string GowHistroyEloList = 40 [(max_size) = 255];
+  required bool IsWeeklyLoginRewarded = 41;
+  required string WeeklyLoginRewardList = 42 [(max_size) = 64];
+  required string LastResetWeeklyLoginRewardTime = 43 [(max_size) = 24];
+}
+
+message DS_EquipInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 Position = 4;
+  required int32 ItemId = 5;
+  required int32 ItemNum = 6;
+  required int32 Level = 7; 
+  required int32 AppendProperty = 8;
+}
+
+message DS_ItemInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 Position = 4;
+  required int32 ItemId = 5;
+  required int32 ItemNum = 6;
+  required int32 Level = 7; 
+  required int32 AppendProperty = 8;
+}
+
+message DS_LegacyInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 Position = 4;
+  required int32 LegacyId = 5;
+  required int32 LegacyLevel = 6; 
+  required int32 AppendProperty = 7;
+  required bool IsUnlock = 8;
+}
+
+message DS_XSoulInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 Position = 4;
+  required int32 XSoulType = 5;
+  required int32 XSoulId = 6;
+  required int32 XSoulLevel = 7;  
+  required int32 XSoulExp = 8;
+  required int32 XSoulModelLevel = 9;
+}
+
+message DS_SkillInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 SkillId = 4;
+  required int32 Level = 5;
+  required int32 Preset = 6;
+}
+
+message DS_MissionInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 MissionId = 4;
+  required int32 MissionValue = 5;  
+  required int32 MissionState = 6;
+}
+
+message DS_LevelInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required int32 LevelId = 4;
+  required int32 LevelRecord = 5;
+}
+
+message DS_ExpeditionInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;
+  required bool IsValid = 3;
+  required double StartTime = 4;
+  required int32 FightingScore = 5;
+  required int32 HP = 6;
+  required int32 MP = 7;
+  required int32 Rage = 8;
+  required int32 Schedule = 9;
+  required int32 MonsterCount = 10;
+  required int32 BossCount = 11;
+  required int32 OnePlayerCount = 12;
+  required string Unrewarded = 13 [(max_size) = 64];  
+  required int32 TollgateType = 14;  
+  required string EnemyList = 15 [(max_size) = 255];  
+  required string EnemyAttrList = 16 [(max_size) = 255];  
+  required bytes ImageA = 17 [(max_size) = 8192];
+  required bytes ImageB = 18 [(max_size) = 8192];    
+}
+
+message DS_MailStateInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;  
+  required bool IsValid = 3;
+  required int64 MailGuid = 4;
+  required bool IsRead = 5;
+  required bool IsReceived = 6;
+  required string ExpiryDate = 7 [(max_size) = 24];
+}
+
+message DS_PartnerInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;  
+  required bool IsValid = 3;
+  required int32 PartnerId = 4;
+  required int32 AdditionLevel = 5;
+  required int32 SkillLevel = 6;
+}
+
+message DS_FriendInfo
+{
+  option (ds_primary_key) = "Guid";
+  required string Guid = 1 [(max_size) = 16];
+  option (ds_foreign_key) = "UserGuid";
+  required int64 UserGuid = 2;  
+  required bool IsValid = 3;
+  required int64 FriendGuid = 4;
+  required string FriendNickname = 5 [(max_size) = 32];
+  required int32 HeroId = 6;
+  required int32 Level = 7;
+  required int32 FightingScore = 8;  
+}
+
+///////////////////////////////////////////////////////////
+message DSP_Account
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required DS_Account AccountBasic = 2;
+  repeated DS_UserInfo UserList = 3;  
+}
+
+message DSP_User
+{
+  option (ds_primary_key) = "UserGuid";
+  required int64 UserGuid = 1;
+  required DS_UserInfo UserBasic = 2;
+  required DS_UserInfoExtra UserExtra = 3;
+  repeated DS_EquipInfo EquipList = 4;
+  repeated DS_ItemInfo ItemList = 5;
+  repeated DS_LegacyInfo LegacyList = 6;
+  repeated DS_XSoulInfo XSoulList = 7;
+  repeated DS_SkillInfo SkillList = 8;
+  repeated DS_MissionInfo MissionList = 9;
+  repeated DS_LevelInfo LevelList = 10;
+  required DS_ExpeditionInfo UserExpedition = 11;
+  repeated DS_MailStateInfo MailStateList = 12; 
+  repeated DS_PartnerInfo PartnerList = 13;
+  repeated DS_FriendInfo FriendList = 14;
+}
+
+message DSP_CreateAccount
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required DS_Account AccountBasic = 2;
+  required DS_ActivationCode UsedActivationCode= 3;
+}
+
+message DSP_CreateUser
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required DS_Account AccountBasic = 2;
+  required DS_Nickname UsedNickname = 3;
+}
+
+message DSP_UserArena
+{
+  option (ds_primary_key) = "UserGuid";
+  required int64 UserGuid = 1;
+  required DS_ArenaInfo ArenaBasic = 2;
+  repeated DS_ArenaRecord ArenaRecordList = 3;
+}
+
+/////////////////////////////////////////////////////////////
+message DSG_Guid
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_Guid GuidList = 2;
+}
+
+message DSG_ActivationCode
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_ActivationCode ActivationCodeList = 2;
+}
+
+message DSG_Nickname
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_Nickname NicknameList = 2;
+}
+
+message DSG_GowStar
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_GowStar GowStarList = 2;
+}
+
+message DSG_Mail
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_MailInfo MailList = 2;
+}
+
+message DSG_GiftCode
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_GiftCode GiftCodeList = 2;
+}
+
+message DSG_ArenaRank
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_ArenaInfo ArenaList = 2;
+}
+
+message DSG_ArenaRecord
+{
+  option (ds_primary_key) = "DataMsgId";
+  required int32 DataMsgId = 1;
+  repeated DS_ArenaRecord RecordList = 2;
+}
+////////////////////////////////////////////////////////////////////
+message DSD_BanAccount
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required bool IsBanned = 2;
+}
+////////////////////////////////////////////////////////////////////
+message GMP_Account
+{
+  option (ds_primary_key) = "Account";
+  required string Account = 1 [(max_size) = 64];
+  required DS_Account AccountBasic = 2;
+  repeated DS_UserInfo UserList = 3;  
+}
+
+message GMP_User
+{
+  option (ds_primary_key) = "UserGuid";
+  required int64 UserGuid = 1;
+  required DS_UserInfo UserBasic = 2;
+}

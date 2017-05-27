@@ -1,0 +1,138 @@
+
+message Msg_RL_RegisterRoomServer
+{
+	required string ServerName = 1;
+	required int32 MaxRoomNum = 2;
+	required string ServerIp = 3;
+	required uint32 ServerPort = 4;
+}
+
+message Msg_LR_ReplyRegisterRoomServer
+{
+	required bool IsOk = 1;
+}
+
+message Msg_LR_RoomUserInfo
+{
+	required uint64 Guid = 1;
+	required string Nick = 2;
+	required uint32 Key = 3;
+	required int32 Hero = 4;
+	required int32 ArgScore = 5;
+	required int32 Camp = 6;
+	required bool IsMachine = 7;
+	repeated int32 ShopEquipmentsId = 8;
+	message SkillInfo {
+    required int32 skill_id = 1;
+    required int32 skill_level = 2;
+  }
+  repeated SkillInfo Skills = 9;
+	optional int32 PresetIndex = 10;
+	message EquipInfo {
+    required int32 equip_id = 1;
+    required int32 equip_level = 2;
+    required int32 equip_random_property = 3;
+  }
+  repeated EquipInfo Equips = 11;
+  required int32 Level = 12;
+  message LegacyInfo {
+    required int32 legacy_id = 1;
+    required int32 legacy_level = 2;
+    required int32 legacy_random_property = 3;
+    required bool legacy_is_unlock = 4;
+  }
+  message XSoulDataInfo {
+    required int32 ItemId = 1;
+    required int32 Level = 2;
+    required int32 ModelLevel = 3;
+    required int32 Experience = 4;
+  }
+  repeated LegacyInfo Legacys = 13;
+  repeated XSoulDataInfo XSouls = 14;
+  message PartnerInfo{
+    required int32 partner_id = 1;
+    required int32 partner_level = 2;
+    required int32 partner_stage = 3;
+  }
+  optional PartnerInfo Partner = 15;
+}
+
+message Msg_LR_ReconnectUser
+{
+	required uint64 UserGuid = 1;
+	required int32 RoomID = 2;
+}
+
+message Msg_RL_ReplyReconnectUser
+{
+	required uint64 UserGuid = 1;
+	required int32 RoomID = 2;	
+	required bool IsSuccess = 3;
+}
+
+message Msg_LR_CreateBattleRoom
+{
+	required int32 RoomId = 1;
+	required int32 SceneType = 2;
+	repeated Msg_LR_RoomUserInfo Users = 3;
+}
+
+message Msg_RL_ReplyCreateBattleRoom
+{
+	required int32 RoomId = 1;
+	required bool IsSuccess = 2;
+}
+
+message Msg_RL_RoomServerUpdateInfo
+{
+	required string ServerName = 1;
+	required int32 IdleRoomNum = 2;
+	required int32 UserNum = 3;
+}
+
+message Msg_RL_UserLobbyItemInfo
+{
+	required int32 ItemId = 1;
+	required int32 ItemNum = 2;
+}
+
+message Msg_RL_UserBattleInfo
+{
+	required uint64 UserGuid = 1;
+	enum BattleResultEnum {
+    Win = 0;
+    Lost = 1;
+    Unfinish = 2;
+  }
+	required BattleResultEnum BattleResult = 2;
+	optional int32 Money = 3;
+	optional int32 HitCount = 4;
+	optional int32 KillNpcCount = 5;
+	optional int32 MaxMultiHitCount = 6;
+	optional int32 TotalDamageToMyself = 7;
+	optional int32 TotalDamageFromMyself = 8;
+}
+
+message Msg_RL_BattleEnd
+{
+	required int32 RoomID = 1;
+	enum WinnerCampEnum {
+    None = 0;
+    Red = 1;
+    Blue = 2;
+  }
+  required WinnerCampEnum WinnerCamp = 2;
+	repeated Msg_RL_UserBattleInfo UserBattleInfos = 3;
+}
+
+message Msg_RL_UserQuit
+{
+	required uint64 UserGuid = 1;
+	required int32 RoomID = 2;
+	required bool IsBattleEnd = 3;
+}
+message Msg_LR_UserReLive
+{
+  required uint64 UserGuid = 1;
+  required int32 RoomID = 2;
+}

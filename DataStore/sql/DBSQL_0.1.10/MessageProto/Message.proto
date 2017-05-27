@@ -1,0 +1,100 @@
+
+message LNReq_Connect
+{
+  required string ClientName = 1;
+}
+
+message NLRep_Connect
+{
+  required bool Result = 1;
+  optional string Error = 2;
+}
+
+message LNReq_Save 
+{
+  required uint32 dsMsgId = 1;
+  required string key = 2;
+  required bytes ds_bytes = 3;
+  required int32 checksum = 4;
+}
+
+message NLRep_Save 
+{
+  required uint32 dsMsgId = 1;
+  required string key = 2;
+  enum SaveResult {
+    Success = 0;
+    Error = 1;
+  }
+  required SaveResult result = 3;
+  optional string error = 4;
+}
+
+message LNReq_Load 
+{
+  required uint32 dsMsgId = 1;
+  required string key = 2;
+}
+
+message NLRep_Load 
+{
+  required uint32 dsMsgId = 1;
+  required string key = 2;
+  enum LoadResult {
+    Success = 0;
+	NotFound = 1;
+	Error = 2;
+	Undone = 3;
+  }
+  required LoadResult result = 3;
+  optional string error = 4;
+  optional bytes data = 5;
+}
+
+message DSA_Item {
+  optional int32 ItemId = 1;
+  optional int32 Level = 2;
+  optional int32 Number = 3;
+  optional int32 AppendProperty = 4;
+}
+
+message DSA_Skill {
+  optional int32 ID = 1;
+  optional int32 Level = 2;
+  optional int32 Postions = 3;
+}
+
+message DSA_Legacy {
+  optional int32 ItemId = 1;
+  optional int32 Level = 2;
+  optional int32 AppendProperty = 3;
+  optional bool IsUnlock = 4;
+}
+
+message DSA_Partner {
+  required int32 PartnerId = 1;
+  required int32 AdditionLevel = 2;
+  required int32 SkillLevel = 3;
+}
+
+message DSA_ExpeditionImage {
+  optional uint64 Guid = 1;
+  optional int32 HeroId = 2;
+  optional string Nickname = 3;
+  optional int32 Level = 4;
+  optional int32 FightingScore = 5;
+  repeated DSA_Item EquipList = 6;
+  repeated DSA_Skill SkillList = 7;
+  repeated DSA_Legacy LegacyList = 8;
+}
+
+message DSA_ArenaInfo {
+  optional uint64 Guid = 1;
+  optional int32 HeroId = 2;
+  optional string Nickname = 3;
+  optional int32 Level = 4;
+  repeated DSA_Item EquipList = 5;
+  repeated DSA_Skill SkillList = 6;
+  repeated DSA_Partner PartnerList = 7;
+}
+

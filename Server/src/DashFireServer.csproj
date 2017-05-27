@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A7489F3A-DEBF-4BFA-94A8-981F153B7E33}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DashFireServer</RootNamespace>
+    <AssemblyName>DashFireServer</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Execute" command="..\..\DcoreEnv\bin\dcore.exe config/dcore_roomserver.xml" workingdir="..\..\DcoreEnv\bin\" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSharpCenterClient">
+      <HintPath>..\..\Public\CSharpLibs\platform\CSharpCenterClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\Lidgren.Network\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Lobby_RoomServer">
+      <HintPath>..\..\Public\Messages\PBMessages\Generated\Lobby_RoomServer.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtobufSerializer">
+      <HintPath>..\..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web">
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="AiSystem">
+      <HintPath>..\..\Bin\AiSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientProtoBuf">
+      <HintPath>..\..\Bin\ClientProtoBuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Common">
+      <HintPath>..\..\Bin\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="GameObjects">
+      <HintPath>..\..\Bin\GameObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpactSystem">
+      <HintPath>..\..\Bin\ImpactSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="SceneLogic">
+      <HintPath>..\..\Bin\SceneLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptableData">
+      <HintPath>..\..\Bin\ScriptableData.dll</HintPath>
+    </Reference>
+    <Reference Include="SkillSystem">
+      <HintPath>..\..\Bin\SkillSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="SpatialSystem">
+      <HintPath>..\..\Bin\SpatialSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="StorySystem">
+      <HintPath>..\..\Bin\StorySystem.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Public\Common\Message\ProtoNetSerialize.cs">
+      <Link>RoomServer\ProtoNetSerialize.cs</Link>
+    </Compile>
+    <Compile Include="AI\AiViewManager.cs" />
+    <Compile Include="AI\AiView\AiView_LogicUtility.cs" />
+    <Compile Include="AI\AiView\AiView_NpcGeneral.cs" />
+    <Compile Include="AI\AiView\AiView_UserGeneral.cs" />
+    <Compile Include="AutoAdjust\Controller\FaceController.cs" />
+    <Compile Include="AutoAdjust\Controller\MoveController.cs" />
+    <Compile Include="AutoAdjust\ControlSystemOperation.cs" />
+    <Compile Include="Connector.cs" />
+    <Compile Include="DefaultMsgHandler.cs" />
+    <Compile Include="ErrorCode.cs" />
+    <Compile Include="GmCommands\GmStorySystem.cs" />
+    <Compile Include="GmCommands\RoleCommands.cs" />
+    <Compile Include="Room\Observer.cs" />
+    <Compile Include="Room\SceneLoadThread.cs" />
+    <Compile Include="SceneLogic\SceneLogicViewManager.cs" />
+    <Compile Include="SceneLogic\SceneLogicView\SceneLogicView_General.cs" />
+    <Compile Include="Scene\DataSyncUtility.cs" />
+    <Compile Include="Scene\SceneProfiler.cs" />
+    <Compile Include="Scene\Scene_EventHandler.cs" />
+    <Compile Include="Scene\Scene_Sight.cs" />
+    <Compile Include="Scene\Scene_Tick.cs" />
+    <Compile Include="Scene\Scene_Utility.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="Room\Room.cs" />
+    <Compile Include="Room\RoomManager.cs" />
+    <Compile Include="Room\RoomPool.cs" />
+    <Compile Include="RoomServer\IOManager.cs" />
+    <Compile Include="RoomServer\MessageDispatch.cs" />
+    <Compile Include="RoomServer\MsgHandler.cs" />
+    <Compile Include="RoomServer\RoomPeer.cs" />
+    <Compile Include="RoomServer\RoomPeerMgr.cs" />
+    <Compile Include="RoomServer\RoomServer.cs" />
+    <Compile Include="Room\RoomThread.cs" />
+    <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Scene\ScenePool.cs" />
+    <Compile Include="Skill\ImpactViewManager.cs" />
+    <Compile Include="Skill\ServerSkillSystem.cs" />
+    <Compile Include="Skill\Trigers\GeneralTrigers.cs" />
+    <Compile Include="Skill\Trigers\ScriptableDataUtility.cs" />
+    <Compile Include="Story\Commands\CameraCommands.cs" />
+    <Compile Include="Story\Commands\GameLogicCommands.cs" />
+    <Compile Include="Story\Commands\GeneralCommands.cs" />
+    <Compile Include="Story\Commands\NpcCommands.cs" />
+    <Compile Include="Story\Commands\UiControlCommands.cs" />
+    <Compile Include="Story\Commands\CharacterCommands.cs" />
+    <Compile Include="Story\ServerStorySystem.cs" />
+    <Compile Include="Story\Values\CharacterValues.cs" />
+    <Compile Include="Story\Values\NpcValues.cs" />
+    <Compile Include="Story\Values\UserValues.cs" />
+    <Compile Include="Room\User.cs" />
+    <Compile Include="Room\UserPool.cs" />
+    <Compile Include="utils\Dispatcher.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utils\XmlAssist.cs" />
+    <Compile Include="utils\XmlParseException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Public\Common\ServerCommon.csproj">
+      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
+      <Name>ServerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\Messenger\Messenger\Messenger.csproj">
+      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
+      <Name>Messenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\MovementSystem\MovementSystem.csproj">
+      <Project>{5529C957-E6F1-4F14-AAF6-FCA76590B187}</Project>
+      <Name>MovementSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Public\LogSys\LogSys\LogSys.csproj">
+      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
+      <Name>LogSys</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)..\..\Public\Messages\PBMessages\DashFireProtoGen.exe</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

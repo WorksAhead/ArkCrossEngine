@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A8EE9594-519A-4569-A517-7A13F856E08E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Lobby</RootNamespace>
+    <AssemblyName>Lobby</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Execute" command="..\DcoreEnv\bin\dcore.exe config/dcore_lobby.xml" workingdir="..\DcoreEnv\bin" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClientProtoBuf, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\ClientProtoBuf.dll</HintPath>
+    </Reference>
+    <Reference Include="CSharpCenterClient">
+      <HintPath>..\Public\CSharpLibs\platform\CSharpCenterClient.dll</HintPath>
+    </Reference>
+    <Reference Include="DashFire.Billing">
+      <HintPath>..\Public\Messages\PBMessages\Generated\DashFire.Billing.dll</HintPath>
+    </Reference>
+    <Reference Include="DashFire.DataStore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Public\Messages\PBMessages\Generated\DashFire.DataStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Lobby_GmServer">
+      <HintPath>..\Public\Messages\PBMessages\Generated\Lobby_GmServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Lobby_RoomServer">
+      <HintPath>..\Public\Messages\PBMessages\Generated\Lobby_RoomServer.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtobufSerializer">
+      <HintPath>..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Public\CSharpLibs\ThirdParty\json\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Public\Common\Message\ProtoNetEncoding.cs">
+      <Link>Common\ProtoNetEncoding.cs</Link>
+    </Compile>
+    <Compile Include="Activity\ActivityFinishInfo.cs" />
+    <Compile Include="Activity\ActivitySystem.cs" />
+    <Compile Include="Activity\PaymentRebate.cs" />
+    <Compile Include="Activity\WeeklyLogInReward.cs" />
+    <Compile Include="Arena\ArenaSystem.cs" />
+    <Compile Include="Arena\ArenaUtil.cs" />
+    <Compile Include="Arena\ChallengeChecker.cs" />
+    <Compile Include="Arena\ChallengeManager.cs" />
+    <Compile Include="Arena\MatchRuleManager.cs" />
+    <Compile Include="Arena\PrizeManager.cs" />
+    <Compile Include="Arena\Rank.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Dare\DareSystem.cs" />
+    <Compile Include="GlobalData\ActivationCodeSystem.cs" />
+    <Compile Include="GlobalData\GiftCodeSystem.cs" />
+    <Compile Include="GlobalData\GuidSystem.cs" />
+    <Compile Include="GlobalData\NicknameSystem.cs" />
+    <Compile Include="Gow\GowRank.cs" />
+    <Compile Include="Gow\GowStarInfo.cs" />
+    <Compile Include="Gow\GowSystem.cs" />
+    <Compile Include="Info\AccountInfo.cs" />
+    <Compile Include="Info\ArenaInfo.cs" />
+    <Compile Include="Info\ExchangeGoodsInfo.cs" />
+    <Compile Include="Info\GowInfo.cs" />
+    <Compile Include="Info\LoginRewardInfo.cs" />
+    <Compile Include="Info\MailStateInfo.cs" />
+    <Compile Include="Info\MissionStateInfo.cs" />
+    <Compile Include="Info\NewBieGuideInfo.cs" />
+    <Compile Include="Info\OnlineDuration.cs" />
+    <Compile Include="Info\PaymentInfo.cs" />
+    <Compile Include="Item\ItemInfo.cs" />
+    <Compile Include="Info\EquipInfo.cs" />
+    <Compile Include="Info\NodeJsInfo.cs" />
+    <Compile Include="Info\SceneInfo.cs" />
+    <Compile Include="Info\SkillInfo.cs" />
+    <Compile Include="Info\LegacyInfo.cs" />
+    <Compile Include="Info\ExpeditionInfo.cs" />
+    <Compile Include="Info\GroupInfo.cs" />
+    <Compile Include="Info\MpveInfo.cs" />
+    <Compile Include="Item\IItemLogic.cs" />
+    <Compile Include="Item\ItemBag.cs" />
+    <Compile Include="Item\ItemLogicManager.cs" />
+    <Compile Include="Item\ItemLogic\ItemLogicExchange.cs" />
+    <Compile Include="Lobby.cs" />
+    <Compile Include="LobbyConfig.cs" />
+    <Compile Include="Mail\MailInfo.cs" />
+    <Compile Include="Mail\MailSystem.cs" />
+    <Compile Include="Mission\MissionInfo.cs" />
+    <Compile Include="Mission\MissionSystem.cs" />
+    <Compile Include="OperationMeasure.cs" />
+    <Compile Include="Process\DataStoreThread.cs" />
+    <Compile Include="Process\GlobalDataProcessThread.cs" />
+    <Compile Include="Process\GmServerThread.cs" />
+    <Compile Include="Process\MatchFormThread.cs" />
+    <Compile Include="Process\DataProcessScheduler.cs" />
+    <Compile Include="Common\JsonMessageDefine.cs" />
+    <Compile Include="Common\JsonMessageDispatcher.cs" />
+    <Compile Include="Process\QueueingThread.cs" />
+    <Compile Include="Process\RoomProcessThread.cs" />
+    <Compile Include="LobbyServer_JsonHandler.cs" />
+    <Compile Include="LobbyServer_ServerHandler.cs" />
+    <Compile Include="Info\FriendInfo.cs" />
+    <Compile Include="Info\LobbyInfo.cs" />
+    <Compile Include="Info\RoomInfo.cs" />
+    <Compile Include="Info\UserInfo.cs" />
+    <Compile Include="Info\RoomServerInfo.cs" />
+    <Compile Include="Process\ServerBridgeThread.cs" />
+    <Compile Include="Shop\IMerchandiseLogic.cs" />
+    <Compile Include="Shop\MerchandiseLogicManager.cs" />
+    <Compile Include="LogicServer\LogicServerManager.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Mission\MissionLogic\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataStore\DataStoreClient\DataStoreClient.csproj">
+      <Project>{71ABA446-8737-4042-A18A-B6DAD57102BF}</Project>
+      <Name>DataStoreClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Common\Common.csproj">
+      <Project>{22d75e22-b35a-4204-9bfb-718d9ac84c02}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Common\ServerCommon.csproj">
+      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
+      <Name>ServerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\LogSys\LogSys\LogSys.csproj">
+      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
+      <Name>LogSys</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Public\Messenger\Messenger\Messenger.csproj">
+      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
+      <Name>Messenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerBridge\BillingClient\BillingClient.csproj">
+      <Project>{981DE12E-CB90-4EB0-B7E2-EB8982FD5807}</Project>
+      <Name>BillingClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)..\Public\Messages\PBMessages\DashFireProtoGen.exe</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

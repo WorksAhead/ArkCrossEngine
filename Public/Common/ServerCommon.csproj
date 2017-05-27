@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DashFire</RootNamespace>
+    <AssemblyName>ServerCommon</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\DcoreEnv\bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\DcoreEnv\bin</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Common">
+      <HintPath>..\..\Bin\Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Properties\ServerCommonAssemblyInfo.cs" />
+    <Compile Include="ServerConcurrent\AsyncActionProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\DelayActionProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\MyTaskDispatcher.cs" />
+    <Compile Include="ServerConcurrent\MyThread.cs" />
+    <Compile Include="ServerConcurrent\ServerConcurrentDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerConcurrentObjectPool.cs" />
+    <Compile Include="ServerConcurrent\ServerConcurrentOrderedList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerConcurrentPoolAllocatedAction.cs" />
+    <Compile Include="ServerConcurrent\ServerConcurrentQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerConcurrentStack.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerConcurrentTypedDataCollection.cs" />
+    <Compile Include="ServerConcurrent\ServerSpinLock.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerSpinWait.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerSplitOrderedList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerConcurrent\ServerWatch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\OperationWatch.cs" />
+    <Compile Include="Util\Timeout.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
