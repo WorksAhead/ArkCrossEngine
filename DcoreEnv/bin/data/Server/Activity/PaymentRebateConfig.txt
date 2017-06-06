@@ -1,0 +1,5 @@
+﻿Id	Group	Describe	AnnounceTime	StartTime	EndTime	TotalDiamond	Diamond	Gold	Exp	ItemCount	ItemId_1	ItemNum_1	ItemId_2	ItemNum_2	ItemId_3	ItemNum_3
+#编号(所有活动的Id均不允许重复)	#活动组	#活动备注	#预告时间yyyy/m/d h:mm	#活动开启时间yyyy/m/d h:mm	#活动结束时间yyyy/m/d h:mm	#钻石	#赠送钻石	#赠送金币	#赠送经验	#物品个数	#赠送道具1	#赠送道具1个数	#赠送道具2	#赠送道具2个数	#赠送道具3	#赠送道具3个数
+1	1	首充活动	2014/11/3 12:46	2014/11/3 11:46	2014/11/3 11:46	1										
+2	2	光棍节活动	2014/11/11 11:46	2014/11/11 11:46	2014/11/11 11:46	60										
+3	2	光棍节活动	2014/11/13 11:46	2014/11/11 11:46	2014/11/11 11:46	600										
