@@ -7,11 +7,11 @@ public class ColliderScript : UnityEngine.MonoBehaviour
     {
 
     }
-    public void SetOnTriggerEnter(MyAction<ArkCrossEngine.Collider> onEnter)
+    public void SetOnTriggerEnter(MyAction<UnityEngine.Collider> onEnter)
     {
         m_OnTrigerEnter += onEnter;
     }
-    public void SetOnTriggerExit(MyAction<ArkCrossEngine.Collider> onExit)
+    public void SetOnTriggerExit(MyAction<UnityEngine.Collider> onExit)
     {
         m_OnTrigerExit += onExit;
     }
@@ -33,7 +33,7 @@ public class ColliderScript : UnityEngine.MonoBehaviour
     {
         if (null != m_OnTrigerEnter)
         {
-            Collider nativeCollider = ObjectFactory.Create<Collider>(collider);
+            UnityEngine.Collider nativeCollider = new UnityEngine.Collider();
             m_OnTrigerEnter(nativeCollider);
         }
     }
@@ -41,12 +41,12 @@ public class ColliderScript : UnityEngine.MonoBehaviour
     {
         if (null != m_OnTrigerExit)
         {
-            Collider nativeCollider = ObjectFactory.Create<Collider>(collider);
+            UnityEngine.Collider nativeCollider = new UnityEngine.Collider();
             m_OnTrigerExit(nativeCollider);
         }
     }
 
-    private MyAction<ArkCrossEngine.Collider> m_OnTrigerEnter;
-    private MyAction<ArkCrossEngine.Collider> m_OnTrigerExit;
+    private MyAction<UnityEngine.Collider> m_OnTrigerEnter;
+    private MyAction<UnityEngine.Collider> m_OnTrigerExit;
     private MyAction m_OnDestroy;
 }

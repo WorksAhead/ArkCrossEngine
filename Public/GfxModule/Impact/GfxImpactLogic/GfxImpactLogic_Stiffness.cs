@@ -1,5 +1,7 @@
 ﻿using System;
 using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Impact
 {
@@ -32,7 +34,7 @@ namespace GfxModule.Impact
             //}
             if (null != logicInfo && actionCount > 0)
             {
-                type = logicInfo.ConfigData.ActionList[ArkCrossEngine.Random.Range(0, actionCount)];
+                type = logicInfo.ConfigData.ActionList[UnityEngine.Random.Range(0, actionCount)];
             }
             else
             {
@@ -76,13 +78,13 @@ namespace GfxModule.Impact
             if (null != info.ConfigData && null != info.Target)
             {
                 float speedRate = GetLockFrameRate(info, Time.time - info.StartTime);
-                Vector3 motion = info.MoveDir * info.MovementInfo.GetSpeedByTime(info.ElapsedTimeForEffect) * deltaTime * speedRate;
+                UnityEngine.Vector3 motion = info.MoveDir * info.MovementInfo.GetSpeedByTime(info.ElapsedTimeForEffect) * deltaTime * speedRate;
                 info.NormalPos += motion;
                 motion = GfxImpactSystem.Instance.GetAdjustPoint(info.NormalPos - info.OrignalPos, info) + info.OrignalPos - info.Target.transform.position;
-                Vector3 pos = info.Target.transform.position + motion;
-                pos = new Vector3(pos.x, GetTerrainHeight(pos), pos.z);
+                UnityEngine.Vector3 pos = info.Target.transform.position + motion;
+                pos = new UnityEngine.Vector3(pos.x, GetTerrainHeight(pos), pos.z);
                 MoveTo(info.Target, pos);
-                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * Mathf.PI / 180f, 0);
+                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180f, 0);
             }
         }
 
@@ -106,11 +108,11 @@ namespace GfxModule.Impact
                             if (String.IsNullOrEmpty(effectInfo.MountPoint))
                             {
                                 obj.transform.position = logicInfo.Target.transform.position + effectInfo.RelativePoint;
-                                Quaternion q = Quaternion.Euler(effectInfo.RelativeRotation.x, effectInfo.RelativeRotation.y, effectInfo.RelativeRotation.z);
+                                UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(effectInfo.RelativeRotation.x, effectInfo.RelativeRotation.y, effectInfo.RelativeRotation.z);
                                 if (effectInfo.RotateWithTarget && null != logicInfo.Sender)
                                 {
-                                    obj.transform.rotation = Quaternion.LookRotation(logicInfo.Target.transform.position - logicInfo.Sender.transform.position, Vector3.up);
-                                    obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.eulerAngles + effectInfo.RelativeRotation);
+                                    obj.transform.rotation = UnityEngine.Quaternion.LookRotation(logicInfo.Target.transform.position - logicInfo.Sender.transform.position, UnityEngine.Vector3.up);
+                                    obj.transform.rotation = UnityEngine.Quaternion.Euler(obj.transform.rotation.eulerAngles + effectInfo.RelativeRotation);
                                 }
                                 else
                                 {
@@ -123,8 +125,8 @@ namespace GfxModule.Impact
                                 if (null != parent)
                                 {
                                     obj.transform.parent = parent;
-                                    obj.transform.localPosition = Vector3.zero;
-                                    Quaternion q = Quaternion.Euler(ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.x), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.y), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.z));
+                                    obj.transform.localPosition = UnityEngine.Vector3.zero;
+                                    UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.x), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.y), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.z));
                                     obj.transform.localRotation = q;
                                 }
                             }

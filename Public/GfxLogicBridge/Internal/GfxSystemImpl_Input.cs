@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ArkCrossEngine
 {
@@ -99,8 +100,8 @@ namespace ArkCrossEngine
 
             if ((m_CurMousePos - m_LastMousePos).sqrMagnitude >= 1 && null != Camera.main)
             {
-                Ray ray = Camera.main.ScreenPointToRay(m_CurMousePos);
-                RaycastHit hitInfo;
+                UnityEngine.Ray ray = Camera.main.ScreenPointToRay(m_CurMousePos);
+                UnityEngine.RaycastHit hitInfo;
                 if (Physics.Raycast(ray, out hitInfo))
                 {
                     m_MouseRayPoint = hitInfo.point;
@@ -109,12 +110,12 @@ namespace ArkCrossEngine
 
             foreach (int c in m_KeysForListen)
             {
-                if (Input.GetKeyDown((KeyCode)c))
+                if (Input.GetKeyDown((UnityEngine.KeyCode)c))
                 {
                     m_KeyPressed[c] = true;
                     FireKeyboard(c, (int)Keyboard.Event.Down);
                 }
-                else if (Input.GetKeyUp((KeyCode)c))
+                else if (Input.GetKeyUp((UnityEngine.KeyCode)c))
                 {
                     m_KeyPressed[c] = false;
                     FireKeyboard(c, (int)Keyboard.Event.Up);
@@ -156,9 +157,9 @@ namespace ArkCrossEngine
         }
 
         private bool m_IsLastHitUi;
-        private Vector3 m_LastMousePos;
-        private Vector3 m_CurMousePos;
-        private Vector3 m_MouseRayPoint;
+        private UnityEngine.Vector3 m_LastMousePos;
+        private UnityEngine.Vector3 m_CurMousePos;
+        private UnityEngine.Vector3 m_MouseRayPoint;
 
         private bool[] m_KeyPressed = new bool[(int)Keyboard.Code.MaxNum];
         private bool[] m_ButtonPressed = new bool[(int)Mouse.Code.MaxNum];

@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 namespace ArkCrossEngine
 {
     /// <summary>
@@ -76,7 +77,7 @@ namespace ArkCrossEngine
                 System.Reflection.BindingFlags.NonPublic |
                 System.Reflection.BindingFlags.Static |
                 System.Reflection.BindingFlags.Instance;
-            Component[] animations = obj.GetTypedComponents(ObjectType.Animation);
+            Component[] animations = obj.GetComponents<Animation>();
             if (animations.Length > 0)
             {
                 Animation anim;
@@ -89,7 +90,7 @@ namespace ArkCrossEngine
                         anim.Stop();
                 }
 
-                Component[] components = obj.GetTypedComponents(ObjectType.Component);
+                Component[] components = obj.GetComponents<Component>();
                 Component component;
                 System.Type type;
                 System.Reflection.PropertyInfo property;
@@ -282,7 +283,7 @@ namespace ArkCrossEngine
                             m_WaitDeleteLoadedPrefabEntrys.Add(key);
                         }
                     }
-                    catch (Exception ex)
+                    catch (System.Exception ex)
                     {
                         m_WaitDeleteLoadedPrefabEntrys.Add(key);
                         LogicSystem.LogicErrorLog("Exception:{0} stack:{1}", ex.Message, ex.StackTrace);
@@ -364,8 +365,8 @@ namespace ArkCrossEngine
                     ps.Play();
                   }
                 }*/
-                ParticleSystem ps = gameObj.GetTypedComponent(ObjectType.ParticleSystem) as ParticleSystem;
-                if (null != ps && ps.playOnAwake)
+                ParticleSystem ps = gameObj.GetComponent<ParticleSystem>();
+                if (null != ps && ps.main.playOnAwake)
                 {
                     ps.Play();
                 }
@@ -376,12 +377,12 @@ namespace ArkCrossEngine
             GameObject gameObj = obj as GameObject;
             if (null != gameObj)
             {
-                ParticleSystem ps0 = gameObj.GetTypedComponent(ObjectType.ParticleSystem) as ParticleSystem;
-                if (null != ps0 && ps0.playOnAwake)
+                ParticleSystem ps0 = gameObj.GetComponent<ParticleSystem>();
+                if (null != ps0 && ps0.main.playOnAwake)
                 {
                     ps0.Stop();
                 }
-                Component[] pss = gameObj.GetTypedComponents(ObjectType.ParticleSystem, true);
+                Component[] pss = gameObj.GetComponents<ParticleSystem>();
                 for (int i = 0; i < pss.Length; i++)
                 {
                     if (null != pss[i])

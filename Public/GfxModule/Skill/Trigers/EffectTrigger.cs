@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -17,7 +18,7 @@ namespace GfxModule.Skill.Trigers
             {
                 if (m_EffectObject[i].activeSelf)
                 {
-                    Component[] ps = m_EffectObject[i].GetTypedComponents(ObjectType.ParticleSystem, true);
+                    Component[] ps = m_EffectObject[i].GetComponents<ParticleSystem>();
                     for (int j = 0; j < ps.Length; j++)
                     {
                         ((ParticleSystem)ps[j]).playbackSpeed = speed;
@@ -189,9 +190,9 @@ namespace GfxModule.Skill.Trigers
         private float m_DeleteTime = 0;
         private bool m_IsAttach = true;
 
-        private Vector3 m_Pos = Vector3.zero;
-        private Quaternion m_Dir = Quaternion.identity;
-        private Vector3 m_Scale = Vector3.one;
+        private UnityEngine.Vector3 m_Pos = UnityEngine.Vector3.zero;
+        private UnityEngine.Quaternion m_Dir = UnityEngine.Quaternion.identity;
+        private UnityEngine.Vector3 m_Scale = UnityEngine.Vector3.one;
     }
     /// <summary>
     /// sceneeffect(effect_path,delete_time[,vector3(x,y,z)[,start_time[,eular(rx,ry,rz)[,vector3(sx,sy,sz)]]]]);
@@ -222,7 +223,7 @@ namespace GfxModule.Skill.Trigers
                     {
                         TriggerUtil.SetObjVisible(effectObj, true);
                         effectObj.SetActive(false);
-                        Vector3 pos = obj.transform.position + obj.transform.localRotation * m_Pos;
+                        UnityEngine.Vector3 pos = obj.transform.position + obj.transform.localRotation * m_Pos;
                         effectObj.transform.position = pos;
                         effectObj.transform.localScale = m_Scale;
                         if (m_IsRotateRelativeUser)
@@ -292,9 +293,9 @@ namespace GfxModule.Skill.Trigers
         }
 
         private string m_EffectPath = "";
-        private Vector3 m_Pos = Vector3.zero;
-        private Quaternion m_Dir = Quaternion.identity;
-        private Vector3 m_Scale = Vector3.one;
+        private UnityEngine.Vector3 m_Pos = UnityEngine.Vector3.zero;
+        private UnityEngine.Quaternion m_Dir = UnityEngine.Quaternion.identity;
+        private UnityEngine.Vector3 m_Scale = UnityEngine.Vector3.one;
         private float m_DeleteTime = 0;
         private bool m_IsRotateRelativeUser = false;
     }

@@ -1,5 +1,6 @@
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -81,7 +82,7 @@ namespace GfxModule.Skill.Trigers
         }
 
         private long m_RemainTime;
-        private Vector3 m_RotateSpeed;
+        private UnityEngine.Vector3 m_RotateSpeed;
         private bool m_IsInited = false;
         private GameObject m_CameraObj;
         private int m_CameraControlId = TriggerUtil.CAMERA_CONTROL_FAILED;

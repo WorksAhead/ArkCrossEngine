@@ -1,6 +1,7 @@
 ﻿using System;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -45,7 +46,7 @@ namespace GfxModule.Skill.Trigers
                 ScriptableData.CallData vect_param2 = callData.GetParam(5) as ScriptableData.CallData;
                 ScriptableData.CallData vect_param3 = callData.GetParam(6) as ScriptableData.CallData;
                 ScriptableData.CallData vect_param4 = callData.GetParam(7) as ScriptableData.CallData;
-                Vector3 amplitude, perShakeTime, shakeStartSpeed, amplitudeDecayPercent;
+                UnityEngine.Vector3 amplitude, perShakeTime, shakeStartSpeed, amplitudeDecayPercent;
                 if (null == vect_param1 || null == vect_param2 || null == vect_param3 || null == vect_param4)
                 {
                     return;
@@ -101,7 +102,7 @@ namespace GfxModule.Skill.Trigers
             m_XShakeInfo.Tick(now);
             m_YShakeInfo.Tick(now);
             m_ZShakeInfo.Tick(now);
-            Vector3 new_pos = new Vector3(m_XShakeInfo.CurPos, m_YShakeInfo.CurPos, m_ZShakeInfo.CurPos);
+            UnityEngine.Vector3 new_pos = new UnityEngine.Vector3(m_XShakeInfo.CurPos, m_YShakeInfo.CurPos, m_ZShakeInfo.CurPos);
             if (m_IsRelativeUser)
             {
                 new_pos = new_pos - m_CameraOriginPos;
@@ -162,8 +163,8 @@ namespace GfxModule.Skill.Trigers
         private AxisShaker m_ZShakeInfo;
 
         private bool m_IsInited = false;
-        private Vector3 m_CameraOriginPos;
-        private Vector3 m_LastCameraFollowPos;
+        private UnityEngine.Vector3 m_CameraOriginPos;
+        private UnityEngine.Vector3 m_LastCameraFollowPos;
         private GameObject m_CameraObject;
         private int m_CameraControlId = TriggerUtil.CAMERA_CONTROL_FAILED;
     }

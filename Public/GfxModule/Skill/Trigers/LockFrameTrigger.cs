@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -39,11 +40,11 @@ namespace GfxModule.Skill.Trigers
                 return true;
             }
             GameObject obj = sender as GameObject;
-            if (null == obj || null == obj.animation)
+            if (null == obj || null == obj.GetComponent<UnityEngine.Animation>())
             {
                 return false;
             }
-            Animation animation = obj.animation;
+            Animation animation = obj.GetComponent<UnityEngine.Animation>();
             AnimationState state = animation[m_AnimName];
             if (state == null)
             {

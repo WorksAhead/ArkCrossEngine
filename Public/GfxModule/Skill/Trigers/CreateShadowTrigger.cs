@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {

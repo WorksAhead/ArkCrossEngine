@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -57,7 +58,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return null;
             }
-            Component[] ts = gameobj.transform.GetTypedComponents(ObjectType.Transform, true);
+            Component[] ts = gameobj.transform.GetComponents<Transform>();
             for (int i = 0; i < ts.Length; i++)
             {
                 if (ts[i].name == name)
@@ -80,11 +81,11 @@ namespace GfxModule.Skill.Trigers
                 return false;
             }
             target.transform.parent = source_child;
-            target.transform.localRotation = Quaternion.identity;
-            target.transform.localPosition = Vector3.zero;
-            Vector3 ss = source_child.localScale;
-            Vector3 scale = new Vector3(1 / ss.x, 1 / ss.y, 1 / ss.z);
-            Vector3 relative_motion = (target_child.position - target.transform.position);
+            target.transform.localRotation = UnityEngine.Quaternion.identity;
+            target.transform.localPosition = UnityEngine.Vector3.zero;
+            UnityEngine.Vector3 ss = source_child.localScale;
+            UnityEngine.Vector3 scale = new UnityEngine.Vector3(1 / ss.x, 1 / ss.y, 1 / ss.z);
+            UnityEngine.Vector3 relative_motion = (target_child.position - target.transform.position);
             target.transform.position -= relative_motion;
             //target.transform.localPosition = Vector3.Scale(target.transform.localPosition, scale);
             return true;
@@ -105,8 +106,8 @@ namespace GfxModule.Skill.Trigers
                 return;
             }
             child.parent = togglenode;
-            child.localRotation = Quaternion.identity;
-            child.localPosition = Vector3.zero;
+            child.localRotation = UnityEngine.Quaternion.identity;
+            child.localPosition = UnityEngine.Vector3.zero;
         }
 
 
@@ -136,28 +137,28 @@ namespace GfxModule.Skill.Trigers
             return result;
         }
 
-        public static GameObject DrawCircle(Vector3 center, float radius, Color color, float circle_step = 0.05f)
+        public static GameObject DrawCircle(UnityEngine.Vector3 center, float radius, UnityEngine.Color color, float circle_step = 0.05f)
         {
-            GameObject obj = GameObject.Create();
-            LineRenderer linerender = obj.AddTypedComponent(ObjectType.LineRenderer) as LineRenderer;
+            GameObject obj = new GameObject();
+            LineRenderer linerender = obj.AddComponent<LineRenderer>();
             linerender.SetWidth(0.05f, 0.05f);
 
             Shader shader = Shader.Find("Particles/Additive");
             if (shader != null)
             {
-                linerender.material = Material.Create(shader);
+                linerender.material = new Material(shader);//Material.Create(shader);
             }
             linerender.SetColors(color, color);
 
-            float step_degree = Mathf.Atan(circle_step / 2) * 2;
-            int count = (int)(2 * Mathf.PI / step_degree);
+            float step_degree = UnityEngine.Mathf.Atan(circle_step / 2) * 2;
+            int count = (int)(2 * UnityEngine.Mathf.PI / step_degree);
 
             linerender.SetVertexCount(count + 1);
 
             for (int i = 0; i < count + 1; i++)
             {
-                float angle = 2 * Mathf.PI / count * i;
-                Vector3 pos = center + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+                float angle = 2 * UnityEngine.Mathf.PI / count * i;
+                UnityEngine.Vector3 pos = center + new UnityEngine.Vector3(UnityEngine.Mathf.Cos(angle), 0, UnityEngine.Mathf.Sin(angle)) * radius;
                 linerender.SetPosition(i, pos);
             }
             return obj;
@@ -223,15 +224,15 @@ namespace GfxModule.Skill.Trigers
             return CAMERA_CONTROL_FAILED;
         }
 
-        public static List<GameObject> GetRayHitObjects(int layermask, Vector3 touch_pos)
+        public static List<GameObject> GetRayHitObjects(int layermask, UnityEngine.Vector3 touch_pos)
         {
             List<GameObject> result = new List<GameObject>();
             if (Camera.main == null)
             {
                 return result;
             }
-            Ray ray = Camera.main.ScreenPointToRay(touch_pos);
-            RaycastHit[] rch = Physics.RaycastAll(ray, 200f, layermask);
+            UnityEngine.Ray ray = Camera.main.ScreenPointToRay(touch_pos);
+            UnityEngine.RaycastHit[] rch = Physics.RaycastAll(ray, 200f, layermask);
             for (int i = 0; i < rch.Length; i++)
             {
                 if (null != ((Collider)rch[i].collider).gameObject)
@@ -257,10 +258,10 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        public static List<GameObject> FindTargetInSector(Vector3 center,
+        public static List<GameObject> FindTargetInSector(UnityEngine.Vector3 center,
                                                       float radius,
-                                                      Vector3 direction,
-                                                      Vector3 degreeCenter,
+                                                      UnityEngine.Vector3 direction,
+                                                      UnityEngine.Vector3 degreeCenter,
                                                       float degree)
         {
             List<GameObject> result = new List<GameObject>();
@@ -269,9 +270,9 @@ namespace GfxModule.Skill.Trigers
             for (int i = 0; i < colliders.Length; i++)
             {
                 GameObject obj = colliders[i].gameObject;
-                Vector3 targetDir = obj.transform.position - degreeCenter;
+                UnityEngine.Vector3 targetDir = obj.transform.position - degreeCenter;
                 targetDir.y = 0;
-                if (Mathf.Abs(Vector3.Angle(targetDir, direction)) <= degree)
+                if (UnityEngine.Mathf.Abs(UnityEngine.Vector3.Angle(targetDir, direction)) <= degree)
                 {
                     result.Add(obj);
                 }
@@ -288,7 +289,7 @@ namespace GfxModule.Skill.Trigers
             return result;
         }
 
-        public static List<GameObject> FindTargetInProgeny(Vector3 center,
+        public static List<GameObject> FindTargetInProgeny(UnityEngine.Vector3 center,
                                                       float radius,
                                                       GameObject ancestor,
                                                       int signforskill,
@@ -297,16 +298,16 @@ namespace GfxModule.Skill.Trigers
             List<GameObject> golist = new List<GameObject>();
             List<GameObject> result = new List<GameObject>();
             GetProgenyGameObject(ancestor, golist);
-            Vector3 direction = ancestor.transform.forward;
+            UnityEngine.Vector3 direction = ancestor.transform.forward;
             direction.y = 0;
             for (int i = 0; i < golist.Count; ++i)
             {
                 GameObject obj = golist[i];
-                if (obj != null && Vector3.Distance(obj.transform.position, center) <= radius)
+                if (obj != null && UnityEngine.Vector3.Distance(obj.transform.position, center) <= radius)
                 {
-                    Vector3 targetDir = obj.transform.position - ancestor.transform.position;
+                    UnityEngine.Vector3 targetDir = obj.transform.position - ancestor.transform.position;
                     targetDir.y = 0;
-                    if (Mathf.Abs(Vector3.Angle(targetDir, direction)) <= degree)
+                    if (UnityEngine.Mathf.Abs(UnityEngine.Vector3.Angle(targetDir, direction)) <= degree)
                     {
                         SharedGameObjectInfo sgoi = LogicSystem.GetSharedGameObjectInfo(obj);
                         if (sgoi != null && sgoi.SignForSkill == signforskill)
@@ -348,8 +349,8 @@ namespace GfxModule.Skill.Trigers
             {
                 float distance = (list[i].transform.position - source.transform.position).magnitude;
                 float distance_score = 1 - distance / max_distance;
-                Vector3 targetDir = list[i].transform.position - source.transform.position;
-                float angle = Vector3.Angle(targetDir, source.transform.forward);
+                UnityEngine.Vector3 targetDir = list[i].transform.position - source.transform.position;
+                float angle = UnityEngine.Vector3.Angle(targetDir, source.transform.forward);
                 float degree_score = 1 - angle / max_degree;
                 float final_score = distance_score * distance_priority + degree_score * degree_priority;
                 if (final_score > max_score)
@@ -424,7 +425,7 @@ namespace GfxModule.Skill.Trigers
             }
             else
             {
-                CharacterRelation relation = CharacterInfo.GetRelation(obj_info.CampId, other_info.CampId);
+                CharacterRelation relation = ArkCrossEngine.CharacterInfo.GetRelation(obj_info.CampId, other_info.CampId);
                 return relation;
             }
         }
@@ -488,7 +489,7 @@ namespace GfxModule.Skill.Trigers
 
         public static void SetObjVisible(GameObject obj, bool isShow)
         {
-            Component[] renders = obj.GetTypedComponents(ObjectType.Renderer, true);
+            Component[] renders = obj.GetComponents<Renderer>();
             for (int i = 0; i < renders.Length; i++)
             {
                 ((Renderer)renders[i]).enabled = isShow;
@@ -527,9 +528,9 @@ namespace GfxModule.Skill.Trigers
             LogicSystem.NotifyGfxUpdatePosition(obj, obj.transform.position.x, obj.transform.position.y, obj.transform.position.z);
         }
 
-        public static void MoveObjTo(GameObject obj, Vector3 position)
+        public static void MoveObjTo(GameObject obj, UnityEngine.Vector3 position)
         {
-            CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+            CharacterController ctrl = obj.GetComponent<CharacterController>();
             if (null != ctrl && ctrl.enabled)
             {
                 ctrl.Move(position - obj.transform.position);
@@ -542,7 +543,7 @@ namespace GfxModule.Skill.Trigers
 
         public static float GetObjFaceDir(GameObject obj)
         {
-            return obj.transform.rotation.eulerAngles.y * Mathf.PI / 180.0f;
+            return obj.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180.0f;
         }
 
         public static void MoveChildToNode(int actorid, string childname, string nodename)
@@ -556,7 +557,7 @@ namespace GfxModule.Skill.Trigers
             return GetHeightWithGround(obj.transform.position);
         }
 
-        public static float GetHeightWithGround(Vector3 pos)
+        public static float GetHeightWithGround(UnityEngine.Vector3 pos)
         {
             if (Terrain.activeTerrain != null)
             {
@@ -564,10 +565,10 @@ namespace GfxModule.Skill.Trigers
             }
             else
             {
-                RaycastHit hit;
-                Vector3 higher_pos = pos;
+                UnityEngine.RaycastHit hit;
+                UnityEngine.Vector3 higher_pos = pos;
                 higher_pos.y += 2;
-                if (Physics.Raycast(higher_pos, -Vector3.up, out hit, m_RayCastMaxDistance, m_TerrainLayer))
+                if (Physics.Raycast(higher_pos, -UnityEngine.Vector3.up, out hit, m_RayCastMaxDistance, m_TerrainLayer))
                 {
                     return pos.y - hit.point.y;
                 }
@@ -581,19 +582,19 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            if ((controller.collisionFlags & CollisionFlags.Below) != 0)
+            if ((controller.collisionFlags & UnityEngine.CollisionFlags.Below) != 0)
             {
                 return true;
             }
             return false;
         }
 
-        public static Vector3 GetGroundPos(Vector3 pos)
+        public static UnityEngine.Vector3 GetGroundPos(UnityEngine.Vector3 pos)
         {
-            Vector3 sourcePos = pos;
-            RaycastHit hit;
+            UnityEngine.Vector3 sourcePos = pos;
+            UnityEngine.RaycastHit hit;
             pos.y += 2;
-            if (Physics.Raycast(pos, -Vector3.up, out hit, m_RayCastMaxDistance, m_TerrainLayer))
+            if (Physics.Raycast(pos, -UnityEngine.Vector3.up, out hit, m_RayCastMaxDistance, m_TerrainLayer))
             {
                 sourcePos.y = hit.point.y;
             }
@@ -687,15 +688,15 @@ namespace GfxModule.Skill.Trigers
             return true;
         }
 
-        public static Vector3 GetTouchPos(GameObject obj)
+        public static UnityEngine.Vector3 GetTouchPos(GameObject obj)
         {
-            Vector3 pos = Vector3.zero;
+            UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
             pos.x = GfxSystem.GetTouchPointX();
             pos.y = GfxSystem.GetTouchPointY();
             pos.z = GfxSystem.GetTouchPointZ();
-            Ray ray = Camera.main.ScreenPointToRay(pos);
+            UnityEngine.Ray ray = Camera.main.ScreenPointToRay(pos);
             int layermask = 1 << LayerMask.NameToLayer("Terrains");
-            RaycastHit[] rch = Physics.RaycastAll(ray, 200f, layermask);
+            UnityEngine.RaycastHit[] rch = Physics.RaycastAll(ray, 200f, layermask);
             if (rch.Length > 0)
             {
                 return rch[0].point;
@@ -704,29 +705,29 @@ namespace GfxModule.Skill.Trigers
             {
                 float height = ray.origin.y - obj.transform.position.y;
                 float distance = Math.Abs(height * ray.direction.magnitude / ray.direction.y);
-                Vector3 height_pos = ray.GetPoint(distance);
+                UnityEngine.Vector3 height_pos = ray.GetPoint(distance);
                 return height_pos;
             }
         }
 
 
-        public static bool NeedCalculateNpcDropPoint(GameObject startgo, GameObject endgo, out Vector3 newpos)
+        public static bool NeedCalculateNpcDropPoint(GameObject startgo, GameObject endgo, out UnityEngine.Vector3 newpos)
         {
             if (startgo == null || endgo == null)
             {
-                newpos = Vector3.zero;
+                newpos = UnityEngine.Vector3.zero;
                 return false;
             }
-            endgo.transform.rotation = Quaternion.Euler(Vector3.zero);
-            Vector3 pos = startgo.transform.position;
-            pos = new Vector3(pos.x, GetGroundPos(pos).y + 1f, pos.z);
+            endgo.transform.rotation = UnityEngine.Quaternion.Euler(UnityEngine.Vector3.zero);
+            UnityEngine.Vector3 pos = startgo.transform.position;
+            pos = new UnityEngine.Vector3(pos.x, GetGroundPos(pos).y + 1f, pos.z);
             endgo.transform.position = pos;
             float scale = endgo.transform.localScale.x >= endgo.transform.localScale.z ? endgo.transform.localScale.x : endgo.transform.localScale.z;
-            CharacterController charContr = endgo.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+            CharacterController charContr = endgo.GetComponent<CharacterController>();
             if (charContr != null)
             {
-                newpos = Vector3.zero;
-                if (CalculateNpcDropPoint(new Vector3(startgo.transform.position.x, startgo.transform.position.y + 1f, startgo.transform.position.z),
+                newpos = UnityEngine.Vector3.zero;
+                if (CalculateNpcDropPoint(new UnityEngine.Vector3(startgo.transform.position.x, startgo.transform.position.y + 1f, startgo.transform.position.z),
                                           endgo.transform.position, charContr.radius * scale, 0, out newpos) == 0)
                 {
                     return false;
@@ -739,34 +740,34 @@ namespace GfxModule.Skill.Trigers
             }
             else
             {
-                newpos = Vector3.zero;
+                newpos = UnityEngine.Vector3.zero;
                 return false;
             }
         }
 
-        private static int CalculateNpcDropPoint(Vector3 heropos, Vector3 npcpos, float radius, int count, out Vector3 newpos)
+        private static int CalculateNpcDropPoint(UnityEngine.Vector3 heropos, UnityEngine.Vector3 npcpos, float radius, int count, out UnityEngine.Vector3 newpos)
         {
             if (count > 12)
             {
                 newpos = heropos;
                 return count;
             }
-            RaycastHit hit;
+            UnityEngine.RaycastHit hit;
             Collider[] colliderarry = Physics.OverlapSphere(npcpos, radius, 1 << LayerMask.NameToLayer("AirWall"));
             Transform tf = GetAEffectiveStop(colliderarry);
             if (tf != null)
             {
-                Vector3 ccp = tf.position;
+                UnityEngine.Vector3 ccp = tf.position;
                 float d = radius + 0.1f;
-                if (Physics.Linecast(new Vector3(npcpos.x, ccp.y, npcpos.z), ccp, out hit, 1 << LayerMask.NameToLayer("AirWall")))
+                if (Physics.Linecast(new UnityEngine.Vector3(npcpos.x, ccp.y, npcpos.z), ccp, out hit, 1 << LayerMask.NameToLayer("AirWall")))
                 {
-                    newpos = new Vector3(hit.normal.x * d + npcpos.x, npcpos.y, hit.normal.z * d + npcpos.z);
+                    newpos = new UnityEngine.Vector3(hit.normal.x * d + npcpos.x, npcpos.y, hit.normal.z * d + npcpos.z);
                     return CalculateNpcDropPoint(heropos, newpos, radius, count + 1, out newpos);
                 }
                 else
                 {
                     LogSystem.Error("CalculateNpcDropPoint");
-                    newpos = Vector3.zero;
+                    newpos = UnityEngine.Vector3.zero;
                     return 0;
                 }
             }
@@ -777,7 +778,7 @@ namespace GfxModule.Skill.Trigers
                 {
                     //NPC在阻挡外
                     float newr = radius + 0.1f;
-                    newpos = new Vector3(newr * hit.normal.x + hit.point.x, newr * hit.normal.y + hit.point.y, newr * hit.normal.z + hit.point.z);
+                    newpos = new UnityEngine.Vector3(newr * hit.normal.x + hit.point.x, newr * hit.normal.y + hit.point.y, newr * hit.normal.z + hit.point.z);
                     return CalculateNpcDropPoint(heropos, newpos, radius, count + 1, out newpos);
                 }
                 else
@@ -799,7 +800,7 @@ namespace GfxModule.Skill.Trigers
             for (int i = 0; i < count; ++i)
             {
                 Collider c = colliders[i];
-                BoxCollider bc = c.gameObject.GetTypedComponent(ObjectType.BoxCollider) as BoxCollider;
+                BoxCollider bc = c.gameObject.GetComponent<BoxCollider>();
                 if (bc != null && !bc.isTrigger)
                 {
                     return c.transform;

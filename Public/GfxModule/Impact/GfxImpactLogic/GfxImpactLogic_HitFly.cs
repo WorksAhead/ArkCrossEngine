@@ -1,4 +1,6 @@
 ﻿using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Impact
 {
@@ -27,7 +29,7 @@ namespace GfxModule.Impact
         {
             GeneralStartImpact(logicInfo);
             SetGfxStateFlag(logicInfo.Target, Operate_Type.OT_AddBit, GfxCharacterState_Type.HitFly);
-            float crossFadeTime = Mathf.Abs(logicInfo.Velocity.y / m_Gravity);
+            float crossFadeTime = UnityEngine.Mathf.Abs(logicInfo.Velocity.y / m_Gravity);
             HitFlyParams param = GetHitFlyParams(logicInfo);
             param.ImpactState = HitFlyState.Rising;
             param.OnGroundTime = logicInfo.ConfigData.OnGroundTime;
@@ -73,7 +75,7 @@ namespace GfxModule.Impact
                         if (logicInfo.Velocity.y <= 0)
                         {
                             param.ImpactState = HitFlyState.Falling;
-                            float crossFadeTime = Mathf.Abs((target.transform.position.y - GetTerrainHeight(target.transform.position)) / m_Gravity);
+                            float crossFadeTime = UnityEngine.Mathf.Abs((target.transform.position.y - GetTerrainHeight(target.transform.position)) / m_Gravity);
                             if (crossFadeTime < m_MinCrossfadeTime)
                             {
                                 crossFadeTime = m_MinCrossfadeTime;
@@ -82,11 +84,11 @@ namespace GfxModule.Impact
                         }
                         break;
                     case HitFlyState.Falling:
-                        CharacterController cc = target.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                        CharacterController cc = target.GetComponent<CharacterController>();
                         if (cc.isGrounded)
                         {
                             // 落地尘土
-                            logicInfo.Target.SendMessage("OnHitGround", SendMessageOptions.DontRequireReceiver);
+                            logicInfo.Target.SendMessage("OnHitGround", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             param.ImpactState = HitFlyState.OnGround;
                             param.HitGroundTime = Time.time;
                             PlayAnimation(target, Animation_Type.AT_FlyDownGround, param.FallDownSpeed);
@@ -152,7 +154,7 @@ namespace GfxModule.Impact
                 case (int)GfxImpactLogicManager.GfxImpactLogicId.GfxImpactLogic_HitFly:
                     if (HitFlyState.Falling == param.ImpactState || HitFlyState.Rising == param.ImpactState)
                     {
-                        PlayAnimation(logicInfo.Target, Animation_Type.AT_Hurt0, 1.0f, AnimationBlendMode.Additive);
+                        PlayAnimation(logicInfo.Target, Animation_Type.AT_Hurt0, 1.0f, UnityEngine.AnimationBlendMode.Additive);
                     }
                     if (!isSameImpact)
                     {
@@ -173,7 +175,7 @@ namespace GfxModule.Impact
                     }
                     else if (HitFlyState.Falling == param.ImpactState || HitFlyState.Rising == param.ImpactState)
                     {
-                        PlayAnimation(logicInfo.Target, Animation_Type.AT_Hurt0, 1.0f, AnimationBlendMode.Additive);
+                        PlayAnimation(logicInfo.Target, Animation_Type.AT_Hurt0, 1.0f, UnityEngine.AnimationBlendMode.Additive);
                     }
                     break;
                 case (int)GfxImpactLogicManager.GfxImpactLogicId.GfxImpactLogic_Grab:
@@ -191,20 +193,20 @@ namespace GfxModule.Impact
                 HitFlyParams param = GetHitFlyParams(info);
                 float virticalSpeed = info.Velocity.y;
                 info.Velocity = info.MoveDir * info.MovementInfo.GetSpeedByTime(Time.time - info.StartTime, -30);
-                Vector3 motion = Vector3.zero;
+                UnityEngine.Vector3 motion = UnityEngine.Vector3.zero;
                 if (HitFlyState.Rising == param.ImpactState || HitFlyState.Falling == param.ImpactState)
                 {
-                    info.Velocity = new Vector3(info.Velocity.x, info.Velocity.y, info.Velocity.z);
+                    info.Velocity = new UnityEngine.Vector3(info.Velocity.x, info.Velocity.y, info.Velocity.z);
                 }
                 else
                 {
-                    info.Velocity = new Vector3(info.Velocity.x, 0.0f, info.Velocity.z);
+                    info.Velocity = new UnityEngine.Vector3(info.Velocity.x, 0.0f, info.Velocity.z);
                 }
                 motion = info.Velocity * deltaTime;
                 info.NormalPos += motion;
                 motion = GfxImpactSystem.Instance.GetAdjustPoint(info.NormalPos - info.OrignalPos, info) + info.OrignalPos - info.Target.transform.position;
                 Move(info.Target, motion);
-                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * Mathf.PI / 180f, 0);
+                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180f, 0);
             }
         }
         private HitFlyParams GetHitFlyParams(ImpactLogicInfo logicInfo)

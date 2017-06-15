@@ -68,10 +68,6 @@
       <Project>{7B7BD40C-1D3C-4F59-927D-1740CB672E08}</Project>
       <Name>ScriptableData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CrossEngine\CrossEngine\CrossEngine.csproj">
-      <Project>{2E444007-DCDA-4B89-85BD-E0E96733F099}</Project>
-      <Name>CrossEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

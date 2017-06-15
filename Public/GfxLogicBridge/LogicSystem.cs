@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ArkCrossEngine
 {
@@ -502,7 +503,7 @@ namespace ArkCrossEngine
         }
         public static void NotifyGfxHitTarget(GameObject src, int impactId, GameObject target,
                                               int hitCount, int skillId, int duration,
-                                              Vector3 srcPos, float srcDir, long hit_count_id)
+                                              UnityEngine.Vector3 srcPos, float srcDir, long hit_count_id)
         {
             SharedGameObjectInfo srcInfo = GfxSystem.Instance.GetSharedGameObjectInfo(src);
             SharedGameObjectInfo targetInfo = GfxSystem.Instance.GetSharedGameObjectInfo(target);
@@ -553,7 +554,7 @@ namespace ArkCrossEngine
                 }
             }
         }
-        public static void NotifyGfxStartSkill(GameObject obj, SkillCategory category, Vector3 targetpos)
+        public static void NotifyGfxStartSkill(GameObject obj, SkillCategory category, UnityEngine.Vector3 targetpos)
         {
             if (null != obj)
             {

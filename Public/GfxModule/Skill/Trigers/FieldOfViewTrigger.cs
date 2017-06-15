@@ -53,10 +53,10 @@ namespace GfxModule.Skill.Trigers
         {
             get
             {
-                Camera cm = Camera.main;
+                UnityEngine.Camera cm = UnityEngine.Camera.main;
                 if (cm != null)
                 {
-                    Camera cc = cm.GetTypedComponent(ObjectType.Camera) as Camera;
+                    UnityEngine.Camera cc = cm.GetComponent<UnityEngine.Camera>();
                     if (cc != null)
                     {
                         return cc.fieldOfView;
@@ -67,10 +67,10 @@ namespace GfxModule.Skill.Trigers
             }
             set
             {
-                Camera cm = Camera.main;
+                UnityEngine.Camera cm = UnityEngine.Camera.main;
                 if (cm != null)
                 {
-                    Camera cc = cm.GetTypedComponent(ObjectType.Camera) as Camera;
+                    UnityEngine.Camera cc = cm.GetComponent<UnityEngine.Camera>();
                     if (cc != null)
                     {
                         cc.fieldOfView = value;

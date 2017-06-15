@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using UnityEngine.Profiling;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -125,7 +126,7 @@ namespace ArkCrossEngine
             BeginLoading();
             if (null == m_LoadingBarAsyncOperation)
             {
-                m_LoadingBarAsyncOperation = Application.LoadLevelAsync(m_LoadingBarScene);
+                m_LoadingBarAsyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_LoadingBarScene);//Application.LoadLevelAsync(m_LoadingBarScene);
                 m_LevelLoadedCallback = onFinish;
             }
         }
@@ -152,11 +153,11 @@ namespace ArkCrossEngine
             {
                 try
                 {
-                    Vector3 pos = new Vector3(info.X, info.Y, info.Z);
+                    UnityEngine.Vector3 pos = new UnityEngine.Vector3(info.X, info.Y, info.Z);
                     
                     pos.y = SampleTerrainHeight(pos.x, pos.z);
-                    Quaternion q = Quaternion.Euler(0, RadianToDegree(info.FaceDir), 0);
-                    GameObject obj = ResourceManager.Instance.NewObject(resource).TryCastToGameObject();
+                    UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(0, RadianToDegree(info.FaceDir), 0);
+                    GameObject obj = ResourceManager.Instance.NewObject(resource) as GameObject;
                     if (null != obj)
                     {
                         if (null != obj.transform)
@@ -165,7 +166,7 @@ namespace ArkCrossEngine
                             obj.transform.localRotation = q;
                             if (info.Sx > 0 && info.Sy > 0 && info.Sz > 0)
                             {
-                                obj.transform.localScale = new Vector3(info.Sx, info.Sy, info.Sz);
+                                obj.transform.localScale = new UnityEngine.Vector3(info.Sx, info.Sy, info.Sz);
                             }
                         }
                         RememberGameObject(id, obj, info);
@@ -177,7 +178,7 @@ namespace ArkCrossEngine
                         CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
                     }
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
                 }
@@ -189,8 +190,8 @@ namespace ArkCrossEngine
             {
                 if (attachTerrain)
                     y = SampleTerrainHeight(x, z);
-                Vector3 pos = new Vector3(x, y, z);
-                Quaternion q = Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
+                UnityEngine.Vector3 pos = new UnityEngine.Vector3(x, y, z);
+                UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
                 GameObject obj = ResourceManager.Instance.NewObject(resource) as GameObject;
                 if (null != obj)
                 {
@@ -205,7 +206,7 @@ namespace ArkCrossEngine
                     CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
@@ -248,20 +249,20 @@ namespace ArkCrossEngine
             byte r = (byte)((color & 0x0ff0000) >> 16);
             byte g = (byte)((color & 0x0ff00) >> 8);
             byte b = (byte)(color & 0x0ff);
-            Color32 c = new Color32(r, g, b, a);
+            UnityEngine.Color32 c = new UnityEngine.Color32(r, g, b, a);
 
             Material material = null;
             Shader shader = Shader.Find(mat);
             if (null != shader)
             {
-                //material = new Material(shader);
-                material = Material.Create(shader);
+                material = new Material(shader);
+                //material = Material.Create(shader);
                 material.color = c;
             }
             else
             {
-                //material = new Material(mat);
-                material = Material.Create(shader);
+                material = new Material(mat);
+                //material = Material.Create(shader);
                 material.color = c;
             }
 
@@ -328,7 +329,7 @@ namespace ArkCrossEngine
                     CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
@@ -346,14 +347,14 @@ namespace ArkCrossEngine
                     if (null != obj.transform && null != parent && null != parent.transform)
                     {
                         Transform t = parent.transform;
-                        if (!String.IsNullOrEmpty(path))
+                        if (!System.String.IsNullOrEmpty(path))
                         {
                             t = FindChildRecursive(parent.transform, path);
                         }
                         if (null != t)
                         {
                             obj.transform.parent = t;
-                            obj.transform.localPosition = new Vector3(0, 0, 0);
+                            obj.transform.localPosition = new UnityEngine.Vector3(0, 0, 0);
                         }
                         else
                         {
@@ -366,7 +367,7 @@ namespace ArkCrossEngine
                     CallLogicErrorLog("CreateAndAttachGameObject {0} can't load resource", resource);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
@@ -380,18 +381,18 @@ namespace ArkCrossEngine
                 if (null != obj)
                 {
                     obj.SetActive(true);
-                    obj.SendMessage("SetParticleScaler", scale, SendMessageOptions.DontRequireReceiver);
+                    obj.SendMessage("SetParticleScaler", scale, UnityEngine.SendMessageOptions.DontRequireReceiver);
                     if (null != obj.transform && null != parent && null != parent.transform)
                     {
                         Transform t = parent.transform;
-                        if (!String.IsNullOrEmpty(path))
+                        if (!System.String.IsNullOrEmpty(path))
                         {
                             t = FindChildRecursive(parent.transform, path);
                         }
                         if (null != t)
                         {
                             obj.transform.parent = t;
-                            obj.transform.localPosition = new Vector3(0, 0, 0);
+                            obj.transform.localPosition = new UnityEngine.Vector3(0, 0, 0);
                         }
                         else
                         {
@@ -404,7 +405,7 @@ namespace ArkCrossEngine
                     CallLogicErrorLog("CreateAndAttachGameObject {0} can't load resource", resource);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
@@ -450,7 +451,7 @@ namespace ArkCrossEngine
                   weapon_index++;
                 }*/
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog(string.Format("ChangeWeaponImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
@@ -483,8 +484,8 @@ namespace ArkCrossEngine
             {
                 new_equip.name = weapon_name;
                 new_equip.transform.parent = equip_node;
-                new_equip.transform.localPosition = Vector3.zero;
-                new_equip.transform.localRotation = Quaternion.identity;
+                new_equip.transform.localPosition = UnityEngine.Vector3.zero;
+                new_equip.transform.localRotation = UnityEngine.Quaternion.identity;
             }
         }
 
@@ -498,7 +499,7 @@ namespace ArkCrossEngine
             {
                 return null;
             }
-            Component[] ts = gameobj.transform.GetTypedComponents(ObjectType.Transform, true);
+            Component[] ts = gameobj.transform.GetComponents<Transform>();
             for (int i = 0; i < ts.Length; i++)
             {
                 if (ts[i].name == name)
@@ -526,7 +527,7 @@ namespace ArkCrossEngine
                     }
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 CallGfxErrorLog(string.Format("DestroyGameObject:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
@@ -536,7 +537,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                obj.transform.localPosition = new Vector3(x, y, z);
+                obj.transform.localPosition = new UnityEngine.Vector3(x, y, z);
             }
         }
         private void UpdateGameObjectLocalPosition2DImpl(int id, float x, float z, bool attachTerrain)
@@ -549,7 +550,7 @@ namespace ArkCrossEngine
                     y = SampleTerrainHeight(x, z);
                 else
                     y = obj.transform.localPosition.y;
-                obj.transform.localPosition = new Vector3(x, y, z);
+                obj.transform.localPosition = new UnityEngine.Vector3(x, y, z);
             }
         }
         private void UpdateGameObjectLocalRotateImpl(int id, float rx, float ry, float rz)
@@ -557,7 +558,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                obj.transform.localRotation = Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
+                obj.transform.localRotation = UnityEngine.Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
             }
         }
         private void UpdateGameObjectLocalRotateYImpl(int id, float ry)
@@ -567,7 +568,7 @@ namespace ArkCrossEngine
             {
                 float rx = obj.transform.localRotation.eulerAngles.x;
                 float rz = obj.transform.localRotation.eulerAngles.z;
-                obj.transform.localRotation = Quaternion.Euler(rx, RadianToDegree(ry), rz);
+                obj.transform.localRotation = UnityEngine.Quaternion.Euler(rx, RadianToDegree(ry), rz);
             }
         }
         private void UpdateGameObjectLocalScaleImpl(int id, float sx, float sy, float sz)
@@ -575,7 +576,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                obj.transform.localScale = new Vector3(sx, sy, sz);
+                obj.transform.localScale = new UnityEngine.Vector3(sx, sy, sz);
             }
         }
         private void AttachGameObjectImpl(int id, int parentId, float x, float y, float z, float rx, float ry, float rz)
@@ -585,8 +586,8 @@ namespace ArkCrossEngine
             if (null != obj && null != obj.transform && null != parent && null != parent.transform)
             {
                 obj.transform.parent = parent.transform;
-                obj.transform.localPosition = new Vector3(x, y, z);
-                obj.transform.localRotation = Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
+                obj.transform.localPosition = new UnityEngine.Vector3(x, y, z);
+                obj.transform.localRotation = UnityEngine.Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
             }
         }
         private void AttachGameObjectImpl(int id, int parentId, string path, float x, float y, float z, float rx, float ry, float rz)
@@ -599,8 +600,8 @@ namespace ArkCrossEngine
                 if (null != t)
                 {
                     obj.transform.parent = t;
-                    obj.transform.localPosition = new Vector3(x, y, z);
-                    obj.transform.localRotation = Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
+                    obj.transform.localPosition = new UnityEngine.Vector3(x, y, z);
+                    obj.transform.localRotation = UnityEngine.Quaternion.Euler(RadianToDegree(rx), RadianToDegree(ry), RadianToDegree(rz));
                 }
                 else
                 {
@@ -621,7 +622,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                Component[] renderers = obj.GetTypedComponents(ObjectType.Renderer, true);
+                Component[] renderers = obj.GetComponents<Renderer>();
                 if (renderers != null)
                 {
                     for (int i = 0; i < renderers.Length; ++i)
@@ -634,11 +635,12 @@ namespace ArkCrossEngine
         private void PlayAnimationImpl(int id, bool isStopAll)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    obj.animation.Play(isStopAll ? PlayMode.StopAll : PlayMode.StopSameLayer);
+                    anim.Play(isStopAll ? UnityEngine.PlayMode.StopAll : UnityEngine.PlayMode.StopSameLayer);
                 }
                 catch
                 {
@@ -648,18 +650,19 @@ namespace ArkCrossEngine
         private void PlayAnimationImpl(int id, string animationName, bool isStopAll)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName])
+                    if (null != anim[animationName])
                     {
-                        obj.animation.Play(animationName, isStopAll ? PlayMode.StopAll : PlayMode.StopSameLayer);
-                        //CallLogicLog("Obj {0} PlayerAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.Play(animationName, isStopAll ? UnityEngine.PlayMode.StopAll : UnityEngine.PlayMode.StopSameLayer);
+                        //CallLogicLog("Obj {0} PlayerAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} PlayerAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} PlayerAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -670,18 +673,19 @@ namespace ArkCrossEngine
         private void StopAnimationImpl(int id, string animationName)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName])
+                    if (null != anim[animationName])
                     {
-                        obj.animation.Stop(animationName);
-                        //CallLogicLog("Obj {0} StopAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.Stop(animationName);
+                        //CallLogicLog("Obj {0} StopAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} StopAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} StopAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -692,11 +696,12 @@ namespace ArkCrossEngine
         private void StopAnimationImpl(int id)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    obj.animation.Stop();
+                    anim.Stop();
                 }
                 catch
                 {
@@ -706,19 +711,20 @@ namespace ArkCrossEngine
         private void BlendAnimationImpl(int id, string animationName, float weight, float fadeLength)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
-                        obj.animation.Blend(animationName, weight, fadeLength);
-                        //CallLogicLog("Obj {0} BlendAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.Blend(animationName, weight, fadeLength);
+                        //CallLogicLog("Obj {0} BlendAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} BlendAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} BlendAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -730,20 +736,21 @@ namespace ArkCrossEngine
         {
             GameObject obj = GetGameObject(id);
             SharedGameObjectInfo obj_info = GetSharedGameObjectInfo(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName] && obj_info != null && !obj_info.IsGfxAnimation)
+                    if (null != anim[animationName] && obj_info != null && !obj_info.IsGfxAnimation)
                     {
-                        obj.animation.CrossFade(animationName, fadeLength, isStopAll ? PlayMode.StopAll : PlayMode.StopSameLayer);
-                        //CallLogicLog("Obj {0} CrossFadeAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.CrossFade(animationName, fadeLength, isStopAll ? UnityEngine.PlayMode.StopAll : UnityEngine.PlayMode.StopSameLayer);
+                        //CallLogicLog("Obj {0} CrossFadeAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        if (null == obj.animation[animationName])
+                        if (null == anim[animationName])
                         {
-                            CallLogicErrorLog("Obj {0} CrossFadeAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                            CallLogicErrorLog("Obj {0} CrossFadeAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                         }
                         if (null == obj_info)
                         {
@@ -759,18 +766,19 @@ namespace ArkCrossEngine
         private void PlayQueuedAnimationImpl(int id, string animationName, bool isPlayNow, bool isStopAll)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName])
+                    if (null != anim[animationName])
                     {
-                        obj.animation.PlayQueued(animationName, isPlayNow ? QueueMode.PlayNow : QueueMode.CompleteOthers, isStopAll ? PlayMode.StopAll : PlayMode.StopSameLayer);
-                        //CallLogicLog("Obj {0} PlayQueuedAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.PlayQueued(animationName, isPlayNow ? UnityEngine.QueueMode.PlayNow : UnityEngine.QueueMode.CompleteOthers, isStopAll ? UnityEngine.PlayMode.StopAll : UnityEngine.PlayMode.StopSameLayer);
+                        //CallLogicLog("Obj {0} PlayQueuedAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} PlayQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} PlayQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -781,18 +789,19 @@ namespace ArkCrossEngine
         private void CrossFadeQueuedAnimationImpl(int id, string animationName, float fadeLength, bool isPlayNow, bool isStopAll)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName])
+                    if (null != anim[animationName])
                     {
-                        obj.animation.CrossFadeQueued(animationName, fadeLength, isPlayNow ? QueueMode.PlayNow : QueueMode.CompleteOthers, isStopAll ? PlayMode.StopAll : PlayMode.StopSameLayer);
-                        //CallLogicLog("Obj {0} CrossFadeQueuedAnimation {1} clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        anim.CrossFadeQueued(animationName, fadeLength, isPlayNow ? UnityEngine.QueueMode.PlayNow : UnityEngine.QueueMode.CompleteOthers, isStopAll ? UnityEngine.PlayMode.StopAll : UnityEngine.PlayMode.StopSameLayer);
+                        //CallLogicLog("Obj {0} CrossFadeQueuedAnimation {1} clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} CrossFadeQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} CrossFadeQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -803,17 +812,18 @@ namespace ArkCrossEngine
         private void RewindAnimationImpl(int id, string animationName)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    if (null != obj.animation[animationName])
+                    if (null != anim[animationName])
                     {
-                        obj.animation.Rewind(animationName);
+                        anim.Rewind(animationName);
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} RewindAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} RewindAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -824,11 +834,12 @@ namespace ArkCrossEngine
         private void RewindAnimationImpl(int id)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    obj.animation.Rewind();
+                    anim.Rewind();
                 }
                 catch
                 {
@@ -838,18 +849,19 @@ namespace ArkCrossEngine
         private void SetAnimationSpeedImpl(int id, string animationName, float speed)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         state.speed = speed;
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationSpeed {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} SetAnimationSpeed {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -860,18 +872,19 @@ namespace ArkCrossEngine
         private void SetAnimationSpeedByTimeImpl(int id, string animationName, float time)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         state.speed = state.length / state.time;
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationSpeedByTime {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} SetAnimationSpeedByTime {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -882,18 +895,19 @@ namespace ArkCrossEngine
         private void SetAnimationWeightImpl(int id, string animationName, float weight)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         state.weight = weight;
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationWeight {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} SetAnimationWeight {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -904,18 +918,19 @@ namespace ArkCrossEngine
         private void SetAnimationLayerImpl(int id, string animationName, int layer)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         state.layer = layer;
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationLayer {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} SetAnimationLayer {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -926,18 +941,19 @@ namespace ArkCrossEngine
         private void SetAnimationBlendModeImpl(int id, string animationName, int blendMode)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
-                        state.blendMode = (AnimationBlendMode)blendMode;
+                        state.blendMode = (UnityEngine.AnimationBlendMode)blendMode;
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationBlendMode {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} SetAnimationBlendMode {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -948,11 +964,12 @@ namespace ArkCrossEngine
         private void AddMixingTransformAnimationImpl(int id, string animationName, string path, bool recursive)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation && null != obj.transform)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim && null != obj.transform)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         Transform t = obj.transform.Find(path);
@@ -967,7 +984,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} AddMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} AddMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -978,11 +995,12 @@ namespace ArkCrossEngine
         private void RemoveMixingTransformAnimationImpl(int id, string animationName, string path)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.animation && null != obj.transform)
+            Animation anim = obj.GetComponent<Animation>();
+            if (null != obj && null != anim && null != obj.transform)
             {
                 try
                 {
-                    AnimationState state = obj.animation[animationName];
+                    AnimationState state = anim[animationName];
                     if (null != state)
                     {
                         Transform t = obj.transform.Find(path);
@@ -997,7 +1015,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} RemoveMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.animation.GetClipCount());
+                        CallLogicErrorLog("Obj {0} RemoveMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.GetComponent<Animation>().GetClipCount());
                     }
                 }
                 catch
@@ -1010,7 +1028,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                CharacterController cc = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                CharacterController cc = obj.GetComponent<CharacterController>();
                 if (null != cc)
                 {
                     cc.enabled = isEnable;
@@ -1023,7 +1041,7 @@ namespace ArkCrossEngine
             {
                 return null;
             }
-            Component[] audiosources = obj.GetTypedComponents(ObjectType.AudioSource, true);
+            Component[] audiosources = obj.GetComponents<AudioSource>();
             for (int i = 0; i < audiosources.Length; i++)
             {
                 if (audiosources[i].gameObject.name.Equals(source_obj_name))
@@ -1038,7 +1056,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                AudioSource audio_source = obj.audio;
+                AudioSource audio_source = obj.GetComponent<AudioSource>();
                 if (audio_source == null)
                 {
                     CallLogicErrorLog("id={0} obj name {1} can't find audiosource {2}! can't play sound!", id, obj.name, audiosource);
@@ -1074,7 +1092,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                AudioSource audio_source = obj.audio;
+                AudioSource audio_source = obj.GetComponent<AudioSource>();
                 if (audio_source == null)
                 {
                     CallLogicErrorLog("id={0} obj can't find audiosource {1}! can't play sound!", id, audiosource);
@@ -1099,7 +1117,7 @@ namespace ArkCrossEngine
                 CallLogicErrorLog("id={0} obj can't find shader {1}!", id, shaderPath);
                 return;
             }
-            Component[] renderers = obj.GetTypedComponents(ObjectType.SkinnedMeshRenderer, true);
+            Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
             if (renderers != null)
             {
                 for (int i = 0; i < renderers.Length; ++i)
@@ -1119,7 +1137,7 @@ namespace ArkCrossEngine
                 return;
             }
             bool needChange = true;
-            Component[] skinnedRenderers = objInfo.ObjectInstance.GetTypedComponents(ObjectType.SkinnedMeshRenderer, true);
+            Component[] skinnedRenderers = objInfo.ObjectInstance.GetComponents<SkinnedMeshRenderer>();
             for (int i = 0; i < skinnedRenderers.Length; i++)
             {
                 SkinnedMeshRenderer renderer = (SkinnedMeshRenderer)skinnedRenderers[i];
@@ -1132,7 +1150,7 @@ namespace ArkCrossEngine
                     }
                 }
             }
-            Component[] meshRenderers = objInfo.ObjectInstance.GetTypedComponents(ObjectType.MeshRenderer);
+            Component[] meshRenderers = objInfo.ObjectInstance.GetComponents<MeshRenderer>();
             for (int i = 0; i < meshRenderers.Length; i++)
             {
                 MeshRenderer renderer = (MeshRenderer)meshRenderers[i];
@@ -1155,7 +1173,7 @@ namespace ArkCrossEngine
                 float g = (float)gb / 255.0f;
                 float b = (float)bb / 255.0f;
                 float a = (float)ab / 255.0f;
-                Color c = new Color(r, g, b, a);
+                UnityEngine.Color c = new UnityEngine.Color(r, g, b, a);
 
                 Shader blocked = Shader.Find("DFM/Blocked");
                 Shader notBlocked = Shader.Find("DFM/NotBlocked");
@@ -1175,8 +1193,7 @@ namespace ArkCrossEngine
                     objInfo.ObjectInfo.m_SkinedMaterialChanged = true;
                     Texture texture = renderer.material.mainTexture;
 
-                    //Material blockedMat = new Material(blocked);
-                    Material blockedMat = Material.Create(blocked);
+                    Material blockedMat = new Material(blocked);
                     Material notBlockedMat = renderer.material;//new Material(notBlocked);
                     Material[] mats = new Material[]{
             notBlockedMat,
@@ -1195,7 +1212,7 @@ namespace ArkCrossEngine
                     objInfo.ObjectInfo.m_MeshMaterialChanged = true;
                     Texture texture = renderer.material.mainTexture;
 
-                    Material blockedMat = Material.Create(blocked);
+                    Material blockedMat = new Material(blocked);//Material.Create(blocked);
                     Material notBlockedMat = renderer.material;//new Material(notBlocked);
                     Material[] mats = new Material[]{
             notBlockedMat,
@@ -1223,7 +1240,7 @@ namespace ArkCrossEngine
             {
                 if (info.m_SkinedMaterialChanged)
                 {
-                    Component[] renderers = obj.GetTypedComponents(ObjectType.SkinnedMeshRenderer, true);
+                    Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
                     int ix = 0;
                     int ct = info.m_SkinedOriginalMaterials.Count;
                     for (int i = 0; i < renderers.Length; i++)
@@ -1238,7 +1255,7 @@ namespace ArkCrossEngine
                 }
                 if (info.m_MeshMaterialChanged)
                 {
-                    Component[] renderers = obj.GetTypedComponents(ObjectType.MeshRenderer);
+                    Component[] renderers = obj.GetComponents<MeshRenderer>();
                     int ix = 0;
                     int ct = info.m_MeshOriginalMaterials.Count;
                     for (int i = 0; i < renderers.Length; i++)
@@ -1257,9 +1274,10 @@ namespace ArkCrossEngine
         private void AddForceImpl(int id, float x, float y, float z)
         {
             GameObject obj = GetGameObject(id);
-            if (null != obj && null != obj.rigidbody)
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (null != obj && null != rb)
             {
-                obj.rigidbody.AddForce(new Vector3(x, y, z));
+                rb.AddForce(new UnityEngine.Vector3(x, y, z));
             }
             else
             {
@@ -1269,10 +1287,11 @@ namespace ArkCrossEngine
         private void SetRigidbodyVelocityImpl(int id, float x, float y, float z)
         {
             GameObject obj = GetGameObject(id);
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
             if (null == obj) return;
-            if (null != obj.rigidbody)
+            if (null != rb)
             {
-                obj.rigidbody.velocity = new Vector3(x, y, z);
+                rb.velocity = new UnityEngine.Vector3(x, y, z);
             }
             else
             {
@@ -1319,7 +1338,7 @@ namespace ArkCrossEngine
             {
                 try
                 {
-                    obj.SendMessage(msg, arg, needReceiver ? SendMessageOptions.RequireReceiver : SendMessageOptions.DontRequireReceiver);
+                    obj.SendMessage(msg, arg, needReceiver ? UnityEngine.SendMessageOptions.RequireReceiver : UnityEngine.SendMessageOptions.DontRequireReceiver);
                 }
                 catch
                 {
@@ -1334,7 +1353,7 @@ namespace ArkCrossEngine
             {
                 try
                 {
-                    obj.SendMessage(msg, arg, needReceiver ? SendMessageOptions.RequireReceiver : SendMessageOptions.DontRequireReceiver);
+                    obj.SendMessage(msg, arg, needReceiver ? UnityEngine.SendMessageOptions.RequireReceiver : UnityEngine.SendMessageOptions.DontRequireReceiver);
                 }
                 catch
                 {
@@ -1351,7 +1370,7 @@ namespace ArkCrossEngine
                 {
                     try
                     {
-                        objs[i].SendMessage(msg, arg, needReceiver ? SendMessageOptions.RequireReceiver : SendMessageOptions.DontRequireReceiver);
+                        objs[i].SendMessage(msg, arg, needReceiver ? UnityEngine.SendMessageOptions.RequireReceiver : UnityEngine.SendMessageOptions.DontRequireReceiver);
                     }
                     catch
                     {
@@ -1382,12 +1401,12 @@ namespace ArkCrossEngine
             float y = c_MinTerrainHeight;
             if (null != Terrain.activeTerrain)
             {
-                y = Terrain.activeTerrain.SampleHeight(new Vector3(x, c_MinTerrainHeight, z));
+                y = Terrain.activeTerrain.SampleHeight(new UnityEngine.Vector3(x, c_MinTerrainHeight, z));
             }
             else
             {
-                RaycastHit hit;
-                if (Physics.Raycast(new Vector3(x, c_MinTerrainHeight * 2, z), Vector3.down, out hit, c_MinTerrainHeight * 2, 1 << LayerMask.NameToLayer("Terrains")))
+                UnityEngine.RaycastHit hit;
+                if (Physics.Raycast(new UnityEngine.Vector3(x, c_MinTerrainHeight * 2, z), UnityEngine.Vector3.down, out hit, c_MinTerrainHeight * 2, 1 << UnityEngine.LayerMask.NameToLayer("Terrains")))
                 {
                     y = hit.point.y;
                 }
@@ -1470,7 +1489,7 @@ namespace ArkCrossEngine
         }
         internal float RadianToDegree(float dir)
         {
-            return (float)(dir * 180 / Math.PI);
+            return (float)(dir * 180 / Mathf.PI);
         }
         internal bool SceneResourcePrepared
         {
@@ -1549,7 +1568,7 @@ namespace ArkCrossEngine
         {
             get { return m_LogicInvoker; }
         }
-        internal void QueueLogicActionWithDelegation(Delegate action, params object[] args)
+        internal void QueueLogicActionWithDelegation(System.Delegate action, params object[] args)
         {
             if (null != m_LogicInvoker)
             {
@@ -1623,12 +1642,12 @@ namespace ArkCrossEngine
                         {
                             if (info.ObjectInfo.DataChangedByLogic)
                             {
-                                Vector3 pos = new Vector3(info.ObjectInfo.X, info.ObjectInfo.Y, info.ObjectInfo.Z);
+                                UnityEngine.Vector3 pos = new UnityEngine.Vector3(info.ObjectInfo.X, info.ObjectInfo.Y, info.ObjectInfo.Z);
                                 //if (!info.ObjectInfo.IsFloat && pos.y <= c_MinTerrainHeight)
                                 //  pos.y = SampleTerrainHeight(pos.x, pos.z);
                                 GameObject obj = info.ObjectInstance;
-                                Vector3 old = obj.transform.position;
-                                CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                                UnityEngine.Vector3 old = obj.transform.position;
+                                CharacterController ctrl = obj.GetComponent<CharacterController>();
                                 if (null != ctrl)
                                 {
                                     ctrl.Move(pos - old);
@@ -1637,7 +1656,7 @@ namespace ArkCrossEngine
                                 {
                                     info.ObjectInstance.transform.position = pos;
                                 }
-                                info.ObjectInstance.transform.rotation = Quaternion.Euler(0, RadianToDegree(info.ObjectInfo.FaceDir), 0);
+                                info.ObjectInstance.transform.rotation = UnityEngine.Quaternion.Euler(0, RadianToDegree(info.ObjectInfo.FaceDir), 0);
 
                                 info.ObjectInfo.DataChangedByLogic = false;
                             }
@@ -1648,8 +1667,8 @@ namespace ArkCrossEngine
                                     if (info.ObjectInfo.IsLogicMoving)
                                     {
                                         GameObject obj = info.ObjectInstance;
-                                        Vector3 old = obj.transform.position;
-                                        Vector3 pos;
+                                        UnityEngine.Vector3 old = obj.transform.position;
+                                        UnityEngine.Vector3 pos;
                                         float distance = info.ObjectInfo.MoveSpeed * Time.deltaTime;
                                         if (distance * distance < info.ObjectInfo.MoveTargetDistanceSqr)
                                         {
@@ -1668,16 +1687,16 @@ namespace ArkCrossEngine
                                                 info.ObjectInfo.TotalTime = 0;
                                             }
 
-                                            CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                                            CharacterController ctrl = obj.GetComponent<CharacterController>();
                                             if (null != ctrl)
                                             {
-                                                ctrl.Move(new Vector3(dx, 0, dz));
+                                                ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
                                                 pos = obj.transform.position;
                                                 //if (!info.ObjectInfo.IsFloat && pos.y <= c_MinTerrainHeight) {
                                                 //  pos.y = SampleTerrainHeight(pos.x, pos.z);
                                                 //  obj.transform.position = pos;
                                                 //}
-                                                if (info == m_PlayerSelf && ctrl.collisionFlags == CollisionFlags.Sides)
+                                                if (info == m_PlayerSelf && ctrl.collisionFlags == UnityEngine.CollisionFlags.Sides)
                                                 {
                                                     if (null != m_GameLogicNotification && null != m_LogicInvoker)
                                                     {
@@ -1687,7 +1706,7 @@ namespace ArkCrossEngine
                                             }
                                             else
                                             {
-                                                pos = old + new Vector3(dx, 0, dz);
+                                                pos = old + new UnityEngine.Vector3(dx, 0, dz);
                                                 info.ObjectInstance.transform.position = pos;
                                             }
 
@@ -1697,7 +1716,7 @@ namespace ArkCrossEngine
                                             info.ObjectInfo.DataChangedByGfx = true;
                                         }
                                     }
-                                    Vector3 nowPos = info.ObjectInstance.transform.position;
+                                    UnityEngine.Vector3 nowPos = info.ObjectInstance.transform.position;
                                     float terrainHeight = SampleTerrainHeight(nowPos.x, nowPos.z);
                                     if (!info.ObjectInfo.IsFloat && nowPos.y > terrainHeight)
                                     {
@@ -1707,14 +1726,14 @@ namespace ArkCrossEngine
                                             cur_height = terrainHeight;
                                         }
                                         info.ObjectInfo.VerticlaSpeed += -9.8f * Time.deltaTime;
-                                        CharacterController cc = info.ObjectInstance.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                                        CharacterController cc = info.ObjectInstance.GetComponent<CharacterController>();
                                         if (null != cc)
                                         {
-                                            cc.Move(new Vector3(nowPos.x, cur_height, nowPos.z) - nowPos);
+                                            cc.Move(new UnityEngine.Vector3(nowPos.x, cur_height, nowPos.z) - nowPos);
                                         }
                                         else
                                         {
-                                            info.ObjectInstance.transform.position = new Vector3(nowPos.x, cur_height, nowPos.z);
+                                            info.ObjectInstance.transform.position = new UnityEngine.Vector3(nowPos.x, cur_height, nowPos.z);
                                         }
                                         info.ObjectInfo.Y = cur_height;
                                         info.ObjectInfo.DataChangedByGfx = true;
@@ -1726,7 +1745,7 @@ namespace ArkCrossEngine
 
                                     if (info.FaceDir != info.ObjectInfo.FaceDir)
                                     {
-                                        info.ObjectInstance.transform.rotation = Quaternion.Euler(RadianToDegree(0), RadianToDegree(info.ObjectInfo.FaceDir), RadianToDegree(0));
+                                        info.ObjectInstance.transform.rotation = UnityEngine.Quaternion.Euler(RadianToDegree(0), RadianToDegree(info.ObjectInfo.FaceDir), RadianToDegree(0));
                                         info.FaceDir = info.ObjectInfo.FaceDir;
                                     }
                                 }
@@ -1754,7 +1773,7 @@ namespace ArkCrossEngine
                         CallLogicLog("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
                         if (null != m_OnBeforeLoadScene)
                         {
-                            m_OnBeforeLoadScene(Application.loadedLevelName, m_TargetScene, m_TargetSceneId);
+                            m_OnBeforeLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, /*Application.loadedLevelName,*/ m_TargetScene, m_TargetSceneId);
                         }
                         ResourceManager.Instance.CleanupResourcePool();
                         m_LoadCacheResInfo = ResUpdateHandler.CacheResByConfig(m_TargetSceneId);
@@ -1801,10 +1820,10 @@ namespace ArkCrossEngine
                         CallLogicLog("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
                         if (null != m_OnBeforeLoadScene)
                         {
-                            m_OnBeforeLoadScene(Application.loadedLevelName, m_TargetScene, m_TargetSceneId);
+                            m_OnBeforeLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name/*Application.loadedLevelName*/, m_TargetScene, m_TargetSceneId);
                         }
                         ResourceManager.Instance.CleanupResourcePool();
-                        m_LoadingLevelAsyncOperation = Application.LoadLevelAsync(m_TargetScene);
+                        m_LoadingLevelAsyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_TargetScene);//Application.LoadLevelAsync(m_TargetScene);
                     }
                 }
                 else if (null != m_LoadingLevelAsyncOperation)
@@ -1819,7 +1838,7 @@ namespace ArkCrossEngine
                             m_LevelLoadedCallback = null;
                         }
                         Resources.UnloadUnusedAssets();
-                        GC.Collect();
+                        System.GC.Collect();
                         EndLoading();
                         CallLogicLog("End LoadScene:{0}", m_TargetScene);
                         if (null != m_OnAfterLoadScene)
@@ -1840,7 +1859,7 @@ namespace ArkCrossEngine
             m_LoadScenePaused = true;
             string info = Dict.Format(27, (int)ResUpdateHandler.GetUpdateError());
             string dlgButton = Dict.Get(4);
-            Action<bool> fun = new Action<bool>(delegate (bool selected)
+            System.Action<bool> fun = new System.Action<bool>(delegate (bool selected)
             {
                 if (selected)
                 {
@@ -1907,7 +1926,7 @@ namespace ArkCrossEngine
             {
                 if (!info.m_SkinedMaterialChanged)
                 {
-                    Component[] renderers = obj.GetTypedComponents(ObjectType.SkinnedMeshRenderer, true);
+                    Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
                     for (int i = 0; i < renderers.Length; i++)
                     {
                         info.m_SkinedOriginalMaterials.Add(((SkinnedMeshRenderer)renderers[i]).materials);
@@ -1919,7 +1938,7 @@ namespace ArkCrossEngine
                 }
                 if (!info.m_MeshMaterialChanged)
                 {
-                    Component[] renderers = obj.GetTypedComponents(ObjectType.MeshRenderer);
+                    Component[] renderers = obj.GetComponents<MeshRenderer>();
                     for (int i = 0; i < renderers.Length; i++)
                     {
                         info.m_MeshOriginalMaterials.Add(((MeshRenderer)renderers[i]).materials);
@@ -1948,12 +1967,12 @@ namespace ArkCrossEngine
         }
         private void CreateGameObjectWithMeshDataHelper(int id, List<float> vertices, List<float> uvs, List<int> triangles, Material mat, bool attachTerrain)
         {
-            GameObject obj = GameObject.Create();
-            MeshFilter meshFilter = obj.AddTypedComponent(ObjectType.MeshFilter) as MeshFilter;
-            MeshRenderer renderer = obj.AddTypedComponent(ObjectType.MeshRenderer) as MeshRenderer;
-            Mesh mesh = Mesh.Create();
+            GameObject obj = new GameObject();
+            MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
+            MeshRenderer renderer = obj.AddComponent<MeshRenderer>();
+            Mesh mesh = new Mesh();
 
-            Vector3[] _vertices = new Vector3[vertices.Count / 3];
+            UnityEngine.Vector3[] _vertices = new UnityEngine.Vector3[vertices.Count / 3];
             for (int i = 0; i < _vertices.Length; ++i)
             {
                 float x = vertices[i * 3];
@@ -1961,20 +1980,19 @@ namespace ArkCrossEngine
                 float z = vertices[i * 3 + 2];
                 if (attachTerrain)
                     y = SampleTerrainHeight(x, z) + 0.01f;
-                _vertices[i] = new Vector3(x, y, z);
+                _vertices[i] = new UnityEngine.Vector3(x, y, z);
             }
-            Vector2[] _uvs = new Vector2[uvs.Count / 2];
+            UnityEngine.Vector2[] _uvs = new UnityEngine.Vector2[uvs.Count / 2];
             for (int i = 0; i < _uvs.Length; ++i)
             {
                 float u = uvs[i * 2];
                 float v = uvs[i * 2 + 1];
-                _uvs[i] = new Vector2(u, v);
+                _uvs[i] = new UnityEngine.Vector2(u, v);
             }
 
             mesh.vertices = _vertices;
             mesh.uv = _uvs;
             mesh.triangles = triangles.ToArray();
-            mesh.Optimize();
 
             meshFilter.mesh = mesh;
             renderer.material = mat;

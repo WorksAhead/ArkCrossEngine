@@ -34,12 +34,12 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Transform child = TriggerUtil.GetChildNodeByName(obj, m_ChildName);
+            UnityEngine.Transform child = TriggerUtil.GetChildNodeByName(obj, m_ChildName);
             if (child != null && child.gameObject != null)
             {
                 TriggerUtil.SetObjVisible(child.gameObject, m_IsShow);

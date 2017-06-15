@@ -1,5 +1,6 @@
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -82,8 +83,8 @@ namespace GfxModule.Skill.Trigers
 
         private void StoreTouchPos(GameObject obj, SkillInstance instance)
         {
-            Vector3 touchpos = TriggerUtil.GetTouchPos(obj);
-            Vector3 scene_pos = CalcScenePos(obj, touchpos);
+            UnityEngine.Vector3 touchpos = TriggerUtil.GetTouchPos(obj);
+            UnityEngine.Vector3 scene_pos = CalcScenePos(obj, touchpos);
             SharedGameObjectInfo obj_info = LogicSystem.GetSharedGameObjectInfo(obj);
             if (obj_info != null)
             {
@@ -93,13 +94,13 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        private Vector3 CalcScenePos(GameObject obj, Vector3 touch_pos)
+        private UnityEngine.Vector3 CalcScenePos(GameObject obj, UnityEngine.Vector3 touch_pos)
         {
-            Vector3 obj_pos = obj.transform.position;
-            Vector3 end_pos = touch_pos;
+            UnityEngine.Vector3 obj_pos = obj.transform.position;
+            UnityEngine.Vector3 end_pos = touch_pos;
             end_pos.y += 3;
             obj_pos.y = end_pos.y;
-            RaycastHit hitinfo;
+            UnityEngine.RaycastHit hitinfo;
             int layer = 1 << LayerMask.NameToLayer("AirWall");
             if (Physics.Linecast(obj_pos, end_pos, out hitinfo, layer))
             {

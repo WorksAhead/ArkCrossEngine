@@ -1,5 +1,6 @@
 ﻿using System;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Impact
 {
@@ -9,14 +10,14 @@ namespace GfxModule.Impact
         {
             return (float)(dir * 180 / Math.PI);
         }
-        public static Vector3 ConvertVector3D(string vec)
+        public static UnityEngine.Vector3 ConvertVector3D(string vec)
         {
-            Vector3 vector = Vector3.zero;
+            UnityEngine.Vector3 vector = UnityEngine.Vector3.zero;
             try
             {
                 string strPos = vec;
                 string[] resut = strPos.Split(s_ListSplitString, StringSplitOptions.None);
-                vector = new Vector3(Convert.ToSingle(resut[0]), Convert.ToSingle(resut[1]), Convert.ToSingle(resut[2]));
+                vector = new UnityEngine.Vector3(Convert.ToSingle(resut[0]), Convert.ToSingle(resut[1]), Convert.ToSingle(resut[2]));
             }
             catch (System.Exception ex)
             {
@@ -26,9 +27,9 @@ namespace GfxModule.Impact
             return vector;
         }
 
-        public static void MoveObject(GameObject obj, Vector3 motion)
+        public static void MoveObject(GameObject obj, UnityEngine.Vector3 motion)
         {
-            CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+            CharacterController ctrl = obj.GetComponent<CharacterController>();
             if (null != ctrl)
             {
                 ctrl.Move(motion);
@@ -58,7 +59,7 @@ namespace GfxModule.Impact
         {
             if (null != obj)
             {
-                AudioSource audioSource = obj.audio;
+                AudioSource audioSource = obj.GetComponent<AudioSource>();
                 if (null != audioSource)
                 {
                     AudioClip clip = ResourceSystem.GetSharedResource(sound) as AudioClip;

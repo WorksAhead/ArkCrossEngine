@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -101,8 +102,8 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            Vector3 pos = GetTouchPos();
-            Vector3 lastpos = GetLastPos();
+            UnityEngine.Vector3 pos = GetTouchPos();
+            UnityEngine.Vector3 lastpos = GetLastPos();
 
             UpdateDamgedObjectCD(delta);
             bool is_damaged = DamageCrossObjects(obj, instance, pos);
@@ -121,7 +122,7 @@ namespace GfxModule.Skill.Trigers
             return true;
         }
 
-        private bool DamageCrossObjects(GameObject obj, SkillInstance instance, Vector3 pos)
+        private bool DamageCrossObjects(GameObject obj, SkillInstance instance, UnityEngine.Vector3 pos)
         {
             bool is_damaged_somebody = false;
             SkillDamageManager damage_manager = instance.CustomDatas.GetData<SkillDamageManager>();
@@ -173,18 +174,18 @@ namespace GfxModule.Skill.Trigers
             return is_damaged_somebody;
         }
 
-        private Vector3 GetTouchPos()
+        private UnityEngine.Vector3 GetTouchPos()
         {
-            Vector3 pos = Vector3.zero;
+            UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
             pos.x = GfxSystem.GetTouchPointX();
             pos.y = GfxSystem.GetTouchPointY();
             pos.z = GfxSystem.GetTouchPointZ();
             return pos;
         }
 
-        private Vector3 GetLastPos()
+        private UnityEngine.Vector3 GetLastPos()
         {
-            if (m_LastTouchPos == Vector3.zero)
+            if (m_LastTouchPos == UnityEngine.Vector3.zero)
             {
                 return GetTouchPos();
             }
@@ -208,7 +209,7 @@ namespace GfxModule.Skill.Trigers
         private void Init(GameObject obj)
         {
             m_IsInited = true;
-            m_LastTouchPos = Vector3.zero;
+            m_LastTouchPos = UnityEngine.Vector3.zero;
             LogicSystem.EventChannelForGfx.Publish("ex_skill_start", "skill");
             InitMessageConfig();
         }
@@ -275,7 +276,7 @@ namespace GfxModule.Skill.Trigers
         private List<MessageConfig> m_MessageConfig = new List<MessageConfig>();
 
         private bool m_IsInited = false;
-        private Vector3 m_LastTouchPos;
+        private UnityEngine.Vector3 m_LastTouchPos;
         private List<DamageObjectInfo> m_DamageCDObjects = new List<DamageObjectInfo>();
         private bool m_IsHaveMessage = false;
         private long m_NextMessageTime = 0;

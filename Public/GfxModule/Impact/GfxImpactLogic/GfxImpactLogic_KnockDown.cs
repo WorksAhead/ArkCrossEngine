@@ -1,4 +1,6 @@
 ﻿using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Impact
 {
@@ -82,13 +84,13 @@ namespace GfxModule.Impact
             if (null != info.ConfigData && null != info.Target)
             {
                 info.Velocity = info.MoveDir * info.MovementInfo.GetSpeedByTime(Time.time - info.StartTime);
-                Vector3 motion = info.Velocity * deltaTime;
+                UnityEngine.Vector3 motion = info.Velocity * deltaTime;
                 info.NormalPos += motion;
                 motion = GfxImpactSystem.Instance.GetAdjustPoint(info.NormalPos - info.OrignalPos, info) + info.OrignalPos - info.Target.transform.position;
-                Vector3 pos = info.Target.transform.position + motion;
-                pos = new Vector3(pos.x, GetTerrainHeight(pos), pos.z);
+                UnityEngine.Vector3 pos = info.Target.transform.position + motion;
+                pos = new UnityEngine.Vector3(pos.x, GetTerrainHeight(pos), pos.z);
                 MoveTo(info.Target, pos);
-                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * Mathf.PI / 180f, 0);
+                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180f, 0);
             }
         }
         public override void StopImpact(ImpactLogicInfo logicInfo)

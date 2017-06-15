@@ -46,7 +46,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -58,7 +58,7 @@ namespace GfxModule.Skill.Trigers
                 return true;
             }
 
-            Vector3 dir = target_info.Target.transform.position - obj.transform.position;
+            UnityEngine.Vector3 dir = target_info.Target.transform.position - obj.transform.position;
             if (!m_IsHaveRotateSpeed || m_RotateSpeed.y == 0)
             {
                 GfxSkillSystem.ChangeDir(obj, (float)Math.Atan2(dir.x, dir.z));
@@ -66,7 +66,7 @@ namespace GfxModule.Skill.Trigers
             else
             {
                 float maxRotateDelta = m_RotateSpeed.y * TriggerUtil.ConvertToSecond(delta);
-                Vector3 now_dir = Vector3.RotateTowards(obj.transform.forward, dir, maxRotateDelta, 0);
+                UnityEngine.Vector3 now_dir = UnityEngine.Vector3.RotateTowards(obj.transform.forward, dir, maxRotateDelta, 0);
                 GfxSkillSystem.ChangeDir(obj, (float)Math.Atan2(now_dir.x, now_dir.z));
             }
             return true;

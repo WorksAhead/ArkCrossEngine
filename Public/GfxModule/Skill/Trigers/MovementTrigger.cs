@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -16,12 +17,12 @@ namespace GfxModule.Skill.Trigers
         }
 
         public float moveTime;
-        public Vector3 speedVect;
-        public Vector3 accelVect;
+        public UnityEngine.Vector3 speedVect;
+        public UnityEngine.Vector3 accelVect;
 
         public float startTime = 0;
         public float lastUpdateTime = 0;
-        public Vector3 curSpeedVect = Vector3.zero;
+        public UnityEngine.Vector3 curSpeedVect = UnityEngine.Vector3.zero;
     }
 
     public class CurveMovementTrigger : AbstractSkillTriger
@@ -133,7 +134,7 @@ namespace GfxModule.Skill.Trigers
             m_SectionListCopy[0].startTime = m_Now;
             m_SectionListCopy[0].lastUpdateTime = m_Now;
             m_SectionListCopy[0].curSpeedVect = m_SectionListCopy[0].speedVect;
-            m_StartTransform = GameObject.Create();
+            m_StartTransform = new GameObject();
             m_StartTransform.transform.position = obj.transform.position;
             m_StartTransform.transform.rotation = obj.transform.rotation;
             m_IsInited = true;
@@ -180,7 +181,7 @@ namespace GfxModule.Skill.Trigers
               cur_distance_z += (section.speedVect.z * section.moveTime +
                                  section.accelVect.z * section.moveTime * section.moveTime / 2.0f);
             }*/
-            Vector3 target_motion = (target.transform.position - obj.transform.position);
+            UnityEngine.Vector3 target_motion = (target.transform.position - obj.transform.position);
             target_motion.y = 0;
             float target_distance_z = target_motion.magnitude;
             target_distance_z = target_distance_z * (1 + ss.ToTargetDistanceRatio) + ss.ToTargetConstDistance;
@@ -202,18 +203,18 @@ namespace GfxModule.Skill.Trigers
             instance.CustomDatas.RemoveData<MoveTargetInfo>();
         }
 
-        private Vector3 Move(GameObject obj, Vector3 speed_vect, Vector3 accel_vect, float time)
+        private UnityEngine.Vector3 Move(GameObject obj, UnityEngine.Vector3 speed_vect, UnityEngine.Vector3 accel_vect, float time)
         {
             m_StartTransform.transform.position = obj.transform.position;
             if (!m_IsLockRotate)
             {
                 m_StartTransform.transform.rotation = obj.transform.rotation;
             }
-            Vector3 local_motion = speed_vect * time + accel_vect * time * time / 2;
-            Vector3 word_target_pos;
+            UnityEngine.Vector3 local_motion = speed_vect * time + accel_vect * time * time / 2;
+            UnityEngine.Vector3 word_target_pos;
             while (local_motion.magnitude > m_MaxMoveStep)
             {
-                Vector3 child = Vector3.ClampMagnitude(local_motion, m_MaxMoveStep);
+                UnityEngine.Vector3 child = UnityEngine.Vector3.ClampMagnitude(local_motion, m_MaxMoveStep);
                 local_motion = local_motion - child;
                 word_target_pos = m_StartTransform.transform.TransformPoint(child);
                 TriggerUtil.MoveObjTo(obj, word_target_pos);
@@ -257,8 +258,8 @@ namespace GfxModule.Skill.Trigers
                 if (curSectionTime <= m_Duration)
                 {
                     float dist = (float)(int)delta / 1000.0f * m_Velocity;
-                    Vector3 targetPos = obj.transform.position + obj.transform.forward * dist;
-                    CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                    UnityEngine.Vector3 targetPos = obj.transform.position + obj.transform.forward * dist;
+                    CharacterController ctrl = obj.GetComponent<CharacterController>() as CharacterController;
                     if (null != ctrl)
                     {
                         ctrl.Move(obj.transform.forward * dist);
@@ -331,10 +332,10 @@ namespace GfxModule.Skill.Trigers
                     float t = (float)(int)(curSectionTime - m_StartTime) / 1000.0f;
                     float disty = m_VelocityY * t - m_G * t * t / 2;
                     float dist = (float)(int)delta / 1000.0f * m_Velocity;
-                    Vector3 targetPos = obj.transform.position + obj.transform.forward * dist;
+                    UnityEngine.Vector3 targetPos = obj.transform.position + obj.transform.forward * dist;
                     targetPos.y = m_InitY + disty;
 
-                    CharacterController ctrl = obj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+                    CharacterController ctrl = obj.GetComponent<CharacterController>();
                     if (null != ctrl)
                     {
                         ctrl.Move(targetPos - obj.transform.position);

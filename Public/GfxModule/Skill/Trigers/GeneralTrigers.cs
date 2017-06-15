@@ -17,7 +17,7 @@ namespace GfxModule.Skill.Trigers
 
         public override bool Execute(object sender, SkillInstance instance, long delta, long curSectionTime)
         {
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (null != obj)
             {
                 if (m_IsControlMove)
@@ -62,8 +62,8 @@ namespace GfxModule.Skill.Trigers
         {
             if (m_IsSet && !m_IsReset)
             {
-                Time.timeScale = 1.0f;
-                Time.fixedDeltaTime = m_FixedDeltaTime;
+                UnityEngine.Time.timeScale = 1.0f;
+                UnityEngine.Time.fixedDeltaTime = m_FixedDeltaTime;
             }
             m_IsSet = false;
             m_IsReset = false;
@@ -77,8 +77,8 @@ namespace GfxModule.Skill.Trigers
                 {
                     m_IsSet = true;
 
-                    Time.timeScale = m_TimeScale;
-                    Time.fixedDeltaTime = m_FixedDeltaTime * m_TimeScale;
+                    UnityEngine.Time.timeScale = m_TimeScale;
+                    UnityEngine.Time.fixedDeltaTime = m_FixedDeltaTime * m_TimeScale;
 
                     //LogSystem.Debug("timescale:{0} {1} {2}", m_TimeScale, m_StartTime, m_EndTime);
                 }
@@ -89,8 +89,8 @@ namespace GfxModule.Skill.Trigers
                 {
                     m_IsReset = true;
 
-                    Time.timeScale = 1.0f;
-                    Time.fixedDeltaTime = m_FixedDeltaTime;
+                    UnityEngine.Time.timeScale = 1.0f;
+                    UnityEngine.Time.fixedDeltaTime = m_FixedDeltaTime;
 
                     //LogSystem.Debug("timescale reset");
                 }
@@ -116,7 +116,7 @@ namespace GfxModule.Skill.Trigers
             {
                 m_EndTime = long.Parse(callData.GetParamId(2));
             }
-            m_FixedDeltaTime = Time.fixedDeltaTime;
+            m_FixedDeltaTime = UnityEngine.Time.fixedDeltaTime;
         }
 
         private float m_TimeScale = 1.0f;
@@ -162,7 +162,7 @@ namespace GfxModule.Skill.Trigers
         {
             if (m_StartTime <= curSectionTime)
             {
-                GameObject obj = sender as GameObject;
+                UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
                 if (obj == null)
                 {
                     return false;

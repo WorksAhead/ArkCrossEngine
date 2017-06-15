@@ -37,7 +37,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -86,7 +86,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -96,7 +96,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            GameObject target_obj = target_info.Target;
+            UnityEngine.GameObject target_obj = target_info.Target;
             if (target_obj == null)
             {
                 return false;

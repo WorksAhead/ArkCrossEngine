@@ -44,7 +44,7 @@ namespace GfxModule.Skill.Trigers
                 LogicSystem.EventChannelForGfx.Publish("set_gesture_enable", "ui", true);
                 return false;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;

@@ -30,13 +30,13 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Vector3 pos = obj.transform.position;
-            instance.CustomDatas.AddData<Vector3>(pos);
+            UnityEngine.Vector3 pos = obj.transform.position;
+            instance.CustomDatas.AddData<UnityEngine.Vector3>(pos);
             return false;
         }
     }
@@ -68,12 +68,12 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Vector3 old_pos = instance.CustomDatas.GetData<Vector3>();
+            UnityEngine.Vector3 old_pos = instance.CustomDatas.GetData<UnityEngine.Vector3>();
             if (old_pos != null)
             {
                 obj.transform.position = old_pos;

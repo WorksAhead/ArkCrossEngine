@@ -53,7 +53,7 @@ namespace GfxModule.Skill.Trigers
             for (int i = 2; i < count; ++i)
             {
                 layer = callData.GetParamId(i);
-                cullingmask |= 1 << LayerMask.NameToLayer(layer);
+                cullingmask |= 1 << UnityEngine.LayerMask.NameToLayer(layer);
             }
             m_CMRemain = cullingmask;
         }
@@ -61,10 +61,10 @@ namespace GfxModule.Skill.Trigers
         {
             get
             {
-                Camera cm = Camera.main;
+                UnityEngine.Camera cm = UnityEngine.Camera.main;
                 if (cm != null)
                 {
-                    Camera cc = cm.GetTypedComponent(ObjectType.Camera) as Camera;
+                    UnityEngine.Camera cc = cm.GetComponent<UnityEngine.Camera>();
                     if (cc != null)
                     {
                         return cc.cullingMask;
@@ -75,10 +75,10 @@ namespace GfxModule.Skill.Trigers
             }
             set
             {
-                Camera cm = Camera.main;
+                UnityEngine.Camera cm = UnityEngine.Camera.main;
                 if (cm != null)
                 {
-                    Camera cc = cm.GetTypedComponent(ObjectType.Camera) as Camera;
+                    UnityEngine.Camera cc = cm.GetComponent<UnityEngine.Camera>();
                     if (cc != null)
                     {
                         cc.cullingMask = value;

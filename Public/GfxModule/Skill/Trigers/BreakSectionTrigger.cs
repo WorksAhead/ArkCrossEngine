@@ -66,7 +66,7 @@ namespace GfxModule.Skill.Trigers
         }
         public override bool Execute(object sender, SkillInstance instance, long delta, long curSectionTime)
         {
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Impact
 {
@@ -43,25 +44,25 @@ namespace GfxModule.Impact
             m_Duration = 0.0f;
             m_IsActive = false;
             // Adjust info
-            m_AdjustPoint = Vector3.zero;
+            m_AdjustPoint = UnityEngine.Vector3.zero;
             m_AdjustAppend = 0.0f;
             m_AdjustDegreeXZ = 0.0f;
             m_AdJustDegreeY = 0.0f;
-            m_NormalEndPoint = Vector3.zero;
-            m_OrignalPos = Vector3.zero;
-            m_NormalPos = Vector3.zero;
-            m_Velocity = Vector3.zero;
-            m_Accelerate = Vector3.zero;
+            m_NormalEndPoint = UnityEngine.Vector3.zero;
+            m_OrignalPos = UnityEngine.Vector3.zero;
+            m_NormalPos = UnityEngine.Vector3.zero;
+            m_Velocity = UnityEngine.Vector3.zero;
+            m_Accelerate = UnityEngine.Vector3.zero;
             m_MovingDelay = 0.0f;
             m_MovingTime = 0.0f;
-            m_ImpactSrcPos = Vector3.zero;
+            m_ImpactSrcPos = UnityEngine.Vector3.zero;
             m_ImpactSrcDir = 0.0f;
             m_CustomDatas.Clear();
             // 分段动作，定帧，位移信息
             m_AnimationInfo = null;
             m_LockFrameInfo = null;
             m_MovementInfo = null;
-            m_MoveDir = Quaternion.identity;
+            m_MoveDir = UnityEngine.Quaternion.identity;
             // 特效信息
             for (int i = 0; i < m_EffectList.Count; ++i)
             {
@@ -135,7 +136,7 @@ namespace GfxModule.Impact
         }
 
 
-        public Vector3 ImpactSrcPos
+        public UnityEngine.Vector3 ImpactSrcPos
         {
             get { return m_ImpactSrcPos; }
             set { m_ImpactSrcPos = value; }
@@ -145,12 +146,12 @@ namespace GfxModule.Impact
             get { return m_ImpactSrcDir; }
             set { m_ImpactSrcDir = value; }
         }
-        public Vector3 Velocity
+        public UnityEngine.Vector3 Velocity
         {
             get { return m_Velocity; }
             set { m_Velocity = value; }
         }
-        public Vector3 AdjustPoint
+        public UnityEngine.Vector3 AdjustPoint
         {
             get { return m_AdjustPoint; }
             set { m_AdjustPoint = value; }
@@ -170,22 +171,22 @@ namespace GfxModule.Impact
             get { return m_AdJustDegreeY; }
             set { m_AdJustDegreeY = value; }
         }
-        public Vector3 NormalEndPoint
+        public UnityEngine.Vector3 NormalEndPoint
         {
             get { return m_NormalEndPoint; }
             set { m_NormalEndPoint = value; }
         }
-        public Vector3 OrignalPos
+        public UnityEngine.Vector3 OrignalPos
         {
             get { return m_OrignalPos; }
             set { m_OrignalPos = value; }
         }
-        public Vector3 NormalPos
+        public UnityEngine.Vector3 NormalPos
         {
             get { return m_NormalPos; }
             set { m_NormalPos = value; }
         }
-        public Vector3 Accelerate
+        public UnityEngine.Vector3 Accelerate
         {
             get { return m_Accelerate; }
             set { m_Accelerate = value; }
@@ -210,7 +211,7 @@ namespace GfxModule.Impact
             get { return m_MovementInfo; }
             set { m_MovementInfo = value; }
         }
-        public Quaternion MoveDir
+        public UnityEngine.Quaternion MoveDir
         {
             get { return m_MoveDir; }
             set { m_MoveDir = value; }
@@ -282,25 +283,25 @@ namespace GfxModule.Impact
         protected float m_Duration = 0.0f;
         protected bool m_IsActive = false;
         // Adjust info
-        protected Vector3 m_AdjustPoint = new Vector3();
+        protected UnityEngine.Vector3 m_AdjustPoint = new UnityEngine.Vector3();
         protected float m_AdjustAppend;
         protected float m_AdjustDegreeXZ = 0;
         protected float m_AdJustDegreeY = 0;
-        protected Vector3 m_NormalEndPoint;
-        protected Vector3 m_OrignalPos;
-        protected Vector3 m_NormalPos;
-        protected Vector3 m_Velocity;
-        protected Vector3 m_Accelerate;
+        protected UnityEngine.Vector3 m_NormalEndPoint;
+        protected UnityEngine.Vector3 m_OrignalPos;
+        protected UnityEngine.Vector3 m_NormalPos;
+        protected UnityEngine.Vector3 m_Velocity;
+        protected UnityEngine.Vector3 m_Accelerate;
         protected float m_MovingDelay = 0.0f;
         protected float m_MovingTime = 0.0f;
-        protected Vector3 m_ImpactSrcPos;
+        protected UnityEngine.Vector3 m_ImpactSrcPos;
         protected float m_ImpactSrcDir;
         protected TypedDataCollection m_CustomDatas = new TypedDataCollection();
         // 分段动作，定帧，位移信息
         protected CurveInfo m_AnimationInfo;
         protected CurveInfo m_LockFrameInfo;
         protected CurveMoveInfo m_MovementInfo;
-        protected Quaternion m_MoveDir = Quaternion.identity;
+        protected UnityEngine.Quaternion m_MoveDir = UnityEngine.Quaternion.identity;
         // 特效信息
         protected List<EffectInfo> m_EffectList = new List<EffectInfo>();
         protected List<GameObject> m_EffectsDelWithImpact = new List<GameObject>();
@@ -342,9 +343,9 @@ namespace GfxModule.Impact
             PlayTime = 0.0f;
             MountPoint = string.Empty;
             DelWithImpact = false;
-            RelativePoint = Vector3.zero;
+            RelativePoint = UnityEngine.Vector3.zero;
             RotateWithTarget = false;
-            RelativeRotation = Vector3.zero;
+            RelativeRotation = UnityEngine.Vector3.zero;
         }
 
 
@@ -357,9 +358,9 @@ namespace GfxModule.Impact
         public float PlayTime = 0.0f;
         public string MountPoint;
         public bool DelWithImpact = false;
-        public Vector3 RelativePoint = Vector3.zero;
+        public UnityEngine.Vector3 RelativePoint = UnityEngine.Vector3.zero;
         public bool RotateWithTarget = false;
-        public Vector3 RelativeRotation = Vector3.zero;
+        public UnityEngine.Vector3 RelativeRotation = UnityEngine.Vector3.zero;
     }
     public class CurveInfo
     {
@@ -466,27 +467,27 @@ namespace GfxModule.Impact
             }
         }
 
-        public Vector3 GetSpeedByTime(float time, float gravity = 0.0f)
+        public UnityEngine.Vector3 GetSpeedByTime(float time, float gravity = 0.0f)
         {
             foreach (Section sec in m_Sections)
             {
                 if (time >= sec.StartTime && time < sec.EndTime)
                 {
-                    return new Vector3(sec.XSpeed + sec.XAcce * (time - sec.StartTime),
+                    return new UnityEngine.Vector3(sec.XSpeed + sec.XAcce * (time - sec.StartTime),
                                        sec.YSpeed + (sec.YAcce + gravity) * (time - sec.StartTime),
                                        sec.ZSpeed + sec.ZAcce * (time - sec.StartTime));
                 }
             }
             if (time < GetStartTime())
             {
-                return new Vector3(0, gravity * time, 0);
+                return new UnityEngine.Vector3(0, gravity * time, 0);
             }
             if (time > GetEndTime())
             {
-                return new Vector3(0, (time - GetEndTime()) * gravity, 0);
+                return new UnityEngine.Vector3(0, (time - GetEndTime()) * gravity, 0);
             }
 
-            return Vector3.zero;
+            return UnityEngine.Vector3.zero;
         }
 
         private float GetStartTime()
@@ -514,7 +515,7 @@ namespace GfxModule.Impact
         public CurveInfo CurveLockFrameInfo = null;
         public CurveMoveInfo CurveMovementInfo = null;
         public List<float> MoveInfolist = null;
-        public Vector3 AdjustPointV3 = Vector3.zero;
+        public UnityEngine.Vector3 AdjustPointV3 = UnityEngine.Vector3.zero;
 
     };
 }

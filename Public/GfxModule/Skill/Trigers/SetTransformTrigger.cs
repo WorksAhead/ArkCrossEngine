@@ -1,5 +1,6 @@
 ﻿using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -75,12 +76,12 @@ namespace GfxModule.Skill.Trigers
                     break;
                 case "RelativeWorld":
                     obj.transform.position = m_Postion;
-                    obj.transform.rotation = Quaternion.Euler(m_Rotate);
+                    obj.transform.rotation = UnityEngine.Quaternion.Euler(m_Rotate);
                     break;
             }
             if (m_IsUseTerrainHeight)
             {
-                Vector3 terrain_pos = TriggerUtil.GetGroundPos(obj.transform.position);
+                UnityEngine.Vector3 terrain_pos = TriggerUtil.GetGroundPos(obj.transform.position);
                 obj.transform.position = terrain_pos;
             }
             TriggerUtil.UpdateObjWantDir(obj);
@@ -123,9 +124,9 @@ namespace GfxModule.Skill.Trigers
                 parent = owner.transform;
             }
             obj.transform.parent = parent;
-            Vector3 world_pos = parent.TransformPoint(m_Postion);
+            UnityEngine.Vector3 world_pos = parent.TransformPoint(m_Postion);
             TriggerUtil.MoveObjTo(obj, world_pos);
-            obj.transform.localRotation = Quaternion.Euler(m_Rotate);
+            obj.transform.localRotation = UnityEngine.Quaternion.Euler(m_Rotate);
             if (!m_IsAttach)
             {
                 obj.transform.parent = null;
@@ -140,13 +141,13 @@ namespace GfxModule.Skill.Trigers
                 parent = owner.transform;
             }
             obj.transform.parent = parent;
-            Vector3 world_pos = parent.TransformPoint(m_Postion);
+            UnityEngine.Vector3 world_pos = parent.TransformPoint(m_Postion);
             TriggerUtil.MoveObjTo(obj, world_pos);
-            Vector3 resultrotate = new Vector3(
+            UnityEngine.Vector3 resultrotate = new UnityEngine.Vector3(
               m_Rotate.x + Random.Range(m_RandomRotate.x / -2, m_RandomRotate.x / 2),
               m_Rotate.y + Random.Range(m_RandomRotate.y / -2, m_RandomRotate.y / 2),
               m_Rotate.z + Random.Range(m_RandomRotate.z / -2, m_RandomRotate.z / 2));
-            obj.transform.localRotation = Quaternion.Euler(resultrotate);
+            obj.transform.localRotation = UnityEngine.Quaternion.Euler(resultrotate);
             if (!m_IsAttach)
             {
                 obj.transform.parent = null;
@@ -155,17 +156,17 @@ namespace GfxModule.Skill.Trigers
 
         private void SetTransformRelativeSelf(GameObject obj)
         {
-            Vector3 new_pos = obj.transform.TransformPoint(m_Postion);
+            UnityEngine.Vector3 new_pos = obj.transform.TransformPoint(m_Postion);
             TriggerUtil.MoveObjTo(obj, new_pos);
-            obj.transform.rotation *= Quaternion.Euler(m_Rotate);
+            obj.transform.rotation *= UnityEngine.Quaternion.Euler(m_Rotate);
         }
 
         private string m_BoneName;
         private string m_RelativeType;
-        private Vector3 m_Postion;
-        private Vector3 m_Rotate;
+        private UnityEngine.Vector3 m_Postion;
+        private UnityEngine.Vector3 m_Rotate;
         private bool m_IsAttach;
         private bool m_IsUseTerrainHeight = false;
-        private Vector3 m_RandomRotate = Vector3.zero;
+        private UnityEngine.Vector3 m_RandomRotate = UnityEngine.Vector3.zero;
     }
 }

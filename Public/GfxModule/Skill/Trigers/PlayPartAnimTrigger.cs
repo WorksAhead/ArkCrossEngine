@@ -31,7 +31,7 @@ namespace GfxModule.Skill.Trigers
             }
             if (callData.GetParamNum() >= 4)
             {
-                m_WrapMode = (WrapMode)int.Parse(callData.GetParamId(3));
+                m_WrapMode = (UnityEngine.WrapMode)int.Parse(callData.GetParamId(3));
             }
             if (callData.GetParamNum() >= 5)
             {
@@ -49,19 +49,19 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Transform part_transform = TriggerUtil.GetChildNodeByName(obj, m_PartName);
+            UnityEngine.Transform part_transform = TriggerUtil.GetChildNodeByName(obj, m_PartName);
             if (part_transform == null || part_transform.gameObject == null)
             {
                 LogSystem.Debug("----play part anim: not find part {0}", m_PartName);
                 return false;
             }
-            GameObject part = part_transform.gameObject;
-            AnimationState anim_state = part.animation[m_AnimName];
+            UnityEngine.GameObject part = part_transform.gameObject;
+            UnityEngine.AnimationState anim_state = part.GetComponent<UnityEngine.Animation>()[m_AnimName];
             if (anim_state == null)
             {
                 LogSystem.Debug("----play part anim: not find anim {0}", m_AnimName);
@@ -71,18 +71,18 @@ namespace GfxModule.Skill.Trigers
             anim_state.wrapMode = m_WrapMode;
             if (m_FadeLength <= 0)
             {
-                part.animation.Play(m_AnimName);
+                part.GetComponent<UnityEngine.Animation>().Play(m_AnimName);
             }
             else
             {
-                part.animation.CrossFade(m_AnimName, m_FadeLength);
+                part.GetComponent<UnityEngine.Animation>().CrossFade(m_AnimName, m_FadeLength);
             }
             return false;
         }
 
         private string m_PartName = "";
         private string m_AnimName = "";
-        private WrapMode m_WrapMode = WrapMode.Once;
+        private UnityEngine.WrapMode m_WrapMode = UnityEngine.WrapMode.Once;
         private float m_AnimSpeed = 1;
         private float m_FadeLength = 0;
     }

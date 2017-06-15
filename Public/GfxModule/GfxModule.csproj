@@ -138,10 +138,6 @@
       <Project>{43B2F01B-F224-4E3A-B2D4-78AB6599805C}</Project>
       <Name>SkillSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CrossEngine\CrossEngine\CrossEngine.csproj">
-      <Project>{2E444007-DCDA-4B89-85BD-E0E96733F099}</Project>
-      <Name>CrossEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

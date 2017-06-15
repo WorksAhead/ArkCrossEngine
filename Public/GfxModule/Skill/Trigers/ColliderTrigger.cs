@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -16,8 +17,8 @@ namespace GfxModule.Skill.Trigers
         public GameObject ParentObj;
         public GameObject TargetObj;
         public Transform AttachNode;
-        public Vector3 ParentPos;
-        public Vector3 Rotate;
+        public UnityEngine.Vector3 ParentPos;
+        public UnityEngine.Vector3 Rotate;
         public CharacterController MoveControler;
 
         public override string ToString()
@@ -263,7 +264,7 @@ namespace GfxModule.Skill.Trigers
                     m_DamageManager.RemoveGameObject(collider.gameObject);
                     if (m_ColliderInfo.GetAttachConfig().IsAttachEnemy)
                     {
-                        Vector3 pos;
+                        UnityEngine.Vector3 pos;
                         if (TriggerUtil.NeedCalculateNpcDropPoint(m_DamageManager.GetOwner(), collider.gameObject, out pos))
                         {
                             collider.transform.position = pos;
@@ -335,10 +336,10 @@ namespace GfxModule.Skill.Trigers
             attach_info.AttachNode = TriggerUtil.GetChildNodeByName(collider.gameObject,
                                                                     attach_config.AttachNodeName);
 
-            Vector3 hit_pos = parent.collider.ClosestPointOnBounds(attach_info.AttachNode.position);
+            UnityEngine.Vector3 hit_pos = parent.GetComponent<Collider>().ClosestPointOnBounds(attach_info.AttachNode.position);
             attach_info.ParentPos = attach_info.ParentObj.transform.InverseTransformPoint(hit_pos);
             attach_info.Rotate = attach_config.AttachRotation;
-            attach_info.MoveControler = attach_info.TargetObj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+            attach_info.MoveControler = attach_info.TargetObj.GetComponent<CharacterController>();
             m_AttachedObjects.Add(attach_info);
             UpdateAttachTargetPos(attach_info);
             LogicSystem.NotifyGfxMoveControlStart(attach_info.TargetObj, m_OwnSkill.SkillId, true);
@@ -357,8 +358,8 @@ namespace GfxModule.Skill.Trigers
             }
             ati.TargetObj.transform.rotation = ati.ParentObj.transform.rotation;
             ati.TargetObj.transform.Rotate(ati.Rotate);
-            Vector3 relative_motion = (ati.TargetObj.transform.position - ati.AttachNode.position);
-            Vector3 target_pos = ati.ParentObj.transform.TransformPoint(ati.ParentPos) + relative_motion;
+            UnityEngine.Vector3 relative_motion = (ati.TargetObj.transform.position - ati.AttachNode.position);
+            UnityEngine.Vector3 target_pos = ati.ParentObj.transform.TransformPoint(ati.ParentPos) + relative_motion;
             //CollisionFlags flag;
             if (ati.MoveControler != null)
             {

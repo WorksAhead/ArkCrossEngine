@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -88,7 +89,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            CharacterRelation relation = CharacterInfo.GetRelation(obj_info.CampId, other_info.CampId);
+            CharacterRelation relation = ArkCrossEngine.CharacterInfo.GetRelation(obj_info.CampId, other_info.CampId);
             if (relation == CharacterRelation.RELATION_ENEMY)
             {
                 return true;
@@ -225,7 +226,7 @@ namespace GfxModule.Skill.Trigers
                 {
                     return false;
                 }
-                Vector3 center = obj.transform.TransformPoint(m_RelativeCenter);
+                UnityEngine.Vector3 center = obj.transform.TransformPoint(m_RelativeCenter);
                 Collider[] hits = Physics.OverlapSphere(center, m_Range, TriggerUtil.CHARACTER_LAYER);
                 SkillDamageManager damage_manager = instance.CustomDatas.GetData<SkillDamageManager>();
                 if (damage_manager == null)
@@ -328,7 +329,7 @@ namespace GfxModule.Skill.Trigers
                                 float r = float.Parse(stCall.GetParamId(1));
                                 float g = float.Parse(stCall.GetParamId(2));
                                 float b = float.Parse(stCall.GetParamId(3));
-                                m_Color = new Color(r, g, b, 1);
+                                m_Color = new UnityEngine.Color(r, g, b, 1);
                             }
                         }
                     }
@@ -356,13 +357,13 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        private Vector3 m_RelativeCenter = Vector3.zero;
+        private UnityEngine.Vector3 m_RelativeCenter = UnityEngine.Vector3.zero;
         private float m_Range = 0;
         private bool m_IsClearWhenFinish = false;
         private List<int> m_ImpactList = new List<int>();
         private Dictionary<BeHitState, StateImpact> m_StateImpacts = new Dictionary<BeHitState, StateImpact>();
         private bool m_IsShowTip = false;
         private long m_ShowTime = 0;
-        private Color m_Color = new Color(0.5f, 1.0f, 0.5f);
+        private UnityEngine.Color m_Color = new UnityEngine.Color(0.5f, 1.0f, 0.5f);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -56,7 +57,7 @@ namespace GfxModule.Skill.Trigers
                 {
                     passed_time = m_MoveTime;
                 }
-                Vector3 motion_pos = Vector3.Lerp(m_StartPos, m_CurTargetSummon.transform.position,
+                UnityEngine.Vector3 motion_pos = UnityEngine.Vector3.Lerp(m_StartPos, m_CurTargetSummon.transform.position,
                                                   passed_time * 1.0f / m_MoveTime);
                 TriggerUtil.MoveObjTo(obj, motion_pos);
                 TriggerUtil.UpdateObjPosition(obj);
@@ -102,7 +103,7 @@ namespace GfxModule.Skill.Trigers
             m_NextSummonBeginTime += m_MoveTime;
             if (m_CurTargetSummon != null)
             {
-                Vector3 dir = m_CurTargetSummon.transform.position - m_StartPos;
+                UnityEngine.Vector3 dir = m_CurTargetSummon.transform.position - m_StartPos;
                 GfxSkillSystem.ChangeDir(obj, dir);
             }
         }
@@ -156,7 +157,7 @@ namespace GfxModule.Skill.Trigers
         private List<int> m_SummonList = new List<int>();
         private int m_CurIndex;
         private long m_NextSummonBeginTime;
-        private Vector3 m_StartPos;
+        private UnityEngine.Vector3 m_StartPos;
         private GameObject m_CurTargetSummon;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -24,7 +25,7 @@ namespace GfxModule.Skill.Trigers
             m_IsInited = false;
             SetBlackPercent(0);
             Camera.main.cullingMask = m_OldMask;
-            Camera.main.clearFlags = CameraClearFlags.Skybox;
+            Camera.main.clearFlags = UnityEngine.CameraClearFlags.Skybox;
             ResourceSystem.RecycleObject(m_BlackCameraObj);
             m_BlackCameraObj = null;
             m_BlackCamera = null;
@@ -96,18 +97,18 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            m_BlackCamera = m_BlackCameraObj.GetTypedComponent(ObjectType.Camera) as Camera;
+            m_BlackCamera = m_BlackCameraObj.GetComponent<Camera>();
             if (m_BlackCamera == null)
             {
                 return false;
             }
             m_BlackCamera.CopyFrom(Camera.main);
-            m_BlackCamera.clearFlags = CameraClearFlags.Skybox;
+            m_BlackCamera.clearFlags = UnityEngine.CameraClearFlags.Skybox;
             m_BlackCamera.depth = Camera.main.depth - 1;
             //m_BlackCamera.cullingMask = 0;
             m_OldMask = Camera.main.cullingMask;
             Camera.main.cullingMask = 0;
-            Camera.main.clearFlags = CameraClearFlags.Nothing;
+            Camera.main.clearFlags = UnityEngine.CameraClearFlags.Nothing;
             foreach (string layer_str in m_IgnoreLayers)
             {
                 int layer = LayerMask.NameToLayer(layer_str);

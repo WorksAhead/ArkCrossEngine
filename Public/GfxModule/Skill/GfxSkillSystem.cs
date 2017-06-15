@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using SkillSystem;
 using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Skill
 {
@@ -246,7 +248,7 @@ namespace GfxModule.Skill
             m_SkillInstancePool.Clear();
         }
 
-        public void PushSkill(GameObject obj, SkillCategory category, Vector3 targetpos)
+        public void PushSkill(GameObject obj, SkillCategory category, UnityEngine.Vector3 targetpos)
         {
             LogicSystem.NotifyGfxStartSkill(obj, category, targetpos);
         }
@@ -265,7 +267,7 @@ namespace GfxModule.Skill
             LogicSystem.NotifyGfxChangeSkillControlMode(obj, mode);
         }
 
-        public void StartAttack(GameObject obj, Vector3 targetpos)
+        public void StartAttack(GameObject obj, UnityEngine.Vector3 targetpos)
         {
             LogicSystem.NotifyGfxStartAttack(obj, targetpos.x, targetpos.y, targetpos.z);
         }
@@ -454,7 +456,7 @@ namespace GfxModule.Skill
 
         public static void ChangeDir(GameObject obj, float direction)
         {
-            Vector3 rotate = new Vector3(0, direction * 180 / Mathf.PI, 0);
+            UnityEngine.Vector3 rotate = new UnityEngine.Vector3(0, direction * 180 / UnityEngine.Mathf.PI, 0);
             obj.transform.eulerAngles = rotate;
             LogicSystem.NotifyGfxUpdatePosition(obj, obj.transform.position.x, obj.transform.position.y,
                                                 obj.transform.position.z, 0, direction, 0);
@@ -462,19 +464,19 @@ namespace GfxModule.Skill
 
         public static void ChangeAllDir(GameObject obj, float direction)
         {
-            Vector3 rotate = new Vector3(0, direction * 180 / Mathf.PI, 0);
+            UnityEngine.Vector3 rotate = new UnityEngine.Vector3(0, direction * 180 / UnityEngine.Mathf.PI, 0);
             obj.transform.eulerAngles = rotate;
             LogicSystem.NotifyGfxUpdatePositionAndDir(obj, obj.transform.position.x, obj.transform.position.y,
                                                 obj.transform.position.z, 0, direction, 0);
         }
 
-        public static void ChangeDir(GameObject obj, Vector3 dir)
+        public static void ChangeDir(GameObject obj, UnityEngine.Vector3 dir)
         {
             dir.y = 0;
             obj.transform.forward = dir;
-            Vector3 rotate = obj.transform.rotation.eulerAngles;
+            UnityEngine.Vector3 rotate = obj.transform.rotation.eulerAngles;
             LogicSystem.NotifyGfxUpdatePosition(obj, obj.transform.position.x, obj.transform.position.y,
-                                                obj.transform.position.z, 0, rotate.y * Mathf.PI / 180, 0);
+                                                obj.transform.position.z, 0, rotate.y * UnityEngine.Mathf.PI / 180, 0);
         }
 
         private void PreloadNewSkillInstance(int skillId)

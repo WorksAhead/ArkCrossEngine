@@ -92,7 +92,7 @@ namespace ArkCrossEngine
         // 声音相关
         public List<string> HitSounds = new List<string>();
         //格挡反击相关的判断
-        public delegate bool EventCheckHitCanRelease(GameObject go, int impactId);
+        public delegate bool EventCheckHitCanRelease(UnityEngine.GameObject go, int impactId);
         public EventCheckHitCanRelease HandleEventCheckHitCanRelease;
 
         //shader名

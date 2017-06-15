@@ -1,5 +1,6 @@
 ﻿using System;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Impact
 {
@@ -65,11 +66,11 @@ namespace GfxModule.Impact
                             if (String.IsNullOrEmpty(effectInfo.MountPoint))
                             {
                                 obj.transform.position = logicInfo.Target.transform.position + effectInfo.RelativePoint;
-                                Quaternion q = Quaternion.Euler(effectInfo.RelativeRotation.x, effectInfo.RelativeRotation.y, effectInfo.RelativeRotation.z);
+                                UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(effectInfo.RelativeRotation.x, effectInfo.RelativeRotation.y, effectInfo.RelativeRotation.z);
                                 if (effectInfo.RotateWithTarget && null != logicInfo.Sender)
                                 {
-                                    obj.transform.rotation = Quaternion.LookRotation(logicInfo.Target.transform.position - logicInfo.Sender.transform.position, Vector3.up);
-                                    obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.eulerAngles + effectInfo.RelativeRotation);
+                                    obj.transform.rotation = UnityEngine.Quaternion.LookRotation(logicInfo.Target.transform.position - logicInfo.Sender.transform.position, UnityEngine.Vector3.up);
+                                    obj.transform.rotation = UnityEngine.Quaternion.Euler(obj.transform.rotation.eulerAngles + effectInfo.RelativeRotation);
                                 }
                                 else
                                 {
@@ -82,8 +83,8 @@ namespace GfxModule.Impact
                                 if (null != parent)
                                 {
                                     obj.transform.parent = parent;
-                                    obj.transform.localPosition = Vector3.zero;
-                                    Quaternion q = Quaternion.Euler(ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.x), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.y), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.z));
+                                    obj.transform.localPosition = UnityEngine.Vector3.zero;
+                                    UnityEngine.Quaternion q = UnityEngine.Quaternion.Euler(ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.x), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.y), ImpactUtility.RadianToDegree(effectInfo.RelativeRotation.z));
                                     obj.transform.localRotation = q;
                                 }
                             }
@@ -193,18 +194,19 @@ namespace GfxModule.Impact
             return info.LockFrameInfo.GetSpeedByTime(time);
         }
 
-        protected void PlayAnimation(GameObject obj, Animation_Type anim, float speed = 1.0f, AnimationBlendMode blendMode = AnimationBlendMode.Blend)
+        protected void PlayAnimation(GameObject obj, Animation_Type anim, float speed = 1.0f, UnityEngine.AnimationBlendMode blendMode = UnityEngine.AnimationBlendMode.Blend)
         {
-            if (null != obj && null != obj.animation)
+            Animation animation = obj.GetComponent<Animation>();
+            if (null != obj && null != animation)
             {
                 string animName = GetAnimationNameByType(obj, anim);
-                if (!string.IsNullOrEmpty(animName) && null != obj.animation[animName])
+                if (!string.IsNullOrEmpty(animName) && null != animation[animName])
                 {
-                    if (!obj.animation.IsPlaying(animName))
+                    if (!animation.IsPlaying(animName))
                     {
-                        obj.animation[animName].speed = speed;
-                        obj.animation.Play(animName);
-                        obj.animation[animName].blendMode = blendMode;
+                        animation[animName].speed = speed;
+                        animation.Play(animName);
+                        animation[animName].blendMode = blendMode;
                     }
                 }
             }
@@ -223,14 +225,15 @@ namespace GfxModule.Impact
 
         protected void SetAnimationSpeed(GameObject obj, Animation_Type anim, float speed)
         {
-            if (null != obj && null != obj.animation)
+            Animation animation = obj.GetComponent<Animation>();
+            if (null != obj && null != animation)
             {
                 string animName = GetAnimationNameByType(obj, anim);
                 if (!string.IsNullOrEmpty(animName))
                 {
-                    if (null != obj.animation[animName])
+                    if (null != animation[animName])
                     {
-                        obj.animation[animName].speed = speed;
+                        animation[animName].speed = speed;
                     }
                     else
                     {
@@ -254,13 +257,14 @@ namespace GfxModule.Impact
 
         protected void CrossFadeAnimation(GameObject obj, Animation_Type anim, float time = 0.3f, float speed = 1.0f)
         {
-            if (null != obj && null != obj.animation)
+            Animation animation = obj.GetComponent<Animation>();
+            if (null != obj && null != animation)
             {
                 string animName = GetAnimationNameByType(obj, anim);
-                if (!string.IsNullOrEmpty(animName) && null != obj.animation[animName])
+                if (!string.IsNullOrEmpty(animName) && null != animation[animName])
                 {
-                    obj.animation[animName].speed = speed;
-                    obj.animation.CrossFade(animName, time);
+                    animation[animName].speed = speed;
+                    animation.CrossFade(animName, time);
                 }
             }
             else
@@ -278,12 +282,13 @@ namespace GfxModule.Impact
 
         protected void StopAnimation(GameObject obj, Animation_Type anim)
         {
-            if (null != obj && null != obj.animation)
+            Animation animation = obj.GetComponent<Animation>();
+            if (null != obj && null != animation)
             {
                 string animName = GetAnimationNameByType(obj, anim);
-                if (!string.IsNullOrEmpty(animName) && null != obj.animation[animName])
+                if (!string.IsNullOrEmpty(animName) && null != animation[animName])
                 {
-                    obj.animation.Stop(animName);
+                    animation.Stop(animName);
                 }
             }
             else
@@ -309,22 +314,22 @@ namespace GfxModule.Impact
                     case ImpactMovementType.SenderDir:
                         if (null != info.Sender)
                         {
-                            info.MoveDir = Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0);
+                            info.MoveDir = UnityEngine.Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0);
                         }
                         break;
                     case ImpactMovementType.SenderToTarget:
                         if (null != info.Target)
                         {
-                            Vector3 direction = info.Target.transform.position - info.ImpactSrcPos;
+                            UnityEngine.Vector3 direction = info.Target.transform.position - info.ImpactSrcPos;
                             direction.y = 0.0f;
                             direction.Normalize();
-                            info.MoveDir = Quaternion.LookRotation(direction);
+                            info.MoveDir = UnityEngine.Quaternion.LookRotation(direction);
                         }
                         break;
                     case ImpactMovementType.Inherit:
                         if (null != info.Sender)
                         {
-                            info.MoveDir = Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0);
+                            info.MoveDir = UnityEngine.Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0);
                         }
                         break;
                 }
@@ -375,7 +380,7 @@ namespace GfxModule.Impact
             }
         }
 
-        protected void Move(GameObject obj, Vector3 motion)
+        protected void Move(GameObject obj, UnityEngine.Vector3 motion)
         {
             if (null != obj)
             {
@@ -384,7 +389,7 @@ namespace GfxModule.Impact
                 {
                     while (motion.magnitude > m_MaxMoveStep)
                     {
-                        Vector3 childMotion = Vector3.ClampMagnitude(motion, m_MaxMoveStep);
+                        UnityEngine.Vector3 childMotion = UnityEngine.Vector3.ClampMagnitude(motion, m_MaxMoveStep);
                         motion = motion - childMotion;
                         ImpactUtility.MoveObject(obj, childMotion);
                     }
@@ -393,16 +398,16 @@ namespace GfxModule.Impact
             }
         }
 
-        protected void MoveTo(GameObject obj, Vector3 pos)
+        protected void MoveTo(GameObject obj, UnityEngine.Vector3 pos)
         {
             if (null != obj)
             {
-                RaycastHit hit;
+                UnityEngine.RaycastHit hit;
                 if (Physics.Raycast(obj.transform.position, pos.normalized, out hit, pos.magnitude, 1 << LayerMask.NameToLayer("Terrains")))
                 {
                     pos = hit.point;
                 }
-                Vector3 motion = pos - obj.transform.position;
+                UnityEngine.Vector3 motion = pos - obj.transform.position;
                 Move(obj, motion);
             }
         }
@@ -436,13 +441,14 @@ namespace GfxModule.Impact
         protected float GetAnimationLenthByType(GameObject obj, Animation_Type type)
         {
             string animName = GetAnimationNameByType(obj, type);
+            Animation anim = obj.GetComponent<Animation>();
             if (!string.IsNullOrEmpty(animName))
             {
-                if (null != obj && null != obj.animation)
+                if (null != obj && null != anim)
                 {
                     try
                     {
-                        AnimationState state = obj.animation[animName];
+                        AnimationState state = anim[animName];
                         if (null != state)
                         {
                             return state.length;
@@ -458,7 +464,7 @@ namespace GfxModule.Impact
             return 0.0f;
         }
 
-        protected float GetTerrainHeight(Vector3 pos)
+        protected float GetTerrainHeight(UnityEngine.Vector3 pos)
         {
             if (Terrain.activeTerrain != null)
             {
@@ -466,9 +472,9 @@ namespace GfxModule.Impact
             }
             else
             {
-                RaycastHit hit;
+                UnityEngine.RaycastHit hit;
                 pos.y += 2;
-                if (Physics.Raycast(pos, -Vector3.up, out hit, 30 /*max_ray_cast_dis */, 1 << LayerMask.NameToLayer("Terrains")))
+                if (Physics.Raycast(pos, -UnityEngine.Vector3.up, out hit, 30 /*max_ray_cast_dis */, 1 << LayerMask.NameToLayer("Terrains")))
                 {
                     return hit.point.y + 0.1f;
                 }
@@ -476,7 +482,7 @@ namespace GfxModule.Impact
             }
         }
 
-        protected void PlayEffect(string effect, string bone, Vector3 position, Vector3 rotation, GameObject target, float playTime)
+        protected void PlayEffect(string effect, string bone, UnityEngine.Vector3 position, UnityEngine.Vector3 rotation, GameObject target, float playTime)
         {
             if (string.IsNullOrEmpty(bone))
             {
@@ -488,7 +494,7 @@ namespace GfxModule.Impact
             {
                 obj.transform.parent = parent;
                 obj.transform.localPosition = position;
-                obj.transform.rotation = Quaternion.Euler(rotation);
+                obj.transform.rotation = UnityEngine.Quaternion.Euler(rotation);
             }
             else if (null == parent)
             {

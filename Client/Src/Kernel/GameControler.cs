@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using ArkCrossEngine.Network;
+using UnityEngine.Profiling;
 
 namespace ArkCrossEngine
 {
@@ -115,9 +116,6 @@ namespace ArkCrossEngine
         }
         public static void Init(string logPath, string dataPath)
         {
-            // CrossEngine Type
-            ObjectFactory.ConstructObjectType();
-
             s_IsInited = true;
             s_LogicLogger.Init(logPath);
             HomePath.CurHomePath = dataPath;
@@ -227,8 +225,6 @@ namespace ArkCrossEngine
                 GfxSystem.Tick();
                 GfxModule.Skill.GfxSkillSystem.Instance.Tick();
                 GfxModule.Impact.GfxImpactSystem.Instance.Tick();
-                // CrossEngine Type
-                ObjectFactory.GC();
             }
             finally
             {

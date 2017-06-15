@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -109,7 +110,7 @@ namespace GfxModule.Skill.Trigers
             {
                 audio_mgr = new AudioManager();
                 instance.CustomDatas.AddData<AudioManager>(audio_mgr);
-                audio_mgr.AddAudioSource(DefaultAudioName, obj.audio);
+                audio_mgr.AddAudioSource(DefaultAudioName, obj.GetComponent<AudioSource>());
             }
             m_AudioSource = audio_mgr.GetAudioSource(m_Name);
             if (m_AudioSource == null)
@@ -121,7 +122,7 @@ namespace GfxModule.Skill.Trigers
                 }
                 else
                 {
-                    m_AudioSource = obj.audio;
+                    m_AudioSource = obj.GetComponent<AudioSource>();
                 }
             }
         }
@@ -155,8 +156,8 @@ namespace GfxModule.Skill.Trigers
                 if (attach_node != null)
                 {
                     audiosource_obj.transform.parent = attach_node;
-                    audiosource_obj.transform.rotation = Quaternion.identity;
-                    audiosource_obj.transform.position = Vector3.zero;
+                    audiosource_obj.transform.rotation = UnityEngine.Quaternion.identity;
+                    audiosource_obj.transform.position = UnityEngine.Vector3.zero;
                     if (!m_IsAttach)
                     {
                         audiosource_obj.transform.parent = null;
@@ -179,7 +180,7 @@ namespace GfxModule.Skill.Trigers
                     audiosource_obj.transform.parent = obj.transform;
                 }
             }
-            return audiosource_obj.audio;
+            return audiosource_obj.GetComponent<AudioSource>();
         }
 
         protected override void Load(ScriptableData.CallData callData)
@@ -289,7 +290,7 @@ namespace GfxModule.Skill.Trigers
         private float m_volume = 1.0f;
         private System.Random m_Random = new System.Random();
         private bool m_IsBoneSound = false;
-        private Vector3 m_Position = new Vector3(0, 0, 0);
+        private UnityEngine.Vector3 m_Position = new UnityEngine.Vector3(0, 0, 0);
         private string m_BoneName = "";
         private bool m_IsAttach = true;
 
@@ -327,7 +328,7 @@ namespace GfxModule.Skill.Trigers
                 return true;
             }
             GameObject obj = sender as GameObject;
-            if (obj == null || obj.audio == null)
+            if (obj == null || obj.GetComponent<AudioSource>() == null)
             {
                 return false;
             }

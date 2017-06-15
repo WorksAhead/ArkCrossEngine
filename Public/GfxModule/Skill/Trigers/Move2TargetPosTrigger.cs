@@ -1,5 +1,6 @@
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -95,7 +96,7 @@ namespace GfxModule.Skill.Trigers
                 return false;
             }
             long passed_time = curSectionTime - m_StartTime;
-            Vector3 motion_pos = Vector3.Lerp(m_StartPos, m_TargetPos, passed_time * 1.0f / m_MoveTime);
+            UnityEngine.Vector3 motion_pos = UnityEngine.Vector3.Lerp(m_StartPos, m_TargetPos, passed_time * 1.0f / m_MoveTime);
             TriggerUtil.MoveObjTo(obj, motion_pos);
             TriggerUtil.UpdateObjPosition(obj);
             return true;
@@ -117,8 +118,8 @@ namespace GfxModule.Skill.Trigers
                     m_TargetPos = obj.transform.position;
                     break;
             }
-            Vector3 direction = m_TargetPos - m_StartPos;
-            if (direction != Vector3.zero)
+            UnityEngine.Vector3 direction = m_TargetPos - m_StartPos;
+            if (direction != UnityEngine.Vector3.zero)
             {
                 GfxSkillSystem.ChangeDir(obj, direction);
             }
@@ -139,7 +140,7 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        private Vector3 GetOwnerLastTouchPos(GameObject obj)
+        private UnityEngine.Vector3 GetOwnerLastTouchPos(GameObject obj)
         {
             SharedGameObjectInfo obj_info = LogicSystem.GetSharedGameObjectInfo(obj);
             if (obj_info == null || obj_info.SummonOwnerActorId < 0)
@@ -151,11 +152,11 @@ namespace GfxModule.Skill.Trigers
             {
                 return obj.transform.position;
             }
-            Vector3 last_touch_pos = new Vector3(owner_info.LastTouchX, owner_info.LastTouchY, owner_info.LastTouchZ);
+            UnityEngine.Vector3 last_touch_pos = new UnityEngine.Vector3(owner_info.LastTouchX, owner_info.LastTouchY, owner_info.LastTouchZ);
             return last_touch_pos;
         }
 
-        private Vector3 GetOwnerRandomPos(GameObject obj, Vector3 center, float radius)
+        private UnityEngine.Vector3 GetOwnerRandomPos(GameObject obj, UnityEngine.Vector3 center, float radius)
         {
             SharedGameObjectInfo obj_info = LogicSystem.GetSharedGameObjectInfo(obj);
             if (obj_info == null || obj_info.SummonOwnerActorId < 0)
@@ -170,20 +171,20 @@ namespace GfxModule.Skill.Trigers
             System.Random random = new System.Random();
             float random_x = (float)(random.NextDouble() * radius);
             float random_z = (float)(random.NextDouble() * radius);
-            Vector3 random_pos = center;
+            UnityEngine.Vector3 random_pos = center;
             random_pos.x += random_x;
             random_pos.z += random_z;
-            Vector3 world_random_pos = owner.transform.TransformPoint(random_pos);
+            UnityEngine.Vector3 world_random_pos = owner.transform.TransformPoint(random_pos);
             return CalcValidRandomPos(owner.transform.position, world_random_pos);
         }
 
-        private Vector3 CalcValidRandomPos(Vector3 start_pos, Vector3 random_pos)
+        private UnityEngine.Vector3 CalcValidRandomPos(UnityEngine.Vector3 start_pos, UnityEngine.Vector3 random_pos)
         {
-            Vector3 obj_pos = start_pos;
-            Vector3 end_pos = random_pos;
+            UnityEngine.Vector3 obj_pos = start_pos;
+            UnityEngine.Vector3 end_pos = random_pos;
             end_pos.y += 3;
             obj_pos.y = end_pos.y;
-            RaycastHit hitinfo;
+            UnityEngine.RaycastHit hitinfo;
             int layer = 1 << LayerMask.NameToLayer("AirWall");
             if (Physics.Linecast(obj_pos, end_pos, out hitinfo, layer))
             {
@@ -197,11 +198,11 @@ namespace GfxModule.Skill.Trigers
 
         private long m_MoveTime;
         private TargetPosType m_TargetPosType = TargetPosType.kNone;
-        private Vector3 m_RelativeCenter;
+        private UnityEngine.Vector3 m_RelativeCenter;
         private float m_Radius;
 
         private bool m_IsInited = false;
-        private Vector3 m_StartPos;
-        private Vector3 m_TargetPos;
+        private UnityEngine.Vector3 m_StartPos;
+        private UnityEngine.Vector3 m_TargetPos;
     }
 }

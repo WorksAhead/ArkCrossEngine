@@ -37,7 +37,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -45,7 +45,7 @@ namespace GfxModule.Skill.Trigers
             GameObjectBox gob = instance.CustomDatas.GetData<GameObjectBox>();
             if (gob != null && LogicSystem.ExistGameObject(gob.MyGameObject))
             {
-                Vector3 dir = gob.MyGameObject.transform.position - obj.transform.position;
+                UnityEngine.Vector3 dir = gob.MyGameObject.transform.position - obj.transform.position;
                 GfxSkillSystem.ChangeAllDir(obj, (float)Math.Atan2(dir.x, dir.z));
             }
             return true;

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 namespace ArkCrossEngine
 {
@@ -565,7 +565,7 @@ namespace ArkCrossEngine
         {
             QueueGfxActionWithDelegation(action, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16);
         }
-        public static void QueueGfxActionWithDelegation(Delegate action, params object[] args)
+        public static void QueueGfxActionWithDelegation(System.Delegate action, params object[] args)
         {
             if (null != s_Instance.m_GfxInvoker)
             {

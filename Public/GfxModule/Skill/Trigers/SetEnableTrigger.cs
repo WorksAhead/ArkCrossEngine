@@ -34,7 +34,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;

@@ -1,4 +1,6 @@
 ﻿using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Impact
 {
@@ -28,7 +30,7 @@ namespace GfxModule.Impact
             //}
             if (null != logicInfo && actionCount > 0)
             {
-                type = logicInfo.ConfigData.ActionList[ArkCrossEngine.Random.Range(0, actionCount)];
+                type = logicInfo.ConfigData.ActionList[UnityEngine.Random.Range(0, actionCount)];
             }
             else
             {
@@ -54,7 +56,7 @@ namespace GfxModule.Impact
                 string animName = GetAnimationNameByType(logicInfo.Target, Animation_Type.AT_Grab);
                 if (null != logicInfo.Target)
                 {
-                    if (!logicInfo.Target.animation.IsPlaying(animName))
+                    if (!logicInfo.Target.GetComponent<Animation>().IsPlaying(animName))
                     {
                         PlayAnimation(logicInfo.Target, Animation_Type.AT_Grab);
                     }
@@ -72,8 +74,8 @@ namespace GfxModule.Impact
             StopAnimation(logicInfo.Target, Animation_Type.AT_Grab);
             if (null != logicInfo.Target)
             {
-                Vector3 rotation = logicInfo.Target.transform.rotation.eulerAngles;
-                logicInfo.Target.transform.rotation = Quaternion.Euler(0, rotation.y, 0);
+                UnityEngine.Vector3 rotation = logicInfo.Target.transform.rotation.eulerAngles;
+                logicInfo.Target.transform.rotation = UnityEngine.Quaternion.Euler(0, rotation.y, 0);
             }
             SetGfxStateFlag(logicInfo.Target, Operate_Type.OT_RemoveBit, GfxCharacterState_Type.Grab);
             LogicSystem.NotifyGfxMoveControlFinish(logicInfo.Target, logicInfo.ImpactId, false);

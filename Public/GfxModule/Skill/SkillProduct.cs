@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Skill
 {
@@ -48,17 +49,17 @@ namespace GfxModule.Skill
             }
             m_ShadowObject.transform.position = obj.transform.position;
             m_ShadowObject.transform.rotation = obj.transform.rotation;
-            foreach (AnimationState state in obj.animation)
+            foreach (AnimationState state in obj.GetComponent<Animation>())
             {
                 if (state.enabled && state.weight > 0)
                 {
-                    m_ShadowObject.animation[state.name].normalizedTime = state.normalizedTime;
-                    m_ShadowObject.animation[state.name].weight = state.weight;
-                    m_ShadowObject.animation[state.name].speed = 0;
-                    m_ShadowObject.animation.Play(state.name);
+                    m_ShadowObject.GetComponent<Animation>()[state.name].normalizedTime = state.normalizedTime;
+                    m_ShadowObject.GetComponent<Animation>()[state.name].weight = state.weight;
+                    m_ShadowObject.GetComponent<Animation>()[state.name].speed = 0;
+                    m_ShadowObject.GetComponent<Animation>().Play(state.name);
                 }
             }
-            Component[] renders = m_ShadowObject.GetTypedComponents(ObjectType.Renderer, true);
+            Component[] renders = m_ShadowObject.GetComponents<Renderer>();
             Texture shadow_texture = Resources.Load(m_ShadowMaterial) as Texture;
             Shader shader = Shader.Find(m_ShaderName);
             for (int i = 0; i < renders.Length; i++)
@@ -77,7 +78,7 @@ namespace GfxModule.Skill
                     ((Renderer)renders[i]).material.shader = shader;
                 }
                 ((Renderer)renders[i]).material.mainTexture = shadow_texture;
-                Color co = ((Renderer)renders[i]).material.color;
+                UnityEngine.Color co = ((Renderer)renders[i]).material.color;
                 co.a = m_StartAlpha;
                 ((Renderer)renders[i]).material.color = co;
             }
@@ -112,7 +113,7 @@ namespace GfxModule.Skill
                 long pass_time = GetCurTime() - m_HoldTime;
                 float t = pass_time / (m_FadeOutTime * 1.0f);
                 t = t > 1 ? 1 : t;
-                float new_alpha = Mathf.Lerp(m_StartAlpha, 0, t);
+                float new_alpha = UnityEngine.Mathf.Lerp(m_StartAlpha, 0, t);
                 SetGameObjectAlpha(m_ShadowObject, new_alpha);
             }
             if (m_HoldTime + m_FadeOutTime < GetCurTime())
@@ -134,7 +135,7 @@ namespace GfxModule.Skill
 
         private void SetGameObjectAlpha(GameObject obj, float alpha)
         {
-            Component[] renders = obj.GetTypedComponents(ObjectType.Renderer, true);
+            Component[] renders = obj.GetComponents<Renderer>();
             for (int i = 0; i < renders.Length; i++)
             {
                 if (renders[i].gameObject != null && IsInIgnoreList(renders[i].gameObject.name))
@@ -143,7 +144,7 @@ namespace GfxModule.Skill
                 }
                 if (((Renderer)renders[i]).enabled)
                 {
-                    Color old_color = ((Renderer)renders[i]).material.color;
+                    UnityEngine.Color old_color = ((Renderer)renders[i]).material.color;
                     old_color.a = alpha;
                     ((Renderer)renders[i]).material.color = old_color;
                 }

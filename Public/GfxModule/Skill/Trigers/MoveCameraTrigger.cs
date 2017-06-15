@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -153,9 +154,9 @@ namespace GfxModule.Skill.Trigers
             }*/
         }
 
-        private Vector3 Move(Vector3 speed_vect, Vector3 accel_vect, float time)
+        private UnityEngine.Vector3 Move(UnityEngine.Vector3 speed_vect, UnityEngine.Vector3 accel_vect, float time)
         {
-            Vector3 local_motion = speed_vect * time + accel_vect * time * time / 2;
+            UnityEngine.Vector3 local_motion = speed_vect * time + accel_vect * time * time / 2;
             Camera.main.transform.position += local_motion;
             return (speed_vect + accel_vect * time);
         }

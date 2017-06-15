@@ -107,12 +107,12 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Vector3 position = obj.transform.TransformPoint(m_LocalPostion);
+            UnityEngine.Vector3 position = obj.transform.TransformPoint(m_LocalPostion);
             //Debug.Log("---summon npc: isSimulate=" + m_IsSimulate);
             LogicSystem.NotifyGfxSummonNpc(obj, instance.SkillId, m_NpcTypeId, m_ModelPrefab, m_SkillId, m_AiLogicId, m_followsummonerdead,
                                                     position.x, position.y, position.z, m_AiParamStr, m_SignForSkill, m_IsSimulate);
@@ -124,8 +124,8 @@ namespace GfxModule.Skill.Trigers
         private int m_SkillId;
         private int m_AiLogicId;
         private bool m_followsummonerdead;
-        private Vector3 m_LocalPostion;
-        private Vector3 m_LocalRotate;
+        private UnityEngine.Vector3 m_LocalPostion;
+        private UnityEngine.Vector3 m_LocalRotate;
         private string m_AiParamStr;
         private int m_SignForSkill = 0;
         private bool m_IsSimulate = false;

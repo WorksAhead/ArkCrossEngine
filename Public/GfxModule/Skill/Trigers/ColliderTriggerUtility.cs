@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -17,7 +18,7 @@ namespace GfxModule.Skill.Trigers
         {
             IsAttachEnemy = false;
             AttachNodeName = "";
-            AttachRotation = new Vector3(0, 0, 0);
+            AttachRotation = new UnityEngine.Vector3(0, 0, 0);
             AttachImpact = 0;
             AttachImpactTime = -1;
             FallImpact = 0;
@@ -27,7 +28,7 @@ namespace GfxModule.Skill.Trigers
         }
         public bool IsAttachEnemy;
         public string AttachNodeName;
-        public Vector3 AttachRotation;
+        public UnityEngine.Vector3 AttachRotation;
         public int AttachImpact;
         public int AttachImpactTime;
         public int FallImpact;
@@ -166,11 +167,11 @@ namespace GfxModule.Skill.Trigers
                 return;
             }
             m_Collider = collider_obj;
-            Component[] transes = collider_obj.GetTypedComponents(ObjectType.Transform, true);
+            Component[] transes = collider_obj.GetComponents<Transform>();
             for (int i = 0; i < transes.Length; i++)
             {
-                transes[i].gameObject.SendMessage("SetOnTriggerEnter", onTriggerEnter, SendMessageOptions.DontRequireReceiver);
-                transes[i].gameObject.SendMessage("SetOnTriggerExit", onTriggerExit, SendMessageOptions.DontRequireReceiver);
+                transes[i].gameObject.SendMessage("SetOnTriggerEnter", onTriggerEnter, UnityEngine.SendMessageOptions.DontRequireReceiver);
+                transes[i].gameObject.SendMessage("SetOnTriggerExit", onTriggerExit, UnityEngine.SendMessageOptions.DontRequireReceiver);
             }
             /*
             foreach(Transform child in transes) {
@@ -180,7 +181,7 @@ namespace GfxModule.Skill.Trigers
 
             if (m_ColliderType == ColliderType.kSceneCollider)
             {
-                Vector3 pos = obj.transform.position + obj.transform.rotation * m_Position;
+                UnityEngine.Vector3 pos = obj.transform.position + obj.transform.rotation * m_Position;
                 collider_obj.transform.position = pos;
             }
             else
@@ -189,8 +190,8 @@ namespace GfxModule.Skill.Trigers
                 if (node != null)
                 {
                     collider_obj.transform.parent = node;
-                    collider_obj.transform.localPosition = Vector3.zero;
-                    collider_obj.transform.localRotation = Quaternion.identity;
+                    collider_obj.transform.localPosition = UnityEngine.Vector3.zero;
+                    collider_obj.transform.localRotation = UnityEngine.Quaternion.identity;
                     if (!m_IsAttach)
                     {
                         collider_obj.transform.parent = null;
@@ -202,17 +203,17 @@ namespace GfxModule.Skill.Trigers
         private void CreateBoxCollider(GameObject obj, float liveTime, object onTriggerEnter,
                                        object onTriggerExit, object onDestroy)
         {
-            GameObject collider = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject collider = GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);
             collider.transform.localScale = m_Size;
-            BoxCollider boxcollider = collider.GetTypedComponent(ObjectType.BoxCollider) as BoxCollider;
+            BoxCollider boxcollider = collider.GetComponent<BoxCollider>();
             if (boxcollider != null)
             {
                 boxcollider.isTrigger = true;
             }
             collider.layer = LayerMask.NameToLayer("DamageCollider"); ;
-            Rigidbody rigidbody = collider.AddTypedComponent(ObjectType.Rigidbody) as Rigidbody;
+            Rigidbody rigidbody = collider.AddComponent<Rigidbody>();
             rigidbody.useGravity = false;
-            ColliderScript cs = (ColliderScript)collider.AddComponentAny(typeof(ColliderScript));
+            ColliderScript cs = (ColliderScript)collider.AddComponent<ColliderScript>();
             if (cs != null)
             {
                 cs.SetOnTriggerEnter((MyAction<Collider>)onTriggerEnter);
@@ -221,7 +222,7 @@ namespace GfxModule.Skill.Trigers
             }
             if (!m_IsShow)
             {
-                MeshRenderer mesh = collider.GetTypedComponent(ObjectType.MeshRenderer) as MeshRenderer;
+                MeshRenderer mesh = collider.GetComponent<MeshRenderer>();
                 if (mesh != null)
                 {
                     GameObject.Destroy(mesh);
@@ -352,14 +353,14 @@ namespace GfxModule.Skill.Trigers
 
         private ColliderType m_ColliderType = ColliderType.kSceneCollider;
         private string m_Prefab = "";
-        private Vector3 m_Position;
+        private UnityEngine.Vector3 m_Position;
         private string m_Bone = "";
         private bool m_IsAttach = false;
 
         private AttachConfig m_AttachConfig = new AttachConfig();
 
-        private Vector3 m_Size;
-        private Quaternion m_Eular;
+        private UnityEngine.Vector3 m_Size;
+        private UnityEngine.Quaternion m_Eular;
         private bool m_IsShow = false;
         private Dictionary<BeHitState, StateImpact> m_StateImpacts = new Dictionary<BeHitState, StateImpact>();
         private Dictionary<int, string> m_CollideLayerHandler = new Dictionary<int, string>();

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -49,7 +50,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            Vector3 center = obj.transform.TransformPoint(m_Center);
+            UnityEngine.Vector3 center = obj.transform.TransformPoint(m_Center);
             GameObject target;
             if (m_Relation == CharacterRelation.RELATION_FITSIGNSONS && !m_NeedCollider)
             {
@@ -215,7 +216,7 @@ namespace GfxModule.Skill.Trigers
 
         private int m_SignForSkill;
         private bool m_NeedCollider = true;
-        private Vector3 m_Center;
+        private UnityEngine.Vector3 m_Center;
         private float m_Radius;
         private float m_Degree;
         private float m_DistancePriority;

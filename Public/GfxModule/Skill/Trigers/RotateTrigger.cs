@@ -38,7 +38,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -49,6 +49,6 @@ namespace GfxModule.Skill.Trigers
         }
 
         private long m_RemainTime;
-        private Vector3 m_RotateSpeed;
+        private UnityEngine.Vector3 m_RotateSpeed;
     }
 }

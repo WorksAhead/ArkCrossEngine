@@ -37,12 +37,12 @@ namespace GfxModule.Skill.Trigers
 
         public override bool Execute(object sender, SkillInstance instance, long delta, long curSectionTime)
         {
-            GameObject obj = sender as GameObject;
-            if (null != obj && null != obj.animation)
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
+            if (null != obj && null != obj.GetComponent< UnityEngine.Animation>())
             {
                 if (curSectionTime >= m_StartTime)
                 {
-                    AnimationState state = obj.animation[m_AnimName];
+                    UnityEngine.AnimationState state = obj.GetComponent< UnityEngine.Animation>()[m_AnimName];
                     if (null != state)
                     {
                         state.speed = m_Speed;
@@ -52,9 +52,9 @@ namespace GfxModule.Skill.Trigers
                         }
                         state.weight = m_Weight;
                         state.layer = m_Layer;
-                        state.wrapMode = (WrapMode)m_WrapMode;
+                        state.wrapMode = (UnityEngine.WrapMode)m_WrapMode;
                         state.normalizedTime = 0;
-                        state.blendMode = (m_BlendMode == 0 ? AnimationBlendMode.Blend : AnimationBlendMode.Additive);
+                        state.blendMode = (m_BlendMode == 0 ? UnityEngine.AnimationBlendMode.Blend : UnityEngine.AnimationBlendMode.Additive);
 
                         if (!string.IsNullOrEmpty(m_MixingNode))
                         {
@@ -63,11 +63,11 @@ namespace GfxModule.Skill.Trigers
                     }
                     if (m_PlayMode == 0)
                     {
-                        obj.animation.Play(m_AnimName);
+                        obj.GetComponent<UnityEngine.Animation>().Play(m_AnimName);
                     }
                     else
                     {
-                        obj.animation.CrossFade(m_AnimName, m_CrossFadeTime / 1000.0f);
+                        obj.GetComponent<UnityEngine.Animation>().CrossFade(m_AnimName, m_CrossFadeTime / 1000.0f);
                     }
                     return false;
                 }
@@ -157,7 +157,7 @@ namespace GfxModule.Skill.Trigers
         private bool m_IsEffectSkillTime = false;
         private float m_Weight = 1.0f;
         private int m_Layer = 0;
-        private int m_WrapMode = (int)WrapMode.ClampForever;
+        private int m_WrapMode = (int)UnityEngine.WrapMode.ClampForever;
         private int m_PlayMode = 0;
         private int m_BlendMode = 0;
         private string m_MixingNode = "";
@@ -186,13 +186,13 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
             }
-            Animation animation = obj.GetTypedComponent(ObjectType.Animation) as Animation;
-            AnimationState state = animation[m_AnimName];
+            UnityEngine.Animation animation = obj.GetComponent< UnityEngine.Animation> ();
+            UnityEngine.AnimationState state = animation[m_AnimName];
             if (state != null)
             {
                 float passed_ms = curSectionTime - m_StartTime;
@@ -259,7 +259,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;

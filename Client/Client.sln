@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxModule", "..\Public\GfxM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Src\Client.csproj", "{1AB0B091-F447-4EBB-8ADA-02272E4BB35D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossEngine", "..\CrossEngine\CrossEngine\CrossEngine.csproj", "{2E444007-DCDA-4B89-85BD-E0E96733F099}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		UnityDebug|Any CPU = UnityDebug|Any CPU
@@ -89,10 +87,6 @@ Global
 		{1AB0B091-F447-4EBB-8ADA-02272E4BB35D}.UnityDebug|Any CPU.Build.0 = UnityDebug|Any CPU
 		{1AB0B091-F447-4EBB-8ADA-02272E4BB35D}.UnrealDebug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
 		{1AB0B091-F447-4EBB-8ADA-02272E4BB35D}.UnrealDebug|Any CPU.Build.0 = UnrealDebug|Any CPU
-		{2E444007-DCDA-4B89-85BD-E0E96733F099}.UnityDebug|Any CPU.ActiveCfg = UnityDebug|Any CPU
-		{2E444007-DCDA-4B89-85BD-E0E96733F099}.UnityDebug|Any CPU.Build.0 = UnityDebug|Any CPU
-		{2E444007-DCDA-4B89-85BD-E0E96733F099}.UnrealDebug|Any CPU.ActiveCfg = UnrealDebug|Any CPU
-		{2E444007-DCDA-4B89-85BD-E0E96733F099}.UnrealDebug|Any CPU.Build.0 = UnrealDebug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

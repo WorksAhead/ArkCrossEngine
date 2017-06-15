@@ -4,6 +4,7 @@ using SkillSystem;
 using ArkCrossEngine;
 using GfxModule.Skill.Trigers;
 using GfxModule.Skill;
+using UnityEngine;
 
 namespace GfxModule.SkillResourceAnalysis.Trigers
 {
@@ -233,9 +234,9 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
         private float m_DeleteTime = 0;
         private bool m_IsAttach = true;
 
-        private Vector3 m_Pos = Vector3.zero;
-        private Quaternion m_Dir = Quaternion.identity;
-        private Vector3 m_Scale = Vector3.one;
+        private UnityEngine.Vector3 m_Pos = UnityEngine.Vector3.zero;
+        private UnityEngine.Quaternion m_Dir = UnityEngine.Quaternion.identity;
+        private UnityEngine.Vector3 m_Scale = UnityEngine.Vector3.one;
     }
     /// <summary>
     /// sceneeffect(effect_path,delete_time[,vector3(x,y,z)[,start_time[,eular(rx,ry,rz)[,vector3(sx,sy,sz)]]]]);
@@ -294,9 +295,9 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
         }
 
         private string m_EffectPath = "";
-        private Vector3 m_Pos = Vector3.zero;
-        private Quaternion m_Dir = Quaternion.identity;
-        private Vector3 m_Scale = Vector3.one;
+        private UnityEngine.Vector3 m_Pos = UnityEngine.Vector3.zero;
+        private UnityEngine.Quaternion m_Dir = UnityEngine.Quaternion.identity;
+        private UnityEngine.Vector3 m_Scale = UnityEngine.Vector3.one;
         private float m_DeleteTime = 0;
         private bool m_IsRotateRelativeUser = false;
     }
@@ -344,7 +345,7 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
             {
                 audio_mgr = new AudioManager();
                 instance.CustomDatas.AddData<AudioManager>(audio_mgr);
-                audio_mgr.AddAudioSource(DefaultAudioName, obj.audio);
+                audio_mgr.AddAudioSource(DefaultAudioName, obj.GetComponent<AudioSource>());
             }
             m_AudioSource = audio_mgr.GetAudioSource(m_Name);
             if (m_AudioSource == null)
@@ -356,7 +357,7 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
                 }
                 else
                 {
-                    m_AudioSource = obj.audio;
+                    m_AudioSource = obj.GetComponent<AudioSource>();
                 }
             }
         }
@@ -390,8 +391,8 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
                 if (attach_node != null)
                 {
                     audiosource_obj.transform.parent = attach_node;
-                    audiosource_obj.transform.rotation = Quaternion.identity;
-                    audiosource_obj.transform.position = Vector3.zero;
+                    audiosource_obj.transform.rotation = UnityEngine.Quaternion.identity;
+                    audiosource_obj.transform.position = UnityEngine.Vector3.zero;
                     if (!m_IsAttach)
                     {
                         audiosource_obj.transform.parent = null;
@@ -414,7 +415,7 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
                     audiosource_obj.transform.parent = obj.transform;
                 }
             }
-            return audiosource_obj.audio;
+            return audiosource_obj.GetComponent<AudioSource>();
         }
 
         protected override void Load(ScriptableData.CallData callData)
@@ -513,7 +514,7 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
 
         private System.Random m_Random = new System.Random();
         private bool m_IsBoneSound = false;
-        private Vector3 m_Position = new Vector3(0, 0, 0);
+        private UnityEngine.Vector3 m_Position = new UnityEngine.Vector3(0, 0, 0);
         private string m_BoneName = "";
         private bool m_IsAttach = true;
 
@@ -843,10 +844,10 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
             attach_info.AttachNode = TriggerUtil.GetChildNodeByName(collider.gameObject,
                                                                     attach_config.AttachNodeName);
 
-            Vector3 hit_pos = parent.collider.ClosestPointOnBounds(attach_info.AttachNode.position);
+            UnityEngine.Vector3 hit_pos = parent.GetComponent<Collider>().ClosestPointOnBounds(attach_info.AttachNode.position);
             attach_info.ParentPos = attach_info.ParentObj.transform.InverseTransformPoint(hit_pos);
             attach_info.Rotate = attach_config.AttachRotation;
-            attach_info.MoveControler = attach_info.TargetObj.GetTypedComponent(ObjectType.CharacterController) as CharacterController;
+            attach_info.MoveControler = attach_info.TargetObj.GetComponent<CharacterController>();
             m_AttachedObjects.Add(attach_info);
             UpdateAttachTargetPos(attach_info);
             LogicSystem.NotifyGfxMoveControlStart(attach_info.TargetObj, m_OwnSkill.SkillId, true);
@@ -865,9 +866,9 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
             }
             ati.TargetObj.transform.rotation = ati.ParentObj.transform.rotation;
             ati.TargetObj.transform.Rotate(ati.Rotate);
-            Vector3 relative_motion = (ati.TargetObj.transform.position - ati.AttachNode.position);
-            Vector3 target_pos = ati.ParentObj.transform.TransformPoint(ati.ParentPos) + relative_motion;
-            CollisionFlags flag;
+            UnityEngine.Vector3 relative_motion = (ati.TargetObj.transform.position - ati.AttachNode.position);
+            UnityEngine.Vector3 target_pos = ati.ParentObj.transform.TransformPoint(ati.ParentPos) + relative_motion;
+            UnityEngine.CollisionFlags flag;
             if (ati.MoveControler != null)
             {
                 flag = ati.MoveControler.Move(target_pos - ati.TargetObj.transform.position);
@@ -876,9 +877,9 @@ namespace GfxModule.SkillResourceAnalysis.Trigers
             {
                 return false;
             }
-            Vector3 cur_pos = ati.TargetObj.transform.position;
+            UnityEngine.Vector3 cur_pos = ati.TargetObj.transform.position;
             //if (/*Math.Abs(cur_pos.x - target_pos.x) <= 0.5 && Math.Abs(cur_pos.z - target_pos.z) <= 0.5*/) {
-            if ((flag & CollisionFlags.CollidedSides) <= 0)
+            if ((flag & UnityEngine.CollisionFlags.CollidedSides) <= 0)
             {
                 ati.TargetObj.transform.position = target_pos;
                 return true;

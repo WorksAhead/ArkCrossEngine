@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -119,8 +120,8 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            Vector3 pos = GetTouchPos();
-            Vector3 lastpos = GetLastPos();
+            UnityEngine.Vector3 pos = GetTouchPos();
+            UnityEngine.Vector3 lastpos = GetLastPos();
 
             UpdateDamgedObjectCD(delta);
             bool is_damaged = DamageCrossObjects(obj, instance, pos);
@@ -131,7 +132,7 @@ namespace GfxModule.Skill.Trigers
             return true;
         }
 
-        private void UpdateDirectionAnim(Vector3 touchpos, Vector3 lastpos, bool is_damaged)
+        private void UpdateDirectionAnim(UnityEngine.Vector3 touchpos, UnityEngine.Vector3 lastpos, bool is_damaged)
         {
             if (m_CurDirectionAnimInfo == null)
             {
@@ -151,7 +152,7 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        private CrossDirection GetDirection(Vector3 touchpos, Vector3 lastpos)
+        private CrossDirection GetDirection(UnityEngine.Vector3 touchpos, UnityEngine.Vector3 lastpos)
         {
             float delta_x = touchpos.x - lastpos.x;
             float delta_y = touchpos.y - lastpos.y;
@@ -179,7 +180,7 @@ namespace GfxModule.Skill.Trigers
             }
         }
 
-        private bool DamageCrossObjects(GameObject obj, SkillInstance instance, Vector3 pos)
+        private bool DamageCrossObjects(GameObject obj, SkillInstance instance, UnityEngine.Vector3 pos)
         {
             bool is_damaged_somebody = false;
             SkillDamageManager damage_manager = instance.CustomDatas.GetData<SkillDamageManager>();
@@ -231,18 +232,18 @@ namespace GfxModule.Skill.Trigers
             return is_damaged_somebody;
         }
 
-        private Vector3 GetTouchPos()
+        private UnityEngine.Vector3 GetTouchPos()
         {
-            Vector3 pos = Vector3.zero;
+            UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
             pos.x = GfxSystem.GetTouchPointX();
             pos.y = GfxSystem.GetTouchPointY();
             pos.z = GfxSystem.GetTouchPointZ();
             return pos;
         }
 
-        private Vector3 GetLastPos()
+        private UnityEngine.Vector3 GetLastPos()
         {
-            if (m_LastTouchPos == Vector3.zero)
+            if (m_LastTouchPos == UnityEngine.Vector3.zero)
             {
                 return GetTouchPos();
             }
@@ -266,7 +267,7 @@ namespace GfxModule.Skill.Trigers
         private void Init(GameObject obj)
         {
             m_IsInited = true;
-            m_LastTouchPos = Vector3.zero;
+            m_LastTouchPos = UnityEngine.Vector3.zero;
             LogicSystem.EventChannelForGfx.Publish("ex_skill_start", "skill");
             foreach (DirectionAnimInfo dai in m_DirectionAnims.Values)
             {
@@ -337,7 +338,7 @@ namespace GfxModule.Skill.Trigers
         private Dictionary<CrossDirection, DirectionAnimInfo> m_DirectionAnims = new Dictionary<CrossDirection, DirectionAnimInfo>();
 
         private bool m_IsInited = false;
-        private Vector3 m_LastTouchPos;
+        private UnityEngine.Vector3 m_LastTouchPos;
         private List<DamageObjectInfo> m_DamageCDObjects = new List<DamageObjectInfo>();
         private DirectionAnimInfo m_CurDirectionAnimInfo = null;
     }
@@ -362,20 +363,20 @@ namespace GfxModule.Skill.Trigers
         public void Init(GameObject owner)
         {
             m_Owner = owner;
-            m_Animation = m_Owner.animation;
+            m_Animation = m_Owner.GetComponent<Animation>();
         }
 
         public void Start()
         {
-            PlayAnimation(onceAnimationName, WrapMode.Once);
+            PlayAnimation(onceAnimationName, UnityEngine.WrapMode.Once);
             m_CurAnimSection = AnimSection.kCrossSection;
         }
 
         public void Update()
         {
-            if (m_CurAnimSection == AnimSection.kCrossSection && !m_Owner.animation.IsPlaying(onceAnimationName))
+            if (m_CurAnimSection == AnimSection.kCrossSection && !m_Owner.GetComponent<Animation>().IsPlaying(onceAnimationName))
             {
-                PlayAnimation(loopAnimationName, WrapMode.Loop);
+                PlayAnimation(loopAnimationName, UnityEngine.WrapMode.Loop);
                 m_CurAnimSection = AnimSection.kWaitSection;
             }
         }
@@ -390,13 +391,13 @@ namespace GfxModule.Skill.Trigers
             m_CurAnimSection = AnimSection.kNone;
         }
 
-        private void PlayAnimation(string animname, WrapMode mode)
+        private void PlayAnimation(string animname, UnityEngine.WrapMode mode)
         {
-            AnimationState once_anim = m_Owner.animation[animname];
+            AnimationState once_anim = m_Owner.GetComponent<Animation>()[animname];
             if (once_anim != null)
             {
                 once_anim.wrapMode = mode;
-                m_Owner.animation.CrossFade(animname, 0.1f);
+                m_Owner.GetComponent<Animation>().CrossFade(animname, 0.1f);
             }
         }
 

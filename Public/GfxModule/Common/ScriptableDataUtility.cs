@@ -20,21 +20,21 @@ namespace GfxModule
                 return Vector2.zero;
             }
         }
-        public static Vector3 CalcVector3(ScriptableData.CallData callData)
+        public static UnityEngine.Vector3 CalcVector3(ScriptableData.CallData callData)
         {
             if (null == callData || callData.GetId() != "vector3")
-                return Vector3.zero;
+                return UnityEngine.Vector3.zero;
             int num = callData.GetParamNum();
             if (3 == num)
             {
                 float x = float.Parse(callData.GetParamId(0));
                 float y = float.Parse(callData.GetParamId(1));
                 float z = float.Parse(callData.GetParamId(2));
-                return new Vector3(x, y, z);
+                return new UnityEngine.Vector3(x, y, z);
             }
             else
             {
-                return Vector3.zero;
+                return UnityEngine.Vector3.zero;
             }
         }
         public static Vector4 CalcVector4(ScriptableData.CallData callData)
@@ -55,10 +55,10 @@ namespace GfxModule
                 return Vector4.zero;
             }
         }
-        public static Color CalcColor(ScriptableData.CallData callData)
+        public static UnityEngine.Color CalcColor(ScriptableData.CallData callData)
         {
             if (null == callData || callData.GetId() != "Color")
-                return Color.white;
+                return UnityEngine.Color.white;
             int num = callData.GetParamNum();
             if (4 == num)
             {
@@ -66,11 +66,11 @@ namespace GfxModule
                 float g = float.Parse(callData.GetParamId(1));
                 float b = float.Parse(callData.GetParamId(2));
                 float a = float.Parse(callData.GetParamId(3));
-                return new Color(r, g, b, a);
+                return new UnityEngine.Color(r, g, b, a);
             }
             else
             {
-                return Color.white;
+                return UnityEngine.Color.white;
             }
         }
         public static Quaternion CalcQuaternion(ScriptableData.CallData callData)
@@ -91,21 +91,21 @@ namespace GfxModule
                 return Quaternion.identity;
             }
         }
-        public static Quaternion CalcEularRotation(ScriptableData.CallData callData)
+        public static UnityEngine.Quaternion CalcEularRotation(ScriptableData.CallData callData)
         {
             if (null == callData || callData.GetId() != "eular")
-                return Quaternion.identity;
+                return UnityEngine.Quaternion.identity;
             int num = callData.GetParamNum();
             if (3 == num)
             {
                 float x = float.Parse(callData.GetParamId(0));
                 float y = float.Parse(callData.GetParamId(1));
                 float z = float.Parse(callData.GetParamId(2));
-                return Quaternion.Euler(x, y, z);
+                return UnityEngine.Quaternion.Euler(x, y, z);
             }
             else
             {
-                return Quaternion.identity;
+                return UnityEngine.Quaternion.identity;
             }
         }
     }

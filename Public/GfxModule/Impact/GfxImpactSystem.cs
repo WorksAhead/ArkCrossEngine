@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace GfxModule.Impact
 {
@@ -258,7 +260,7 @@ namespace GfxModule.Impact
             if (null != targetObj)
             {
                 bool needSendImpact = true;
-                Vector3 srcPos = Vector3.zero;
+                UnityEngine.Vector3 srcPos = UnityEngine.Vector3.zero;
                 float srcDir = 0.0f;
                 for (int i = m_ImpactLogicInfos.Count - 1; i >= 0; --i)
                 {
@@ -324,15 +326,15 @@ namespace GfxModule.Impact
                     info.LockFrameInfo = new CurveInfo(config.LockFrameInfo);
                     info.MovementInfo = new CurveMoveInfo(config.CurveMoveInfo);
                 }
-                info.AdjustPoint = Quaternion.Euler(0, ImpactUtility.RadianToDegree(dir), 0) * info.ConfigCacheData.AdjustPointV3 + new Vector3(x, y, z);
+                info.AdjustPoint = UnityEngine.Quaternion.Euler(0, ImpactUtility.RadianToDegree(dir), 0) * info.ConfigCacheData.AdjustPointV3 + new UnityEngine.Vector3(x, y, z);
                 info.AdjustAppend = config.AdjustAppend;
                 info.AdjustDegreeXZ = config.AdjustDegreeXZ;
                 info.AdjustDegreeY = config.AdjustDegreeY;
                 info.ConfigData = config;
                 info.Duration = config.ImpactTime / 1000;
-                info.ImpactSrcPos = new Vector3(x, y, z);
+                info.ImpactSrcPos = new UnityEngine.Vector3(x, y, z);
                 info.ImpactSrcDir = dir;
-                info.NormalEndPoint = GetImpactEndPos(info.Target.transform.position, Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0), info);
+                info.NormalEndPoint = GetImpactEndPos(info.Target.transform.position, UnityEngine.Quaternion.Euler(0, ImpactUtility.RadianToDegree(info.ImpactSrcDir), 0), info);
                 info.NormalPos = info.Target.transform.position;
                 info.OrignalPos = info.Target.transform.position;
                 ShowDebugObject(info.AdjustPoint, 0);
@@ -344,7 +346,7 @@ namespace GfxModule.Impact
                         if (c_EffectPoolCapacity - m_EffectInfoPool.Count < c_MaxHitEffect)
                         {
                             EffectInfo effectinfo = m_EffectInfoPool.Alloc();
-                            info.AddEffectDataByinfo(config.EffectList[i][ArkCrossEngine.Random.Range(0, config.EffectList[i].Count)], effectinfo);
+                            info.AddEffectDataByinfo(config.EffectList[i][UnityEngine.Random.Range(0, config.EffectList[i].Count)], effectinfo);
                         }
                         else
                         {
@@ -388,7 +390,7 @@ namespace GfxModule.Impact
             get { return m_ShowDebug; }
         }
 
-        private void ShowDebugObject(Vector3 pos, int type)
+        private void ShowDebugObject(UnityEngine.Vector3 pos, int type)
         {
             if (true == m_ShowDebug)
             {
@@ -408,10 +410,10 @@ namespace GfxModule.Impact
                 }
             }
         }
-        private Vector3 GetImpactEndPos(Vector3 startPos, Quaternion q, ImpactLogicInfo info)
+        private UnityEngine.Vector3 GetImpactEndPos(UnityEngine.Vector3 startPos, UnityEngine.Quaternion q, ImpactLogicInfo info)
         {
             //"starttime, [movetime, speedx, speedy, speedz, accelx, accely, accelz]+"
-            Vector3 result = Vector3.zero;
+            UnityEngine.Vector3 result = UnityEngine.Vector3.zero;
             List<float> list = null;
             if (info.ConfigCacheData == null)
             {
@@ -431,22 +433,22 @@ namespace GfxModule.Impact
                 float ay = list[i + 5];
                 float az = list[i + 6];
                 float timeSqr_div_2 = time * time / 2;
-                result += q * new Vector3(sx * time + timeSqr_div_2 * ax, sy * time + timeSqr_div_2 * ay, sz * time + timeSqr_div_2 * az);
+                result += q * new UnityEngine.Vector3(sx * time + timeSqr_div_2 * ax, sy * time + timeSqr_div_2 * ay, sz * time + timeSqr_div_2 * az);
             }
             return result + startPos;
         }
 
-        public Vector3 GetAdjustPoint(Vector3 curPos, ImpactLogicInfo info)
+        public UnityEngine.Vector3 GetAdjustPoint(UnityEngine.Vector3 curPos, ImpactLogicInfo info)
         {
-            Vector3 result = new Vector3(curPos.x, curPos.y, curPos.z);
-            Vector3 finalPoint = GetImpactRealEndPos(info);
-            Vector3 fromDirection = info.NormalEndPoint - info.OrignalPos;
-            Vector3 toDirection = finalPoint - info.OrignalPos;
+            UnityEngine.Vector3 result = new UnityEngine.Vector3(curPos.x, curPos.y, curPos.z);
+            UnityEngine.Vector3 finalPoint = GetImpactRealEndPos(info);
+            UnityEngine.Vector3 fromDirection = info.NormalEndPoint - info.OrignalPos;
+            UnityEngine.Vector3 toDirection = finalPoint - info.OrignalPos;
             fromDirection.y = 0;
             toDirection.y = 0;
             if (info.AdjustDegreeXZ > c_Precision || info.AdjustDegreeXZ < c_Precision)
             {
-                Quaternion q = Quaternion.FromToRotation(fromDirection, toDirection);
+                UnityEngine.Quaternion q = UnityEngine.Quaternion.FromToRotation(fromDirection, toDirection);
                 float eulerAngleY = q.eulerAngles.y;
                 if (eulerAngleY > 180)
                 {
@@ -456,7 +458,7 @@ namespace GfxModule.Impact
                 {
                     eulerAngleY = eulerAngleY + 360;
                 }
-                q = Quaternion.Euler(new Vector3(0, eulerAngleY, 0) * info.AdjustDegreeXZ);
+                q = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, eulerAngleY, 0) * info.AdjustDegreeXZ);
                 float scale = 0.0f;
                 if (fromDirection.magnitude < c_Precision)
                 {
@@ -505,9 +507,9 @@ namespace GfxModule.Impact
             //ShowDebugObject((q * curPos) * scale + info.OrignalPos, 0);
         }
 
-        private Vector3 GetImpactRealEndPos(ImpactLogicInfo info)
+        private UnityEngine.Vector3 GetImpactRealEndPos(ImpactLogicInfo info)
         {
-            Vector3 dir = (info.AdjustPoint - info.NormalEndPoint).normalized;
+            UnityEngine.Vector3 dir = (info.AdjustPoint - info.NormalEndPoint).normalized;
             dir.y = 0;
             return dir * info.AdjustAppend + info.AdjustPoint;
         }

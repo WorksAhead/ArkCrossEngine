@@ -1,5 +1,6 @@
 using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -78,7 +79,7 @@ namespace GfxModule.Skill.Trigers
             else
             {
                 target_info.Target.transform.parent = null;
-                Vector3 pos;
+                UnityEngine.Vector3 pos;
                 if (TriggerUtil.NeedCalculateNpcDropPoint(obj, target_info.Target, out pos))
                 {
                     target_info.Target.transform.position = pos;

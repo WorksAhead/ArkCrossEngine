@@ -142,10 +142,6 @@
     <Compile Include="Data\WeeklyLoginConfig.cs" />
     <Compile Include="Data\WordFilter.cs" />
     <Compile Include="Data\XSoulLevelConfigProvider.cs" />
-    <Compile Include="EngineDefine\AnimationDefine.cs" />
-    <Compile Include="EngineDefine\EngineDefine.cs" />
-    <Compile Include="EngineDefine\InputDefine.cs" />
-    <Compile Include="EngineDefine\PhysicsDefine.cs" />
     <Compile Include="Entity\ArenaDataInfo.cs" />
     <Compile Include="Entity\ChallengeInfo.cs" />
     <Compile Include="Entity\CharacterProperty.cs" />

@@ -1,5 +1,6 @@
 ﻿using ArkCrossEngine;
 using SkillSystem;
+using UnityEngine;
 
 namespace GfxModule.Skill.Trigers
 {
@@ -40,7 +41,7 @@ namespace GfxModule.Skill.Trigers
                 Transform tf = obj.transform.Find(m_gopath);
                 if (tf != null)
                 {
-                    SkinnedMeshRenderer smr = tf.GetTypedComponent(ObjectType.SkinnedMeshRenderer) as SkinnedMeshRenderer;
+                    SkinnedMeshRenderer smr = tf.GetComponent<SkinnedMeshRenderer>();
                     if (smr != null)
                     {
                         int count = smr.materials.Length;
@@ -82,7 +83,7 @@ namespace GfxModule.Skill.Trigers
         private Material m_material = null;
         private string m_gopath = "";
         private string m_shadername = "";
-        private Color m_startcolor = Color.white;
-        private Color m_changecolor = Color.white;
+        private UnityEngine.Color m_startcolor = UnityEngine.Color.white;
+        private UnityEngine.Color m_changecolor = UnityEngine.Color.white;
     }
 }

@@ -30,7 +30,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return true;
             }
-            GameObject obj = sender as GameObject;
+            UnityEngine.GameObject obj = sender as UnityEngine.GameObject;
             if (obj == null)
             {
                 return false;
@@ -40,12 +40,12 @@ namespace GfxModule.Skill.Trigers
             {
                 return false;
             }
-            GameObject first_summon = LogicSystem.GetGameObject(owner_info.Summons[0]);
+            UnityEngine.GameObject first_summon = LogicSystem.GetGameObject(owner_info.Summons[0]);
             if (first_summon == null)
             {
                 return false;
             }
-            Vector3 summon_pos = first_summon.transform.position;
+            UnityEngine.Vector3 summon_pos = first_summon.transform.position;
             first_summon.transform.position = obj.transform.position;
             obj.transform.position = summon_pos;
             LogicSystem.NotifyGfxUpdatePosition(obj, obj.transform.position.x, obj.transform.position.y, obj.transform.position.z);

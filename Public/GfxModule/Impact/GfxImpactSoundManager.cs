@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArkCrossEngine;
+using UnityEngine;
 
 namespace GfxModule.Impact
 {

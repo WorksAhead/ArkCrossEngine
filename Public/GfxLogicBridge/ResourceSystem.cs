@@ -1,4 +1,6 @@
-﻿namespace ArkCrossEngine
+﻿using UnityEngine;
+
+namespace ArkCrossEngine
 {
     public static class ResourceSystem
     {
