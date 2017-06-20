@@ -133,7 +133,7 @@ namespace ArkCrossEngine
 
             foreach (string name in m_DBC.Header)
             {
-                if (!name.StartsWith(namePrefix))
+                if (!ArkCrossEngine.CustomStringExtern.CustomStartsWith(name, namePrefix))
                     continue;
 
                 int index = m_DBC.GetHeaderIndexByName(name);
@@ -538,7 +538,7 @@ namespace ArkCrossEngine
                 if (strLine == null) break;
 
                 //是否是注释行
-                if (strLine.StartsWith("#")) continue;
+                if (ArkCrossEngine.CustomStringExtern.CustomStartsWith(strLine, "#")) continue;
 
                 //分解
                 vRet = ConvertStringList(strLine, new string[] { "\t" });

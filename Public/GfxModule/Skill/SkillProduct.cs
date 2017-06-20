@@ -166,7 +166,7 @@ namespace GfxModule.Skill
         {
             for (int i = 0; i < m_IgnoreList.Count; i++)
             {
-                if (m_IgnoreList[i].StartsWith(part_name))
+                if (ArkCrossEngine.CustomStringExtern.CustomStartsWith(m_IgnoreList[i], part_name))
                 {
                     return true;
                 }

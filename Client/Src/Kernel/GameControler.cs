@@ -129,14 +129,8 @@ namespace ArkCrossEngine
                 byte[] buffer = null;
                 try
                 {
+                    // Todo: seprate load from file://...
                     buffer = File.ReadAllBytes(filePath);
-#if !DEBUG
-                    // Note: 排除ab分包版本资源和服务器列表（从服务器下载）
-                    if (filePath.EndsWith(".txt") && !filePath.EndsWith("_ab.txt") && !filePath.EndsWith("ServerConfig.txt")) 
-                    {
-                        Helper.Xor(buffer, xor);
-                    }
-#endif
                 }
                 catch (Exception e)
                 {
