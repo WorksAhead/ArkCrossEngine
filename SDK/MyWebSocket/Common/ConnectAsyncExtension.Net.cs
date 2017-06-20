@@ -98,8 +98,9 @@ namespace SuperSocket.ClientEngine
           try
           {
             args.AcceptSocket.EndConnect(ar);
-            args.AcceptSocket.SendTimeout = 3;
-            args.AcceptSocket.ReceiveTimeout = 3;
+                //args.AcceptSocket.Blocking = true;
+            //args.AcceptSocket.SendTimeout = 3;
+            //args.AcceptSocket.ReceiveTimeout = 3;
             args.SocketError = SocketError.Success;
             //连接成功，主动调用原事件            
             args.Callback(args.AcceptSocket, args.State, args);
