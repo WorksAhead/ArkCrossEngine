@@ -167,7 +167,7 @@ namespace GfxModule.Skill.Trigers
                 return;
             }
             m_Collider = collider_obj;
-            Component[] transes = collider_obj.GetComponents<Transform>();
+            Component[] transes = collider_obj.GetComponentsInChildren<Transform>();
             for (int i = 0; i < transes.Length; i++)
             {
                 transes[i].gameObject.SendMessage("SetOnTriggerEnter", onTriggerEnter, UnityEngine.SendMessageOptions.DontRequireReceiver);

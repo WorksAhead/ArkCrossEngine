@@ -62,17 +62,17 @@ namespace ArkCrossEngine
         {
             GfxSystem.Instance.CallLogicErrorLog(format, args);
         }
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void GfxLog(string format, params object[] args)
         {
-#if DEBUG
+#if !RELEASE
             GfxSystem.Instance.CallGfxLog(string.Format(format, args));
 #endif
         }
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void GfxErrorLog(string format, params object[] args)
         {
-#if DEBUG
+#if !RELEASE
             GfxSystem.Instance.CallGfxErrorLog(string.Format(format, args));
 #endif
         }

@@ -21,7 +21,7 @@ namespace SkillSystem
             if (!string.IsNullOrEmpty(file))
             {
                 ScriptableData.ScriptableDataFile dataFile = new ScriptableData.ScriptableDataFile();
-#if DEBUG
+#if !RELEASE
                 if (dataFile.Load(file))
                 {
                     Load(dataFile);
@@ -35,15 +35,15 @@ namespace SkillSystem
         public void LoadSkillText(string text)
         {
             ScriptableData.ScriptableDataFile dataFile = new ScriptableData.ScriptableDataFile();
-#if DEBUG
+#if !RELEASE
             if (dataFile.LoadFromString(text, "skill"))
             {
                 Load(dataFile);
             }
 #else
-      dataFile.LoadObfuscatedCode(text, GlobalVariables.Instance.DecodeTable);
-      Load(dataFile);
-#endif
+       dataFile.LoadObfuscatedCode(text, GlobalVariables.Instance.DecodeTable);
+       Load(dataFile);
+ #endif
         }
         public SkillInstance NewSkillInstance(int id)
         {

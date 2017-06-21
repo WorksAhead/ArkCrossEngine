@@ -18,7 +18,7 @@ namespace GfxModule.Skill.Trigers
             {
                 if (m_EffectObject[i].activeSelf)
                 {
-                    Component[] ps = m_EffectObject[i].GetComponents<ParticleSystem>();
+                    Component[] ps = m_EffectObject[i].GetComponentsInChildren<ParticleSystem>();
                     for (int j = 0; j < ps.Length; j++)
                     {
                         ((ParticleSystem)ps[j]).playbackSpeed = speed;

@@ -29,15 +29,15 @@ namespace StorySystem
             if (!string.IsNullOrEmpty(file))
             {
                 ScriptableData.ScriptableDataFile dataFile = new ScriptableData.ScriptableDataFile();
-#if DEBUG
+#if !RELEASE
                 if (dataFile.Load(file))
                 {
                     Load(dataFile, sceneId);
                 }
-#else
-        dataFile.LoadObfuscatedFile(file, GlobalVariables.Instance.DecodeTable);
-        Load(dataFile, sceneId);
-#endif
+ #else
+         dataFile.LoadObfuscatedFile(file, GlobalVariables.Instance.DecodeTable);
+         Load(dataFile, sceneId);
+ #endif
             }
         }
         public void LoadStoryText(string text, int sceneId)

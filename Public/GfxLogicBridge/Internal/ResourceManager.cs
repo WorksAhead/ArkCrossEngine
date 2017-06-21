@@ -382,7 +382,7 @@ namespace ArkCrossEngine
                 {
                     ps0.Stop();
                 }
-                Component[] pss = gameObj.GetComponents<ParticleSystem>();
+                Component[] pss = gameObj.GetComponentsInChildren<ParticleSystem>();
                 for (int i = 0; i < pss.Length; i++)
                 {
                     if (null != pss[i])

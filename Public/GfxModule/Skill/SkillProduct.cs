@@ -59,7 +59,7 @@ namespace GfxModule.Skill
                     m_ShadowObject.GetComponent<Animation>().Play(state.name);
                 }
             }
-            Component[] renders = m_ShadowObject.GetComponents<Renderer>();
+            Component[] renders = m_ShadowObject.GetComponentsInChildren<Renderer>();
             Texture shadow_texture = Resources.Load(m_ShadowMaterial) as Texture;
             Shader shader = Shader.Find(m_ShaderName);
             for (int i = 0; i < renders.Length; i++)
@@ -135,7 +135,7 @@ namespace GfxModule.Skill
 
         private void SetGameObjectAlpha(GameObject obj, float alpha)
         {
-            Component[] renders = obj.GetComponents<Renderer>();
+            Component[] renders = obj.GetComponentsInChildren<Renderer>();
             for (int i = 0; i < renders.Length; i++)
             {
                 if (renders[i].gameObject != null && IsInIgnoreList(renders[i].gameObject.name))

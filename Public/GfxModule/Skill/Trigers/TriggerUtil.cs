@@ -58,7 +58,7 @@ namespace GfxModule.Skill.Trigers
             {
                 return null;
             }
-            Component[] ts = gameobj.transform.GetComponents<Transform>();
+            Component[] ts = gameobj.transform.GetComponentsInChildren<Transform>();
             for (int i = 0; i < ts.Length; i++)
             {
                 if (ts[i].name == name)
@@ -489,7 +489,7 @@ namespace GfxModule.Skill.Trigers
 
         public static void SetObjVisible(GameObject obj, bool isShow)
         {
-            Component[] renders = obj.GetComponents<Renderer>();
+            Component[] renders = obj.GetComponentsInChildren<Renderer>();
             for (int i = 0; i < renders.Length; i++)
             {
                 ((Renderer)renders[i]).enabled = isShow;

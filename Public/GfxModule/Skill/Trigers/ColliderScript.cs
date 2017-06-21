@@ -33,16 +33,14 @@ public class ColliderScript : UnityEngine.MonoBehaviour
     {
         if (null != m_OnTrigerEnter)
         {
-            UnityEngine.Collider nativeCollider = new UnityEngine.Collider();
-            m_OnTrigerEnter(nativeCollider);
+            m_OnTrigerEnter(collider);
         }
     }
     void OnTriggerExit(UnityEngine.Collider collider)
     {
         if (null != m_OnTrigerExit)
         {
-            UnityEngine.Collider nativeCollider = new UnityEngine.Collider();
-            m_OnTrigerExit(nativeCollider);
+            m_OnTrigerExit(collider);
         }
     }
 

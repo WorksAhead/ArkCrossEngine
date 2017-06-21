@@ -499,7 +499,7 @@ namespace ArkCrossEngine
             {
                 return null;
             }
-            Component[] ts = gameobj.transform.GetComponents<Transform>();
+            Component[] ts = gameobj.transform.GetComponentsInChildren<Transform>();
             for (int i = 0; i < ts.Length; i++)
             {
                 if (ts[i].name == name)
@@ -622,7 +622,7 @@ namespace ArkCrossEngine
             GameObject obj = GetGameObject(id);
             if (null != obj)
             {
-                Component[] renderers = obj.GetComponents<Renderer>();
+                Component[] renderers = obj.GetComponentsInChildren<Renderer>();
                 if (renderers != null)
                 {
                     for (int i = 0; i < renderers.Length; ++i)
@@ -1041,7 +1041,7 @@ namespace ArkCrossEngine
             {
                 return null;
             }
-            Component[] audiosources = obj.GetComponents<AudioSource>();
+            Component[] audiosources = obj.GetComponentsInChildren<AudioSource>();
             for (int i = 0; i < audiosources.Length; i++)
             {
                 if (audiosources[i].gameObject.name.Equals(source_obj_name))
@@ -1117,7 +1117,7 @@ namespace ArkCrossEngine
                 CallLogicErrorLog("id={0} obj can't find shader {1}!", id, shaderPath);
                 return;
             }
-            Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
+            Component[] renderers = obj.GetComponentsInChildren<SkinnedMeshRenderer>();
             if (renderers != null)
             {
                 for (int i = 0; i < renderers.Length; ++i)
@@ -1137,7 +1137,7 @@ namespace ArkCrossEngine
                 return;
             }
             bool needChange = true;
-            Component[] skinnedRenderers = objInfo.ObjectInstance.GetComponents<SkinnedMeshRenderer>();
+            Component[] skinnedRenderers = objInfo.ObjectInstance.GetComponentsInChildren<SkinnedMeshRenderer>();
             for (int i = 0; i < skinnedRenderers.Length; i++)
             {
                 SkinnedMeshRenderer renderer = (SkinnedMeshRenderer)skinnedRenderers[i];
@@ -1150,7 +1150,7 @@ namespace ArkCrossEngine
                     }
                 }
             }
-            Component[] meshRenderers = objInfo.ObjectInstance.GetComponents<MeshRenderer>();
+            Component[] meshRenderers = objInfo.ObjectInstance.GetComponentsInChildren<MeshRenderer>();
             for (int i = 0; i < meshRenderers.Length; i++)
             {
                 MeshRenderer renderer = (MeshRenderer)meshRenderers[i];
@@ -1240,7 +1240,7 @@ namespace ArkCrossEngine
             {
                 if (info.m_SkinedMaterialChanged)
                 {
-                    Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
+                    Component[] renderers = obj.GetComponentsInChildren<SkinnedMeshRenderer>();
                     int ix = 0;
                     int ct = info.m_SkinedOriginalMaterials.Count;
                     for (int i = 0; i < renderers.Length; i++)
@@ -1255,7 +1255,7 @@ namespace ArkCrossEngine
                 }
                 if (info.m_MeshMaterialChanged)
                 {
-                    Component[] renderers = obj.GetComponents<MeshRenderer>();
+                    Component[] renderers = obj.GetComponentsInChildren<MeshRenderer>();
                     int ix = 0;
                     int ct = info.m_MeshOriginalMaterials.Count;
                     for (int i = 0; i < renderers.Length; i++)
@@ -1471,18 +1471,18 @@ namespace ArkCrossEngine
         {
             QueueLogicActionWithDelegation(m_LogicLogCallback, true, format, args);
         }
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         internal void CallGfxLog(string format, params object[] args)
         {
-#if DEBUG
+#if !RELEASE
             string msg = string.Format(format, args);
             GfxLogImpl(msg);
 #endif
         }
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         internal void CallGfxErrorLog(string format, params object[] args)
         {
-#if DEBUG
+#if !RELEASE
             string msg = string.Format(format, args);
             GfxErrorLogImpl(msg);
 #endif
@@ -1926,7 +1926,7 @@ namespace ArkCrossEngine
             {
                 if (!info.m_SkinedMaterialChanged)
                 {
-                    Component[] renderers = obj.GetComponents<SkinnedMeshRenderer>();
+                    Component[] renderers = obj.GetComponentsInChildren<SkinnedMeshRenderer>();
                     for (int i = 0; i < renderers.Length; i++)
                     {
                         info.m_SkinedOriginalMaterials.Add(((SkinnedMeshRenderer)renderers[i]).materials);
@@ -1938,7 +1938,7 @@ namespace ArkCrossEngine
                 }
                 if (!info.m_MeshMaterialChanged)
                 {
-                    Component[] renderers = obj.GetComponents<MeshRenderer>();
+                    Component[] renderers = obj.GetComponentsInChildren<MeshRenderer>();
                     for (int i = 0; i < renderers.Length; i++)
                     {
                         info.m_MeshOriginalMaterials.Add(((MeshRenderer)renderers[i]).materials);
