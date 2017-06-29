@@ -4562,7 +4562,14 @@ namespace ArkCrossEngine.Network
                 role_info.ArenaStateInfo.LeftFightCount = protoMsg.m_LeftBattleCount;
                 role_info.ArenaStateInfo.CurFightCountBuyTime = protoMsg.m_CurFightCountByTime;
                 long battle_cd_passed_time = role_info.ArenaStateInfo.BaseConfig.BattleCd - protoMsg.m_BattleLeftCDTime;
-                role_info.ArenaStateInfo.LastBattleServerTime = DateTime.Now.AddMilliseconds(-battle_cd_passed_time);
+                try
+                {
+                    role_info.ArenaStateInfo.LastBattleServerTime = DateTime.Now.AddMilliseconds(-battle_cd_passed_time);
+                }
+                catch(Exception ex)
+                {
+                    role_info.ArenaStateInfo.LastBattleServerTime = DateTime.Now;
+                }
             }
             GfxSystem.PublishGfxEvent("arena_info_result", "arena");
         }

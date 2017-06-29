@@ -304,6 +304,11 @@ namespace ArkCrossEngine
             }
         }
 
+        public void SetCameraYawOffset(float offset)
+        {
+            pm_.MoveDirOffset = offset;
+        }
+
         private void KillAll(int key_code, int what)
         {
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
@@ -925,7 +930,19 @@ namespace ArkCrossEngine
             }
         }
 
-        internal float MoveDir { get; set; }
+        internal float MoveDirOffset = 0.0f;
+        internal float _moveDir;
+        internal float MoveDir
+        {
+            get
+            {
+                return _moveDir + MoveDirOffset;
+            }
+            set
+            {
+                _moveDir = value;
+            }
+        }
         internal Motion MotionStatus { get; set; }
         internal bool MotionChanged { get; set; }
         internal Motion JoyStickMotionStatus { get; set; }

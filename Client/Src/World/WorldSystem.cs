@@ -2823,11 +2823,13 @@ namespace ArkCrossEngine
                     else
                     {
                         // 约定npc的高度低于130时，直接判定npc死亡。
+                        /*
                         if (130.0f > info.GetMovementStateInfo().GetPosition3D().Y)
                         {
                             info.NeedDelete = true;
                             OnNpcKilled(info);
                         }
+                        */
                         if (info.NeedDelete)
                         {
                             deletes.Add(info);
