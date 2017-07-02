@@ -333,7 +333,7 @@ namespace ArkCrossEngine
             }
         }
 
-        private void MatchMpve(int key_code, int what)
+        public void MatchMpve(int key_code, int what)
         {
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
             if (null == playerself)
@@ -378,7 +378,7 @@ namespace ArkCrossEngine
                 LobbyNetworkSystem.Instance.StartMpve(4031);
             }
         }
-        private void JoinTwoPlayerStage(int key_code, int what)
+        public void JoinTwoPlayerStage(int key_code, int what)
         {
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
             if (null == playerself)
@@ -487,7 +487,7 @@ namespace ArkCrossEngine
             }
         }
 
-        private void ToolPool(int key_code, int what)
+        public void ToolPool(int key_code, int what)
         {
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
             if (null == playerself)
