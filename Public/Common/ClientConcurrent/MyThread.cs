@@ -1,5 +1,75 @@
 ﻿using System;
+using System.Collections.Generic;
+#if !DISABLE_MULTITHREADING
 using System.Threading;
+#else
+using DummyThread;
+#endif
+
+namespace DummyThread
+{
+    public delegate void ThreadFunction(int pharse);
+    public class Thread
+    {
+        ThreadFunction Function;
+        static List<ThreadFunction> Functions = new List<ThreadFunction>();
+
+        public long ManagedThreadId = 0;
+        static long ThreadIdIndex = 0;
+        public bool IsBackground = false;
+
+        public Thread(ThreadFunction del)
+        {
+            Function = del;
+            ManagedThreadId = ThreadIdIndex++;
+        }
+
+        public void Start()
+        {
+            ThreadFunction fun = Functions.Find(e => e == Function);
+            if (fun == null)
+            {
+                Functions.Add(Function);
+                Function(0);
+            }
+        }
+
+        public void Join()
+        {
+            Function(2);
+            Functions.Remove(Function);
+        }
+
+        public static void Sleep(float time)
+        {
+
+        }
+
+        public static void TickAllThread()
+        {
+            foreach(ThreadFunction fun in Functions)
+            {
+                if (fun != null)
+                {
+                    fun(1);
+                }
+            }
+        }
+    }
+
+    public class Monitor
+    {
+        public static bool TryEnter(object sync)
+        {
+            return true;
+        }
+
+        public static bool Exit(object sync)
+        {
+            return true;
+        }
+    }
+}
 
 namespace ArkCrossEngine
 {
@@ -284,7 +354,11 @@ namespace ArkCrossEngine
 
         private void InitThread(ClientAsyncActionProcessor asyncActionQueue)
         {
+#if !DISABLE_MULTITHREADING
             m_Thread = new Thread(this.Loop);
+#else
+            m_Thread = new Thread(CustomThreadLoop);
+#endif
             m_ActionQueue = asyncActionQueue;
         }
 
@@ -320,6 +394,43 @@ namespace ArkCrossEngine
             catch (Exception ex)
             {
                 LogSystem.Error("ClientThread.Loop throw exception:{0}\n{1}", ex.Message, ex.StackTrace);
+            }
+        }
+
+        private void CustomThreadLoop(int pharse)
+        {
+            if (pharse == 0)
+            {
+                if (OnStartEvent != null)
+                    OnStartEvent();
+                else
+                    OnStart();
+            }
+            else if (pharse == 1)
+            {
+                try
+                {
+                    if (OnTickEvent != null)
+                        OnTickEvent();
+                    else
+                        OnTick();
+                    m_ActionQueue.HandleActions(m_ActionNumPerTick);
+                }
+                catch (Exception ex)
+                {
+                    LogSystem.Error("ClientThread.Tick throw exception:{0}\n{1}", ex.Message, ex.StackTrace);
+                }
+            }
+            else if (pharse == 2)
+            {
+                if (OnQuitEvent != null)
+                    OnQuitEvent();
+                else
+                    OnQuit();
+            }
+            else
+            {
+
             }
         }
 

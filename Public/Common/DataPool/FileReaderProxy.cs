@@ -4,10 +4,12 @@ using System.IO;
 namespace ArkCrossEngine
 {
     public delegate byte[] delegate_ReadFile(string path);
+    public delegate bool delegate_FileExists(string path);
 
     public static class FileReaderProxy
     {
         private static delegate_ReadFile handlerReadFile;
+        private static delegate_FileExists handlerFileExists;
 
         public static MemoryStream ReadFileAsMemoryStream(string filePath)
         {
@@ -54,12 +56,35 @@ namespace ArkCrossEngine
 
         public static bool Exists(string filePath)
         {
-            return File.Exists(filePath);
+            try
+            {
+                if (handlerFileExists != null)
+                {
+                    return handlerFileExists(filePath);
+                }
+                else
+                {
+                    LogSystem.Debug("ReadFileByEngine handler have not register: {0}", filePath);
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                LogSystem.Debug("Exception:{0}\n", e.Message);
+                CrossEngineHelper.LogCallStack();
+                return false;
+            }
         }
 
-        public static void RegisterReadFileHandler(delegate_ReadFile handler)
+        public static void RegisterReadFileHandler(delegate_ReadFile hReadFile, delegate_FileExists hExists)
         {
-            handlerReadFile = handler;
+            handlerReadFile = hReadFile;
+            handlerFileExists = hExists;
+        }
+
+        public static bool IsAllHandlerRegistered()
+        {
+            return (handlerReadFile != null) && (handlerFileExists != null);
         }
 
     }

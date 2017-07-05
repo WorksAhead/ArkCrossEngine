@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Lidgren.Network;
-using System.Threading;
+#if !DISABLE_MULTITHREADING
+using System.Threading; 
+#else
+using DummyThread;
+#endif
 using ArkCrossEngineMessage;
 
 namespace ArkCrossEngine.Network
@@ -37,7 +41,11 @@ namespace ArkCrossEngine.Network
             m_Config.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             m_Config.EnableMessageType(NetIncomingMessageType.WarningMessage);
             m_NetClient = new NetClient(m_Config);
+#if !DISABLE_MULTITHREADING
             m_NetThread = new Thread(new ThreadStart(NetworkThread));
+#else
+            m_NetThread = new Thread(CustomNetWorkThread);
+#endif
             m_NetThread.IsBackground = true;
             m_NetThread.Start();
             return true;
@@ -558,6 +566,40 @@ namespace ArkCrossEngine.Network
                     }
                     OnRecvMessage();
                 }
+            }
+        }
+
+        private void CustomNetWorkThread(int pharse)
+        {
+            if (m_IsWaitStart)
+            {
+                return;
+            }
+
+            if (pharse == 1)
+            {
+                if (!m_IsQuited && !m_IsConnected && !m_IsWaitStart)
+                {
+                    LogSystem.Debug("Connect ip:{0} port:{1} key:{2}\nNetPeer Statistic:{3}", m_Ip, m_Port, m_Key, m_NetClient.Statistics.ToString());
+                    GameControler.NotifyRoomServerDisconnected();
+                    try
+                    {
+                        m_NetClient.Connect(m_Ip, m_Port);
+                    }
+                    catch
+                    {
+                    }
+                    for (int ct = 0; ct < 10 && !m_IsConnected; ++ct)
+                    {
+                        OnRecvMessage();
+                        LogSystem.Debug("Wait NetConnectionStatus.Connected ...");
+                        if (!m_IsConnected)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                    }
+                }
+                OnRecvMessage();
             }
         }
         private void OnConnected(NetConnection conn)

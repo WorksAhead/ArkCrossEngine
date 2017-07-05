@@ -1,5 +1,9 @@
 using System;
+#if !DISABLE_MULTITHREADING
 using System.Threading;
+#else
+using DummyThread;
+#endif
 
 namespace ArkCrossEngine
 {
@@ -305,7 +309,7 @@ namespace ArkCrossEngine
             else
             {
                 //主动推送策略，此情形每个线程各有一个ActionQueue
-                int index = Interlocked.Increment(ref m_TurnIndex) % m_ThreadNum;
+                int index = ClientInterlocked.Increment(ref m_TurnIndex) % m_ThreadNum;
                 return m_Threads[index];
             }
         }

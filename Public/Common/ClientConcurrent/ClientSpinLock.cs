@@ -241,3 +241,29 @@ namespace System.Threading
         }
     }
 }
+
+namespace DummyThread
+{
+    public struct ClientSimpleRwLock
+    {
+        public void EnterReadLock()
+        {
+            
+        }
+
+        public void ExitReadLock()
+        {
+            
+        }
+
+        public void EnterWriteLock()
+        {
+            
+        }
+
+        public void ExitWriteLock()
+        {
+            
+        }
+    }
+}

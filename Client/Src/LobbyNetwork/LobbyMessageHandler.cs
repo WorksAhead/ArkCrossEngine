@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+#if !DISABLE_MULTITHREADING
 using System.Threading;
+#else
+using DummyThread;
+#endif
 using LitJson;
 
 namespace ArkCrossEngine.Network

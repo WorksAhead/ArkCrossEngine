@@ -15,6 +15,7 @@ namespace ArkCrossEngine
         private static WordFilter s_Instance = new WordFilter();
         public void Load(string dictPath)
         {
+            return;
             string path = HomePath.GetAbsolutePath(dictPath);
             if (path != string.Empty)
             {

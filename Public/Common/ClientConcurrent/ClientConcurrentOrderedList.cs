@@ -1,5 +1,10 @@
-using System.Threading;
 using System.Collections.Generic;
+
+#if !DISABLE_MULTITHREADING
+using System.Threading;
+#else
+using DummyThread;
+#endif
 
 namespace System.Collections.Concurrent
 {

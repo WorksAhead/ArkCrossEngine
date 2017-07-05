@@ -1,4 +1,8 @@
+#if !DISABLE_MULTITHREADING
 using System.Threading;
+#else
+using DummyThread;
+#endif
 using System.Collections.Generic;
 
 namespace System.Collections.Concurrent

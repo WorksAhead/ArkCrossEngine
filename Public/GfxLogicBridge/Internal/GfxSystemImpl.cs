@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Profiling;
 using System.Collections.Generic;
+#if !DISABLE_MULTITHREADING
 using System.Threading;
+#else
+using DummyThread;
+#endif
 
 namespace ArkCrossEngine
 {
@@ -1791,12 +1795,14 @@ namespace ArkCrossEngine
                             m_LevelLoadedCallback = null;
                         }
                         Resources.UnloadUnusedAssets();
-                        EndLoading();
+                        
                         CallLogicLog("End LoadScene:{0}", m_TargetScene);
                         if (null != m_OnAfterLoadScene)
                         {
                             m_OnAfterLoadScene(m_TargetScene, m_TargetSceneId);
                         }
+
+                        EndLoading();
                     }
                     else if (m_LoadCacheResInfo.IsError)
                     {
@@ -1839,12 +1845,14 @@ namespace ArkCrossEngine
                         }
                         Resources.UnloadUnusedAssets();
                         System.GC.Collect();
-                        EndLoading();
+                        
                         CallLogicLog("End LoadScene:{0}", m_TargetScene);
                         if (null != m_OnAfterLoadScene)
                         {
                             m_OnAfterLoadScene(m_TargetScene, m_TargetSceneId);
                         }
+
+                        EndLoading();
                     }
                     else
                     {

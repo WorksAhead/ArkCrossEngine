@@ -124,21 +124,10 @@ namespace ArkCrossEngine
             string key = "ArkCrossEngine";
             byte[] xor = Encoding.UTF8.GetBytes(key);
 
-            FileReaderProxy.RegisterReadFileHandler((string filePath) =>
+            if (!FileReaderProxy.IsAllHandlerRegistered())
             {
-                byte[] buffer = null;
-                try
-                {
-                    // Todo: seprate load from file://...
-                    buffer = File.ReadAllBytes(filePath);
-                }
-                catch (Exception e)
-                {
-                    GfxSystem.GfxLog("Exception:{0}\n{1}", e.Message, e.StackTrace);
-                    return null;
-                }
-                return buffer;
-            });
+                throw new Exception("File Reader Proxy Not Registered.");
+            }
 
             LogSystem.OnOutput = (Log_Type type, string msg) =>
             {
@@ -214,6 +203,9 @@ namespace ArkCrossEngine
         {
             try
             {
+#if DISABLE_MULTITHREADING
+                DummyThread.Thread.TickAllThread();
+#endif
                 Profiler.BeginSample("GameController.TickGame");
                 //这里是在渲染线程执行的tick，逻辑线程的tick在GameLogicThread.cs文件里执行。
                 GfxSystem.Tick();
