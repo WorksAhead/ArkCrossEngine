@@ -464,9 +464,10 @@ namespace GfxModule.Impact
             return 0.0f;
         }
 
+        static string[] terrainLayer = { "Terrains" };
         protected float GetTerrainHeight(UnityEngine.Vector3 pos)
         {
-            if (Terrain.activeTerrain != null)
+            if (false/*Terrain.activeTerrain != null*/)
             {
                 return Terrain.activeTerrain.SampleHeight(pos);
             }

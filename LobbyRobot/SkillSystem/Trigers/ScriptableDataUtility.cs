@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ScriptRuntime;
-
+using ArkCrossEngine;
 namespace DashFire
 {
   internal static class ScriptableDataUtility
@@ -9,14 +8,14 @@ namespace DashFire
     internal static Vector2 CalcVector2(ScriptableData.CallData callData)
     {
       if (null == callData || callData.GetId() != "vector2")
-        return Vector2.Zero;
+        return Vector2.zero;
       int num = callData.GetParamNum();
       if (2 == num) {
         float x = float.Parse(callData.GetParamId(0));
         float y = float.Parse(callData.GetParamId(1));
         return new Vector2(x, y);
       } else {
-        return Vector2.Zero;
+        return Vector2.zero;
       }
     }
     internal static Vector3 CalcVector3(ScriptableData.CallData callData)
@@ -51,7 +50,7 @@ namespace DashFire
     internal static Quaternion CalcQuaternion(ScriptableData.CallData callData)
     {
       if (null == callData || callData.GetId() != "quaternion")
-        return Quaternion.Identity;
+        return Quaternion.identity;
       int num = callData.GetParamNum();
       if (4 == num) {
         float x = float.Parse(callData.GetParamId(0));
@@ -60,13 +59,13 @@ namespace DashFire
         float w = float.Parse(callData.GetParamId(3));
         return new Quaternion(x, y, z, w);
       } else {
-        return Quaternion.Identity;
+        return Quaternion.identity;
       }
     }
     internal static Quaternion CalcEularRotation(ScriptableData.CallData callData)
     {
       if (null == callData || callData.GetId() != "eular")
-        return Quaternion.Identity;
+        return Quaternion.identity;
       int num = callData.GetParamNum();
       if (3 == num) {
         float x = float.Parse(callData.GetParamId(0));
@@ -74,7 +73,7 @@ namespace DashFire
         float z = float.Parse(callData.GetParamId(2));
         return Quaternion.CreateFromYawPitchRoll(x, y, z);
       } else {
-        return Quaternion.Identity;
+        return Quaternion.identity;
       }
     }
   }

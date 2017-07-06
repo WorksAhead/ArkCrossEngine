@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using LitJson;
-using DashFire;
-using DashFire.GmCommands;
+using ArkCrossEngine;
+using ArkCrossEngine.GmCommands;
 
-namespace DashFire.Network
+namespace ArkCrossEngine.Network
 {
   internal sealed class LobbyNetworkSystem
   {
@@ -74,7 +74,7 @@ namespace DashFire.Network
         JsonMessage msg = new JsonMessage(JsonMessageID.QuitRoom);
         msg.m_JsonData.SetJsonType(JsonType.Object);
         msg.m_JsonData.Set("m_Guid", m_Guid);
-        DashFireMessage.Msg_CL_QuitRoom protoMsg = new DashFireMessage.Msg_CL_QuitRoom();
+                ArkCrossEngineMessage.Msg_CL_QuitRoom protoMsg = new ArkCrossEngineMessage.Msg_CL_QuitRoom();
         protoMsg.m_IsQuitRoom = false;
         msg.m_ProtoData = protoMsg;
         SendMessage(msg);
@@ -252,7 +252,7 @@ namespace DashFire.Network
     }
     private void OnDataReceived(byte[] data)
     {
-      LogSystem.Info("Receive Data Message {0}:\n{1}", LobbyRobot.Robot.GetDateTime(), Helper.BinToHex(data));
+      LogSystem.Info("Receive Data Message {0}:\n{1}", LobbyRobot.Robot.GetDateTime(), ArkCrossEngine.CrossEngineHelper.BinToHex(data));
     }
 
     private void OnWsOpened(object sender, EventArgs e)
@@ -285,7 +285,7 @@ namespace DashFire.Network
         m_AsyncActionQueue.QueueActionWithDelegation((MyAction<byte[]>)this.OnDataReceived, e.Data);
       }
     }
-    private DashFire.Network.JsonMessageDispatcher MessageDispatcher
+    private ArkCrossEngine.Network.JsonMessageDispatcher MessageDispatcher
     {
       get { return m_MessageDispatcher; }
     }

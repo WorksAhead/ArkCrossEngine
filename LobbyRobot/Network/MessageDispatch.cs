@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Lidgren.Network;
 
-namespace DashFire.Network
+namespace ArkCrossEngine.Network
 {
   class MessageDispatch
   {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SkillSystem;
-using DashFire;
+using ArkCrossEngine;
 
 namespace SkillSystem
 {
@@ -65,7 +65,7 @@ namespace SkillSystem
     {
       SkillInstanceInfo instInfo = GetUnusedSkillInstanceInfoFromPool(skillId);
       if (null == instInfo) {
-        DashFire.SkillLogicData skillData = DashFire.SkillConfigProvider.Instance.ExtractData(DashFire.SkillConfigType.SCT_SKILL, skillId) as DashFire.SkillLogicData;
+        SkillLogicData skillData = SkillConfigProvider.Instance.ExtractData(SkillConfigType.SCT_SKILL, skillId) as SkillLogicData;
         if (null != skillData) {
           string filePath = HomePath.GetAbsolutePath(FilePathDefine_Server.C_SkillDslPath + skillData.SkillDataFile);
           SkillConfigManager.Instance.LoadSkillIfNotExist(skillId, filePath);
@@ -80,11 +80,11 @@ namespace SkillSystem
             AddSkillInstanceInfoToPool(skillId, res);
             return res;
           } else {
-            DashFire.LogSystem.Error("Can't find skill dsl or skill dsl error, skill:{0} !", skillId);
+            LogSystem.Error("Can't find skill dsl or skill dsl error, skill:{0} !", skillId);
             return null;
           }
         } else {
-          DashFire.LogSystem.Error("Can't find skill config, skill:{0} !", skillId);
+          LogSystem.Error("Can't find skill config, skill:{0} !", skillId);
           return null;
         }
       } else {

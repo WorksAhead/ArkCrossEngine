@@ -15,11 +15,11 @@
     </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,22 +36,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\Public\CSharpLibs\3rd_party\Lidgren.Network\Lidgren.Network.dll</HintPath>
+      <HintPath>..\Public\CSharpLibs\ThirdParty\Lidgren.Network\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
-      <HintPath>..\Public\CSharpLibs\3rd_party\json\LitJson.dll</HintPath>
+      <HintPath>..\Public\CSharpLibs\ThirdParty\json\LitJson.dll</HintPath>
     </Reference>
     <Reference Include="MyWebSocket">
-      <HintPath>..\Public\CSharpLibs\3rd_party\websocket\MyWebSocket.dll</HintPath>
+      <HintPath>..\Public\CSharpLibs\ThirdParty\websocket\MyWebSocket.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\Public\CSharpLibs\3rd_party\protobuf\protobuf-net.dll</HintPath>
+      <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="ProtobufSerializer">
-      <HintPath>..\Public\ClientProtoBuf\bin\ProtobufSerializer.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptFrameworkLibrary">
-      <HintPath>..\Public\CSharpLibs\engine\ScriptFrameworkLibrary.dll</HintPath>
+      <HintPath>..\Bin\ProtobufSerializer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

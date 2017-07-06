@@ -6,7 +6,7 @@ using System.Threading;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using DashFire;
+using ArkCrossEngine;
 
 namespace LobbyRobot
 {
@@ -62,26 +62,21 @@ namespace LobbyRobot
       LogSystem.OnOutput = (Log_Type type, string msg) => {
         Console.WriteLine(msg);
       };
-#if USE_FOR_RELEASE
-      string key = "防君子不防小人";
-      byte[] xor = Encoding.UTF8.GetBytes(key);
-#endif
-      FileReaderProxy.RegisterReadFileHandler((string filePath) => {
-        byte[] buffer = null;
-        try {
-          buffer = File.ReadAllBytes(filePath);
-#if USE_FOR_RELEASE
-          Helper.Xor(buffer, xor);
-#endif
-        } catch (Exception e) {
-          LogSystem.Error("Exception:{0}\n{1}", e.Message, e.StackTrace);
-          return null;
-        }
-        return buffer;
-      });
+
+            FileReaderProxy.RegisterReadFileHandler((string filePath) => {
+                byte[] buffer = null;
+                try {
+                    buffer = File.ReadAllBytes(filePath);
+
+                } catch (Exception e) {
+                    LogSystem.Error("Exception:{0}\n{1}", e.Message, e.StackTrace);
+                    return null;
+                }
+                return buffer;
+            }, (string path) => { return File.Exists(path); });
       GlobalVariables.Instance.IsClient = false;
       string tmpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-      HomePath.CurHomePath = Path.Combine(tmpPath, "../../../DcoreEnv/bin");
+      HomePath.CurHomePath = Path.Combine(tmpPath, "../DcoreEnv/bin");
       Console.WriteLine("home path:{0}", HomePath.CurHomePath);
       SceneConfigProvider.Instance.Load(FilePathDefine_Server.C_SceneConfig, "ScenesConfigs");
       ItemConfigProvider.Instance.Load(FilePathDefine_Server.C_ItemConfig, "ItemConfig");

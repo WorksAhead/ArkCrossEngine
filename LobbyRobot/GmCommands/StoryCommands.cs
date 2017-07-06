@@ -6,7 +6,7 @@ using System.Text;
 using StorySystem;
 using DashFire;
 
-namespace DashFire.GmCommands
+namespace ArkCrossEngine.GmCommands
 {
   /// <summary>
   /// startscript(script_id);

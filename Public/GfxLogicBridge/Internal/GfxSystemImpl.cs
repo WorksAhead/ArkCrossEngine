@@ -1400,17 +1400,18 @@ namespace ArkCrossEngine
         }
 
         //Gfx线程执行的函数，对游戏逻辑线程的异步调用由这里发起
+        static string[] terrainLayer = { "Terrains" };
         internal float SampleTerrainHeight(float x, float z)
         {
             float y = c_MinTerrainHeight;
-            if (null != Terrain.activeTerrain)
+            if (false/*null != Terrain.activeTerrain*/)
             {
                 y = Terrain.activeTerrain.SampleHeight(new UnityEngine.Vector3(x, c_MinTerrainHeight, z));
             }
             else
             {
                 UnityEngine.RaycastHit hit;
-                if (Physics.Raycast(new UnityEngine.Vector3(x, c_MinTerrainHeight * 2, z), UnityEngine.Vector3.down, out hit, c_MinTerrainHeight * 2, 1 << UnityEngine.LayerMask.NameToLayer("Terrains")))
+                if (Physics.Raycast(new UnityEngine.Vector3(x, c_MinTerrainHeight, z), UnityEngine.Vector3.down, out hit, c_MinTerrainHeight * 2, LayerMask.GetMask(terrainLayer) ))
                 {
                     y = hit.point.y;
                 }

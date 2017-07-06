@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ScriptRuntime;
 using StorySystem;
 using LobbyRobot;
+using ArkCrossEngine;
 
-namespace DashFire.GmCommands
+namespace ArkCrossEngine.GmCommands
 {
   internal sealed class ClientGmStorySystem
   {
@@ -102,7 +102,7 @@ namespace DashFire.GmCommands
         StoryInstance inst = StoryConfigManager.Instance.NewStoryInstance(storyId, 0);
 
         if (inst == null) {
-          DashFire.LogSystem.Error("Can't load story config, story:{0} !", storyId);
+          LogSystem.Error("Can't load story config, story:{0} !", storyId);
           return null;
         }
         StoryInstanceInfo res = new StoryInstanceInfo();
