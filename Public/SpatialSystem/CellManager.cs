@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ArkCrossEngine;
+using ArkCrossEngineSpatial.Cow;
 
 namespace ArkCrossEngineSpatial
 {
@@ -43,34 +44,13 @@ namespace ArkCrossEngineSpatial
             }
             try
             {
-                using (MemoryStream ms = FileReaderProxy.ReadFileAsMemoryStream(filename))
+                if (filename.Contains("cow_walkable"))
                 {
-                    using (BinaryReader br = new BinaryReader(ms))
-                    {
-                        map_width_ = (float)br.ReadDouble();
-                        map_height_ = (float)br.ReadDouble();
-                        cell_width_ = (float)br.ReadDouble();
-                        GetCell(new Vector3(map_width_, 0, map_height_), out max_row_, out max_col_);
-                        max_row_++;
-                        max_col_++;
-                        if (max_col_ % 2 == 0)
-                        {
-                            max_row_++;
-                        }
-                        cells_arr_ = new byte[max_row_, max_col_];
-                        int row = 0;
-                        int col = 0;
-                        while (ms.Position < ms.Length && row < max_row_)
-                        {
-                            cells_arr_[row, col] = br.ReadByte();
-                            if (++col >= max_col_)
-                            {
-                                col = 0;
-                                ++row;
-                            }
-                        }
-                        br.Close();
-                    }
+                    InitCow(filename);
+                }
+                else
+                {
+                    InitDefault(filename);
                 }
             }
             catch (Exception e)
@@ -121,6 +101,18 @@ namespace ArkCrossEngineSpatial
         // 查询cell
         public bool GetCell(Vector3 pos, out int cell_row, out int cell_col)
         {
+            if (m_WalkableDataFormat == WalkableDataFormat.WDF_Default)
+            {
+                return GetCellDefault(pos, out cell_row, out cell_col);
+            }
+            else
+            {
+                return GetCellCow(pos, out cell_row, out cell_col);
+            }
+        }
+
+        bool GetCellDefault(Vector3 pos, out int cell_row, out int cell_col)
+        {
             cell_row = (int)(pos.Z / cell_width_);
             float y = pos.Z - cell_row * cell_width_;
             if (y >= cell_width_ + 0.001f)
@@ -132,6 +124,12 @@ namespace ArkCrossEngineSpatial
                 ++cell_col;
 
             return cell_row >= 0 && cell_row < max_row_ && cell_col >= 0 && cell_col < max_col_;
+        }
+
+        bool GetCellCow(Vector3 pos, out int cell_row, out int cell_col)
+        {
+            m_WalkableData.GetGridIndex(pos, out cell_col, out cell_row);
+            return cell_col >= 0 && cell_col < m_WalkableData.maxNodeNumInWidth && cell_row >= 0 && cell_row < m_WalkableData.maxNodeNumInDepth;
         }
 
         public bool RayCast(Vector3 start, Vector3 end, bool includeCanShoot, bool includeCanLeap, bool includeCantLeap, bool includeLevel, out CellPos cell)
@@ -205,19 +203,47 @@ namespace ArkCrossEngineSpatial
             if (ltValid && rbValid)
             {
                 const float c_Scale = 1000.0f;//防止tx/deltaTx/tz/deltaTz过小的倍率（防止小于浮点精度）
-                int c = (int)(start.X / cell_width_);
-                int r = (int)(start.Z / cell_width_);
-                int cend = (int)(end.X / cell_width_);
-                int rend = (int)(end.Z / cell_width_);
+                int c;
+                int r;
+                int cend;
+                int rend;
+                if (m_WalkableDataFormat == WalkableDataFormat.WDF_Default)
+                {
+                    c = (int)(start.X / cell_width_);
+                    r = (int)(start.Z / cell_width_);
+                    cend = (int)(end.X / cell_width_);
+                    rend = (int)(end.Z / cell_width_);
+                }
+                else
+                {
+                    m_WalkableData.GetGridIndex(start, out c, out r);
+                    m_WalkableData.GetGridIndex(end, out cend, out rend);
+                }
 
                 int dc = ((c < cend) ? 1 : ((c > cend) ? -1 : 0));
                 int dr = ((r < rend) ? 1 : ((r > rend) ? -1 : 0));
 
-                float minX = cell_width_ * (float)Math.Floor(start.X / cell_width_);
-                float maxX = minX + cell_width_;
+                float minX;
+                float maxX;
+                float minZ;
+                float maxZ;
+                if (m_WalkableDataFormat == WalkableDataFormat.WDF_Default)
+                {
+                    minX = cell_width_ * (float)Math.Floor(start.X / cell_width_);
+                    maxX = minX + cell_width_;
+                    minZ = cell_width_ * (float)Math.Floor(start.Z / cell_width_);
+                    maxZ = minZ + cell_width_;
+                }
+                else
+                {
+                    Vector3 startWorldPos = (Vector3)m_WalkableData.GetWorldPosition(c, r, start.y);
+                    minX = startWorldPos.x -= m_WalkableData.nodeSize / 2.0f;
+                    maxX = startWorldPos.x += m_WalkableData.nodeSize / 2.0f;
+                    minZ = startWorldPos.z -= m_WalkableData.nodeSize / 2.0f;
+                    maxZ = startWorldPos.z += m_WalkableData.nodeSize / 2.0f;
+
+                }
                 float tx = (dc == 0 ? float.MaxValue : (dc > 0 ? (maxX - start.X) : (start.X - minX)) * c_Scale / Math.Abs(end.X - start.X));
-                float minZ = cell_width_ * (float)Math.Floor(start.Z / cell_width_);
-                float maxZ = minZ + cell_width_;
                 float tz = (dr == 0 ? float.MaxValue : (dr > 0 ? (maxZ - start.Z) : (start.Z - minZ)) * c_Scale / Math.Abs(end.Z - start.Z));
 
                 float deltaTx = (dc == 0 ? float.MaxValue : cell_width_ * c_Scale / Math.Abs(end.X - start.X));
@@ -418,10 +444,27 @@ namespace ArkCrossEngineSpatial
 
         public Vector3 GetCellCenter(int row, int col)
         {
+            if (m_WalkableDataFormat == WalkableDataFormat.WDF_Default)
+            {
+                return GetCellCenterDefault(row, col);
+            }
+            else
+            {
+                return GetCellCenterCow(row, col);
+            }
+        }
+
+        Vector3 GetCellCenterDefault(int row, int col)
+        {
             Vector3 center = new Vector3();
             center.X = col * cell_width_ + cell_width_ / 2;
             center.Z = row * cell_width_ + cell_width_ / 2;
             return center;
+        }
+
+        Vector3 GetCellCenterCow(int row, int col)
+        {
+            return (Vector3)m_WalkableData.GetWorldPosition(col, row, 0);
         }
 
         public byte GetCellStatus(int row, int col)
@@ -508,7 +551,78 @@ namespace ArkCrossEngineSpatial
             return polygon;
         }
 
+        void InitDefault(string filename)
+        {
+            using (MemoryStream ms = FileReaderProxy.ReadFileAsMemoryStream(filename))
+            {
+                using (BinaryReader br = new BinaryReader(ms))
+                {
+                    map_width_ = (float)br.ReadDouble();
+                    map_height_ = (float)br.ReadDouble();
+                    cell_width_ = (float)br.ReadDouble();
+                    GetCell(new Vector3(map_width_, 0, map_height_), out max_row_, out max_col_);
+                    max_row_++;
+                    max_col_++;
+                    if (max_col_ % 2 == 0)
+                    {
+                        max_row_++;
+                    }
+                    cells_arr_ = new byte[max_row_, max_col_];
+                    int row = 0;
+                    int col = 0;
+                    while (ms.Position < ms.Length && row < max_row_)
+                    {
+                        cells_arr_[row, col] = br.ReadByte();
+                        if (++col >= max_col_)
+                        {
+                            col = 0;
+                            ++row;
+                        }
+                    }
+                    br.Close();
+                }
+            }
+        }
+
+        void InitCow(string filename)
+        {
+            m_WalkableData = new WalkableData();
+            if (!m_WalkableData.Initial(filename))
+            {
+                throw new System.Exception("Failed to init cow's walkable data.");
+            }
+
+            m_WalkableDataFormat = WalkableDataFormat.WDF_Cow;
+
+            // Use cow's walkable data initial df's cell variables.
+            map_width_ = m_WalkableData.gridSize.x;
+            map_height_ = m_WalkableData.gridSize.y;
+            cell_width_ = m_WalkableData.nodeSize;
+            max_row_ = m_WalkableData.maxNodeNumInDepth;
+            max_col_ = m_WalkableData.maxNodeNumInWidth;
+            cells_arr_ = new byte[max_row_, max_col_];
+
+            for (int z = 0; z < m_WalkableData.maxNodeNumInDepth; z++)
+            {
+                for (int x = 0; x < m_WalkableData.maxNodeNumInWidth; x++)
+                {
+                    byte walkable = m_WalkableData.GetWalkableStatus(x, z);
+                    cells_arr_[z, x] = walkable;
+                }
+            }
+        }
+
         // private attribute------------------------------------------------------
+        enum WalkableDataFormat
+        {
+            // The original walkable data format.
+            WDF_Default = 0,
+            // The extended cow's walkable data format.
+            WDF_Cow,
+        }
+        WalkableDataFormat m_WalkableDataFormat = WalkableDataFormat.WDF_Default;
+        WalkableData m_WalkableData = null;
+
         private float map_width_;   // 地图的宽度
         private float map_height_;  // 地图的高度
         private float cell_width_; // 阻挡区域的一边边长

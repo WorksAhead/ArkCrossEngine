@@ -42,6 +42,7 @@
     <Compile Include="CellMapView.cs" />
     <Compile Include="CellMapViewWithMapData.cs" />
     <Compile Include="Collide.cs" />
+    <Compile Include="IntVector.cs" />
     <Compile Include="JumpPointFinder.cs" />
     <Compile Include="MapParser.cs" />
     <Compile Include="PathFinder.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="SpatialSystem.cs" />
     <Compile Include="TiledData.cs" />
     <Compile Include="TmxToTxt.cs" />
+    <Compile Include="WalkableData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

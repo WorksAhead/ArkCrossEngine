@@ -1966,6 +1966,265 @@ namespace ArkCrossEngine
             return !(lhs == rhs);
         }
 
+        public static Matrix4x4 TRS(Vector3 pos, Quaternion q, Vector3 s)
+        {
+            Matrix4x4 temp = Matrix4x4.zero;
+            temp.SetTRS(pos, q, s);
+            return temp;
+        }
+
+        public void SetTRS(Vector3 pos, Quaternion q, Vector3 s)
+        {
+            QuaternionToMatrix(q, ref this);
+
+            this[0] *= s[0];
+            this[1] *= s[0];
+            this[2] *= s[0];
+
+            this[4] *= s[1];
+            this[5] *= s[1];
+            this[6] *= s[1];
+
+            this[8] *= s[2];
+            this[9] *= s[2];
+            this[10] *= s[2];
+
+            this[12] = pos[0];
+            this[13] = pos[1];
+            this[14] = pos[2];
+        }
+
+        void QuaternionToMatrix(Quaternion q, ref Matrix4x4 m)
+        {
+            float x = q.x * 2.0F;
+            float y = q.y * 2.0F;
+            float z = q.z * 2.0F;
+            float xx = q.x * x;
+            float yy = q.y * y;
+            float zz = q.z * z;
+            float xy = q.x * y;
+            float xz = q.x * z;
+            float yz = q.y * z;
+            float wx = q.w * x;
+            float wy = q.w * y;
+            float wz = q.w * z;
+
+            // Calculate 3x3 matrix from orthonormal basis
+            m[0] = 1.0f - (yy + zz);
+            m[1] = xy + wz;
+            m[2] = xz - wy;
+            m[3] = 0.0F;
+
+            m[4] = xy - wz;
+            m[5] = 1.0f - (xx + zz);
+            m[6] = yz + wx;
+            m[7] = 0.0F;
+
+            m[8] = xz + wy;
+            m[9] = yz - wx;
+            m[10] = 1.0f - (xx + yy);
+            m[11] = 0.0F;
+
+            m[12] = 0.0F;
+            m[13] = 0.0F;
+            m[14] = 0.0F;
+            m[15] = 1.0F;
+        }
+
+        void CopyMatrix(ref Matrix4x4 m)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                this[i] = m[i];
+            }
+        }
+
+        public Matrix4x4 inverse { get { return Matrix4x4.Inverse(this); } }
+
+        public static Matrix4x4 Inverse(Matrix4x4 m)
+        {
+            Matrix4x4 output = Matrix4x4.zero;
+            output.CopyMatrix(ref m);
+            output.Invert_Full();
+            return output;
+        }
+
+        Matrix4x4 Invert_Full()
+        {
+            InvertMatrix4x4_Full(ref this, ref this);
+            return this;
+        }
+
+        float MAT(ref Matrix4x4 m, int r, int c)
+        {
+            return m[c * 4 + r];
+        }
+
+        void MAT(ref Matrix4x4 m, int r, int c, float input)
+        {
+            m[c * 4 + r] = input;
+        }
+
+        bool RETURN_ZERO(ref Matrix4x4 output)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                output[i] = 0.0F;
+            }
+	        return false;
+        }
+
+        /*
+        void SWAP_ROWS(float[] a, float[] b)
+        {
+            float[] _tmp = a;
+            a = b;
+            b = _tmp;
+        }
+        */
+
+        bool InvertMatrix4x4_Full(ref Matrix4x4 m, ref Matrix4x4 output)
+        {
+            float m0, m1, m2, m3, s;
+            float[] r0 = new float[8];
+            float[] r1 = new float[8];
+            float[] r2 = new float[8];
+            float[] r3 = new float[8];
+
+            r0[0] = MAT(ref m, 0, 0); r0[1] = MAT(ref m, 0, 1);
+            r0[2] = MAT(ref m, 0, 2); r0[3] = MAT(ref m, 0, 3);
+            r0[4] = 1.0f; r0[5] = r0[6] = r0[7] = 0.0f;
+
+            r1[0] = MAT(ref m, 1, 0); r1[1] = MAT(ref m, 1, 1);
+            r1[2] = MAT(ref m, 1, 2); r1[3] = MAT(ref m, 1, 3);
+            r1[5] = 1.0f; r1[4] = r1[6] = r1[7] = 0.0f;
+
+            r2[0] = MAT(ref m, 2, 0); r2[1] = MAT(ref m, 2, 1);
+            r2[2] = MAT(ref m, 2, 2); r2[3] = MAT(ref m, 2, 3);
+            r2[6] = 1.0f; r2[4] = r2[5] = r2[7] = 0.0f;
+
+            r3[0] = MAT(ref m, 3, 0); r3[1] = MAT(ref m, 3, 1);
+            r3[2] = MAT(ref m, 3, 2); r3[3] = MAT(ref m, 3, 3);
+            r3[7] = 1.0f; r3[4] = r3[5] = r3[6] = 0.0f;
+
+            /* choose pivot - or die */
+            if (Math.Abs(r3[0]) > Math.Abs(r2[0]))
+            {
+                // SWAP_ROWS(r3, r2);
+                float[] _tmp = r3;
+                r3 = r2;
+                r2 = _tmp;
+            }
+            if (Math.Abs(r2[0]) > Math.Abs(r1[0]))
+            {
+                // SWAP_ROWS(r2, r1);
+                float[] _tmp = r2;
+                r2 = r1;
+                r1 = _tmp;
+            }
+            if (Math.Abs(r1[0]) > Math.Abs(r0[0]))
+            {
+                // SWAP_ROWS(r1, r0);
+                float[] _tmp = r1;
+                r1 = r0;
+                r0 = _tmp;
+            }
+            if (0.0F == r0[0]) return RETURN_ZERO(ref output);
+
+            /* eliminate first variable     */
+            m1 = r1[0] / r0[0]; m2 = r2[0]/r0[0]; m3 = r3[0]/r0[0];
+            s = r0[1]; r1[1] -= m1* s; r2[1] -= m2* s; r3[1] -= m3* s;
+            s = r0[2]; r1[2] -= m1* s; r2[2] -= m2* s; r3[2] -= m3* s;
+            s = r0[3]; r1[3] -= m1* s; r2[3] -= m2* s; r3[3] -= m3* s;
+            s = r0[4];
+            if (s != 0.0F) { r1[4] -= m1* s; r2[4] -= m2* s; r3[4] -= m3* s; }
+            s = r0[5];
+            if (s != 0.0F) { r1[5] -= m1* s; r2[5] -= m2* s; r3[5] -= m3* s; }
+            s = r0[6];
+            if (s != 0.0F) { r1[6] -= m1* s; r2[6] -= m2* s; r3[6] -= m3* s; }
+            s = r0[7];
+            if (s != 0.0F) { r1[7] -= m1* s; r2[7] -= m2* s; r3[7] -= m3* s; }
+
+            /* choose pivot - or die */
+            if (Math.Abs(r3[1]) > Math.Abs(r2[1]))
+            {
+                // SWAP_ROWS(r3, r2);
+                float[] _tmp = r3;
+                r3 = r2;
+                r2 = _tmp;
+            }
+            if (Math.Abs(r2[1]) > Math.Abs(r1[1]))
+            {
+                // SWAP_ROWS(r2, r1);
+                float[] _tmp = r2;
+                r2 = r1;
+                r1 = _tmp;
+            }
+            if (0.0F == r1[1]) return RETURN_ZERO(ref output);
+
+            /* eliminate second variable */
+            m2 = r2[1]/r1[1]; m3 = r3[1]/r1[1];
+            r2[2] -= m2* r1[2]; r3[2] -= m3* r1[2];
+            r2[3] -= m2* r1[3]; r3[3] -= m3* r1[3];
+            s = r1[4]; if (0.0F != s) { r2[4] -= m2* s; r3[4] -= m3* s; }
+            s = r1[5]; if (0.0F != s) { r2[5] -= m2* s; r3[5] -= m3* s; }
+            s = r1[6]; if (0.0F != s) { r2[6] -= m2* s; r3[6] -= m3* s; }
+            s = r1[7]; if (0.0F != s) { r2[7] -= m2* s; r3[7] -= m3* s; }
+
+            /* choose pivot - or die */
+            if (Math.Abs(r3[2]) > Math.Abs(r2[2]))
+            {
+                // SWAP_ROWS(r3, r2);
+                float[] _tmp = r3;
+                r3 = r2;
+                r2 = _tmp;
+            }
+            if (0.0F == r2[2]) return RETURN_ZERO(ref output);
+
+            /* eliminate third variable */
+            m3 = r3[2]/r2[2];
+            r3[3] -= m3 * r2[3]; r3[4] -= m3 * r2[4];
+            r3[5] -= m3 * r2[5]; r3[6] -= m3 * r2[6];
+            r3[7] -= m3 * r2[7];
+
+            /* last check */
+            if (0.0F == r3[3]) return RETURN_ZERO(ref output);
+
+            s = 1.0F/r3[3];             /* now back substitute row 3 */
+            r3[4] *= s; r3[5] *= s; r3[6] *= s; r3[7] *= s;
+
+            m2 = r2[3];                 /* now back substitute row 2 */
+            s  = 1.0F/r2[2];
+            r2[4] = s * (r2[4] - r3[4] * m2); r2[5] = s * (r2[5] - r3[5] * m2);
+            r2[6] = s * (r2[6] - r3[6] * m2); r2[7] = s* (r2[7] - r3[7] * m2);
+            m1 = r1[3];
+            r1[4] -= r3[4] * m1; r1[5] -= r3[5] * m1;
+            r1[6] -= r3[6] * m1; r1[7] -= r3[7] * m1;
+            m0 = r0[3];
+            r0[4] -= r3[4] * m0; r0[5] -= r3[5] * m0;
+            r0[6] -= r3[6] * m0; r0[7] -= r3[7] * m0;
+
+            m1 = r1[2];                 /* now back substitute row 1 */
+            s  = 1.0F/r1[1];
+            r1[4] = s * (r1[4] - r2[4] * m1); r1[5] = s * (r1[5] - r2[5] * m1);
+            r1[6] = s * (r1[6] - r2[6] * m1); r1[7] = s* (r1[7] - r2[7] * m1);
+            m0 = r0[2];
+            r0[4] -= r2[4] * m0; r0[5] -= r2[5] * m0;
+            r0[6] -= r2[6] * m0; r0[7] -= r2[7] * m0;
+
+            m0 = r0[1];                 /* now back substitute row 0 */
+            s  = 1.0F/r0[0];
+            r0[4] = s * (r0[4] - r1[4] * m0); r0[5] = s * (r0[5] - r1[5] * m0);
+            r0[6] = s * (r0[6] - r1[6] * m0); r0[7] = s* (r0[7] - r1[7] * m0);
+
+            MAT(ref output, 0, 0, r0[4]); MAT(ref output, 0, 1, r0[5]); MAT(ref output, 0, 2, r0[6]); MAT(ref output, 0, 3, r0[7]);
+            MAT(ref output, 1, 0, r1[4]); MAT(ref output, 1, 1, r1[5]); MAT(ref output, 1, 2, r1[6]); MAT(ref output, 1, 3, r1[7]);
+            MAT(ref output, 2, 0, r2[4]); MAT(ref output, 2, 1, r2[5]); MAT(ref output, 2, 2, r2[6]); MAT(ref output, 2, 3, r2[7]);
+            MAT(ref output, 3, 0, r3[4]); MAT(ref output, 3, 1, r3[5]); MAT(ref output, 3, 2, r3[6]); MAT(ref output, 3, 3, r3[7]);
+
+            return true;
+        }
+
         public bool isIdentity
         {
             get { return default(bool); }
