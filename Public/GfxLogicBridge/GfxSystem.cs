@@ -415,18 +415,18 @@ namespace ArkCrossEngine
         [System.Diagnostics.Conditional("DEBUG")]
         public static void GfxLog(string format, params object[] args)
         {
-#if !RELEASE
+//#if !RELEASE
             string msg = string.Format(format, args);
             QueueGfxAction(s_Instance.GfxLogImpl, msg);
-#endif
+//#endif
         }
         [System.Diagnostics.Conditional("DEBUG")]
         public static void GfxErrorLog(string format, params object[] args)
         {
-#if !RELEASE
+//#if !RELEASE
             string msg = string.Format(format, args);
             QueueGfxAction(s_Instance.GfxErrorLogImpl, msg);
-#endif
+//#endif
         }
 
         public static void QueueGfxAction(MyAction action)

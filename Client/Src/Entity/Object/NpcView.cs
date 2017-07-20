@@ -208,16 +208,16 @@ namespace ArkCrossEngine
                     {
                         if (ObjectInfo.m_ShaderPath != "DFM/Basic Outline")
                         {
-                            GfxSystem.SetShader(Actor, "DFM/Basic Outline");
-                            ObjectInfo.m_ShaderPath = "DFM/Basic Outline";
+                            //GfxSystem.SetShader(Actor, "DFM/Basic Outline");
+                            //ObjectInfo.m_ShaderPath = "DFM/Basic Outline";
                         }
                     }
                     else
                     {
                         if (ObjectInfo.m_ShaderPath != "DFM/NormalMonster")
                         {
-                            GfxSystem.SetShader(Actor, "DFM/NormalMonster");
-                            ObjectInfo.m_ShaderPath = "DFM/NormalMonster";
+                            //GfxSystem.SetShader(Actor, "DFM/NormalMonster");
+                            //ObjectInfo.m_ShaderPath = "DFM/NormalMonster";
                         }
                     }
                     m_Npc.IsArmorChanged = false;

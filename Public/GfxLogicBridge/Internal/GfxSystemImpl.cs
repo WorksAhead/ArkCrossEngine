@@ -148,6 +148,8 @@ namespace ArkCrossEngine
                         info.ObjectInstance.layer = layer;
                     }
                     LogicSystem.EventChannelForGfx.Publish("player_self_created", "ui");
+                    // temp: scale self
+                    info.ObjectInstance.transform.localScale = new UnityEngine.Vector3(1.5f, 1.5f, 1.5f);
                 }
             }
         }
@@ -2058,6 +2060,6 @@ namespace ArkCrossEngine
 
         private long m_LastLogTime = 0;
 
-        private float c_MinTerrainHeight = 120.0f;
+        private float c_MinTerrainHeight = 240.0f;
     }
 }

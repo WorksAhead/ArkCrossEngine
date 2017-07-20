@@ -341,7 +341,7 @@ namespace ArkCrossEngine
             ///
             if ((int)Keyboard.Event.Up == what)
             {
-                LobbyNetworkSystem.Instance.RequestMatchMpve(4011);
+                LobbyNetworkSystem.Instance.RequestMatchMpve(4031);
             }
         }
 
@@ -368,7 +368,7 @@ namespace ArkCrossEngine
                 LobbyNetworkSystem.Instance.StartMpve(4011);
             }
         }
-        private void JoinPlatformDefense(int key_code, int what)
+        public void JoinPlatformDefense(int key_code, int what)
         {
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
             if (null == playerself)
