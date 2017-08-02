@@ -462,6 +462,159 @@ namespace ArkCrossEngine
                 CallGfxErrorLog(string.Format("ChangeWeaponImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
         }
+        private void ChangeSuitImpl(int id, string skeleton, List<string> equips)
+        {
+            try
+            {
+                GameObject obj = GetGameObject(id);
+                if (obj == null)
+                {
+                    return;
+                }
+
+                GameObject skeletonObject = ResourceManager.Instance.NewObject(skeleton) as GameObject;
+                if (skeletonObject == null)
+                {
+                    return;
+                }
+
+                List<SkinnedMeshRenderer> skinnedMeshes = new List<SkinnedMeshRenderer>();
+                List<GameObject> subObjects = new List<GameObject>();
+                for (int i = 0; i < equips.Count; ++i)
+                {
+                    GameObject go = ResourceManager.Instance.NewObject(equips[i]) as GameObject;
+                    subObjects.Add(go);
+                    skinnedMeshes.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>());
+                }
+
+                CombineSuit(ref obj, skeletonObject, skinnedMeshes);
+
+                ResourceManager.Instance.RecycleObject(skeletonObject);
+                for (int i = 0; i < subObjects.Count; ++i)
+                {
+                    ResourceManager.Instance.RecycleObject(subObjects[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                CallGfxErrorLog(string.Format("ChangeSuitImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
+            }
+        }
+
+        private void CombineSuit(ref GameObject finalSkinnedObject, GameObject skeleton, List<SkinnedMeshRenderer> skinnedMeshes, bool bAutoCombineMaterials = false)
+        {
+            // 1、find skeleton game object
+            skeleton = finalSkinnedObject.transform.Find("Bip001").gameObject;
+
+            // 2、collect transforms
+            List<Transform> transforms = new List<Transform>();
+            transforms.AddRange(skeleton.GetComponentsInChildren<Transform>(true));
+
+            List<Material> materials = new List<Material>();
+            List<CombineInstance> combineInstances = new List<CombineInstance>();
+            List<Transform> bones = new List<Transform>();
+
+            // meshes
+            for (int i = 0; i < skinnedMeshes.Count; ++i)
+            {
+                SkinnedMeshRenderer sRender = skinnedMeshes[i];
+                materials.AddRange(sRender.materials);
+                for (int sub = 0; sub < sRender.sharedMesh.subMeshCount; ++sub)
+                {
+                    CombineInstance ci = new CombineInstance();
+                    ci.mesh = sRender.sharedMesh;
+                    ci.subMeshIndex = sub;
+                    combineInstances.Add(ci);
+                }
+
+                // bones
+                for (int j = 0; j < sRender.bones.Length; ++j)
+                {
+                    int tBase = 0;
+                    for (tBase = 0; tBase < transforms.Count; ++tBase)
+                    {
+                        if (sRender.bones[j].name.Equals(transforms[tBase].name))
+                        {
+                            bones.Add(transforms[tBase]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Todo: merge material
+
+            // create new skinned render
+            SkinnedMeshRenderer[] oldRenders = finalSkinnedObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            for (int i = 0; i < oldRenders.Length; ++i)
+            {
+                GameObject.DestroyImmediate(oldRenders[i]);
+            }
+            var r = finalSkinnedObject.AddComponent<SkinnedMeshRenderer>();
+            r.sharedMesh = new Mesh();
+            r.sharedMesh.CombineMeshes(combineInstances.ToArray(), bAutoCombineMaterials, false);
+            r.bones = bones.ToArray();
+            if (bAutoCombineMaterials)
+            {
+                ;
+            }
+            else
+            {
+                r.materials = materials.ToArray();
+            }
+        }
+
+        private void TryCombineMaterial(List<Material> materials)
+        {
+            if (materials.Count <= 1)
+            {
+                return;
+            }
+
+            List<Texture> Albedos = new List<Texture>();
+            List<Texture> Metallic = new List<Texture>();
+            List<Texture> Normalmaps = new List<Texture>();
+            int[] MaxTextureSize = new int[3];
+
+            // 1、check is same shader shared, find all shared textures
+            string firstShaderName = materials[0].shader.name;
+            for (int i = 1; i < materials.Count; ++i)
+            {
+                Shader shader = materials[i].shader;
+                if (firstShaderName != shader.name)
+                {
+                    return;
+                }
+
+                Albedos.Add(materials[i].GetTexture("_MainTex"));
+                Metallic.Add(materials[i].GetTexture("_MetallicGlossMap"));
+                Normalmaps.Add(materials[i].GetTexture("_BumpMap"));
+
+                MaxTextureSize[0] += (int)Mathf.Max(Albedos[i].width, Albedos[i].height);
+                MaxTextureSize[1] += (int)Mathf.Max(Metallic[i].width, Albedos[i].height);
+                MaxTextureSize[2] += (int)Mathf.Max(Normalmaps[i].width, Albedos[i].height);
+            }
+
+            // 2、check texture combined size
+            if (MaxTextureSize[0] > 4096 || MaxTextureSize[1] > 4096 || MaxTextureSize[2] > 4096)
+            {
+                return;
+            }
+
+            // 3、combine
+            Material newMaterial = new Material(Shader.Find(firstShaderName));
+            List<Vector2> oldUV = new List<Vector2>();
+
+            Texture2D newAlbodo = new Texture2D(MaxTextureSize[0], MaxTextureSize[0]);
+            UnityEngine.Rect[] uvs1 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
+            Texture2D newMetallic = new Texture2D(MaxTextureSize[1], MaxTextureSize[1]);
+            UnityEngine.Rect[] uvs2 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
+            Texture2D newNormaps = new Texture2D(MaxTextureSize[2], MaxTextureSize[2]);
+            UnityEngine.Rect[] uvs3 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
+
+            // reset uv
+            // TODO...
+        }
 
         private Transform DestroyCurEquip(GameObject obj, string equip_name)
         {
@@ -1110,6 +1263,31 @@ namespace ArkCrossEngine
                 }
             }
         }
+
+        private void SetEquipmentColorImpl(int id, EquipmentType type, UnityEngine.Color color)
+        {
+            // just for test
+            GameObject obj = GetGameObject(id);
+            if (null == obj)
+            {
+                return;
+            }
+
+            SkinnedMeshRenderer[] rds = obj.GetComponents<SkinnedMeshRenderer>();
+            for (int i = 0; i < rds.Length; ++i)
+            {
+                Material[] mats = rds[i].materials;
+                for (int j = 0; j < mats.Length; ++j)
+                {
+                    if (mats[j].name.Contains("c_rep"))
+                    {
+                        mats[j].SetVector("_DyeColor", 
+                            new UnityEngine.Vector4( 1.0f - color.r, 1.0f - color.g, 1.0f - color.b, 1));
+                    }
+                }
+            }
+        }
+
         private void SetShaderImpl(int id, string shaderPath)
         {
             GameObject obj = GetGameObject(id);

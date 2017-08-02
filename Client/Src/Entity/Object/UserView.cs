@@ -62,11 +62,53 @@ namespace ArkCrossEngine
             for (int i = 0; i < EquipmentInfo.c_MaxEquipmentNum; i++)
             {
                 ItemDataInfo equip = m_User.GetEquipmentStateInfo().GetEquipmentData(i);
-                UpdateEquipment(equip);
+                UpdateEquipment(equip, false);
             }
+
+            UpdateSuit();
         }
 
-        internal void UpdateEquipment(ItemDataInfo equip)
+        internal void UpdateSuit()
+        {
+            var playerConfig = PlayerConfigProvider.Instance.GetPlayerConfigById(m_User.GetLinkId());
+            string playerSkeleton = playerConfig.m_Skeleton;
+            if (string.IsNullOrEmpty(playerSkeleton))
+            {
+                return;
+            }
+
+            //string playerModel = playerConfig.m_Model;
+            List<string> skinnedModels = new List<string>();
+            
+            for (int i = 0; i < EquipmentInfo.c_MaxEquipmentNum; i++)
+            {
+                ItemDataInfo equip = m_User.GetEquipmentStateInfo().GetEquipmentData(i);
+                string defaultEquip = playerConfig.GetDefaultModelFromEquipPart((EquipmentType)i);
+                if (equip != null &&
+                    equip.ItemConfig.m_SkeletonSource != null &&
+                    equip.ItemConfig.m_SkeletonSource == playerSkeleton)
+                {
+                    skinnedModels.Add(equip.ItemConfig.m_Model);
+                }
+                else if (!string.IsNullOrEmpty(defaultEquip))
+                {
+                    skinnedModels.Add(defaultEquip);
+                }
+            }
+
+            /*
+            if (skinnedModels.Count == 0)
+            {
+                return;
+            }
+            */
+
+            //skinnedModels.Add(playerModel);
+
+            GfxSystem.ChangeSuit(Actor, playerSkeleton, skinnedModels);
+        }
+
+        internal void UpdateEquipment(ItemDataInfo equip, bool bUpdateSuit = true)
         {
             if (equip == null || equip.ItemConfig == null)
             {
@@ -75,6 +117,24 @@ namespace ArkCrossEngine
             string wear_node_and_name = equip.ItemConfig.m_WearNodeAndName;
             string new_equip = equip.ItemConfig.m_Model;
             GfxSystem.ChangeEquip(Actor, wear_node_and_name, new_equip);
+
+            ItemConfig currentItem = m_User.GetEquipmentStateInfo().EquipmentInfo.Armor[equip.ItemConfig.m_WearParts].ItemConfig;
+
+            // new item has display model or origal item has display model
+            if (IsItemSuitNeedRefresh(equip.ItemConfig) || 
+                (currentItem != null && IsItemSuitNeedRefresh(currentItem)))
+            {
+                UpdateSuit();
+            }
+        }
+
+        internal bool IsItemSuitNeedRefresh(ItemConfig equip)
+        {
+            if (equip.m_SkeletonSource != null && equip.m_Model != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         internal void Destroy()

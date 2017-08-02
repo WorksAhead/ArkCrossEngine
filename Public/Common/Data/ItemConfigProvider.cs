@@ -84,6 +84,7 @@ namespace ArkCrossEngine
         public string m_ItemSourceDesc;//物品来源描述
         public ElementDamageType m_DamageType = ElementDamageType.DC_None;
         public int m_ShowType = 0; // 客户端显示item用，区分显示样式 by leeQ
+        public string m_SkeletonSource = "";
         public bool CollectDataFromDBC(DBC_Row node)
         {
             m_ItemId = DBCUtil.ExtractNumeric<int>(node, "ItemId", 0, true);
@@ -160,6 +161,7 @@ namespace ArkCrossEngine
             m_ItemSourceScene = DBCUtil.ExtractNumericList<int>(node, "ItemSourceScene", int.MinValue, false);
             m_ItemSourceDesc = DBCUtil.ExtractString(node, "ItemSourceDesc", "", false);
             m_ShowType = DBCUtil.ExtractNumeric<int>(node, "ShowType", 0, false);
+            m_SkeletonSource = DBCUtil.ExtractString(node, "SkeletonSource", "", false);
             return true;
         }
 

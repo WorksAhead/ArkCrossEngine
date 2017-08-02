@@ -28,6 +28,7 @@ namespace ArkCrossEngine
         public string m_DeathModel;
         public string m_ActionFile;
         public string m_AnimPath;
+        public string m_Skeleton;
         //头像
         public string m_Portrait;
         public string m_PortraitForCell;
@@ -56,6 +57,9 @@ namespace ArkCrossEngine
         public string m_HeroIntroduce1 = null;
         public string m_HeroIntroduce2 = null;
         public float m_DamageRagePercent = 0f;
+
+        private string m_DefaultModel = "";
+        private string[] m_DefaultModelList = new string[(int)EquipmentType.MaxNum];
         /**
          * @brief 提取数据
          *
@@ -83,6 +87,9 @@ namespace ArkCrossEngine
             m_InitXSoulPart = DBCUtil.ExtractNumericList<int>(node, "InitXSoulPart", 0, false);
 
             m_Model = DBCUtil.ExtractString(node, "Model", "", false);
+            m_Skeleton = DBCUtil.ExtractString(node, "Skeleton", "", false);
+            m_DefaultModel = DBCUtil.ExtractString(node, "DefaultModel", "", false);
+            LoadDefaultModelData(m_DefaultModel);
             m_DeathModel = DBCUtil.ExtractString(node, "DeathModel", "", false);
             m_ActionFile = DBCUtil.ExtractString(node, "ActionFile", "", false);
             m_AnimPath = DBCUtil.ExtractString(node, "AnimPath", "", false);
@@ -155,6 +162,36 @@ namespace ArkCrossEngine
                   return v == id;
               }
               );
+        }
+
+        private void LoadDefaultModelData(string modelList)
+        {
+            if (string.IsNullOrEmpty(modelList))
+            {
+                return;
+            }
+
+            string[] splitModels = modelList.Split('@');
+            for (int i = 0; i < splitModels.Length; ++i)
+            {
+                int index = splitModels[i].IndexOf(':');
+                if (index == -1 || index >= splitModels.Length - 1)
+                {
+                    continue;
+                }
+                string part = splitModels[i].Substring(0, index);
+                string model = splitModels[i].Substring(index + 1);
+                int partIndex = 0;
+                if (int.TryParse(part, out partIndex) && model != null)
+                {
+                    m_DefaultModelList[partIndex] = model;
+                }
+            }
+        }
+
+        public string GetDefaultModelFromEquipPart(EquipmentType type)
+        {
+            return m_DefaultModelList[(int)type];
         }
     }
 

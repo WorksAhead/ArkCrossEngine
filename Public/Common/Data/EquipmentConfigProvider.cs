@@ -5,6 +5,7 @@
         public int m_EquipmentId = 0;
         public string m_EquipmentName = "";
         public string m_UiModel = "";
+        public string m_Model = "";
         public AttrDataConfig m_AttrData = new AttrDataConfig();
 
         public bool CollectDataFromDBC(DBC_Row node)
@@ -12,6 +13,7 @@
             m_EquipmentId = DBCUtil.ExtractNumeric<int>(node, "EquipmentId", 0, true);
             m_EquipmentName = DBCUtil.ExtractString(node, "EquipmentName", "", true);
             m_UiModel = DBCUtil.ExtractString(node, "UiModel", "", false);
+            m_Model = DBCUtil.ExtractString(node, "Model", "", false);
             m_AttrData.CollectDataFromDBC(node);
             return true;
         }

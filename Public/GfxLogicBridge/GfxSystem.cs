@@ -191,6 +191,10 @@ namespace ArkCrossEngine
         {
             QueueGfxAction(s_Instance.ChangeEquipImpl, id, wear_node_and_name, new_equips);
         }
+        public static void ChangeSuit(int id, string skeleton, List<string> equips)
+        {
+            QueueGfxAction(s_Instance.ChangeSuitImpl, id, skeleton, equips);
+        }
         public static void DestroyGameObject(int id)
         {
             QueueGfxAction(s_Instance.DestroyGameObjectImpl, id);
@@ -390,6 +394,10 @@ namespace ArkCrossEngine
         public static void SetBlockedShader(int id, uint rimColor, float rimPower, float cutValue)
         {
             QueueGfxAction(s_Instance.SetBlockedShaderImpl, id, rimColor, rimPower, cutValue);
+        }
+        public static void SetEquipmentColor(int id, EquipmentType type, UnityEngine.Color color)
+        {
+            QueueGfxAction(s_Instance.SetEquipmentColorImpl, id, type, color);
         }
         public static void RestoreMaterial(int id)
         {
