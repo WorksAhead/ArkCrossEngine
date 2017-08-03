@@ -148,8 +148,6 @@ namespace ArkCrossEngine
                         info.ObjectInstance.layer = layer;
                     }
                     LogicSystem.EventChannelForGfx.Publish("player_self_created", "ui");
-                    // temp: scale self
-                    info.ObjectInstance.transform.localScale = new UnityEngine.Vector3(1.5f, 1.5f, 1.5f);
                 }
             }
         }
@@ -562,6 +560,8 @@ namespace ArkCrossEngine
             {
                 r.materials = materials.ToArray();
             }
+
+            // handle cloth
         }
 
         private void TryCombineMaterial(List<Material> materials)

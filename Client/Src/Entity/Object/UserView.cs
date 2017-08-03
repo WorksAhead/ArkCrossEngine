@@ -77,6 +77,9 @@ namespace ArkCrossEngine
                 return;
             }
 
+            // Todo: handle cloth
+            return;
+
             //string playerModel = playerConfig.m_Model;
             List<string> skinnedModels = new List<string>();
             
