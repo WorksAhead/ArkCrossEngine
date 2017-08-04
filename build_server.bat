@@ -31,20 +31,23 @@ mkdir %logdir%
 echo sync client dlls...
 xcopy %workdir%\Bin\* %svrbin% /y /q
 
+echo building ServerCommon.sln ...
+%xbuild% /nologo /noconsolelogger ^
+         /flp:LogFile=%logdir%\ServerCommon.sln.log;Encoding=UTF-8 ^
+         %workdir%\Server\src\ServerCommon.sln
+if NOT %ERRORLEVEL% EQU 0 (
+  echo build failed, check %logdir%\ServerCommon.sln.log.
+  goto error_end
+) else (
+  echo done.
+)
+
 echo building DataStore.sln ...
 %xbuild% /nologo /noconsolelogger ^
          /flp:LogFile=%logdir%\DataStore.sln.log;Encoding=UTF-8 ^
          %workdir%\DataStore\DataStore.sln
 if NOT %ERRORLEVEL% EQU 0 (
   echo build failed, check %logdir%\DataStore.sln.log.
-  goto error_end
-) else (
-  echo done.
-)
-echo "update binaries"
-xcopy %workdir%\DataStore\bin\%cfg%\* %svrbin% /y /q
-if NOT %ERRORLEVEL% EQU 0 (
-  echo copy failed, exclusive access error? check your running process and retry.
   goto error_end
 ) else (
   echo done.
@@ -56,14 +59,6 @@ echo building ServerBridge.sln ...
          %workdir%\ServerBridge\ServerBridge.sln
 if NOT %ERRORLEVEL% EQU 0 (
   echo build failed, check %logdir%\ServerBridge.sln.log.
-  goto error_end
-) else (
-  echo done.
-)
-echo "update binaries"
-xcopy %workdir%\ServerBridge\bin\%cfg%\* %svrbin% /y /q
-if NOT %ERRORLEVEL% EQU 0 (
-  echo copy failed, exclusive access error? check your running process and retry.
   goto error_end
 ) else (
   echo done.
@@ -80,30 +75,12 @@ if NOT %ERRORLEVEL% EQU 0 (
   echo done.
 )
 
-echo "update binaries"
-xcopy %workdir%\Lobby\bin\%cfg%\* %svrbin% /y /q
-if NOT %ERRORLEVEL% EQU 0 (
-  echo copy failed, exclusive access error? check your running process and retry.
-  goto error_end
-) else (
-  echo done.
-)
-
 echo building DashFireServer.sln ...
 %xbuild% /nologo /noconsolelogger ^
          /flp:LogFile=%logdir%\DashFireServer.sln.log;Encoding=UTF-8 ^
          %workdir%\Server\src\DashFireServer.sln
 if NOT %ERRORLEVEL% EQU 0 (
   echo build failed, check %logdir%\DashFireServer.sln.log.
-  goto error_end
-) else (
-  echo done.
-)
-
-echo "update binaries"
-xcopy %workdir%\Server\src\bin\%cfg%\* %svrbin% /y /q
-if NOT %ERRORLEVEL% EQU 0 (
-  echo copy failed, exclusive access error? check your running process and retry.
   goto error_end
 ) else (
   echo done.

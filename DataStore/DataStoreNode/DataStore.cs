@@ -26,20 +26,12 @@ class DataStore
 
         ArkCrossEngine.GlobalVariables.Instance.IsClient = false;
 
-        string key = "防君子不防小人";
-        byte[] xor = Encoding.UTF8.GetBytes(key);
-
         FileReaderProxy.RegisterReadFileHandler((string filePath) =>
         {
             byte[] buffer = null;
             try
             {
                 buffer = File.ReadAllBytes(filePath);
-#if !DEBUG
-          if (filePath.EndsWith(".txt")) {
-            Helper.Xor(buffer, xor);
-          }
-#endif
             }
             catch (Exception e)
             {
@@ -47,7 +39,7 @@ class DataStore
                 return null;
             }
             return buffer;
-        });
+        }, (string filepath) => { return File.Exists(filepath); });
         LogSystem.OnOutput += (Log_Type type, string msg) =>
         {
             switch (type)

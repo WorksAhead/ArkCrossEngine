@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\DcoreEnv\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,11 +33,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Bin\Common.dll</HintPath>
+    </Reference>
     <Reference Include="DashFire.Billing">
       <HintPath>..\..\Public\Messages\PBMessages\Generated\DashFire.Billing.dll</HintPath>
     </Reference>
     <Reference Include="Google.ProtocolBuffers">
       <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Messenger, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\Messenger.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\ServerCommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,20 +58,6 @@
   <ItemGroup>
     <Compile Include="BillingClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Public\Common\Common.csproj">
-      <Project>{22d75e22-b35a-4204-9bfb-718d9ac84c02}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\Common\ServerCommon.csproj">
-      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
-      <Name>ServerCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\Messenger\Messenger\Messenger.csproj">
-      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
-      <Name>Messenger</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

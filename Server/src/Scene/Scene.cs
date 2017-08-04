@@ -418,7 +418,7 @@ namespace DashFire
       return true;
     }
 
-    internal DashFire.MovementSystem MovementSystem
+    internal MovementSystem MovementSystem
     {
       get { return m_MovementSystem; }
     }

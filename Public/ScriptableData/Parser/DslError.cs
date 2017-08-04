@@ -1,6 +1,4 @@
-﻿using ArkCrossEngine;
-
-namespace ScriptableData.Parser
+﻿namespace ScriptableData.Parser
 {
 #if FULL_VERSION
   class DslError
@@ -18,26 +16,26 @@ namespace ScriptableData.Parser
     internal short mismatch(short terminal, short token)
     {
       mHasError = true;
-      LogSystem.Error(" expecting {0} but found {1}", DslString.GetSymbolName(terminal), DslString.GetSymbolName(token));
+      ArkCrossEngine.LogSystem.Error(" expecting {0} but found {1}", DslString.GetSymbolName(terminal), DslString.GetSymbolName(token));
       return token;
     }
 
     internal short no_entry(short nonterminal, short token, int level)
     {
-      mHasError = true;
-      LogSystem.Error(" syntax error: skipping input {0}", DslString.GetSymbolName(token));
-      token = tokens.get(); // advance the input
-      return token;
+        mHasError = true;
+        ArkCrossEngine.LogSystem.Error(" syntax error: skipping input {0}", DslString.GetSymbolName(token));
+        token = tokens.get(); // advance the input
+        return token;
     }
 
     internal void input_left()
     {
-      LogSystem.Error("input left.");
+        ArkCrossEngine.LogSystem.Error("input left.");
     }
 
     internal void message(string message)
     {
-      LogSystem.Error("{0}", message);
+        ArkCrossEngine.LogSystem.Error("{0}", message);
     }
 
     private DslToken tokens;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using ArkCrossEngine;
 
 namespace ScriptableData.Parser
 {
@@ -205,7 +204,7 @@ namespace ScriptableData.Parser
         internal short peek(int level) // scan next token without consuming it
         {
             short token = 0;
-            LogSystem.Info("peek_token is not called in an LL(1) grammar\n");
+            ArkCrossEngine.LogSystem.Info("peek_token is not called in an LL(1) grammar\n");
             return token;
         }
 

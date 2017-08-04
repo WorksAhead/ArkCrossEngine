@@ -72,24 +72,16 @@ namespace RoomServer
 
       GlobalVariables.Instance.IsClient = false;
 
-      string key = "防君子不防小人";
-      byte[] xor = Encoding.UTF8.GetBytes(key);
-
       FileReaderProxy.RegisterReadFileHandler((string filePath) => {
         byte[] buffer = null;
         try {
           buffer = File.ReadAllBytes(filePath);
-#if !DEBUG
-          if (filePath.EndsWith(".txt")) {
-            Helper.Xor(buffer, xor);
-          }
-#endif
         } catch (Exception e) {
           LogSys.Log(LOG_TYPE.ERROR, "Exception:{0}\n{1}", e.Message, e.StackTrace);
           return null;
         }
         return buffer;
-      });
+      }, (string filepath) => { return File.Exists(filepath); });
       LogSystem.OnOutput += (Log_Type type, string msg) => {
         switch (type) {
           case Log_Type.LT_Debug:

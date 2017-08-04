@@ -16,10 +16,17 @@ namespace ArkCrossEngine
         {
             internal void Log(string format, params object[] args)
             {
+                if (m_LogStream == null)
+                {
+                    return;
+                }
                 string msg = string.Format(format, args);
 #if USE_DISK_LOG
-                m_LogStream.WriteLine(msg);
-                m_LogStream.Flush();
+                if (m_LogStream != null)
+                {
+                    m_LogStream.WriteLine(msg);
+                    m_LogStream.Flush();
+                }
 #else
                 m_LogQueue.Enqueue(msg);
                 if (!m_IsInRequestFlush && m_LogQueue.Count >= c_FlushCount)
@@ -32,14 +39,21 @@ namespace ArkCrossEngine
             }
             internal void Init(string logPath)
             {
-                string logFile = string.Format("{0}/Game_{1}.log", logPath, DateTime.Now.ToString("yyyy-MM-dd"));
-                m_LogStream = new StreamWriter(logFile, true);
+                try
+                {
+                    string logFile = string.Format("{0}/Game_{1}.log", logPath, DateTime.Now.ToString("yyyy-MM-dd"));
+                    m_LogStream = new StreamWriter(logFile, true);
 #if !USE_DISK_LOG
-                m_LogQueue = m_LogQueues[m_CurQueueIndex];
-                m_Thread.OnQuitEvent = OnThreadQuit;
-                m_Thread.Start();
+                    m_LogQueue = m_LogQueues[m_CurQueueIndex];
+                    m_Thread.OnQuitEvent = OnThreadQuit;
+                    m_Thread.Start();
 #endif
-                Log("======GameLog Start ({0}, {1})======", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
+                    Log("======GameLog Start ({0}, {1})======", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
+                }
+                catch(Exception ex)
+                {
+                    m_LogStream = null;
+                }
             }
             public void Dispose()
             {
@@ -62,8 +76,11 @@ namespace ArkCrossEngine
 #if !USE_DISK_LOG
                 m_Thread.Stop();
 #endif
-                m_LogStream.Close();
-                m_LogStream.Dispose();
+                if (m_LogStream != null)
+                {
+                    m_LogStream.Close();
+                    m_LogStream.Dispose();
+                }  
             }
 #if !USE_DISK_LOG
             private void RequestFlush()
@@ -89,9 +106,11 @@ namespace ArkCrossEngine
                     while (logQueue.Count > 0)
                     {
                         string msg = logQueue.Dequeue();
-                        m_LogStream.WriteLine(msg);
+                        if (m_LogStream != null)
+                            m_LogStream.WriteLine(msg);
                     }
-                    m_LogStream.Flush();
+                    if (m_LogStream != null)
+                        m_LogStream.Flush();
                 }
             }
 

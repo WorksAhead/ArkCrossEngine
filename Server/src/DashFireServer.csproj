@@ -17,7 +17,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\DcoreEnv\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -54,11 +54,27 @@
     <Reference Include="Lobby_RoomServer">
       <HintPath>..\..\Public\Messages\PBMessages\Generated\Lobby_RoomServer.dll</HintPath>
     </Reference>
+    <Reference Include="LogSys, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\LogSys.dll</HintPath>
+    </Reference>
+    <Reference Include="Messenger, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\Messenger.dll</HintPath>
+    </Reference>
+    <Reference Include="MovementSystem, Version=1.0.6425.18829, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\MovementSystem.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="ProtobufSerializer">
       <HintPath>..\..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DcoreEnv\bin\ServerCommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -162,24 +178,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="utils\XmlAssist.cs" />
     <Compile Include="utils\XmlParseException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Public\Common\ServerCommon.csproj">
-      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
-      <Name>ServerCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\Messenger\Messenger\Messenger.csproj">
-      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
-      <Name>Messenger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\MovementSystem\MovementSystem.csproj">
-      <Project>{5529C957-E6F1-4F14-AAF6-FCA76590B187}</Project>
-      <Name>MovementSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\LogSys\LogSys\LogSys.csproj">
-      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
-      <Name>LogSys</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

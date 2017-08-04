@@ -199,20 +199,12 @@ namespace Lobby
 
             GlobalVariables.Instance.IsClient = false;
 
-            string key = "防君子不防小人";
-            byte[] xor = Encoding.UTF8.GetBytes(key);
-
             FileReaderProxy.RegisterReadFileHandler((string filePath) =>
             {
                 byte[] buffer = null;
                 try
                 {
                     buffer = File.ReadAllBytes(filePath);
-#if !DEBUG
-          if (filePath.EndsWith(".txt")) {
-            Helper.Xor(buffer, xor);
-          }
-#endif
                 }
                 catch (Exception e)
                 {
@@ -220,6 +212,9 @@ namespace Lobby
                     return null;
                 }
                 return buffer;
+            }, (string filePath) =>
+            {
+                return File.Exists(filePath);
             });
             LogSystem.OnOutput += (Log_Type type, string msg) =>
             {

@@ -16,7 +16,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\DcoreEnv\bin\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,9 +43,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClientProtoBuf, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="BillingClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DcoreEnv\bin\BillingClient.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientProtoBuf, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\ClientProtoBuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Common.dll</HintPath>
     </Reference>
     <Reference Include="CSharpCenterClient">
       <HintPath>..\Public\CSharpLibs\platform\CSharpCenterClient.dll</HintPath>
@@ -56,6 +64,10 @@
     <Reference Include="DashFire.DataStore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Public\Messages\PBMessages\Generated\DashFire.DataStore.dll</HintPath>
+    </Reference>
+    <Reference Include="DataStoreClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DcoreEnv\bin\DataStoreClient.dll</HintPath>
     </Reference>
     <Reference Include="Google.ProtocolBuffers">
       <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\Google.ProtocolBuffers.dll</HintPath>
@@ -69,11 +81,23 @@
     <Reference Include="Lobby_RoomServer">
       <HintPath>..\Public\Messages\PBMessages\Generated\Lobby_RoomServer.dll</HintPath>
     </Reference>
+    <Reference Include="LogSys, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DcoreEnv\bin\LogSys.dll</HintPath>
+    </Reference>
+    <Reference Include="Messenger, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DcoreEnv\bin\Messenger.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\Public\CSharpLibs\ThirdParty\protobuf\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="ProtobufSerializer">
       <HintPath>..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DcoreEnv\bin\ServerCommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
@@ -161,32 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataStore\DataStoreClient\DataStoreClient.csproj">
-      <Project>{71ABA446-8737-4042-A18A-B6DAD57102BF}</Project>
-      <Name>DataStoreClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\Common\Common.csproj">
-      <Project>{22d75e22-b35a-4204-9bfb-718d9ac84c02}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\Common\ServerCommon.csproj">
-      <Project>{8EAD2077-DE3A-435C-B770-09EFFE4153C1}</Project>
-      <Name>ServerCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\LogSys\LogSys\LogSys.csproj">
-      <Project>{7935F58E-9F5D-48F7-B915-C6A0F455165F}</Project>
-      <Name>LogSys</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\Messenger\Messenger\Messenger.csproj">
-      <Project>{98BA0167-2BEB-4845-9926-50CB465C4FA6}</Project>
-      <Name>Messenger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServerBridge\BillingClient\BillingClient.csproj">
-      <Project>{981DE12E-CB90-4EB0-B7E2-EB8982FD5807}</Project>
-      <Name>BillingClient</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)..\Public\Messages\PBMessages\DashFireProtoGen.exe</PreBuildEvent>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using ArkCrossEngine;
 
 namespace ScriptableData.Parser
 {
@@ -80,7 +79,7 @@ namespace ScriptableData.Parser
         internal override void predict(short production_number)
         {
 #if FULL_VERSION
-            LogSystem.Info("{0}", DslString.GetProductionName(production_number));
+            ArkCrossEngine.LogSystem.Info("{0}", DslString.GetProductionName(production_number));
 #endif
         }
         internal override void execute(int number)

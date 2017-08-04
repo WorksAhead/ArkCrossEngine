@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using ArkCrossEngine;
 using ArkCrossEngineSpatial;
 
-namespace DashFire
+namespace ArkCrossEngine
 {
   public class MovementSystem
   {
