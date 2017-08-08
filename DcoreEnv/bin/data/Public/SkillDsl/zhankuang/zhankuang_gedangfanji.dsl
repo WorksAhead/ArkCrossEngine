@@ -8,7 +8,7 @@
         {
             sendmessage("break");
         };
-		addbreaksection(1, 100000, 100000);i
+		addbreaksection(1, 100000, 100000);
 		addbreaksection(10, 100000, 100000);
 		addbreaksection(20, 300, 100000);
 		addbreaksection(30, 300, 100000);
@@ -105,7 +105,7 @@
         stopeffect(0);
 		animation("zhankuang_gedang_03");
         //֡1
-        setanimspeed(33, "zhankuang_gedang_03", 0.5);s
+        setanimspeed(33, "zhankuang_gedang_03", 0.5);
         //֡7
         setanimspeed(433, "zhankuang_gedang_03", 1);
         //  9
