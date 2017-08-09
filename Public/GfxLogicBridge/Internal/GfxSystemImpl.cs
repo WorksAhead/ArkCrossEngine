@@ -470,27 +470,31 @@ namespace ArkCrossEngine
                     return;
                 }
 
-                GameObject skeletonObject = ResourceManager.Instance.NewObject(skeleton) as GameObject;
-                if (skeletonObject == null)
-                {
-                    return;
-                }
-
                 List<SkinnedMeshRenderer> skinnedMeshes = new List<SkinnedMeshRenderer>();
                 List<GameObject> subObjects = new List<GameObject>();
+                List<GameObject> clothObjects = new List<GameObject>();
+
                 for (int i = 0; i < equips.Count; ++i)
                 {
-                    GameObject go = ResourceManager.Instance.NewObject(equips[i]) as GameObject;
+                    GameObject go = GameObject.Instantiate(ResourceManager.Instance.GetSharedResource(equips[i])) as GameObject;
+                    Cloth cloth = go.GetComponentInChildren<Cloth>();
+
+                    if (cloth == null)
+                    {
+                        skinnedMeshes.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>());
+                    } 
+                    else
+                    {
+                        clothObjects.Add(cloth.gameObject);
+                    }
                     subObjects.Add(go);
-                    skinnedMeshes.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>());
                 }
 
-                CombineSuit(ref obj, skeletonObject, skinnedMeshes);
+                CombineSuit(ref obj, skinnedMeshes, clothObjects);
 
-                ResourceManager.Instance.RecycleObject(skeletonObject);
                 for (int i = 0; i < subObjects.Count; ++i)
                 {
-                    ResourceManager.Instance.RecycleObject(subObjects[i]);
+                    GameObject.Destroy(subObjects[i]);
                 }
             }
             catch (System.Exception ex)
@@ -499,10 +503,10 @@ namespace ArkCrossEngine
             }
         }
 
-        private void CombineSuit(ref GameObject finalSkinnedObject, GameObject skeleton, List<SkinnedMeshRenderer> skinnedMeshes, bool bAutoCombineMaterials = false)
+        private void CombineSuit(ref GameObject finalSkinnedObject, List<SkinnedMeshRenderer> skinnedMeshes, List<GameObject> clothObjects, bool bAutoCombineMaterials = false)
         {
             // 1、find skeleton game object
-            skeleton = finalSkinnedObject.transform.Find("Bip001").gameObject;
+            GameObject skeleton = finalSkinnedObject.transform.Find("Bip001").gameObject;
 
             // 2、collect transforms
             List<Transform> transforms = new List<Transform>();
@@ -542,6 +546,12 @@ namespace ArkCrossEngine
 
             // Todo: merge material
 
+            Cloth[] oldCloth = finalSkinnedObject.GetComponentsInChildren<Cloth>();
+            for (int i = 0; i < oldCloth.Length; ++i)
+            {
+                GameObject.DestroyImmediate(oldCloth[i].gameObject);
+            }
+
             // create new skinned render
             SkinnedMeshRenderer[] oldRenders = finalSkinnedObject.GetComponentsInChildren<SkinnedMeshRenderer>();
             for (int i = 0; i < oldRenders.Length; ++i)
@@ -562,6 +572,33 @@ namespace ArkCrossEngine
             }
 
             // handle cloth
+            if (clothObjects != null)
+            {
+                for (int i = 0; i < clothObjects.Count; ++i)
+                {
+                    clothObjects[i].transform.parent = finalSkinnedObject.transform;
+                    clothObjects[i].transform.localPosition = new UnityEngine.Vector3(0, 0, 0);
+
+                    // find shared bones
+                    SkinnedMeshRenderer sRender = clothObjects[i].GetComponentInChildren<SkinnedMeshRenderer>();
+                    List<Transform> bonesForCloth = new List<Transform>();
+
+                    for (int j = 0; j < sRender.bones.Length; ++j)
+                    {
+                        int tBase = 0;
+                        for (tBase = 0; tBase < transforms.Count; ++tBase)
+                        {
+                            if (sRender.bones[j].name.Equals(transforms[tBase].name))
+                            {
+                                bonesForCloth.Add(transforms[tBase]);
+                                break;
+                            }
+                        }
+                    }
+
+                    sRender.bones = bonesForCloth.ToArray();
+                }
+            }
         }
 
         private void TryCombineMaterial(List<Material> materials)
