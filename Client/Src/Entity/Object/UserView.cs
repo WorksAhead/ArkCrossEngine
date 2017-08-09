@@ -77,6 +77,9 @@ namespace ArkCrossEngine
                 return;
             }
 
+            // 华为展示不需要换装功能,暂注
+            return;
+
             //string playerModel = playerConfig.m_Model;
             List<string> skinnedModels = new List<string>();
             
