@@ -99,7 +99,7 @@ namespace Lobby
             internal Time m_StartTime;
             internal Time m_EndTime;
         }
-        internal const int c_MpveCount = 3;
+        internal const int c_MpveCount = 2;
         internal const float c_BaseRateX = 0.3f;
         internal const float c_MaxRateX = 0.9f;
         internal const int c_TC = 10000;
