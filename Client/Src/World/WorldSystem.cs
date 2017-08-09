@@ -1293,7 +1293,7 @@ namespace ArkCrossEngine
                         MovementStateInfo msi = user.GetMovementStateInfo();
                         msi.SetWantFaceDir(facedir);
                         float distSqr = Geometry.DistanceSquare(msi.GetPosition3D(), new Vector3(x, 0, z));
-                        if (distSqr >= 4)
+                        if (distSqr >= 1)
                         {
                             ClientStorySystem.Instance.SendMessage("cityusermove", objId, x, z);
                         }
