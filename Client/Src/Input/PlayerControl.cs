@@ -495,10 +495,15 @@ namespace ArkCrossEngine
             ///
             if ((int)Keyboard.Event.Up == what)
             {
-                LobbyNetworkSystem.Instance.AddAssets(10000, 10000, 20000, 10000);
-                LobbyNetworkSystem.Instance.AddItem(14103);
-                LobbyNetworkSystem.Instance.AddItem(23103);
-                LobbyNetworkSystem.Instance.AddItem(23101);
+                LobbyNetworkSystem.Instance.AddAssets(1000, 1000, 20000, 1000);
+                LobbyNetworkSystem.Instance.AddItem(55101);
+                LobbyNetworkSystem.Instance.AddItem(55102);
+                LobbyNetworkSystem.Instance.AddItem(55103);
+                LobbyNetworkSystem.Instance.AddItem(55104);
+                LobbyNetworkSystem.Instance.AddItem(55105);
+                LobbyNetworkSystem.Instance.AddItem(55106);
+                LobbyNetworkSystem.Instance.AddItem(55107);
+                LobbyNetworkSystem.Instance.AddItem(55108);
             }
         }
 

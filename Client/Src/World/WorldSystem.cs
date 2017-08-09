@@ -1281,8 +1281,8 @@ namespace ArkCrossEngine
             {
                 float mx = m_PlayerSelf.GetMovementStateInfo().PositionX;
                 float mz = m_PlayerSelf.GetMovementStateInfo().PositionZ;
-                if (x < 10) x = mx + CrossEngineHelper.Random.Next(10) - 5;
-                if (z < 10) z = mz + CrossEngineHelper.Random.Next(10) - 5;
+                //if (x < 10) x = mx + CrossEngineHelper.Random.Next(10) - 5;
+                //if (z < 10) z = mz + CrossEngineHelper.Random.Next(10) - 5;
                 int objId;
                 if (m_CityUsers.TryGetValue(guid, out objId))
                 {
@@ -1293,7 +1293,7 @@ namespace ArkCrossEngine
                         MovementStateInfo msi = user.GetMovementStateInfo();
                         msi.SetWantFaceDir(facedir);
                         float distSqr = Geometry.DistanceSquare(msi.GetPosition3D(), new Vector3(x, 0, z));
-                        if (distSqr >= 4)
+                        if (distSqr >= 1)
                         {
                             ClientStorySystem.Instance.SendMessage("cityusermove", objId, x, z);
                         }
@@ -2405,7 +2405,7 @@ namespace ArkCrossEngine
             {
                 m_LastCityUserTickTime = curTime;
 
-                if (0 == m_CurCityUserTickCount % c_CityUserUpdatePositionTickNum && null != m_PlayerSelf)
+                if (/*0 == m_CurCityUserTickCount % c_CityUserUpdatePositionTickNum &&*/ null != m_PlayerSelf)
                 {
                     MovementStateInfo msi = m_PlayerSelf.GetMovementStateInfo();
 
@@ -4429,12 +4429,12 @@ namespace ArkCrossEngine
         private SceneResource m_CurScene;
 
         private Dictionary<ulong, int> m_CityUsers = new Dictionary<ulong, int>();
-        private const long c_CityUserTickInterval = 1000;
+        private const long c_CityUserTickInterval = 30;
         private long m_LastCityUserTickTime = 0;
         private int m_CurCityUserTickCount = 0;
 
-        private const int c_CityUserUpdatePositionTickNum = 5;
-        private const int c_MaxCityUsers = 5;
+        private const int c_CityUserUpdatePositionTickNum = 1;
+        private const int c_MaxCityUsers = 10;
         private int m_NextCityUserId = 2;
 
         private const int c_MaxCityUserWithModel = 5;
