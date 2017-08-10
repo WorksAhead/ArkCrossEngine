@@ -24,10 +24,13 @@ namespace ArkCrossEngine
 
         public static bool FilterDamage()
         {
-            int number = CrossEngineHelper.Random.Next(0, 10);
-            if (number < 5)
-                return false;
-
+            if (IsDelayEnabled)
+            {
+                int number = CrossEngineHelper.Random.Next(0, 10);
+                if (number < 5)
+                    return false;
+            }
+            
             return true;
         }
     }
