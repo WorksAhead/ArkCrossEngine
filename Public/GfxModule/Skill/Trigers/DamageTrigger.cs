@@ -226,6 +226,13 @@ namespace GfxModule.Skill.Trigers
                 {
                     return false;
                 }
+
+                // temp: filter damage for network fake
+                if (!DelayManager.FilterDamage())
+                {
+                    return false;
+                }
+                
                 UnityEngine.Vector3 center = obj.transform.TransformPoint(m_RelativeCenter);
                 Collider[] hits = Physics.OverlapSphere(center, m_Range, TriggerUtil.CHARACTER_LAYER);
                 SkillDamageManager damage_manager = instance.CustomDatas.GetData<SkillDamageManager>();

@@ -43,7 +43,7 @@ namespace StorySystem
         public void LoadStoryText(string text, int sceneId)
         {
             ScriptableData.ScriptableDataFile dataFile = new ScriptableData.ScriptableDataFile();
-#if DEBUG
+#if true
             if (dataFile.LoadFromString(text, "story"))
             {
                 Load(dataFile, sceneId);

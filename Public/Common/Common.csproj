@@ -161,6 +161,7 @@
     <Compile Include="Structure\CustomStringExtern.cs" />
     <Compile Include="Structure\Exception.cs" />
     <Compile Include="Util\Converter.cs" />
+    <Compile Include="Util\DelayManager.cs" />
     <Compile Include="Util\DFProfiler.cs" />
     <Compile Include="Util\Heap.cs" />
     <Compile Include="Util\Helper.cs" />
