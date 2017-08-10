@@ -44,19 +44,21 @@ namespace ArkCrossEngineSpatial.Cow
 
                     m_NodeSizeSelfAdaption = br.ReadBoolean();
 
-                    m_Nodes = new byte[maxNodeNumInWidth * maxNodeNumInDepth];
-                    for (int z = 0; z < maxNodeNumInDepth; z++)
+                    result = GenerateMatrix();
+                    if (result)
                     {
-                        for (int x = 0; x < maxNodeNumInWidth; x++)
+                        m_Nodes = new byte[nodeNumInWidth * nodeNumInDepth];
+                        for (int z = 0; z < nodeNumInDepth; z++)
                         {
-                            byte walkable = br.ReadByte();
-                            m_Nodes[z * maxNodeNumInWidth + x] = walkable;
+                            for (int x = 0; x < nodeNumInWidth; x++)
+                            {
+                                byte walkable = br.ReadByte();
+                                m_Nodes[z * nodeNumInWidth + x] = walkable;
+                            }
                         }
                     }
 
                     br.Close();
-
-                    result = GenerateMatrix();
                 }
             }
 

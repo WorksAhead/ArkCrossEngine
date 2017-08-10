@@ -598,13 +598,13 @@ namespace ArkCrossEngineSpatial
             map_width_ = m_WalkableData.gridSize.x;
             map_height_ = m_WalkableData.gridSize.y;
             cell_width_ = m_WalkableData.nodeSize;
-            max_row_ = m_WalkableData.maxNodeNumInDepth;
-            max_col_ = m_WalkableData.maxNodeNumInWidth;
+            max_row_ = m_WalkableData.nodeNumInDepth;
+            max_col_ = m_WalkableData.nodeNumInWidth;
             cells_arr_ = new byte[max_row_, max_col_];
 
-            for (int z = 0; z < m_WalkableData.maxNodeNumInDepth; z++)
+            for (int z = 0; z < m_WalkableData.nodeNumInDepth; z++)
             {
-                for (int x = 0; x < m_WalkableData.maxNodeNumInWidth; x++)
+                for (int x = 0; x < m_WalkableData.nodeNumInWidth; x++)
                 {
                     byte walkable = m_WalkableData.GetWalkableStatus(x, z);
                     cells_arr_[z, x] = walkable;
