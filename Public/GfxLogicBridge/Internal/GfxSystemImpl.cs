@@ -1910,9 +1910,9 @@ namespace ArkCrossEngine
                                             }
 
                                             CharacterController ctrl = obj.GetComponent<CharacterController>();
-                                            if (null != ctrl)
+                                            if (null != ctrl && !DelayManager.IsDelayEnabled)
                                             {
-                                                ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
+                                                //ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
                                                 pos = obj.transform.position;
                                                 //if (!info.ObjectInfo.IsFloat && pos.y <= c_MinTerrainHeight) {
                                                 //  pos.y = SampleTerrainHeight(pos.x, pos.z);
@@ -1929,7 +1929,18 @@ namespace ArkCrossEngine
                                             else
                                             {
                                                 pos = old + new UnityEngine.Vector3(dx, 0, dz);
-                                                info.ObjectInstance.transform.position = pos;
+                                                if (DelayManager.IsDelayEnabled)
+                                                {
+                                                    if (DelayManager.FilterMove())
+                                                    {
+                                                        info.ObjectInstance.transform.position = pos;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    info.ObjectInstance.transform.position = pos;
+                                                }
+                                                
                                             }
 
                                             info.ObjectInfo.X = pos.x;
