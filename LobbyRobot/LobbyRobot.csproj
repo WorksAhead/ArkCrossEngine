@@ -9,13 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LobbyRobot</RootNamespace>
     <AssemblyName>LobbyRobot</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -35,11 +35,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientProtoBuf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\ClientProtoBuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Common.dll</HintPath>
+    </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>..\Public\CSharpLibs\ThirdParty\Lidgren.Network\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>..\Public\CSharpLibs\ThirdParty\json\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Messenger">
+      <HintPath>..\DcoreEnv\bin\Messenger.dll</HintPath>
     </Reference>
     <Reference Include="MyWebSocket">
       <HintPath>..\Public\CSharpLibs\ThirdParty\websocket\MyWebSocket.dll</HintPath>
@@ -49,6 +60,18 @@
     </Reference>
     <Reference Include="ProtobufSerializer">
       <HintPath>..\Bin\ProtobufSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptableData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\ScriptableData.dll</HintPath>
+    </Reference>
+    <Reference Include="SkillSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\SkillSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="StorySystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\StorySystem.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -81,28 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Public\ClientProtoBuf\ClientProtoBuf.csproj">
-      <Project>{c402fc70-3a7a-4ce2-956f-6aa1dfd5882e}</Project>
-      <Name>ClientProtoBuf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\Common\Common.csproj">
-      <Project>{288c0299-a184-4b54-9b13-783a0678b6ce}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\ScriptableData\ScriptableData.csproj">
-      <Project>{4295c1b7-d43f-4e38-85ad-33623489fbbe}</Project>
-      <Name>ScriptableData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\SkillSystem\SkillSystem.csproj">
-      <Project>{c4c08d53-e605-43ac-af41-22e2d907613c}</Project>
-      <Name>SkillSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Public\StorySystem\StorySystem.csproj">
-      <Project>{d498e9d2-823e-4082-b1af-727a0e9dc3d4}</Project>
-      <Name>StorySystem</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
