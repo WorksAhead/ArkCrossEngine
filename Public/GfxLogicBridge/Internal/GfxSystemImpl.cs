@@ -1912,7 +1912,7 @@ namespace ArkCrossEngine
                                             CharacterController ctrl = obj.GetComponent<CharacterController>();
                                             if (null != ctrl && !DelayManager.IsDelayEnabled)
                                             {
-                                                //ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
+                                                ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
                                                 pos = obj.transform.position;
                                                 //if (!info.ObjectInfo.IsFloat && pos.y <= c_MinTerrainHeight) {
                                                 //  pos.y = SampleTerrainHeight(pos.x, pos.z);
