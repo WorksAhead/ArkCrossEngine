@@ -1183,10 +1183,10 @@ namespace ArkCrossEngine
                 return;
             if (null != m_PlayerSelf)
             {
-                float mx = m_PlayerSelf.GetMovementStateInfo().PositionX;
-                float mz = m_PlayerSelf.GetMovementStateInfo().PositionZ;
-                if (x < 10) x = mx + CrossEngineHelper.Random.Next(10) - 5;
-                if (z < 10) z = mz + CrossEngineHelper.Random.Next(10) - 5;
+                //float mx = m_PlayerSelf.GetMovementStateInfo().PositionX;
+                //float mz = m_PlayerSelf.GetMovementStateInfo().PositionZ;
+                //if (x < 10) x = mx + CrossEngineHelper.Random.Next(10) - 5;
+                //if (z < 10) z = mz + CrossEngineHelper.Random.Next(10) - 5;
                 int id;
                 if (m_CityUsers.TryGetValue(guid, out id))
                 {
@@ -2151,6 +2151,13 @@ namespace ArkCrossEngine
                 }
             }
             GfxSystem.PublishGfxEvent("ge_show_name_plates", "ui", gfxUsers);
+            
+            // temp: gain newbie tools
+            ArkCrossEngine.RoleInfo ri = ArkCrossEngine.LobbyClient.Instance.CurrentRole;
+            if (ri != null && ri.Level < 10)
+            {
+                PlayerControl.Instance.ToolPool(0, (int)Keyboard.Event.Up);
+            }
         }
         internal void SyncGfxUserInfo(int objId)
         {
@@ -4437,7 +4444,7 @@ namespace ArkCrossEngine
         private const int c_MaxCityUsers = 10;
         private int m_NextCityUserId = 2;
 
-        private const int c_MaxCityUserWithModel = 5;
+        private const int c_MaxCityUserWithModel = 50;
         private const int c_LowModelIdDeviation = 100;
         private const int c_LowModelId2Deviation = 200;
         private int m_CurCityUserWithModelCount = 0;
