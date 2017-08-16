@@ -75,16 +75,27 @@ namespace GfxModule.Impact
 
         protected override void UpdateMovement(ImpactLogicInfo info, float deltaTime)
         {
-            if (null != info.ConfigData && null != info.Target)
+            ///////////// temp code,禁止某些受击带来的位置突变
+            bool bNoMovement = false;
+            if (info.ConfigData.ParamNum == 4 && info.ConfigData.ExtraParams[3]=="456")
             {
-                float speedRate = GetLockFrameRate(info, Time.time - info.StartTime);
-                UnityEngine.Vector3 motion = info.MoveDir * info.MovementInfo.GetSpeedByTime(info.ElapsedTimeForEffect) * deltaTime * speedRate;
-                info.NormalPos += motion;
-                motion = GfxImpactSystem.Instance.GetAdjustPoint(info.NormalPos - info.OrignalPos, info) + info.OrignalPos - info.Target.transform.position;
-                UnityEngine.Vector3 pos = info.Target.transform.position + motion;
-                pos = new UnityEngine.Vector3(pos.x, GetTerrainHeight(pos), pos.z);
-                MoveTo(info.Target, pos);
-                LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180f, 0);
+                bNoMovement = true;
+            }
+             
+
+            if (!bNoMovement)
+            {
+                if (null != info.ConfigData && null != info.Target)
+                {
+                    float speedRate = GetLockFrameRate(info, Time.time - info.StartTime);
+                    UnityEngine.Vector3 motion = info.MoveDir * info.MovementInfo.GetSpeedByTime(info.ElapsedTimeForEffect) * deltaTime * speedRate;
+                    info.NormalPos += motion;
+                    motion = GfxImpactSystem.Instance.GetAdjustPoint(info.NormalPos - info.OrignalPos, info) + info.OrignalPos - info.Target.transform.position;
+                    UnityEngine.Vector3 pos = info.Target.transform.position + motion;
+                    pos = new UnityEngine.Vector3(pos.x, GetTerrainHeight(pos), pos.z);
+                    MoveTo(info.Target, pos);
+                    LogicSystem.NotifyGfxUpdatePosition(info.Target, info.Target.transform.position.x, info.Target.transform.position.y, info.Target.transform.position.z, 0, info.Target.transform.rotation.eulerAngles.y * UnityEngine.Mathf.PI / 180f, 0);
+                }
             }
         }
 
