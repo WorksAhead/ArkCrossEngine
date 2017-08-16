@@ -6,6 +6,22 @@ namespace ArkCrossEngine
         private static long LastDelayMoveTime = 0;
         private static int DelayMoveState = -1;
         private static int delayFrameCount = 0;
+
+        /// constnts
+        static int c_PVPMissingRate = 70;
+        static int c_CannotMoveTime0 = 2;
+        static int c_CannotMoveTime1 = 4;
+        static int c_CanMoveTime0 = 1;
+        static int c_CanMoveTime1 = 3;
+
+        static int c_NoDelayPing0 = 80;
+        static int c_NoDelayPing1 = 130;
+        static int c_DelayPing0 = 200;
+        static int c_DelayPing1 = 600;
+
+        public static int c_TimeScaleDelayRate = 30;
+        public static float c_TimeScaleTime = 0.1f;
+
         public static bool IsDelayEnabled
         {
             get { return IsDelayEnabled_; }
@@ -25,12 +41,27 @@ namespace ArkCrossEngine
 
         }
 
+        public static long GetFakePingValue()
+        {
+            int ping = 0;
+            if (IsDelayEnabled_)
+            {
+                ping = CrossEngineHelper.Random.Next(c_DelayPing0, c_DelayPing1);
+            }
+            else
+            {
+                ping = CrossEngineHelper.Random.Next(c_NoDelayPing0, c_NoDelayPing1);
+            }
+
+            return ping;
+        }
+
         public static bool FilterDamage()
         {
             if (IsDelayEnabled)
             {
-                int number = CrossEngineHelper.Random.Next(0, 10);
-                if (number < 5)
+                int number = CrossEngineHelper.Random.Next(0, 100);
+                if (number < c_PVPMissingRate)
                     return false;
             }
             
@@ -46,15 +77,15 @@ namespace ArkCrossEngine
                 
                 if (DelayMoveState == -1)
                 {
-                    delayFrameCount = CrossEngineHelper.Random.Next(500, 1000);
+                    delayFrameCount = CrossEngineHelper.Random.Next(c_CannotMoveTime0, c_CannotMoveTime0);
                     DelayMoveState = 0;
                 }
 
                 if (DelayMoveState == 0)
                 {
-                    if (curTime > LastDelayMoveTime + delayFrameCount)
+                    if (curTime > LastDelayMoveTime + delayFrameCount*1000)
                     {
-                        delayFrameCount = CrossEngineHelper.Random.Next(500, 3000);
+                        delayFrameCount = CrossEngineHelper.Random.Next(c_CanMoveTime0, c_CanMoveTime1);
                         LastDelayMoveTime = curTime;
                         DelayMoveState = 1;
                         return true;
@@ -63,7 +94,7 @@ namespace ArkCrossEngine
                 }
                 else if (DelayMoveState == 1)
                 {
-                    if (curTime > LastDelayMoveTime + delayFrameCount)
+                    if (curTime > LastDelayMoveTime + delayFrameCount*1000)
                     {
                         LastDelayMoveTime = curTime;
                         DelayMoveState = -1;
