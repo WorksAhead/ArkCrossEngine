@@ -1934,6 +1934,13 @@ namespace ArkCrossEngine
                                                     if (DelayManager.FilterMove())
                                                     {
                                                         info.ObjectInstance.transform.position = pos;
+                                                        DelayManager.AddPosition(pos.x, pos.y, pos.z);
+                                                    }
+                                                    else
+                                                    {
+                                                        var fpos = DelayManager.GetFakePosition();
+                                                        info.ObjectInstance.transform.position = new UnityEngine.Vector3(fpos.x, fpos.y, fpos.z);
+                                                        DelayManager.AddPosition(pos.x, pos.y, pos.z);
                                                     }
                                                 }
                                                 else
