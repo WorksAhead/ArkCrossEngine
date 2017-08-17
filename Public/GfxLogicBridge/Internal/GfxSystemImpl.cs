@@ -1929,25 +1929,24 @@ namespace ArkCrossEngine
                                             else
                                             {
                                                 pos = old + new UnityEngine.Vector3(dx, 0, dz);
+
                                                 if (DelayManager.IsDelayEnabled)
                                                 {
-                                                    if (DelayManager.FilterMove())
-                                                    {
-                                                        info.ObjectInstance.transform.position = pos;
-                                                        DelayManager.AddPosition(pos.x, pos.y, pos.z);
-                                                    }
-                                                    else
-                                                    {
-                                                        var fpos = DelayManager.GetFakePosition();
-                                                        info.ObjectInstance.transform.position = new UnityEngine.Vector3(fpos.x, fpos.y, fpos.z);
-                                                        DelayManager.AddPosition(pos.x, pos.y, pos.z);
-                                                    }
+                                                    DelayManager.intervene(ref pos.x, ref pos.y, ref pos.z);
+                                                    //if (DelayManager.FilterMove())
+                                                    //{
+                                                    //    info.ObjectInstance.transform.position = pos;
+                                                    //    DelayManager.AddPosition(pos.x, pos.y, pos.z);
+                                                    //}
+                                                    //else
+                                                    //{
+                                                    //    var fpos = DelayManager.GetFakePosition();
+                                                    //    info.ObjectInstance.transform.position = new UnityEngine.Vector3(fpos.x, fpos.y, fpos.z);
+                                                    //    DelayManager.AddPosition(pos.x, pos.y, pos.z);
+                                                    //}
                                                 }
-                                                else
-                                                {
-                                                    info.ObjectInstance.transform.position = pos;
-                                                }
-                                                
+
+                                                info.ObjectInstance.transform.position = pos;
                                             }
 
                                             info.ObjectInfo.X = pos.x;
