@@ -18,7 +18,7 @@ namespace ArkCrossEngine
             public float z;
         }
 
-        private static bool IsDelayEnabled_ = false;
+        private static bool IsDelayEnabled_ = true;
         private static long LastDelayMoveTime = 0;
         private static int DelayMoveState = -1;
         private static int delayFrameCount = 0;
@@ -129,7 +129,7 @@ namespace ArkCrossEngine
                 }
 
                 // 随机产生下一次拖拽的时间点(2.5s - 7.5s)
-                NextDragTime = now + CrossEngineHelper.Random.Next(2500, 7500);
+                NextDragTime = now + CrossEngineHelper.Random.Next(1500, 4500);
             }
         }
 
