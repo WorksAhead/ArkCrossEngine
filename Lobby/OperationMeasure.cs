@@ -45,8 +45,8 @@ namespace Lobby
 
         private Dictionary<ulong, OperationInfo> m_OperationInfos = new Dictionary<ulong, OperationInfo>();
 
-        private const long c_MonitorInterval = 30;
-        private const int c_MaxOperationCount = 500;
+        private const long c_MonitorInterval = 3;
+        private const int c_MaxOperationCount = 5000;
 
         internal static OperationMeasure Instance
         {
