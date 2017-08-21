@@ -7,32 +7,32 @@ namespace ArkCrossEngine
 {
     public static class CustomStringExtern
     {
-        public static bool CustomEndsWith(string a, string b)
+        public static bool CustomEndsWith(string s, string pattarn)
         {
-            int ap = a.Length - 1;
-            int bp = b.Length - 1;
+            int ap = s.Length - 1;
+            int bp = pattarn.Length - 1;
 
-            while (ap >= 0 && bp >= 0 && a[ap] == b[bp])
+            while (ap >= 0 && bp >= 0 && s[ap] == pattarn[bp])
             {
                 ap--;
                 bp--;
             }
-            return (bp < 0 && a.Length >= b.Length) || (ap < 0 && b.Length >= a.Length);
+            return bp < 0 && s.Length >= pattarn.Length;
         }
 
-        public static bool CustomStartsWith(string a, string b)
+        public static bool CustomStartsWith(string s, string pattern)
         {
-            int aLen = a.Length;
-            int bLen = b.Length;
+            int aLen = s.Length;
+            int bLen = pattern.Length;
             int ap = 0; int bp = 0;
 
-            while (ap < aLen && bp < bLen && a[ap] == b[bp])
+            while (ap < aLen && bp < bLen && s[ap] == pattern[bp])
             {
                 ap++;
                 bp++;
             }
 
-            return (bp == bLen && aLen >= bLen) || (ap == aLen && bLen >= aLen);
+            return bp == bLen && aLen >= bLen;
         }
     }
 }
