@@ -393,7 +393,7 @@ namespace DashFire.Story.Commands
             float lvl1 = one.GetLevel();
             float lvl2 = two.GetLevel();
             float lvl = (lvl1 + lvl2) / 2;
-            double c = 4.09 * 1.2 * 1.3 * (1 + lvl * 0.04) * (1 + (0.15 * (1.62 - 1) / 50 * lvl) + (1.05 + 0.55 / 50 * lvl - 1) * 0.5 + (1.05 + 0.55 / 50 * lvl - 1) * 0.5);
+            double c = 6;// 4.09 * 1.2 * 1.3 * (1 + lvl * 0.04) * (1 + (0.15 * (1.62 - 1) / 50 * lvl) + (1.05 + 0.55 / 50 * lvl - 1) * 0.5 + (1.05 + 0.55 / 50 * lvl - 1) * 0.5);
             one.HpMaxCoefficient = (float)c;
             two.HpMaxCoefficient = (float)c;
             one.EnergyMaxCoefficient = (float)c;
