@@ -1910,7 +1910,7 @@ namespace ArkCrossEngine
                                             }
 
                                             CharacterController ctrl = obj.GetComponent<CharacterController>();
-                                            if (null != ctrl && !DelayManager.IsDelayEnabled)
+                                            if (null != ctrl)
                                             {
                                                 ctrl.Move(new UnityEngine.Vector3(dx, 0, dz));
                                                 pos = obj.transform.position;
@@ -1929,23 +1929,6 @@ namespace ArkCrossEngine
                                             else
                                             {
                                                 pos = old + new UnityEngine.Vector3(dx, 0, dz);
-
-                                                if (DelayManager.IsDelayEnabled)
-                                                {
-                                                    DelayManager.intervene(ref pos.x, ref pos.y, ref pos.z);
-                                                    //if (DelayManager.FilterMove())
-                                                    //{
-                                                    //    info.ObjectInstance.transform.position = pos;
-                                                    //    DelayManager.AddPosition(pos.x, pos.y, pos.z);
-                                                    //}
-                                                    //else
-                                                    //{
-                                                    //    var fpos = DelayManager.GetFakePosition();
-                                                    //    info.ObjectInstance.transform.position = new UnityEngine.Vector3(fpos.x, fpos.y, fpos.z);
-                                                    //    DelayManager.AddPosition(pos.x, pos.y, pos.z);
-                                                    //}
-                                                }
-
                                                 info.ObjectInstance.transform.position = pos;
                                             }
 
