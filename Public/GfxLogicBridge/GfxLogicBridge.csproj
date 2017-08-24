@@ -57,6 +57,10 @@
       <Project>{22D75E22-B35A-4204-9BFB-718D9AC84C02}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
+      <Project>{dc42ff5e-e987-4e09-ab7a-e156089e3f44}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScriptableData\ScriptableData.csproj">
       <Project>{7B7BD40C-1D3C-4F59-927D-1740CB672E08}</Project>
       <Name>ScriptableData</Name>

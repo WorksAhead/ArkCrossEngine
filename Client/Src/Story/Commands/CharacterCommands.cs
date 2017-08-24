@@ -104,29 +104,11 @@ namespace ArkCrossEngine.Story.Commands
             UserInfo user = obj as UserInfo;
             if (null != user)
             {
-                List<Vector3> waypoints = user.SpatialSystem.FindPath(user.GetMovementStateInfo().GetPosition3D(), pos, 1);
-                waypoints.Add(pos);
-                UserAiStateInfo aiInfo = user.GetAiStateInfo();
-                AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
-                if (null == data)
+                if (!user.UnityPathFinding)
                 {
-                    data = new AiData_ForMoveCommand(waypoints);
-                    aiInfo.AiDatas.AddData(data);
-                }
-                data.WayPoints = waypoints;
-                data.Index = 0;
-                data.EstimateFinishTime = 0;
-                data.IsFinish = false;
-                aiInfo.ChangeToState((int)AiStateId.MoveCommand);
-            }
-            else
-            {
-                NpcInfo npc = obj as NpcInfo;
-                if (null != npc)
-                {
-                    List<Vector3> waypoints = npc.SpatialSystem.FindPath(npc.GetMovementStateInfo().GetPosition3D(), pos, 1);
+                    List<Vector3> waypoints = user.SpatialSystem.FindPath(user.GetMovementStateInfo().GetPosition3D(), pos, 1);
                     waypoints.Add(pos);
-                    NpcAiStateInfo aiInfo = npc.GetAiStateInfo();
+                    UserAiStateInfo aiInfo = user.GetAiStateInfo();
                     AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
                     if (null == data)
                     {
@@ -138,6 +120,44 @@ namespace ArkCrossEngine.Story.Commands
                     data.EstimateFinishTime = 0;
                     data.IsFinish = false;
                     aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                }
+                else
+                {
+                    user.PathFindingFinished = false;
+                    user.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
+                    user.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;
+                    GfxSystem.ForMoveCommandPathToTarget(user, pos);
+                }
+            }
+            else
+            {
+                NpcInfo npc = obj as NpcInfo;
+                if (null != npc)
+                {
+                    if (!npc.UnityPathFinding)
+                    {
+                        List<Vector3> waypoints = npc.SpatialSystem.FindPath(npc.GetMovementStateInfo().GetPosition3D(), pos, 1);
+                        waypoints.Add(pos);
+                        NpcAiStateInfo aiInfo = npc.GetAiStateInfo();
+                        AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
+                        if (null == data)
+                        {
+                            data = new AiData_ForMoveCommand(waypoints);
+                            aiInfo.AiDatas.AddData(data);
+                        }
+                        data.WayPoints = waypoints;
+                        data.Index = 0;
+                        data.EstimateFinishTime = 0;
+                        data.IsFinish = false;
+                        aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                    }
+                    else
+                    {
+                        npc.PathFindingFinished = false;
+                        npc.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
+                        npc.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;
+                        GfxSystem.ForMoveCommandPathToTarget(npc, pos);
+                    }
                 }
             }
             return false;

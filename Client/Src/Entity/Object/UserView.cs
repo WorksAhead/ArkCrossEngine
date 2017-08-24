@@ -22,6 +22,7 @@ namespace ArkCrossEngine
                 Vector3 pos = msi.GetPosition3D();
                 float dir = msi.GetFaceDir();
                 CreateActor(m_User.GetId(), m_User.GetModel(), pos, dir, m_User.Scale);
+                user.ActorId = Actor;
                 UpdateXSoulEquip();
                 InitAnimationSets();
                 ObjectInfo.IsPlayer = true;

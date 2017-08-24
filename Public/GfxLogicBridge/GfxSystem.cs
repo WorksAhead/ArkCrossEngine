@@ -419,6 +419,31 @@ namespace ArkCrossEngine
         {
             QueueGfxAction(s_Instance.SetLayerImpl, id, layer);
         }
+
+        // Unity寻路系统嵌入开始
+        public static void UserSelfGeneralPathToTarget(UserInfo user, Vector3 pathTargetPos)
+        {
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("UserSelfGeneralPathToTarget");
+#endif
+            QueueGfxAction(s_Instance.UserSelfGeneralPathToTargetImpl, user, pathTargetPos);
+        }
+        public static void ForMoveCommandPathToTarget(UserInfo user, Vector3 pathTargetPos)
+        {
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("UserForMoveCommandPathToTarget");
+#endif
+            QueueGfxAction(s_Instance.ForMoveCommandPathToTargetImpl, user, pathTargetPos);
+        }
+        public static void ForMoveCommandPathToTarget(NpcInfo npc, Vector3 pathTargetPos)
+        {
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("NpcForMoveCommandPathToTarget");
+#endif
+            QueueGfxAction(s_Instance.ForMoveCommandPathToTargetImpl, npc, pathTargetPos);
+        }
+        // Unity寻路系统嵌入结束
+
         // 日志
         [System.Diagnostics.Conditional("DEBUG")]
         public static void GfxLog(string format, params object[] args)

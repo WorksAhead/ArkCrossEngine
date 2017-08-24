@@ -12,6 +12,7 @@ namespace ArkCrossEngine
             SetStateHandler((int)AiStateId.Combat, this.CombatHandler);
             SetStateHandler((int)AiStateId.MoveCommand, this.MoveCommandHandler);
             SetStateHandler((int)AiStateId.PursuitCommand, this.PursuitCommandHandler);
+            SetStateHandler((int)AiStateId.PathFinding, this.PathFindingCommandHandler);
         }
         protected override void OnStateLogicInit(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
         {
@@ -115,7 +116,7 @@ namespace ArkCrossEngine
                     info.IsTargetPosChanged = false;
                     data.FoundPath.Clear();
                 }
-                PathToTarget(user, data.FoundPath, targetPos, deltaTime);
+                PathToTargetPro(user, data.FoundPath, targetPos, deltaTime);
             }
             else
             {
@@ -163,7 +164,7 @@ namespace ArkCrossEngine
                                     AiLogicUtility.GetNearstTargetHelper(user, CharacterRelation.RELATION_ENEMY);
                                 if (null == target2 || target == target2)
                                 {
-                                    PathToTarget(user, data.FoundPath, targetPos, deltaTime);
+                                    PathToTargetPro(user, data.FoundPath, targetPos, deltaTime);
                                 }
                                 else
                                 {
@@ -203,7 +204,7 @@ namespace ArkCrossEngine
                         if (info.Time > 100)
                         {
                             info.Time = 0;
-                            PathToTarget(user, data.FoundPath, targetPos, deltaTime);
+                            PathToTargetPro(user, data.FoundPath, targetPos, deltaTime);
                         }
                     }
                 }
@@ -216,6 +217,23 @@ namespace ArkCrossEngine
         private void PursuitCommandHandler(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
         {
             AiLogicUtility.DoPursuitCommandState(user, aiCmdDispatcher, deltaTime, this);
+        }
+        private void PathFindingCommandHandler(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
+        {
+            // Path has found.
+            if (!user.UnityPathFinding)
+            {
+                return;
+            }
+
+            if (!user.PathFindingFinished)
+            {
+                return;
+            }
+
+            user.PathFindingFinished = false;
+            UserAiStateInfo info = user.GetAiStateInfo();
+            ChangeToState(user, info.PreviousState);
         }
         private bool IsReached(Vector3 src, Vector3 target)
         {
@@ -289,50 +307,58 @@ namespace ArkCrossEngine
                         }
                     }
                 }
-                if (!havePathPoint || findObstacle)
-                {//获得路点过程（寻路）
-                    data.Clear();
-                    Vector3 targetPos = pathTargetPos;
-                    if (Geometry.DistanceSquare(srcPos, targetPos) > 400)
-                    {
-                        targetPos = user.SpatialSystem.CalcNearstReachablePoint(srcPos, targetPos, 20);
-                    }
-                    bool canGo = true;
-                    if (!user.SpatialSystem.GetCellMapView(user.AvoidanceRadius).CanPass(targetPos))
-                    {
-                        if (!AiLogicUtility.GetWalkablePosition(user.SpatialSystem.GetCellMapView(user.AvoidanceRadius), targetPos, srcPos, ref targetPos))
-                            canGo = false;
-                    }
-                    if (canGo)
-                    {
-                        List<Vector3> posList = null;
-                        if (user.SpatialSystem.CanPass(user.SpaceObject, targetPos))
+                if (!user.UnityPathFinding)
+                {
+                    if (!havePathPoint || findObstacle)
+                    {//获得路点过程（寻路）
+                        data.Clear();
+                        Vector3 targetPos = pathTargetPos;
+                        if (Geometry.DistanceSquare(srcPos, targetPos) > 400)
                         {
-                            posList = new List<Vector3>();
-                            posList.Add(srcPos);
-                            posList.Add(targetPos);
+                            targetPos = user.SpatialSystem.CalcNearstReachablePoint(srcPos, targetPos, 20);
                         }
-                        else
+                        bool canGo = true;
+                        if (!user.SpatialSystem.GetCellMapView(user.AvoidanceRadius).CanPass(targetPos))
                         {
-                            long stTime = TimeUtility.GetElapsedTimeUs();
-                            posList = user.SpatialSystem.FindPath(srcPos, targetPos, user.AvoidanceRadius);
-                            long endTime = TimeUtility.GetElapsedTimeUs();
-                            long calcTime = endTime - stTime;
-                            if (calcTime > 1000)
+                            if (!AiLogicUtility.GetWalkablePosition(user.SpatialSystem.GetCellMapView(user.AvoidanceRadius), targetPos, srcPos, ref targetPos))
+                                canGo = false;
+                        }
+                        if (canGo)
+                        {
+                            List<Vector3> posList = null;
+                            if (user.SpatialSystem.CanPass(user.SpaceObject, targetPos))
                             {
-                                // LogSystem.Warn("pvp FindPath consume {0} us,user:{1} from:{2} to:{3} radius:{4} pos:{5}", calcTime, user.GetId(), srcPos.ToString(), targetPos.ToString(), user.AvoidanceRadius, user.GetMovementStateInfo().GetPosition3D().ToString());
+                                posList = new List<Vector3>();
+                                posList.Add(srcPos);
+                                posList.Add(targetPos);
                             }
-                        }
-                        if (posList.Count >= 2)
-                        {
-                            data.SetPathPoints(posList[0], posList, 1);
-                            targetPos = data.CurPathPoint;
-                            user.GetMovementStateInfo().TargetPosition = targetPos;
-                            float angle = Geometry.GetYAngle(new Vector2(srcPos.X, srcPos.Z), new Vector2(targetPos.X, targetPos.Z));
-                            user.GetMovementStateInfo().SetFaceDir(angle);
-                            user.GetMovementStateInfo().SetMoveDir(angle);
-                            user.GetMovementStateInfo().IsMoving = true;
-                            NotifyUserMove(user);
+                            else
+                            {
+                                long stTime = TimeUtility.GetElapsedTimeUs();
+                                posList = user.SpatialSystem.FindPath(srcPos, targetPos, user.AvoidanceRadius);
+                                long endTime = TimeUtility.GetElapsedTimeUs();
+                                long calcTime = endTime - stTime;
+                                if (calcTime > 1000)
+                                {
+                                    // LogSystem.Warn("pvp FindPath consume {0} us,user:{1} from:{2} to:{3} radius:{4} pos:{5}", calcTime, user.GetId(), srcPos.ToString(), targetPos.ToString(), user.AvoidanceRadius, user.GetMovementStateInfo().GetPosition3D().ToString());
+                                }
+                            }
+                            if (posList.Count >= 2)
+                            {
+                                data.SetPathPoints(posList[0], posList, 1);
+                                targetPos = data.CurPathPoint;
+                                user.GetMovementStateInfo().TargetPosition = targetPos;
+                                float angle = Geometry.GetYAngle(new Vector2(srcPos.X, srcPos.Z), new Vector2(targetPos.X, targetPos.Z));
+                                user.GetMovementStateInfo().SetFaceDir(angle);
+                                user.GetMovementStateInfo().SetMoveDir(angle);
+                                user.GetMovementStateInfo().IsMoving = true;
+                                NotifyUserMove(user);
+                            }
+                            else
+                            {
+                                user.GetMovementStateInfo().IsMoving = false;
+                                NotifyUserMove(user);
+                            }
                         }
                         else
                         {
@@ -340,11 +366,35 @@ namespace ArkCrossEngine
                             NotifyUserMove(user);
                         }
                     }
-                    else
+                }
+                else
+                {
+                    if (!havePathPoint || findObstacle)
                     {
                         user.GetMovementStateInfo().IsMoving = false;
                         NotifyUserMove(user);
                     }
+                }
+            }
+        }
+        private void PathToTargetPro(UserInfo user, AiPathData data, Vector3 pathTargetPos, long deltaTime)
+        {
+            if (!user.UnityPathFinding)
+            {
+                PathToTarget(user, data, pathTargetPos, deltaTime);
+            }
+            else
+            {
+                UserAiStateInfo info = user.GetAiStateInfo();
+                if (info.PreviousState != (int)AiStateId.PathFinding)
+                {
+                    user.PathFindingFinished = false;
+                    GfxSystem.UserSelfGeneralPathToTarget(user, pathTargetPos);
+                    ChangeToState(user, (int)AiStateId.PathFinding);
+                }
+                else
+                {
+                    PathToTarget(user, data, pathTargetPos, deltaTime);
                 }
             }
         }

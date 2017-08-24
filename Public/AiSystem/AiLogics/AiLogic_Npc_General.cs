@@ -13,6 +13,7 @@ namespace ArkCrossEngine
             SetStateHandler((int)AiStateId.MoveCommand, this.MoveCommandHandler);
             SetStateHandler((int)AiStateId.PursuitCommand, this.PursuitCommandHandler);
             SetStateHandler((int)AiStateId.PatrolCommand, this.PatrolCommandHandler);
+            SetStateHandler((int)AiStateId.PathFinding, this.PathFindingCommandHandler);
         }
 
         protected override void OnStateLogicInit(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
@@ -218,6 +219,21 @@ namespace ArkCrossEngine
         private void PatrolCommandHandler(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
         {
             AiLogicUtility.DoPatrolCommandState(npc, aiCmdDispatcher, deltaTime, this);
+        }
+        private void PathFindingCommandHandler(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
+        {
+            // Path has found.
+            if (!npc.UnityPathFinding)
+            {
+                return;
+            }
+
+            if (npc.PathFindingFinished)
+            {
+                npc.PathFindingFinished = false;
+                NpcAiStateInfo info = npc.GetAiStateInfo();
+                ChangeToState(npc, info.PreviousState);
+            }
         }
         private AiData_Demo_Melee GetAiData(NpcInfo npc)
         {

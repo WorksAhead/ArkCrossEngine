@@ -60,6 +60,12 @@ namespace ArkCrossEngine
             public int m_NpDamage;
         }
 
+        public int ActorId
+        {
+            get;
+            set;
+        }
+
         public class SpaceObjectImpl : ISpaceObject
         {
             public uint GetID() { return (uint)m_CharacterInfo.GetId(); }
@@ -1414,6 +1420,21 @@ namespace ArkCrossEngine
             m_DeadSound.Clear();
             m_LocalVariables.Clear();
             mFightingScoreChangeCB = null;
+        }
+
+        // 是否启用Unity寻路.
+        protected bool m_EnableUnityPathFinding = true;
+        public bool UnityPathFinding
+        {
+            get { return m_EnableUnityPathFinding; }
+        }
+
+        // 是否Unity寻路已完成.
+        protected bool m_PathFindingFinished = false;
+        public bool PathFindingFinished
+        {
+            get { return m_PathFindingFinished; }
+            set { m_PathFindingFinished = value; }
         }
 
         protected int m_Id = 0;

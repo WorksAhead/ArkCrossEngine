@@ -13,6 +13,7 @@ namespace ArkCrossEngine
             SetStateHandler((int)AiStateId.MoveCommand, this.MoveCommandHandler);
             SetStateHandler((int)AiStateId.PursuitCommand, this.PursuitCommandHandler);
             SetStateHandler((int)AiStateId.PatrolCommand, this.PatrolCommandHandler);
+            SetStateHandler((int)AiStateId.PathFinding, this.PathFindingCommandHandler);
         }
 
         protected override void OnStateLogicInit(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
@@ -65,7 +66,23 @@ namespace ArkCrossEngine
                         if (info.Time > m_IntervalTime)
                         {
                             info.Time = 0;
-                            AiLogicUtility.PathToTargetWithoutObstacle(user, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            if (!user.UnityPathFinding)
+                            {
+                                AiLogicUtility.PathToTargetWithoutObstacle(user, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            }
+                            else
+                            {
+                                if (info.PreviousState != (int)AiStateId.PathFinding)
+                                {
+                                    user.PathFindingFinished = false;
+                                    GfxSystem.UserSelfGeneralPathToTarget(user, targetPos);
+                                    ChangeToState(user, (int)AiStateId.PathFinding);
+                                }
+                                else
+                                {
+                                    AiLogicUtility.PathToTargetWithoutObstacle(user, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                }
+                            }
                         }
                     }
                     else
@@ -152,7 +169,23 @@ namespace ArkCrossEngine
         private void PatrolCommandHandler(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
         {
         }
+        private void PathFindingCommandHandler(UserInfo user, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
+        {
+            // Path has found.
+            if (!user.UnityPathFinding)
+            {
+                return;
+            }
 
+            if (!user.PathFindingFinished)
+            {
+                return;
+            }
+
+            user.PathFindingFinished = false;
+            UserAiStateInfo info = user.GetAiStateInfo();
+            ChangeToState(user, info.PreviousState);
+        }
         private AiData_UserSelf_General GetAiData(UserInfo user)
         {
             AiData_UserSelf_General data = user.GetAiStateInfo().AiDatas.GetData<AiData_UserSelf_General>();

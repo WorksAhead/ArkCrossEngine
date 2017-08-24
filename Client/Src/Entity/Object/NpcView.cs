@@ -28,6 +28,7 @@ namespace ArkCrossEngine
                 Vector3 pos = msi.GetPosition3D();
                 float dir = msi.GetFaceDir();
                 CreateActor(m_Npc.GetId(), m_Npc.GetModel(), pos, dir, m_Npc.Scale);
+                npc.ActorId = Actor;
                 ObjectInfo.IsNpc = true;
                 CreateBornEffect(Actor, npc.GetBornEffect(), npc.ParticleScale, npc.GetBornEffectTime());
                 InitAnimationSets();

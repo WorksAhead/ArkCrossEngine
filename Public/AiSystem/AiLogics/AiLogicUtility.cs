@@ -759,30 +759,43 @@ namespace ArkCrossEngine
                 data.UpdateTime += deltaTime;
                 Vector3 targetPos = pathTargetPos;
                 bool canGo = true;
-                if (!user.SpatialSystem.GetCellMapView(user.AvoidanceRadius).CanPass(targetPos))
+                if (!user.UnityPathFinding)
                 {
-                    if (!AiLogicUtility.GetWalkablePosition(user.SpatialSystem.GetCellMapView(user.AvoidanceRadius), targetPos, srcPos, ref targetPos))
-                        if (!AiLogicUtility.GetForwardTargetPos(user, targetPos, 2.0f, ref targetPos))
-                        {
-                            canGo = false;
-                        }
+                    if (!user.SpatialSystem.GetCellMapView(user.AvoidanceRadius).CanPass(targetPos))
+                    {
+                        if (!AiLogicUtility.GetWalkablePosition(user.SpatialSystem.GetCellMapView(user.AvoidanceRadius), targetPos, srcPos, ref targetPos))
+                            if (!AiLogicUtility.GetForwardTargetPos(user, targetPos, 2.0f, ref targetPos))
+                            {
+                                canGo = false;
+                            }
+                    }
+                }
+                else
+                {
+                    bool havePathPoint = data.HavePathPoint;
+                    if (!havePathPoint)
+                    {
+                        canGo = false;
+                    }
                 }
                 if (canGo)
                 {
-                    List<Vector3> posList = null;
-                    bool canPass = user.SpatialSystem.CanPass(user.SpaceObject, targetPos);
-                    if (canPass)
+                    if (!user.UnityPathFinding)
                     {
-                        posList = new List<Vector3>();
-                        posList.Add(srcPos);
-                        posList.Add(targetPos);
-                    }
-                    else
-                    {
+                        List<Vector3> posList = null;
+                        bool canPass = user.SpatialSystem.CanPass(user.SpaceObject, targetPos);
+                        if (canPass)
+                        {
+                            posList = new List<Vector3>();
+                            posList.Add(srcPos);
+                            posList.Add(targetPos);
+                        }
+                        else
+                        {
 #if DEBUG
                         long stTime = TimeUtility.GetElapsedTimeUs();
 #endif
-                        posList = user.SpatialSystem.FindPath(srcPos, targetPos, user.AvoidanceRadius);
+                            posList = user.SpatialSystem.FindPath(srcPos, targetPos, user.AvoidanceRadius);
 #if DEBUG
                         long endTime = TimeUtility.GetElapsedTimeUs();
                         long calcTime = endTime - stTime;
@@ -791,16 +804,17 @@ namespace ArkCrossEngine
                             LogSystem.Warn("*** pve FindPath consume {0} us,npc:{1} from:{2} to:{3} radius:{4} pos:{5}", calcTime, user.GetId(), srcPos.ToString(), targetPos.ToString(), user.AvoidanceRadius, user.GetMovementStateInfo().GetPosition3D().ToString());
                         }
 #endif
-                    }
-                    if (posList.Count >= 2)
-                    {
-                        data.SetPathPoints(posList[0], posList, 1);
-                    }
-                    else
-                    {
-                        user.GetMovementStateInfo().IsMoving = false;
-                        logic.NotifyUserMove(user);
-                        data.IsUsingAvoidanceVelocity = false;
+                        }
+                        if (posList.Count >= 2)
+                        {
+                            data.SetPathPoints(posList[0], posList, 1);
+                        }
+                        else
+                        {
+                            user.GetMovementStateInfo().IsMoving = false;
+                            logic.NotifyUserMove(user);
+                            data.IsUsingAvoidanceVelocity = false;
+                        }
                     }
                     bool havePathPoint = data.HavePathPoint;
                     if (havePathPoint)
@@ -1447,6 +1461,7 @@ namespace ArkCrossEngine
             SetStateHandler((int)AiStateId.Move, this.MoveHandler);
             SetStateHandler((int)AiStateId.Wait, this.WaitHandler);
             SetStateHandler((int)AiStateId.MoveCommand, this.MoveCommandHandler);
+            SetStateHandler((int)AiStateId.PathFinding, this.PathFindingCommandHandler);
         }
 
         protected override void OnStateLogicInit(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
@@ -1494,6 +1509,21 @@ namespace ArkCrossEngine
         private void MoveCommandHandler(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
         {
             AiLogicUtility.DoMoveCommandState(npc, aiCmdDispatcher, deltaTime, this);
+        }
+        private void PathFindingCommandHandler(NpcInfo npc, AiCommandDispatcher aiCmdDispatcher, long deltaTime)
+        {
+            // Path has found.
+            if (!npc.UnityPathFinding)
+            {
+                return;
+            }
+
+            if (npc.PathFindingFinished)
+            {
+                npc.PathFindingFinished = false;
+                NpcAiStateInfo info = npc.GetAiStateInfo();
+                ChangeToState(npc, info.PreviousState);
+            }
         }
         private bool IsReached(Vector3 src, Vector3 target)
         {

@@ -431,20 +431,30 @@ namespace ArkCrossEngine.Story.Commands
             NpcInfo npc = WorldSystem.Instance.GetCharacterByUnitId(unitId) as NpcInfo;
             if (null != npc)
             {
-                List<Vector3> waypoints = npc.SpatialSystem.FindPath(npc.GetMovementStateInfo().GetPosition3D(), pos, 1);
-                waypoints.Add(pos);
-                NpcAiStateInfo aiInfo = npc.GetAiStateInfo();
-                AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
-                if (null == data)
+                if (!npc.UnityPathFinding)
                 {
-                    data = new AiData_ForMoveCommand(waypoints);
-                    aiInfo.AiDatas.AddData(data);
+                    List<Vector3> waypoints = npc.SpatialSystem.FindPath(npc.GetMovementStateInfo().GetPosition3D(), pos, 1);
+                    waypoints.Add(pos);
+                    NpcAiStateInfo aiInfo = npc.GetAiStateInfo();
+                    AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
+                    if (null == data)
+                    {
+                        data = new AiData_ForMoveCommand(waypoints);
+                        aiInfo.AiDatas.AddData(data);
+                    }
+                    data.WayPoints = waypoints;
+                    data.Index = 0;
+                    data.EstimateFinishTime = 0;
+                    data.IsFinish = false;
+                    aiInfo.ChangeToState((int)AiStateId.MoveCommand);
                 }
-                data.WayPoints = waypoints;
-                data.Index = 0;
-                data.EstimateFinishTime = 0;
-                data.IsFinish = false;
-                aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                else
+                {
+                    npc.PathFindingFinished = false;
+                    npc.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
+                    npc.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;
+                    GfxSystem.ForMoveCommandPathToTarget(npc, pos);
+                }
             }
             return false;
         }

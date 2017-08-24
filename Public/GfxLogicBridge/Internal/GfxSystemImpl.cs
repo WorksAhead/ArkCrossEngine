@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Profiling;
 using System.Collections.Generic;
 #if !DISABLE_MULTITHREADING
@@ -1615,6 +1616,120 @@ namespace ArkCrossEngine
         {
             m_EventChannelForLogic.ProxyPublish(evt, group, args);
         }
+
+        // Unity寻路系统嵌入开始
+        private void UserSelfGeneralPathToTargetImpl(UserInfo user, Vector3 pathTargetPos)
+        {
+            GameObjectInfo goInfo = GetGameObjectInfo(user.ActorId);
+            float objHeight = goInfo.ObjectInstance.transform.position.y;
+
+            NavMeshPath path = new NavMeshPath();
+            UnityEngine.Vector3 srcPos = new UnityEngine.Vector3(user.GetMovementStateInfo().PositionX, objHeight, user.GetMovementStateInfo().PositionZ);
+            UnityEngine.Vector3 dstPos = new UnityEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z);
+            bool result = NavMesh.CalculatePath(srcPos, dstPos, NavMesh.AllAreas, path);
+
+            List<ArkCrossEngine.Vector3> waypoints = new List<ArkCrossEngine.Vector3>();
+            if (result)
+            {
+                for (int i = 0; i < path.corners.Length; i++)
+                {
+                    waypoints.Add(new ArkCrossEngine.Vector3(path.corners[i].x, path.corners[i].y, path.corners[i].z));
+                }
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+            else
+            {
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+
+            AiData_UserSelf_General data = user.GetAiStateInfo().AiDatas.GetData<AiData_UserSelf_General>();
+            if (null == data)
+            {
+                data = new AiData_UserSelf_General();
+                user.GetAiStateInfo().AiDatas.AddData(data);
+            }
+            data.FoundPath.SetPathPoints(waypoints[0], waypoints, 1);
+
+            user.PathFindingFinished = true;
+        }
+        private void ForMoveCommandPathToTargetImpl(UserInfo user, Vector3 pathTargetPos)
+        {
+            GameObjectInfo goInfo = GetGameObjectInfo(user.ActorId);
+            float objHeight = goInfo.ObjectInstance.transform.position.y;
+
+            NavMeshPath path = new NavMeshPath();
+            UnityEngine.Vector3 srcPos = new UnityEngine.Vector3(user.GetMovementStateInfo().PositionX, objHeight, user.GetMovementStateInfo().PositionZ);
+            UnityEngine.Vector3 dstPos = new UnityEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z);
+            bool result = NavMesh.CalculatePath(srcPos, dstPos, NavMesh.AllAreas, path);
+
+            List<ArkCrossEngine.Vector3> waypoints = new List<ArkCrossEngine.Vector3>();
+            if (result)
+            {
+                for (int i = 0; i < path.corners.Length; i++)
+                {
+                    waypoints.Add(new ArkCrossEngine.Vector3(path.corners[i].x, path.corners[i].y, path.corners[i].z));
+                }
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+            else
+            {
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+
+            AiData_ForMoveCommand data = user.GetAiStateInfo().AiDatas.GetData<AiData_ForMoveCommand>();
+            if (null == data)
+            {
+                data = new AiData_ForMoveCommand(waypoints);
+                user.GetAiStateInfo().AiDatas.AddData(data);
+            }
+            data.WayPoints = waypoints;
+            data.Index = 0;
+            data.EstimateFinishTime = 0;
+            data.IsFinish = false;
+
+            user.PathFindingFinished = true;
+        }
+        private void ForMoveCommandPathToTargetImpl(NpcInfo npc, Vector3 pathTargetPos)
+        {
+            GameObjectInfo goInfo = GetGameObjectInfo(npc.ActorId);
+            float objHeight = goInfo.ObjectInstance.transform.position.y;
+
+            NavMeshPath path = new NavMeshPath();
+            UnityEngine.Vector3 srcPos = new UnityEngine.Vector3(npc.GetMovementStateInfo().PositionX, objHeight, npc.GetMovementStateInfo().PositionZ);
+            UnityEngine.Vector3 dstPos = new UnityEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z);
+            bool result = NavMesh.CalculatePath(srcPos, dstPos, NavMesh.AllAreas, path);
+
+            List<ArkCrossEngine.Vector3> waypoints = new List<ArkCrossEngine.Vector3>();
+            if (result)
+            {
+                for (int i = 0; i < path.corners.Length; i++)
+                {
+                    waypoints.Add(new ArkCrossEngine.Vector3(path.corners[i].x, path.corners[i].y, path.corners[i].z));
+                }
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+            else
+            {
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+
+            AiData_ForMoveCommand data = npc.GetAiStateInfo().AiDatas.GetData<AiData_ForMoveCommand>();
+            if (null == data)
+            {
+                data = new AiData_ForMoveCommand(waypoints);
+                npc.GetAiStateInfo().AiDatas.AddData(data);
+            }
+            data.WayPoints = waypoints;
+            data.Index = 0;
+            data.EstimateFinishTime = 0;
+            data.IsFinish = false;
+
+            npc.PathFindingFinished = true;
+        }
+        // Unity寻路系统嵌入结束
 
         //Gfx线程执行的函数，对游戏逻辑线程的异步调用由这里发起
         static string[] terrainLayer = { "Terrains" };

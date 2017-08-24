@@ -69,6 +69,10 @@
       <Project>{DC42FF5E-E987-4E09-AB7A-E156089E3F44}</Project>
       <Name>GameObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GfxLogicBridge\GfxLogicBridge.csproj">
+      <Project>{4b72fa74-0478-459b-810f-c7d6e6c7ea2c}</Project>
+      <Name>GfxLogicBridge</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpatialSystem\SpatialSystem.csproj">
       <Project>{07597610-F5FD-4706-9BAF-9D6C3BEC366D}</Project>
       <Name>SpatialSystem</Name>

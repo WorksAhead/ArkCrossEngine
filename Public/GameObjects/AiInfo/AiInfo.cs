@@ -18,10 +18,17 @@ namespace ArkCrossEngine
         MoveCommand,
         PatrolCommand,
         PursuitCommand,
+        PathFinding, // Finding path with unity's navigation system.
         MaxNum
     }
     public class AiStateInfo
     {
+        public int PreviousState
+        {
+            get { return m_PreviousState; }
+            set { m_PreviousState = value; }
+        }
+
         public int CurState
         {
             get
@@ -46,7 +53,9 @@ namespace ArkCrossEngine
         public void ChangeToState(int state)
         {
             if (m_StateStack.Count > 0)
-                m_StateStack.Pop();
+            {
+                m_PreviousState = m_StateStack.Pop();
+            }
             m_StateStack.Push(state);
         }
         public void CloneAiStates(IEnumerable<int> states)
@@ -90,6 +99,7 @@ namespace ArkCrossEngine
         }
 
         private Stack<int> m_StateStack = new Stack<int>();
+        private int m_PreviousState = (int)AiStateId.Invalid;
         private int m_AiLogic = 0;
         private string[] m_AiParam = new string[Data_Unit.c_MaxAiParamNum];
         private TypedDataCollection m_AiDatas = new TypedDataCollection();
