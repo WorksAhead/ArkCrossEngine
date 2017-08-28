@@ -222,7 +222,7 @@ namespace ArkCrossEngine
         {
             try
             {
-#if DISABLE_MULTITHREADING
+#if PLATFORM_WEBGL
                 DummyThread.Thread.TickAllThread();
 #endif
                 Profiler.BeginSample("GameController.TickGame");

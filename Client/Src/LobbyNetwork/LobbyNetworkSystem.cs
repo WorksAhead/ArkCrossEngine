@@ -39,8 +39,12 @@ namespace ArkCrossEngine.Network
                 WorldSystem.Instance.WaitMatchSceneId = -1;
                 m_IsLogining = true;
                 m_IsQueueing = false;
-
+#if !PLATFORM_WEBGL
                 m_WebSocket = new WebSocket4Net.WebSocket(m_Url);
+#else
+                m_WebSocket = WebSocketWrapper.Instance;
+                m_WebSocket.SetUrl(m_Url);
+#endif
                 m_WebSocket.AllowUnstrustedCertificate = true;
                 m_WebSocket.EnableAutoSendPing = true;
                 m_WebSocket.AutoSendPingInterval = 10;
@@ -427,8 +431,11 @@ namespace ArkCrossEngine.Network
         private int m_OpCode;
         private int m_ChannelId;
         private string m_Data;
-
+#if !PLATFORM_WEBGL
         private WebSocket4Net.WebSocket m_WebSocket;
+#else
+        private WebSocketWrapper m_WebSocket;
+#endif
         private IActionQueue m_AsyncActionQueue;
 
         internal static LobbyNetworkSystem Instance

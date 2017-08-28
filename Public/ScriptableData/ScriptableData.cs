@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArkCrossEngine;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -796,6 +797,7 @@ namespace ScriptableData
     };
     public class ScriptableDataFile
     {
+        readonly static string BOMMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
         public List<ScriptableDataInfo> ScriptableDatas
         {
             get { return mScriptableDatas; }
@@ -807,46 +809,55 @@ namespace ScriptableData
 
         public bool Load(string file)
         {
-#if FULL_VERSION
-      string content = File.ReadAllText(file);
-      //DashFire.LogSystem.Debug("ScriptableDataFile.Load {0}:\n{1}", file, content);
-      return LoadFromString(content, file);
+#if true
+            //string content = File.ReadAllText(file);
+            byte[] content = FileReaderProxy.ReadFileAsArray(file);
+            string text = Encoding.UTF8.GetString(content);
+
+            // remove BOM if used
+            if (text.StartsWith(BOMMarkUtf8))
+            {
+                text = text.Remove(0, BOMMarkUtf8.Length);
+            }
+
+            //DashFire.LogSystem.Debug("ScriptableDataFile.Load {0}:\n{1}", file, content);
+            return LoadFromString(text, file);
 #else
             return false;
 #endif
         }
         public bool LoadFromString(string content, string resourceName)
         {
-#if FULL_VERSION
-		  Parser.DslToken tokens = new Parser.DslToken(content);
-		  Parser.DslError error = new Parser.DslError(tokens);
-      Parser.RuntimeAction action = new Parser.RuntimeAction(mScriptableDatas);
-      action.onGetLastToken = () => { return tokens.getLastToken(); };
-      action.onGetLastLineNumber = () => { return tokens.getLastLineNumber(); };
-		  Parser.DslParser.parse(action,tokens,error,0);
-		  if(error.HasError)
-		  {
-        for (int i = 0; i < mScriptableDatas.Count; i++ )
-        {
-          mScriptableDatas[i].Clear();
-        }
-        /*
-			  foreach(ScriptableDataInfo data in mScriptableDatas) {
-				  data.Clear();
-			  }*/
-		  }
-      else
-      {
-        for (int i = 0; i < mScriptableDatas.Count; i++)
-        {
-          mScriptableDatas[i].SetResourceName(resourceName);
-        }
-        /*
-        foreach (ScriptableDataInfo data in mScriptableDatas) {
-				  data.SetResourceName(resourceName);
-			  }*/
-		  }
-		  return !error.HasError;
+#if true
+            Parser.DslToken tokens = new Parser.DslToken(content);
+            Parser.DslError error = new Parser.DslError(tokens);
+            Parser.RuntimeAction action = new Parser.RuntimeAction(mScriptableDatas);
+            action.onGetLastToken = () => { return tokens.getLastToken(); };
+            action.onGetLastLineNumber = () => { return tokens.getLastLineNumber(); };
+            Parser.DslParser.parse(action, tokens, error, 0);
+            if (error.HasError)
+            {
+                for (int i = 0; i < mScriptableDatas.Count; i++)
+                {
+                    mScriptableDatas[i].Clear();
+                }
+                /*
+                      foreach(ScriptableDataInfo data in mScriptableDatas) {
+                          data.Clear();
+                      }*/
+            }
+            else
+            {
+                for (int i = 0; i < mScriptableDatas.Count; i++)
+                {
+                    mScriptableDatas[i].SetResourceName(resourceName);
+                }
+                /*
+                foreach (ScriptableDataInfo data in mScriptableDatas) {
+                          data.SetResourceName(resourceName);
+                      }*/
+            }
+            return !error.HasError;
 #else
             return false;
 #endif

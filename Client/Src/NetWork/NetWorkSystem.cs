@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Lidgren.Network;
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
 using System.Threading; 
 #else
 using DummyThread;
@@ -10,6 +10,90 @@ using ArkCrossEngineMessage;
 
 namespace ArkCrossEngine.Network
 {
+    public class WebSocketWrapper
+    {
+        public class WebSocketBase
+        {
+            public string mUrl;
+
+            public void SetUrl(string url)
+            {
+                mUrl = url;
+            }
+
+            public virtual void Send(string str)
+            {
+
+            }
+
+            public virtual void Open()
+            {
+
+            }
+
+            public virtual void Close()
+            {
+
+            }
+
+            public virtual void Send(byte[] buffer)
+            {
+
+            }
+        }
+
+        public bool AllowUnstrustedCertificate = true;
+        public bool EnableAutoSendPing = true;
+        public int AutoSendPingInterval = 10;
+        public bool IsSocketConnected = false;
+        public WebSocket4Net.WebSocketState State;
+
+        /// Public Events
+        public EventHandler Opened { get; set; }
+        public EventHandler<WebSocket4Net.MessageReceivedEventArgs> MessageReceived { get; set; }
+        public EventHandler<WebSocket4Net.DataReceivedEventArgs> DataReceived { get; set; }
+        public EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> Error { get; set; }
+        public EventHandler Closed { get; set; }
+
+        private static WebSocketWrapper s_Instance = new WebSocketWrapper();
+        public static WebSocketWrapper Instance
+        {
+            get { return s_Instance; }
+        }
+
+        public virtual void SetInstance(WebSocketBase inst)
+        {
+            Interface = inst;
+        }
+
+        public virtual void SetUrl(string url)
+        {
+            Interface.SetUrl(url);
+        }
+
+        public virtual void Send(string str)
+        {
+            Interface.Send(str);
+        }
+
+        public virtual void Open()
+        {
+            Interface.Open();
+        }
+
+        public virtual void Close()
+        {
+            Interface.Close();
+        }
+
+        public virtual void Send(byte[] buffer)
+        {
+            Interface.Send(buffer);
+        }
+
+        private WebSocketBase Interface;
+    }
+
     internal class NetworkSystem
     {
         #region
@@ -41,7 +125,7 @@ namespace ArkCrossEngine.Network
             m_Config.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             m_Config.EnableMessageType(NetIncomingMessageType.WarningMessage);
             m_NetClient = new NetClient(m_Config);
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
             m_NetThread = new Thread(new ThreadStart(NetworkThread));
 #else
             m_NetThread = new Thread(CustomNetWorkThread);

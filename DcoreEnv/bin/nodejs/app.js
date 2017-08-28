@@ -397,6 +397,7 @@ serverLogic.init = function () {
     },10000);    
     socket.on('message', function (arg) {
       try {
+      	arg = arg.toString();
         var ix = arg.indexOf('|');
         if (ix >= 0) {
           var ix2 = arg.indexOf('|', ix + 1);
@@ -522,6 +523,7 @@ serverLogic.init = function () {
         }
       } catch(ex) {
         console.log("onmessage exception:"+ex+" msg:"+arg);
+        console.log("stack:" + ex.stack);
       }
     });
     socket.on('close', function () {

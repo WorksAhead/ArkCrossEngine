@@ -2,7 +2,7 @@
 using UnityEngine.AI;
 using UnityEngine.Profiling;
 using System.Collections.Generic;
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
 using System.Threading;
 #else
 using DummyThread;

@@ -1,5 +1,5 @@
 using System;
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
 using System.Threading;
 #else
 using DummyThread;

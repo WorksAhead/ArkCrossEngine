@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
 using System.Threading;
 #else
 using DummyThread;
@@ -354,7 +354,7 @@ namespace ArkCrossEngine
 
         private void InitThread(ClientAsyncActionProcessor asyncActionQueue)
         {
-#if !DISABLE_MULTITHREADING
+#if !PLATFORM_WEBGL
             m_Thread = new Thread(this.Loop);
 #else
             m_Thread = new Thread(CustomThreadLoop);
