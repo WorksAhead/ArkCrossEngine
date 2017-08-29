@@ -4,6 +4,7 @@ namespace ArkCrossEngine
 {
     public class AiData_ForMoveCommand
     {
+        public System.Object LockObject { get; set; }
         public List<Vector3> WayPoints { get; set; }
         public int Index { get; set; }
         public bool IsFinish { get; set; }
@@ -15,6 +16,7 @@ namespace ArkCrossEngine
             Index = 0;
             EstimateFinishTime = 0;
             IsFinish = false;
+            LockObject = new System.Object();
         }
     }
     public class AiData_ForPatrol

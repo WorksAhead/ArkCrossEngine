@@ -395,26 +395,29 @@ namespace ArkCrossEngine
             AiData_ForMoveCommand data = GetAiDataForMoveCommand(npc);
             if (null == data) return;
 
-            if (!data.IsFinish)
+            lock (data.LockObject)
             {
-                if (WayPointArrived(npc, data))
+                if (!data.IsFinish)
                 {
-                    Vector3 targetPos = new Vector3();
-                    MoveToNext(npc, data, ref targetPos);
-                    if (!data.IsFinish)
+                    if (WayPointArrived(npc, data))
                     {
-                        logic.NotifyNpcMove(npc);
+                        Vector3 targetPos = new Vector3();
+                        MoveToNext(npc, data, ref targetPos);
+                        if (!data.IsFinish)
+                        {
+                            logic.NotifyNpcMove(npc);
+                        }
                     }
                 }
-            }
 
-            //判断是否状态结束并执行相应处理
-            if (data.IsFinish)
-            {
-                logic.NpcSendStoryMessage(npc, "npcarrived:" + npc.GetUnitId(), npc.GetId());
-                logic.NpcSendStoryMessage(npc, "objarrived", npc.GetId());
-                npc.GetMovementStateInfo().IsMoving = false;
-                logic.ChangeToState(npc, (int)AiStateId.Idle);
+                //判断是否状态结束并执行相应处理
+                if (data.IsFinish)
+                {
+                    logic.NpcSendStoryMessage(npc, "npcarrived:" + npc.GetUnitId(), npc.GetId());
+                    logic.NpcSendStoryMessage(npc, "objarrived", npc.GetId());
+                    npc.GetMovementStateInfo().IsMoving = false;
+                    logic.ChangeToState(npc, (int)AiStateId.Idle);
+                }
             }
         }
         private static AiData_ForMoveCommand GetAiDataForMoveCommand(NpcInfo npc)
@@ -428,29 +431,32 @@ namespace ArkCrossEngine
             AiData_ForMoveCommand data = GetAiDataForMoveCommand(user);
             if (null == data) return;
 
-            if (!data.IsFinish)
+            lock (data.LockObject)
             {
-                if (WayPointArrived(user, data))
+                if (!data.IsFinish)
                 {
-                    Vector3 targetPos = new Vector3();
-                    MoveToNext(user, data, ref targetPos);
-                    if (!data.IsFinish)
+                    if (WayPointArrived(user, data))
                     {
-                        logic.NotifyUserMove(user);
+                        Vector3 targetPos = new Vector3();
+                        MoveToNext(user, data, ref targetPos);
+                        if (!data.IsFinish)
+                        {
+                            logic.NotifyUserMove(user);
+                        }
                     }
                 }
-            }
 
-            //判断是否状态结束并执行相应处理
-            if (data.IsFinish)
-            {
-                if (GlobalVariables.Instance.IsClient)
+                //判断是否状态结束并执行相应处理
+                if (data.IsFinish)
                 {
-                    logic.UserSendStoryMessage(user, "playerselfarrived", user.GetId());
+                    if (GlobalVariables.Instance.IsClient)
+                    {
+                        logic.UserSendStoryMessage(user, "playerselfarrived", user.GetId());
+                    }
+                    logic.UserSendStoryMessage(user, "objarrived", user.GetId());
+                    user.GetMovementStateInfo().IsMoving = false;
+                    logic.ChangeToState(user, (int)AiStateId.Idle);
                 }
-                logic.UserSendStoryMessage(user, "objarrived", user.GetId());
-                user.GetMovementStateInfo().IsMoving = false;
-                logic.ChangeToState(user, (int)AiStateId.Idle);
             }
         }
         private static AiData_ForMoveCommand GetAiDataForMoveCommand(UserInfo user)

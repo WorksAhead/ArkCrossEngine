@@ -1644,11 +1644,6 @@ namespace ArkCrossEngine
             }
 
             AiData_UserSelf_General data = user.GetAiStateInfo().AiDatas.GetData<AiData_UserSelf_General>();
-            if (null == data)
-            {
-                data = new AiData_UserSelf_General();
-                user.GetAiStateInfo().AiDatas.AddData(data);
-            }
             data.FoundPath.SetPathPoints(waypoints[0], waypoints, 1);
 
             user.PathFindingFinished = true;
@@ -1679,16 +1674,13 @@ namespace ArkCrossEngine
             }
 
             AiData_ForMoveCommand data = user.GetAiStateInfo().AiDatas.GetData<AiData_ForMoveCommand>();
-            if (null == data)
+            lock (data.LockObject)
             {
-                data = new AiData_ForMoveCommand(waypoints);
-                user.GetAiStateInfo().AiDatas.AddData(data);
+                data.WayPoints = waypoints;
+                data.Index = 0;
+                data.EstimateFinishTime = 0;
+                data.IsFinish = false;
             }
-            data.WayPoints = waypoints;
-            data.Index = 0;
-            data.EstimateFinishTime = 0;
-            data.IsFinish = false;
-
             user.PathFindingFinished = true;
         }
         private void ForMoveCommandPathToTargetImpl(NpcInfo npc, Vector3 pathTargetPos)
@@ -1717,16 +1709,13 @@ namespace ArkCrossEngine
             }
 
             AiData_ForMoveCommand data = npc.GetAiStateInfo().AiDatas.GetData<AiData_ForMoveCommand>();
-            if (null == data)
+            lock (data.LockObject)
             {
-                data = new AiData_ForMoveCommand(waypoints);
-                npc.GetAiStateInfo().AiDatas.AddData(data);
+                data.WayPoints = waypoints;
+                data.Index = 0;
+                data.EstimateFinishTime = 0;
+                data.IsFinish = false;
             }
-            data.WayPoints = waypoints;
-            data.Index = 0;
-            data.EstimateFinishTime = 0;
-            data.IsFinish = false;
-
             npc.PathFindingFinished = true;
         }
         // Unity寻路系统嵌入结束
