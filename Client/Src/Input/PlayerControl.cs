@@ -659,6 +659,14 @@ namespace ArkCrossEngine
                 }
                 else
                 {
+                    UserAiStateInfo aiInfo = user.GetAiStateInfo();
+                    AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
+                    if (null == data)
+                    {
+                        data = new AiData_ForMoveCommand(null);
+                        aiInfo.AiDatas.AddData(data);
+                    }
+
                     user.PathFindingFinished = false;
                     user.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
                     user.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;

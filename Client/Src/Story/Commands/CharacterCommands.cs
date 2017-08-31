@@ -123,6 +123,14 @@ namespace ArkCrossEngine.Story.Commands
                 }
                 else
                 {
+                    UserAiStateInfo aiInfo = user.GetAiStateInfo();
+                    AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
+                    if (null == data)
+                    {
+                        data = new AiData_ForMoveCommand(null);
+                        aiInfo.AiDatas.AddData(data);
+                    }
+
                     user.PathFindingFinished = false;
                     user.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
                     user.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;
@@ -153,6 +161,14 @@ namespace ArkCrossEngine.Story.Commands
                     }
                     else
                     {
+                        NpcAiStateInfo aiInfo = npc.GetAiStateInfo();
+                        AiData_ForMoveCommand data = aiInfo.AiDatas.GetData<AiData_ForMoveCommand>();
+                        if (null == data)
+                        {
+                            data = new AiData_ForMoveCommand(null);
+                            aiInfo.AiDatas.AddData(data);
+                        }
+
                         npc.PathFindingFinished = false;
                         npc.GetAiStateInfo().ChangeToState((int)AiStateId.PathFinding);
                         npc.GetAiStateInfo().PreviousState = (int)AiStateId.MoveCommand;
@@ -226,11 +242,14 @@ namespace ArkCrossEngine.Story.Commands
                     data = new AiData_ForMoveCommand(waypoints);
                     aiInfo.AiDatas.AddData(data);
                 }
-                data.WayPoints = waypoints;
-                data.Index = 0;
-                data.EstimateFinishTime = 0;
-                data.IsFinish = false;
-                aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                lock (data.LockObject)
+                {
+                    data.WayPoints = waypoints;
+                    data.Index = 0;
+                    data.EstimateFinishTime = 0;
+                    data.IsFinish = false;
+                    aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                }
             }
             else
             {
@@ -250,11 +269,14 @@ namespace ArkCrossEngine.Story.Commands
                         data = new AiData_ForMoveCommand(waypoints);
                         aiInfo.AiDatas.AddData(data);
                     }
-                    data.WayPoints = waypoints;
-                    data.Index = 0;
-                    data.EstimateFinishTime = 0;
-                    data.IsFinish = false;
-                    aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                    lock (data.LockObject)
+                    {
+                        data.WayPoints = waypoints;
+                        data.Index = 0;
+                        data.EstimateFinishTime = 0;
+                        data.IsFinish = false;
+                        aiInfo.ChangeToState((int)AiStateId.MoveCommand);
+                    }
                 }
             }
             return false;
