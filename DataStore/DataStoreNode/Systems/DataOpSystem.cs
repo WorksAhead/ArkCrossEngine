@@ -85,8 +85,8 @@ internal class DataOpSystem
               msg.Key,
               (ret, error, data) =>
               {
-            //这段代码必须保证线程安全，会在不同线程调用！！！
-            var reply = NLRep_Load.CreateBuilder();
+                  //这段代码必须保证线程安全，会在不同线程调用！！！
+                  var reply = NLRep_Load.CreateBuilder();
                   reply.SetDsMsgId(msg.DsMsgId);
                   reply.SetKey(msg.Key);
                   if (ret == DSLoadResult.Success)

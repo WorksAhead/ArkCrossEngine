@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DashFire.DataStore
 {
-  internal class OuterCache
-  {
+    internal class OuterCache
+    {
 
-  }
+    }
 }

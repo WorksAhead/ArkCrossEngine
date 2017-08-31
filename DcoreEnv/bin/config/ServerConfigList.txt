@@ -2,7 +2,7 @@ STRING	STRING	STRING	STRING	STRING	STRING	STRING	STRING	STRING	STRING	STRING	STR
 机器外网IP	机器内网IP	服务器名称	当前ServerID	ZONE ID	大世界组ID	当前世界ID	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value	key	value
 127.0.0.1	127.0.0.1	第一推动_CENTER	0	0	0	0	端口	20000																														
 127.0.0.1	127.0.0.1	第一推动_大厅	1	0	0	0	开服时间	20140915	状态	程序																												
-127.0.0.1	127.0.0.1	第一推动_STORE	2	0	0	0	DB	10.1.8.123																														
+127.0.0.1	127.0.0.1	第一推动_STORE	2	0	0	0	DB	10.1.9.84																														
 127.0.0.1	127.0.0.1	第一推动_BRIDGE	3	0	0	0																																
 127.0.0.1	127.0.0.1	第一推动_NODE	4	0	0	0																																
 127.0.0.1	127.0.0.1	第一推动_ROOM	20	0	0	0																																
