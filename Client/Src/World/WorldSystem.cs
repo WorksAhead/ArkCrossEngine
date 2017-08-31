@@ -4436,15 +4436,15 @@ namespace ArkCrossEngine
         private SceneResource m_CurScene;
 
         private Dictionary<ulong, int> m_CityUsers = new Dictionary<ulong, int>();
-        private const long c_CityUserTickInterval = 3;
+        private const long c_CityUserTickInterval = 30;
         private long m_LastCityUserTickTime = 0;
         private int m_CurCityUserTickCount = 0;
 
         private const int c_CityUserUpdatePositionTickNum = 1;
-        private const int c_MaxCityUsers = 10;
+        private const int c_MaxCityUsers = 100;
         private int m_NextCityUserId = 2;
 
-        private const int c_MaxCityUserWithModel = 50;
+        private const int c_MaxCityUserWithModel = 500;
         private const int c_LowModelIdDeviation = 100;
         private const int c_LowModelId2Deviation = 200;
         private int m_CurCityUserWithModelCount = 0;

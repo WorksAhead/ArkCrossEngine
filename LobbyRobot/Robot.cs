@@ -6,6 +6,9 @@ using ArkCrossEngine.Network;
 using ArkCrossEngine.GmCommands;
 using SkillSystem;
 using LitJson;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace LobbyRobot
 {
@@ -127,6 +130,36 @@ namespace LobbyRobot
         internal void Load(string gmTxt)
         {
             m_StorySystem.LoadStoryText(gmTxt);
+
+            // find all waypoints data
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Robot");
+            string[] wps = Directory.GetFiles(path, "*.wp", SearchOption.TopDirectoryOnly);
+            if (wps == null || wps.Length == 0)
+            {
+                return;
+            }
+
+            // choose random file
+            int num = m_Random.Next(0, wps.Length - 1);
+            string p = wps[num];
+
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.Read);
+                byte[] bytes = new byte[4];
+                stream.Read(bytes, 0, 4);
+                int len = BitConverter.ToInt32(bytes, 0);
+
+                for (int i = 0; i < len; ++i)
+                {
+                    WayPoint w = new WayPoint();
+                    stream.Read(bytes, 0, 4);
+                    w.x = BitConverter.ToSingle(bytes, 0);
+                    stream.Read(bytes, 0, 4);
+                    w.y = BitConverter.ToSingle(bytes, 0);
+                    WayPoints.Add(w);
+                }
+            }
         }
         internal void Start(string url, string user, string pwd)
         {
@@ -136,6 +169,35 @@ namespace LobbyRobot
             m_Pass = pwd;
 
             m_WaitStart = false;
+
+            m_DelayTime = TimeUtility.GetLocalMilliseconds();
+        }
+
+        internal void LogicTick()
+        {
+            if (WayPoints.Count == 0)
+            {
+                return;
+            }
+
+            long curTime = TimeUtility.GetLocalMilliseconds();
+
+            if (!m_DelayMoveStart && (curTime - m_DelayTime < m_DelayTimeRamdom))
+            {
+                return;
+            }
+            else
+            {
+                m_DelayMoveStart = true;
+            }
+
+            
+            if (curTime - m_LastTickLogicTime > 1000)
+            {
+                UpdatePosition(WayPoints[CurrentWayPointIndex].x, WayPoints[CurrentWayPointIndex].y, 0);
+
+                CurrentWayPointIndex = (CurrentWayPointIndex + 1) % WayPoints.Count;
+            }
         }
 
         internal void Tick()
@@ -170,12 +232,14 @@ namespace LobbyRobot
                         LogSystem.Info("AverageRoundtripTime:{0} robot {1} {2}", AverageRoundtripTime, LobbyNetworkSystem.User, Robot.GetDateTime());
                     }
 
-                    if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing && m_LobbyNetworkSystem.LastConnectTime + 60000 < curTime && m_StorySystem.ActiveStoryCount <= 0)
+                    if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing && m_LobbyNetworkSystem.LastConnectTime + 2000 < curTime && m_StorySystem.ActiveStoryCount <= 0)
                     {
                         LogSystem.Error("******************** robot {0} run failed, try again.{1}", LobbyNetworkSystem.User, Robot.GetDateTime());
                         m_LobbyNetworkSystem.Disconnect();
                     }
                 }
+
+                LogicTick();
             }
         }
 
@@ -1302,6 +1366,10 @@ namespace LobbyRobot
 
         private const long c_TickLogInterval = 10000;
         private long m_LastTickLogTime = 0;
+        private long m_LastTickLogicTime = 0;
+        private long m_DelayTimeRamdom = m_Random.Next(0, 5000);
+        private bool m_DelayMoveStart = false;
+        private long m_DelayTime = 0;
 
         private long m_AverageRoundtripTime = 0;
         private long m_RemoteTimeOffset = 0;
@@ -1312,6 +1380,16 @@ namespace LobbyRobot
         private NetworkSystem m_RoomNetworkSystem = new NetworkSystem();
         private SkillAnalysis m_SkillAnalysis = new SkillAnalysis();
         private ClientGmStorySystem m_StorySystem = new ClientGmStorySystem();
+
+        private static Random m_Random = new Random();
+
+        [System.Serializable]
+        public struct WayPoint
+        {
+            public float x, y;
+        }
+        private List<WayPoint> WayPoints = new List<WayPoint>();
+        private int CurrentWayPointIndex = 0;
 
         internal static CharacterRelation GetRelation(int campA, int campB)
         {

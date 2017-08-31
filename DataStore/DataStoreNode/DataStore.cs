@@ -16,7 +16,8 @@ class DataStore
         m_NameHandleCallback = this.OnNameHandleChanged;
         m_MsgCallback = this.OnMessage;
         m_CmdCallback = this.OnCommand;
-        CenterClientApi.Init("store", args.Length, args, m_NameHandleCallback, m_MsgCallback, m_CmdCallback);
+        m_MsgResultCallback = this.OnMessageResult;
+        CenterClientApi.Init("store", args.Length, args, m_NameHandleCallback, m_MsgCallback, m_MsgResultCallback, m_CmdCallback);
 
         m_Channel = new PBChannel(DashFire.DataStore.MessageMapping.Query,
                       DashFire.DataStore.MessageMapping.Query);
@@ -107,6 +108,11 @@ class DataStore
             LogSys.Log(LOG_TYPE.ERROR, "Exception {0}\n{1}", ex.Message, ex.StackTrace);
         }
     }
+    private void OnMessageResult(uint seq, int src, int dest, int result)
+    {
+
+    }
+
     private void OnCommand(int src, int dest, string command)
     {
         try
@@ -147,6 +153,7 @@ class DataStore
     private CenterClientApi.HandleNameHandleChangedCallback m_NameHandleCallback = null;
     private CenterClientApi.HandleMessageCallback m_MsgCallback = null;
     private CenterClientApi.HandleCommandCallback m_CmdCallback = null;
+    private CenterClientApi.HandleMessageResultCallback m_MsgResultCallback = null;
 
     internal static void Main(string[] args)
     {

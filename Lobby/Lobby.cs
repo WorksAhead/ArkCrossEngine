@@ -187,7 +187,8 @@ namespace Lobby
             m_NameHandleCallback = this.OnNameHandleChanged;
             m_MsgCallback = this.OnMessage;
             m_CmdCallback = this.OnCommand;
-            CenterClientApi.Init("lobby", args.Length, args, m_NameHandleCallback, m_MsgCallback, m_CmdCallback);
+            m_MsgResultCallback = this.OnMessageResult;
+            CenterClientApi.Init("lobby", args.Length, args, m_NameHandleCallback, m_MsgCallback, m_MsgResultCallback, m_CmdCallback);
 
             LogSys.Init("./config/logconfig.xml");
             LobbyConfig.Init();
@@ -317,6 +318,12 @@ namespace Lobby
                 LogSys.Log(LOG_TYPE.ERROR, "Exception {0}\n{1}", ex.Message, ex.StackTrace);
             }
         }
+
+        private void OnMessageResult(uint seq, int src, int dest, int result)
+        {
+            
+        }
+
         private void OnMessage(uint seq, int source_handle, int dest_handle,
             IntPtr data, int len)
         {
@@ -503,6 +510,7 @@ namespace Lobby
         private CenterClientApi.HandleNameHandleChangedCallback m_NameHandleCallback = null;
         private CenterClientApi.HandleMessageCallback m_MsgCallback = null;
         private CenterClientApi.HandleCommandCallback m_CmdCallback = null;
+        private CenterClientApi.HandleMessageResultCallback m_MsgResultCallback = null;
 
         internal static void Main(string[] args)
         {
