@@ -158,7 +158,7 @@ namespace ArkCrossEngine
             {
                 //GameObject gameObject = obj as GameObject;
                 //if (null != gameObject) {
-                //LogicSystem.LogicLog("RecycleObject {0} {1}", gameObject.name, gameObject.tag);
+                //LogicSystem.LogFromGfx("RecycleObject {0} {1}", gameObject.name, gameObject.tag);
                 //}
 
                 int objId = obj.GetInstanceID();
@@ -201,7 +201,7 @@ namespace ArkCrossEngine
 
                     //GameObject gameObject = resInfo.m_Object as GameObject;
                     //if (null != gameObject) {
-                    //LogicSystem.LogicLog("RecycleObject {0} {1} by Tick", gameObject.name, gameObject.tag);
+                    //LogicSystem.LogFromGfx("RecycleObject {0} {1} by Tick", gameObject.name, gameObject.tag);
                     //}
 
                     FinalizeObject(resInfo.m_Object);
@@ -286,7 +286,7 @@ namespace ArkCrossEngine
                     catch (System.Exception ex)
                     {
                         m_WaitDeleteLoadedPrefabEntrys.Add(key);
-                        LogicSystem.LogicErrorLog("Exception:{0} stack:{1}", ex.Message, ex.StackTrace);
+                        LogicSystem.LogErrorFromLogic("Exception:{0} stack:{1}", ex.Message, ex.StackTrace);
                     }
                 }
                 else

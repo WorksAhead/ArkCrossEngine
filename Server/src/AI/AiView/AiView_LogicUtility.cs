@@ -6,10 +6,10 @@ using ArkCrossEngineMessage;
 
 namespace DashFire
 {
-  internal class AiView_LogicUtility
-  {
-    internal AiView_LogicUtility()
+    internal class AiView_LogicUtility
     {
+        internal AiView_LogicUtility()
+        {
+        }
     }
-  }
 }

@@ -58,7 +58,7 @@ namespace Lobby
         }
 
         private object m_Lock = new object();
-        
+
         // 新手引导相关数据
         private long m_NewbieFlag = 0;
         private long m_NewbieActionFlag = 0;

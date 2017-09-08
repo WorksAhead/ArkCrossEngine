@@ -54,27 +54,21 @@ namespace ArkCrossEngine
             get { return GfxSystem.Instance.IsLastHitUi; }
             set { GfxSystem.Instance.IsLastHitUi = value; }
         }
-        public static void LogicLog(string format, params object[] args)
+        public static void LogFromLogic(string format, params object[] args)
         {
-            GfxSystem.Instance.CallLogicLog(format, args);
+            GfxSystem.Instance.LogFromLogic(format, args);
         }
-        public static void LogicErrorLog(string format, params object[] args)
+        public static void LogErrorFromLogic(string format, params object[] args)
         {
-            GfxSystem.Instance.CallLogicErrorLog(format, args);
+            GfxSystem.Instance.LogErrorFromLogic(format, args);
         }
-        //[System.Diagnostics.Conditional("DEBUG")]
-        public static void GfxLog(string format, params object[] args)
+        public static void LogFromGfx(string format, params object[] args)
         {
-#if !RELEASE
-            GfxSystem.Instance.CallGfxLog(string.Format(format, args));
-#endif
+            GfxSystem.Instance.LogFromGfx(string.Format(format, args));
         }
-        //[System.Diagnostics.Conditional("DEBUG")]
-        public static void GfxErrorLog(string format, params object[] args)
+        public static void LogErrorFromGfx(string format, params object[] args)
         {
-#if !RELEASE
-            GfxSystem.Instance.CallGfxErrorLog(string.Format(format, args));
-#endif
+            GfxSystem.Instance.LogErrorFromGfx(string.Format(format, args));
         }
         public static float RadianToDegree(float dir)
         {
@@ -348,7 +342,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                GfxLog("NotifyGfxAnimationStart:{0}, can't find object !", obj.name);
+                LogFromGfx("NotifyGfxAnimationStart:{0}, can't find object !", obj.name);
             }
         }
         public static void NotifyGfxAnimationFinish(GameObject obj, bool isSkill)
@@ -369,7 +363,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                GfxLog("NotifyGfxAnimationFinish:{0}, can't find object !", obj.name);
+                LogFromGfx("NotifyGfxAnimationFinish:{0}, can't find object !", obj.name);
             }
         }
         public static void NotifyGfxMoveControlStart(GameObject obj, int id, bool isSkill)
@@ -395,7 +389,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                GfxLog("NotifyGfxMoveControlStart:{0}, can't find object !", obj.name);
+                LogFromGfx("NotifyGfxMoveControlStart:{0}, can't find object !", obj.name);
             }
         }
         public static void NotifyGfxMoveControlFinish(GameObject obj, int id, bool isSkill)
@@ -423,7 +417,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                GfxLog("NotifyGfxMoveControlFinish:{0}, can't find object !", obj.name);
+                LogFromGfx("NotifyGfxMoveControlFinish:{0}, can't find object !", obj.name);
             }
         }
         public static void NotifyGfxUpdatePosition(GameObject obj, float x, float y, float z)
@@ -440,7 +434,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxUpdatePosition:{0} {1} {2} {3}, can't find object !", obj.name, x, y, z);
+                    LogFromGfx("NotifyGfxUpdatePosition:{0} {1} {2} {3}, can't find object !", obj.name, x, y, z);
                 }
             }
         }
@@ -459,7 +453,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxUpdatePosition:{0} {1} {2} {3} {4} {5} {6}, can't find object !", obj.name, x, y, z, rx, ry, rz);
+                    LogFromGfx("NotifyGfxUpdatePosition:{0} {1} {2} {3} {4} {5} {6}, can't find object !", obj.name, x, y, z, rx, ry, rz);
                 }
             }
         }
@@ -476,7 +470,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxUpdatePosition:{0} {1}, can't find object !", obj.name, ry);
+                    LogFromGfx("NotifyGfxUpdatePosition:{0} {1}, can't find object !", obj.name, ry);
                 }
             }
         }
@@ -497,7 +491,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxUpdatePositionAndDir:{0} {1} {2} {3} {4} {5} {6}, can't find object !", obj.name, x, y, z, rx, ry, rz);
+                    LogFromGfx("NotifyGfxUpdatePositionAndDir:{0} {1} {2} {3} {4} {5} {6}, can't find object !", obj.name, x, y, z, rx, ry, rz);
                 }
             }
         }
@@ -523,7 +517,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                GfxLog("NotifyGfxHitTarget:{0} {1} {2} {3}, can't find object !", src.name, impactId, target.name, hitCount);
+                LogFromGfx("NotifyGfxHitTarget:{0} {1} {2} {3}, can't find object !", src.name, impactId, target.name, hitCount);
             }
         }
 
@@ -571,7 +565,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxStartSkill:{0} {1}, can't find object !", obj.name, category);
+                    LogFromGfx("NotifyGfxStartSkill:{0} {1}, can't find object !", obj.name, category);
                 }
             }
         }
@@ -589,7 +583,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxBreakSkill:{0} {1}, can't find object !", obj.name);
+                    LogFromGfx("NotifyGfxBreakSkill:{0} {1}, can't find object !", obj.name);
                 }
             }
         }
@@ -608,7 +602,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxForceStartSkill:{0} {1}, can't find object !", obj.name, skillId);
+                    LogFromGfx("NotifyGfxForceStartSkill:{0} {1}, can't find object !", obj.name, skillId);
                 }
             }
         }
@@ -628,7 +622,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    GfxLog("NotifyGfxStopSkill:{0} {1}, can't find object !", obj.name, skillId);
+                    LogFromGfx("NotifyGfxStopSkill:{0} {1}, can't find object !", obj.name, skillId);
                 }
             }
         }

@@ -176,11 +176,11 @@ namespace ArkCrossEngine
             }
             CalculateDropOut();
 
-            GfxSystem.GfxLog("SceneResource.Init {0}", resId);
+            LogicSystem.LogFromLogic("SceneResource.Init {0}", resId);
         }
         internal void Release()
         {
-            GfxSystem.GfxLog("SceneResource.Release");
+            LogicSystem.LogFromLogic("SceneResource.Release");
         }
         internal void GetLookAt(out float x, out float y, out float z)
         {

@@ -9,7 +9,7 @@ namespace Lobby
     {
         internal OnlineDurationInfo()
         { }
-        
+
         internal void Clear()
         {
             lock (m_Lock)

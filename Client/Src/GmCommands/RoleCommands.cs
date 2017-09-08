@@ -531,7 +531,7 @@ namespace ArkCrossEngine.GmCommands
         {
             if (null != LobbyClient.Instance.CurrentRole)
             {
-                GfxSystem.GfxLog("IsHD:{0}", GlobalVariables.Instance.IsHD);
+                LogicSystem.LogFromLogic("IsHD:{0}", GlobalVariables.Instance.IsHD);
             }
             return false;
         }

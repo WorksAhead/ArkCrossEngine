@@ -102,7 +102,6 @@ namespace ArkCrossEngine
             {
                 lock (m_LogQueueLock)
                 {
-                    //GfxSystem.GfxLog("LogicLogger.FlushToFile, count {0}.", logQueue.Count);
                     while (logQueue.Count > 0)
                     {
                         string msg = logQueue.Dequeue();
@@ -140,9 +139,6 @@ namespace ArkCrossEngine
             HomePath.CurHomePath = dataPath;
             GlobalVariables.Instance.IsDebug = false;
 
-            string key = "ArkCrossEngine";
-            byte[] xor = Encoding.UTF8.GetBytes(key);
-
             if (!FileReaderProxy.IsAllHandlerRegistered())
             {
                 throw new Exception("File Reader Proxy Not Registered.");
@@ -153,25 +149,25 @@ namespace ArkCrossEngine
                 s_LogicLogger.Log("{0}", msg);
             };
 
-            GfxSystem.GfxLog("GameControler.Init");
-
             // GfxSystem
             GfxSystem.Init();
             GfxSystem.SetLogicInvoker(s_LogicThread);
             GfxSystem.SetLogicLogCallback((bool isError, string format, object[] args) =>
             {
                 if (isError)
-                    GfxSystem.GfxErrorLog(format, args);
+                    LogSystem.Error(format, args);
                 else
-                    GfxSystem.GfxLog(format, args);
+                    LogSystem.Info(format, args);
             });
+
+            LogicSystem.LogFromGfx("GameControler.Init");
 
             GfxSystem.SetGameLogicNotification(GameLogicNotification.Instance);
             GfxModule.Skill.GfxSkillSystem.Instance.Init();
         }
         public static void InitLogic()
         {
-            GfxSystem.GfxLog("GameControler.InitLogic");
+            LogicSystem.LogFromGfx("GameControler.InitLogic");
 
             EntityManager.Instance.Init();
             WorldSystem.Instance.Init();
@@ -194,7 +190,7 @@ namespace ArkCrossEngine
         }
         public static void StartLogic()
         {
-            GfxSystem.GfxLog("GameControler.StartLogic");
+            LogicSystem.LogFromGfx("GameControler.StartLogic");
             s_LogicThread.Start();
         }
         public static void PauseLogic(bool isPause)
@@ -203,14 +199,14 @@ namespace ArkCrossEngine
         }
         public static void StopLogic()
         {
-            GfxSystem.GfxLog("GameControler.StopLogic");
+            LogicSystem.LogFromGfx("GameControler.StopLogic");
             s_LogicThread.Stop();
             LobbyNetworkSystem.Instance.QuitClient();
             NetworkSystem.Instance.QuitClient();
         }
         public static void Release()
         {
-            GfxSystem.GfxLog("GameControler.Release");
+            LogicSystem.LogFromGfx("GameControler.Release");
 
             WorldSystem.Instance.Release();
             EntityManager.Instance.Release();

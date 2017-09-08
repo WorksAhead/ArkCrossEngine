@@ -5,23 +5,26 @@ using System.Text;
 
 namespace DashFire
 {
-  internal sealed class ScenePool
-  {
-    internal Scene NewScene()
+    internal sealed class ScenePool
     {
-      Scene scene = null;
-      if (m_UnusedScenes.Count > 0) {
-        scene = m_UnusedScenes.Dequeue();
-      } else {
-        scene = new Scene();
-      }
-      return scene;
-    }
-    internal void RecycleScene(Scene scene)
-    {
-      m_UnusedScenes.Enqueue(scene);
-    }
+        internal Scene NewScene()
+        {
+            Scene scene = null;
+            if (m_UnusedScenes.Count > 0)
+            {
+                scene = m_UnusedScenes.Dequeue();
+            }
+            else
+            {
+                scene = new Scene();
+            }
+            return scene;
+        }
+        internal void RecycleScene(Scene scene)
+        {
+            m_UnusedScenes.Enqueue(scene);
+        }
 
-    private Queue<Scene> m_UnusedScenes = new Queue<Scene>();
-  }
+        private Queue<Scene> m_UnusedScenes = new Queue<Scene>();
+    }
 }

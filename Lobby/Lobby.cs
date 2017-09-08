@@ -321,7 +321,7 @@ namespace Lobby
 
         private void OnMessageResult(uint seq, int src, int dest, int result)
         {
-            
+
         }
 
         private void OnMessage(uint seq, int source_handle, int dest_handle,

@@ -43,12 +43,12 @@ namespace ArkCrossEngine
 #if DEBUG
                 if (m_GfxInvoker.CurActionNum > 10)
                 {
-                    CallGfxLog("GfxSystem.Tick actionNum:{0}", m_GfxInvoker.CurActionNum);
+                    LogFromGfx("GfxSystem.Tick actionNum:{0}", m_GfxInvoker.CurActionNum);
                 }
 
                 m_GfxInvoker.DebugPoolCount((string msg) =>
                 {
-                    CallGfxLog("GfxActionQueue {0}", msg);
+                    LogFromGfx("GfxActionQueue {0}", msg);
                 });
 #endif
                 m_GfxInvoker.ClearPool(1024);
@@ -123,7 +123,7 @@ namespace ArkCrossEngine
         // Gfx线程执行的函数，供游戏逻辑线程异步调用
         private void LoadSceneImpl(string name, int chapter, int sceneId, HashSet<int> limitList, MyAction onFinish)
         {
-            CallLogicLog("Begin LoadScene:{0}", name);
+            LogFromLogic("Begin LoadScene:{0}", name);
             m_TargetScene = name;
             m_TargetChapter = chapter;
             m_TargetSceneId = sceneId;
@@ -180,12 +180,12 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
+                        LogErrorFromLogic("CreateGameObject {0} can't load resource", resource);
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
+                    LogErrorFromGfx("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
                 }
             }
         }
@@ -208,12 +208,12 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
+                    LogErrorFromLogic("CreateGameObject {0} can't load resource", resource);
                 }
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
+                LogErrorFromGfx("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
         }
         private void CreateGameObjectWithMeshDataImpl(int id, List<float> vertices, List<int> triangles, uint color, string mat, bool attachTerrain)
@@ -315,7 +315,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                CallLogicErrorLog("CreateGameObjectWithMeshData {0} can't load resource", matRes);
+                LogErrorFromLogic("CreateGameObjectWithMeshData {0} can't load resource", matRes);
             }
         }
         private void CreateGameObjectForAttachImpl(int id, string resource)
@@ -331,12 +331,12 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    CallLogicErrorLog("CreateGameObject {0} can't load resource", resource);
+                    LogErrorFromLogic("CreateGameObject {0} can't load resource", resource);
                 }
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
+                LogErrorFromGfx("CreateGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
         }
         private void CreateAndAttachGameObjectImpl(string resource, int parentId, string path, float recycleTime)
@@ -363,18 +363,18 @@ namespace ArkCrossEngine
                         }
                         else
                         {
-                            CallLogicErrorLog("Obj {0} CreateAndAttachGameObject {1} can't find bone {2}", resource, parentId, path);
+                            LogErrorFromLogic("Obj {0} CreateAndAttachGameObject {1} can't find bone {2}", resource, parentId, path);
                         }
                     }
                 }
                 else
                 {
-                    CallLogicErrorLog("CreateAndAttachGameObject {0} can't load resource", resource);
+                    LogErrorFromLogic("CreateAndAttachGameObject {0} can't load resource", resource);
                 }
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
+                LogErrorFromGfx("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
         }
         private void CreateAndAttachParticleImpl(string resource, int parentId, string path, float scale, float recycleTime)
@@ -401,18 +401,18 @@ namespace ArkCrossEngine
                         }
                         else
                         {
-                            CallLogicErrorLog("Obj {0} CreateAndAttachGameObject {1} can't find bone {2}", resource, parentId, path);
+                            LogErrorFromLogic("Obj {0} CreateAndAttachGameObject {1} can't find bone {2}", resource, parentId, path);
                         }
                     }
                 }
                 else
                 {
-                    CallLogicErrorLog("CreateAndAttachGameObject {0} can't load resource", resource);
+                    LogErrorFromLogic("CreateAndAttachGameObject {0} can't load resource", resource);
                 }
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
+                LogErrorFromGfx("CreateAndAttachGameObject {0} throw exception:{1}\n{2}", resource, ex.Message, ex.StackTrace);
             }
         }
         private void ChangeEquipImpl(int id, string wear_node_and_name, string new_weapon_prefabs)
@@ -458,7 +458,7 @@ namespace ArkCrossEngine
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog(string.Format("ChangeWeaponImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
+                LogErrorFromGfx(string.Format("ChangeWeaponImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
         }
         private void ChangeSuitImpl(int id, string skeleton, List<string> equips)
@@ -500,7 +500,7 @@ namespace ArkCrossEngine
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog(string.Format("ChangeSuitImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
+                LogErrorFromGfx(string.Format("ChangeSuitImpl:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
         }
 
@@ -726,7 +726,7 @@ namespace ArkCrossEngine
             }
             catch (System.Exception ex)
             {
-                CallGfxErrorLog(string.Format("DestroyGameObject:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
+                LogErrorFromGfx(string.Format("DestroyGameObject:{0} failed:{1}\n{2}", id, ex.Message, ex.StackTrace));
             }
         }
         private void UpdateGameObjectLocalPositionImpl(int id, float x, float y, float z)
@@ -802,7 +802,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    CallLogicLog("Obj {0} AttachGameObject {1} can't find bone {2}", id, parentId, path);
+                    LogFromLogic("Obj {0} AttachGameObject {1} can't find bone {2}", id, parentId, path);
                 }
             }
         }
@@ -859,7 +859,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} PlayerAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} PlayerAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -882,7 +882,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} StopAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} StopAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -921,7 +921,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} BlendAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} BlendAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -947,11 +947,11 @@ namespace ArkCrossEngine
                     {
                         if (null == anim[animationName])
                         {
-                            CallLogicErrorLog("Obj {0} CrossFadeAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                            LogErrorFromLogic("Obj {0} CrossFadeAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                         }
                         if (null == obj_info)
                         {
-                            CallLogicErrorLog("Obj {0} CrossFadeAnimation {1} obj_info is null, obj name {2}", id, animationName, obj.name);
+                            LogErrorFromLogic("Obj {0} CrossFadeAnimation {1} obj_info is null, obj name {2}", id, animationName, obj.name);
                         }
                     }
                 }
@@ -975,7 +975,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} PlayQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} PlayQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -998,7 +998,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} CrossFadeQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} CrossFadeQueuedAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1020,7 +1020,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} RewindAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} RewindAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1058,7 +1058,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationSpeed {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} SetAnimationSpeed {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1081,7 +1081,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationSpeedByTime {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} SetAnimationSpeedByTime {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1104,7 +1104,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationWeight {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} SetAnimationWeight {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1127,7 +1127,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationLayer {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} SetAnimationLayer {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1150,7 +1150,7 @@ namespace ArkCrossEngine
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} SetAnimationBlendMode {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} SetAnimationBlendMode {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1176,12 +1176,12 @@ namespace ArkCrossEngine
                         }
                         else
                         {
-                            CallLogicErrorLog("Obj {0} AddMixingTransformAnimation {1} Can't find bone {2}", id, animationName, path);
+                            LogErrorFromLogic("Obj {0} AddMixingTransformAnimation {1} Can't find bone {2}", id, animationName, path);
                         }
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} AddMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
+                        LogErrorFromLogic("Obj {0} AddMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, anim.GetClipCount());
                     }
                 }
                 catch
@@ -1207,12 +1207,12 @@ namespace ArkCrossEngine
                         }
                         else
                         {
-                            CallLogicErrorLog("Obj {0} RemoveMixingTransformAnimation {1} Can't find bone {2}", id, animationName, path);
+                            LogErrorFromLogic("Obj {0} RemoveMixingTransformAnimation {1} Can't find bone {2}", id, animationName, path);
                         }
                     }
                     else
                     {
-                        CallLogicErrorLog("Obj {0} RemoveMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.GetComponent<Animation>().GetClipCount());
+                        LogErrorFromLogic("Obj {0} RemoveMixingTransformAnimation {1} AnimationState is null, clipcount {2}", id, animationName, obj.GetComponent<Animation>().GetClipCount());
                     }
                 }
                 catch
@@ -1256,7 +1256,7 @@ namespace ArkCrossEngine
                 AudioSource audio_source = obj.GetComponent<AudioSource>();
                 if (audio_source == null)
                 {
-                    CallLogicErrorLog("id={0} obj name {1} can't find audiosource {2}! can't play sound!", id, obj.name, audiosource);
+                    LogErrorFromLogic("id={0} obj name {1} can't find audiosource {2}! can't play sound!", id, obj.name, audiosource);
                     return;
                 }
                 AudioClip clip = ResourceSystem.GetSharedResource(audiosource) as AudioClip;
@@ -1268,7 +1268,7 @@ namespace ArkCrossEngine
                 }
                 else
                 {
-                    CallLogicErrorLog("id={0} obj name {1} can't find audioclip {2}! can't play sound!", id, obj.name, audiosource);
+                    LogErrorFromLogic("id={0} obj name {1} can't find audioclip {2}! can't play sound!", id, obj.name, audiosource);
                     return;
                 }
             }
@@ -1279,7 +1279,7 @@ namespace ArkCrossEngine
             AudioSource target_audio_source = GetAudioSource(obj, audiosource);
             if (target_audio_source == null)
             {
-                CallLogicErrorLog("id={0} obj can't find audiosource {1}! can't set sound pitch!", id, audiosource);
+                LogErrorFromLogic("id={0} obj can't find audiosource {1}! can't set sound pitch!", id, audiosource);
                 return;
             }
             target_audio_source.pitch = pitch;
@@ -1292,7 +1292,7 @@ namespace ArkCrossEngine
                 AudioSource audio_source = obj.GetComponent<AudioSource>();
                 if (audio_source == null)
                 {
-                    CallLogicErrorLog("id={0} obj can't find audiosource {1}! can't play sound!", id, audiosource);
+                    LogErrorFromLogic("id={0} obj can't find audiosource {1}! can't play sound!", id, audiosource);
                     return;
                 }
                 if (audio_source.clip != null && audio_source.clip.name == audiosource)
@@ -1336,7 +1336,7 @@ namespace ArkCrossEngine
             Shader shader = Shader.Find(shaderPath);
             if (null == shader)
             {
-                CallLogicErrorLog("id={0} obj can't find shader {1}!", id, shaderPath);
+                LogErrorFromLogic("id={0} obj can't find shader {1}!", id, shaderPath);
                 return;
             }
             Component[] renderers = obj.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -1401,12 +1401,12 @@ namespace ArkCrossEngine
                 Shader notBlocked = Shader.Find("DFM/NotBlocked");
                 if (null == blocked)
                 {
-                    CallLogicLog("id={0} obj can't find shader DFM/Blocked !", id);
+                    LogFromLogic("id={0} obj can't find shader DFM/Blocked !", id);
                     return;
                 }
                 if (null == notBlocked)
                 {
-                    CallLogicLog("id={0} obj can't find shader DFM/NotBlocked !", id);
+                    LogFromLogic("id={0} obj can't find shader DFM/NotBlocked !", id);
                     return;
                 }
                 for (int i = 0; i < skinnedRenderers.Length; i++)
@@ -1503,7 +1503,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                CallLogicErrorLog("id={0} obj can't find rigidbody!", id);
+                LogErrorFromLogic("id={0} obj can't find rigidbody!", id);
             }
         }
         private void SetRigidbodyVelocityImpl(int id, float x, float y, float z)
@@ -1517,7 +1517,7 @@ namespace ArkCrossEngine
             }
             else
             {
-                CallLogicErrorLog("id={0} obj can't find rigidbody!", id);
+                LogErrorFromLogic("id={0} obj can't find rigidbody!", id);
             }
         }
         private void SetTimeScaleImpl(float scale)
@@ -1533,17 +1533,8 @@ namespace ArkCrossEngine
             }
             else
             {
-                CallLogicErrorLog("id={0} obj can't find!", id);
+                LogErrorFromLogic("id={0} obj can't find!", id);
             }
-        }
-
-        private void GfxLogImpl(string msg)
-        {
-            LogSystem.GfxLog(Log_Type.LT_Info, msg);
-        }
-        private void GfxErrorLogImpl(string error)
-        {
-            LogSystem.GfxLog(Log_Type.LT_Error, error);
         }
         private void PublishGfxEventImpl(string evt, string group, object[] args)
         {
@@ -1789,29 +1780,21 @@ namespace ArkCrossEngine
                     return null;
             }
         }
-        internal void CallLogicLog(string format, params object[] args)
+        internal void LogFromLogic(string format, params object[] args)
         {
             QueueLogicActionWithDelegation(m_LogicLogCallback, false, format, args);
         }
-        internal void CallLogicErrorLog(string format, params object[] args)
+        internal void LogErrorFromLogic(string format, params object[] args)
         {
             QueueLogicActionWithDelegation(m_LogicLogCallback, true, format, args);
         }
-        //[System.Diagnostics.Conditional("DEBUG")]
-        internal void CallGfxLog(string format, params object[] args)
+        internal void LogFromGfx(string format, params object[] args)
         {
-#if !RELEASE
-            string msg = string.Format(format, args);
-            GfxLogImpl(msg);
-#endif
+            LogSystem.Info(format, args);
         }
-        //[System.Diagnostics.Conditional("DEBUG")]
-        internal void CallGfxErrorLog(string format, params object[] args)
+        internal void LogErrorFromGfx(string format, params object[] args)
         {
-#if !RELEASE
-            string msg = string.Format(format, args);
-            GfxErrorLogImpl(msg);
-#endif
+            LogSystem.Error(format, args);
         }
         internal float RadianToDegree(float dir)
         {
@@ -2096,7 +2079,7 @@ namespace ArkCrossEngine
                     if (m_LoadingBarAsyncOperation.isDone)
                     {
                         m_LoadingBarAsyncOperation = null;
-                        CallLogicLog("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
+                        LogFromLogic("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
                         if (null != m_OnBeforeLoadScene)
                         {
                             m_OnBeforeLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, /*Application.loadedLevelName,*/ m_TargetScene, m_TargetSceneId);
@@ -2110,7 +2093,7 @@ namespace ArkCrossEngine
                     if (m_LoadCacheResInfo.IsDone)
                     {
                         m_LoadCacheResInfo = null;
-                        CallLogicLog("HandleLoadingProgress m_LoadCacheResInfo.IsDone");
+                        LogFromLogic("HandleLoadingProgress m_LoadCacheResInfo.IsDone");
                         if (null != m_LogicInvoker && null != m_LevelLoadedCallback)
                         {
                             QueueLogicActionWithDelegation(m_LevelLoadedCallback);
@@ -2118,7 +2101,7 @@ namespace ArkCrossEngine
                         }
                         Resources.UnloadUnusedAssets();
                         
-                        CallLogicLog("End LoadScene:{0}", m_TargetScene);
+                        LogFromLogic("End LoadScene:{0}", m_TargetScene);
                         if (null != m_OnAfterLoadScene)
                         {
                             m_OnAfterLoadScene(m_TargetScene, m_TargetSceneId);
@@ -2128,7 +2111,7 @@ namespace ArkCrossEngine
                     }
                     else if (m_LoadCacheResInfo.IsError)
                     {
-                        CallLogicLog("HandleLoadingProgress m_LoadCacheResInfo.IsError");
+                        LogFromLogic("HandleLoadingProgress m_LoadCacheResInfo.IsError");
                         ReStartLoad();
                     }
                     else
@@ -2145,7 +2128,7 @@ namespace ArkCrossEngine
                     if (m_LoadingBarAsyncOperation.isDone)
                     {
                         m_LoadingBarAsyncOperation = null;
-                        CallLogicLog("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
+                        LogFromLogic("HandleLoadingProgress m_LoadingBarAsyncOperation.isDone");
                         if (null != m_OnBeforeLoadScene)
                         {
                             m_OnBeforeLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name/*Application.loadedLevelName*/, m_TargetScene, m_TargetSceneId);
@@ -2159,7 +2142,7 @@ namespace ArkCrossEngine
                     if (m_LoadingLevelAsyncOperation.isDone)
                     {
                         m_LoadingLevelAsyncOperation = null;
-                        CallLogicLog("HandleLoadingProgress m_LoadingLevelAsyncOperation.IsDone");
+                        LogFromLogic("HandleLoadingProgress m_LoadingLevelAsyncOperation.IsDone");
                         if (null != m_LogicInvoker && null != m_LevelLoadedCallback)
                         {
                             QueueLogicActionWithDelegation(m_LevelLoadedCallback);
@@ -2168,7 +2151,7 @@ namespace ArkCrossEngine
                         Resources.UnloadUnusedAssets();
                         System.GC.Collect();
                         
-                        CallLogicLog("End LoadScene:{0}", m_TargetScene);
+                        LogFromLogic("End LoadScene:{0}", m_TargetScene);
                         if (null != m_OnAfterLoadScene)
                         {
                             m_OnAfterLoadScene(m_TargetScene, m_TargetSceneId);

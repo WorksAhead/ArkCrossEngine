@@ -5,22 +5,22 @@ using System.Text;
 
 namespace DashFire
 {
-  internal sealed class SceneLogicViewManager
-  {
-    internal void Init()
+    internal sealed class SceneLogicViewManager
     {
-      //添加各个view实例
-      m_Views.Add(new SceneLogicView_General());
+        internal void Init()
+        {
+            //添加各个view实例
+            m_Views.Add(new SceneLogicView_General());
+        }
+
+        private SceneLogicViewManager() { }
+
+        private ArrayList m_Views = new ArrayList();
+
+        internal static SceneLogicViewManager Instance
+        {
+            get { return s_Instance; }
+        }
+        private static SceneLogicViewManager s_Instance = new SceneLogicViewManager();
     }
-
-    private SceneLogicViewManager() { }
-
-    private ArrayList m_Views = new ArrayList();
-
-    internal static SceneLogicViewManager Instance
-    {
-      get { return s_Instance; }
-    }
-    private static SceneLogicViewManager s_Instance = new SceneLogicViewManager();
-  }
 }

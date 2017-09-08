@@ -6,19 +6,19 @@ using System.Text;
 
 namespace DashFire
 {
-  internal sealed class AiViewManager
-  {
-    internal void Init()
+    internal sealed class AiViewManager
     {
-      m_AiViews.Add(new AiView_NpcGeneral());
-      m_AiViews.Add(new AiView_UserGeneral());
-      m_AiViews.Add(new AiView_LogicUtility());
+        internal void Init()
+        {
+            m_AiViews.Add(new AiView_NpcGeneral());
+            m_AiViews.Add(new AiView_UserGeneral());
+            m_AiViews.Add(new AiView_LogicUtility());
+        }
+        private ArrayList m_AiViews = new ArrayList();
+        internal static AiViewManager Instance
+        {
+            get { return s_Instance; }
+        }
+        private static AiViewManager s_Instance = new AiViewManager();
     }
-    private ArrayList m_AiViews = new ArrayList();
-    internal static AiViewManager Instance
-    {
-      get { return s_Instance; }
-    }
-    private static AiViewManager s_Instance = new AiViewManager();
-  }
 }

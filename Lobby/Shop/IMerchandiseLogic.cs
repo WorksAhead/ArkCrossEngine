@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Lobby
 {
-  internal enum MerchandiseLogicId : int
-  {
-    Invalid = 0,
-    MaxNum,
-  }
-  internal interface IMerchandiseLogic
-  {
-    bool CanBuy(UserInfo user, int merchandiseId);
-    void Buy(UserInfo user, int merchandiseId);
-  }
+    internal enum MerchandiseLogicId : int
+    {
+        Invalid = 0,
+        MaxNum,
+    }
+    internal interface IMerchandiseLogic
+    {
+        bool CanBuy(UserInfo user, int merchandiseId);
+        void Buy(UserInfo user, int merchandiseId);
+    }
 }

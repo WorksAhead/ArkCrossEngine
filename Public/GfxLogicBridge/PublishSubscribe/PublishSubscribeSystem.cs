@@ -64,7 +64,7 @@ namespace ArkCrossEngine
             if (RunInLogicThread)
                 LogSystem.Debug("ProxyPublish {0} {1}", ev_name, group);
             else
-                LogicSystem.LogicLog("ProxyPublish {0} {1}", ev_name, group);
+                LogicSystem.LogFromLogic("ProxyPublish {0} {1}", ev_name, group);
 
             Publish(c_proxy_ev_name, c_proxy_group, arg);
         }
@@ -81,7 +81,7 @@ namespace ArkCrossEngine
                 if (RunInLogicThread)
                     LogSystem.Debug("Publish {0} {1}", ev_name, group);
                 else
-                    LogicSystem.LogicLog("Publish {0} {1}", ev_name, group);
+                    LogicSystem.LogFromLogic("Publish {0} {1}", ev_name, group);
 
                 Delegate d;
                 string key = group + '#' + ev_name;
@@ -92,7 +92,7 @@ namespace ArkCrossEngine
                         if (RunInLogicThread)
                             LogSystem.Error("Publish {0} {1}, Subscriber is null, Remove it", ev_name, group);
                         else
-                            LogicSystem.LogicErrorLog("Publish {0} {1}, Subscriber is null, Remove it", ev_name, group);
+                            LogicSystem.LogErrorFromLogic("Publish {0} {1}, Subscriber is null, Remove it", ev_name, group);
                         subscribers_.Remove(key);
                     }
                     else
@@ -106,7 +106,7 @@ namespace ArkCrossEngine
                 if (RunInLogicThread)
                     LogSystem.Error("PublishSubscribe.Publish({0},{1}) exception:{2}\n{3}", ev_name, group, ex.Message, ex.StackTrace);
                 else
-                    LogicSystem.LogicErrorLog("PublishSubscribe.Publish({0},{1}) exception:{2}\n{3}", ev_name, group, ex.Message, ex.StackTrace);
+                    LogicSystem.LogErrorFromLogic("PublishSubscribe.Publish({0},{1}) exception:{2}\n{3}", ev_name, group, ex.Message, ex.StackTrace);
             }
         }
 

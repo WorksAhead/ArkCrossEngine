@@ -848,7 +848,7 @@ namespace ArkCrossEngine
             }
             catch (Exception ex)
             {
-                LogicSystem.LogicLog("[Error]:Exception:{0}\n{1}", ex.Message, ex.StackTrace);
+                LogicSystem.LogFromGfx("[Error]:Exception:{0}\n{1}", ex.Message, ex.StackTrace);
             }
         }
 

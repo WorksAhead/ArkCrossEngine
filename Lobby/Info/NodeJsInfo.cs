@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Lobby
 {
-  internal class NodeInfo
-  {
-    internal string NodeName
+    internal class NodeInfo
     {
-      get { return m_NodeName; }
-      set { m_NodeName = value; }
-    }
+        internal string NodeName
+        {
+            get { return m_NodeName; }
+            set { m_NodeName = value; }
+        }
 
-    private string m_NodeName = "";
-  }
+        private string m_NodeName = "";
+    }
 }

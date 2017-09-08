@@ -24,7 +24,9 @@ namespace ArkCrossEngine
      */
     public class LogSystem
     {
+        // for logic thread
         public static LogSystemOutputDelegation OnOutput;
+        // for gfx  thread
         public static LogSystemOutputDelegation OnOutput2;
 
         public static void Debug(string format, params object[] args)
@@ -56,47 +58,12 @@ namespace ArkCrossEngine
             }
         }
 
-        public static void GfxLog(Log_Type type, string format, params object[] args)
-        {
-            string str;
-            switch (type)
-            {
-                case Log_Type.LT_Info:
-                    str = string.Format("[Info]:" + format, args);
-                    break;
-                case Log_Type.LT_Debug:
-                    str = string.Format("[Debug]:" + format, args);
-                    break;
-                case Log_Type.LT_Warn:
-                    str = string.Format("[Warn]:" + format, args);
-                    break;
-                case Log_Type.LT_Assert:
-                    str = string.Format("[Assert]:" + format, args);
-                    break;
-                case Log_Type.LT_Error:
-                    str = string.Format("[Error]:" + format, args);
-                    break;
-                default:
-                    str = string.Format("[Unknown]:" + format, args);
-                    break;
-            }
-            OutputGfx(type, str);
-        }
-
         private static void Output(Log_Type type, string msg)
         {
             if (null != OnOutput)
             {
                 OnOutput(type, msg);
             }
-            if (null != OnOutput2)
-            {
-                OnOutput2(type, msg);
-            }
-        }
-
-        private static void OutputGfx(Log_Type type, string msg)
-        {
             if (null != OnOutput2)
             {
                 OnOutput2(type, msg);

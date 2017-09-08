@@ -1593,8 +1593,8 @@ namespace Lobby
                 {
                     if (ret == DSSaveResult.Success)
                     {
-                //TODO:handle saveCount
-                LogSys.Log(LOG_TYPE.INFO, "Save UserArena data success. UserGuid:{0}", userGuid);
+                        //TODO:handle saveCount
+                        LogSys.Log(LOG_TYPE.INFO, "Save UserArena data success. UserGuid:{0}", userGuid);
                     }
                     else
                     {

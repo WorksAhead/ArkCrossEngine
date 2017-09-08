@@ -21,7 +21,7 @@ namespace GfxModule.Impact
             }
             catch (System.Exception ex)
             {
-                LogicSystem.LogicErrorLog("ImpactUtility.ConvertVector3D failed. ex:{0} st:{1}", ex.Message, ex.StackTrace);
+                LogicSystem.LogFromGfx("ImpactUtility.ConvertVector3D failed. ex:{0} st:{1}", ex.Message, ex.StackTrace);
             }
 
             return vector;

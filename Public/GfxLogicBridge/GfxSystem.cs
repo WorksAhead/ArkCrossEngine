@@ -444,24 +444,6 @@ namespace ArkCrossEngine
         }
         // Unity寻路系统嵌入结束
 
-        // 日志
-        [System.Diagnostics.Conditional("DEBUG")]
-        public static void GfxLog(string format, params object[] args)
-        {
-//#if !RELEASE
-            string msg = string.Format(format, args);
-            QueueGfxAction(s_Instance.GfxLogImpl, msg);
-//#endif
-        }
-        [System.Diagnostics.Conditional("DEBUG")]
-        public static void GfxErrorLog(string format, params object[] args)
-        {
-//#if !RELEASE
-            string msg = string.Format(format, args);
-            QueueGfxAction(s_Instance.GfxErrorLogImpl, msg);
-//#endif
-        }
-
         public static void QueueGfxAction(MyAction action)
         {
             QueueGfxActionWithDelegation(action);
