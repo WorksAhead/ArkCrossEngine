@@ -24,9 +24,9 @@
 
     public class MonthCardConfigProvider
     {
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_MonthCardConfigMgr.CollectDataFromDBC(file, root);
+            m_MonthCardConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private MonthCardConfig GetDataById(int id)
         {

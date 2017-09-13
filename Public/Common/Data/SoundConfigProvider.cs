@@ -79,9 +79,9 @@ namespace ArkCrossEngine
             int index = CrossEngineHelper.Random.Next(idList.Count);
             return m_SoundConfigMgr.GetDataById(idList[index]);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_SoundConfigMgr.CollectDataFromDBC(file, root);
+            m_SoundConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<SoundConfig> m_SoundConfigMgr = new DataDictionaryMgr<SoundConfig>();

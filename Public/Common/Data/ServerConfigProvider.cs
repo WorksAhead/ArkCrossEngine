@@ -33,9 +33,9 @@ namespace ArkCrossEngine
         {
             return m_ServerConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ServerConfigMgr.CollectDataFromDBC(file, root);
+            m_ServerConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public MyDictionary<int, object> GetData()
         {

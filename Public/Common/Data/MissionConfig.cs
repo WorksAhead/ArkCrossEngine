@@ -65,9 +65,9 @@ namespace ArkCrossEngine
             return m_MissionConfigMgr.GetDataCount();
         }
 
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_MissionConfigMgr.CollectDataFromDBC(file, root);
+            m_MissionConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         public MyDictionary<int, object> GetData()

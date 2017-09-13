@@ -17,7 +17,7 @@ namespace ArkCrossEngineSpatial
             if (!cell_manager_.Init(HomePath.GetAbsolutePath(map_file_)))
             {
                 cell_manager_.Init(1024, 1024, 0.5f);
-                LogSystem.Error("Init SpatialSystem from map file failed: {0}", map_file_);
+                // LogSystem.Error("Init SpatialSystem from map file failed: {0}", map_file_);
             }
             if (null != reachableSet)
             {

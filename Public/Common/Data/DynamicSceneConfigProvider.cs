@@ -111,10 +111,10 @@ namespace ArkCrossEngine
          *
          * @return 
          */
-        public bool CollectData(string file, string rootLabel)
+        public bool CollectData(string file, string rootLabel, byte[] bytes)
         {
             bool result = false;
-            result = m_DynamicSceneLogicDataMgr.CollectDataFromDBC(file, rootLabel);
+            result = m_DynamicSceneLogicDataMgr.CollectDataFromDBC(file, rootLabel, bytes);
             return result;
         }
 

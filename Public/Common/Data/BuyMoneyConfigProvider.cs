@@ -34,9 +34,9 @@ namespace ArkCrossEngine
         {
             return m_BuyMoneyConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_BuyMoneyConfigMgr.CollectDataFromDBC(file, root);
+            m_BuyMoneyConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<BuyMoneyConfig> m_BuyMoneyConfigMgr = new DataDictionaryMgr<BuyMoneyConfig>();
         public static BuyMoneyConfigProvider Instance

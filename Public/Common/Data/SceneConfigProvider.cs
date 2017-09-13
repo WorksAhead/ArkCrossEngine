@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace ArkCrossEngine
 {
@@ -283,13 +284,13 @@ namespace ArkCrossEngine
             m_MapDataProviders.TryGetValue(resId, out data);
             return data;
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes = null)
         {
-            m_SceneConfigMgr.CollectDataFromDBC(file, root);
+            m_SceneConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
-        public void LoadDropOutConfig(string file, string root)
+        public void LoadDropOutConfig(string file, string root, byte[] bytes = null)
         {
-            m_SceneDropOutMgr.CollectDataFromDBC(file, root);
+            m_SceneDropOutMgr.CollectDataFromDBC(file, root, bytes);
         }
         public MapDataProvider LoadSceneConfig(int id, string rootPath)
         {
@@ -311,6 +312,36 @@ namespace ArkCrossEngine
                 return provider;
             }
         }
+        public void LoadSceneConfigUnit(int id, string rootPath, byte[] bytes = null)
+        {
+            MapDataProvider provider = null;
+            if (m_MapDataProviders.ContainsKey(id))
+            {
+                provider = m_MapDataProviders[id];
+            }
+            else
+            {
+                provider = new MapDataProvider();
+                m_MapDataProviders.Add(id, provider);
+            }
+            Data_SceneConfig sceneCfg = m_SceneConfigMgr.GetDataById(id);
+            provider.CollectData(DataMap_Type.DT_Unit, rootPath + sceneCfg.m_UnitFile, "UnitInfo", bytes);
+        }
+        public void LoadSceneConfigSceneLogic(int id, string rootPath, byte[] bytes = null)
+        {
+            MapDataProvider provider = null;
+            if (m_MapDataProviders.ContainsKey(id))
+            {
+                provider = m_MapDataProviders[id];
+            }
+            else
+            {
+                provider = new MapDataProvider();
+                m_MapDataProviders.Add(id, provider);
+            }
+            Data_SceneConfig sceneCfg = m_SceneConfigMgr.GetDataById(id);
+            provider.CollectData(DataMap_Type.DT_SceneLogic, rootPath + sceneCfg.m_SceneLogicFile, "SceneLogic", bytes);
+        }
         public void LoadAllSceneConfig(string rootPath)
         {
             m_MapDataProviders.Clear();
@@ -318,6 +349,11 @@ namespace ArkCrossEngine
             {
                 LoadSceneConfig(id, rootPath);
             }
+        }
+        public DataDictionaryMgr<Data_SceneConfig> RecollectAllScene()
+        {
+            m_MapDataProviders.Clear();
+            return m_SceneConfigMgr;
         }
         public void InitChapterData()
         {

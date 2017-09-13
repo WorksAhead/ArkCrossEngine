@@ -33,9 +33,9 @@
         {
             return m_EquipmentConfigMgr.GetDataById(id);
         }
-        public void LoadEquipmentConfig(string file, string root)
+        public void LoadEquipmentConfig(string file, string root, byte[] bytes)
         {
-            m_EquipmentConfigMgr.CollectDataFromDBC(file, root);
+            m_EquipmentConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<EquipmentConfig> m_EquipmentConfigMgr = new DataDictionaryMgr<EquipmentConfig>();

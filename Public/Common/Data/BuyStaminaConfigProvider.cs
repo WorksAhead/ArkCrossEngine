@@ -36,9 +36,9 @@ namespace ArkCrossEngine
         {
             return m_BuyStaminaConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_BuyStaminaConfigMgr.CollectDataFromDBC(file, root);
+            m_BuyStaminaConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<BuyStaminaConfig> m_BuyStaminaConfigMgr = new DataDictionaryMgr<BuyStaminaConfig>();
         public static BuyStaminaConfigProvider Instance

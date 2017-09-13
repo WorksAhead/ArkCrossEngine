@@ -186,9 +186,9 @@ namespace ArkCrossEngine
         {
             return m_NpcConfigMgr.GetDataById(id);
         }
-        public void LoadNpcConfig(string file, string root)
+        public void LoadNpcConfig(string file, string root, byte[] bytes)
         {
-            m_NpcConfigMgr.CollectDataFromDBC(file, root);
+            m_NpcConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<Data_NpcConfig> m_NpcConfigMgr = new DataDictionaryMgr<Data_NpcConfig>();
@@ -201,9 +201,9 @@ namespace ArkCrossEngine
         {
             return m_NpcLevelupConfigMgr.GetDataById(id);
         }
-        public void LoadNpcLevelupConfig(string file, string root)
+        public void LoadNpcLevelupConfig(string file, string root, byte[] bytes)
         {
-            m_NpcLevelupConfigMgr.CollectDataFromDBC(file, root);
+            m_NpcLevelupConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public void Clear()
         {

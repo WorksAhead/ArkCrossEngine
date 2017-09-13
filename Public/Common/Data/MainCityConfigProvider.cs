@@ -43,9 +43,9 @@ namespace ArkCrossEngine
         {
             return m_MainCityConfigMgr.GetData();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_MainCityConfigMgr.CollectDataFromDBC(file, root);
+            m_MainCityConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public int GetDataCount()
         {

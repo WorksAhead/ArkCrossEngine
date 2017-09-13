@@ -48,9 +48,9 @@ namespace ArkCrossEngine
             return m_StoreConfigMgr.GetDataCount();
         }
 
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_StoreConfigMgr.CollectDataFromDBC(file, root);
+            m_StoreConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<StoreConfig> m_StoreConfigMgr = new DataDictionaryMgr<StoreConfig>();

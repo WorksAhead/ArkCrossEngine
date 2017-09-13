@@ -39,9 +39,9 @@ namespace ArkCrossEngine
         {
             return m_MpveTimeConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_MpveTimeConfigMgr.CollectDataFromDBC(file, root);
+            m_MpveTimeConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<MpveTimeConfig> m_MpveTimeConfigMgr = new DataDictionaryMgr<MpveTimeConfig>();
         public static MpveTimeConfigProvider Instance

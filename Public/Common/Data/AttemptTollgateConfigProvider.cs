@@ -53,9 +53,9 @@ namespace ArkCrossEngine
         {
             return m_AttemptTollgateConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_AttemptTollgateConfigMgr.CollectDataFromDBC(file, root);
+            m_AttemptTollgateConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<AttemptTollgateConfig> m_AttemptTollgateConfigMgr = new DataDictionaryMgr<AttemptTollgateConfig>();

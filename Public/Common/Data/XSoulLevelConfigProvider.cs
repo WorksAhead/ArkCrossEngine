@@ -55,9 +55,9 @@ namespace ArkCrossEngine
         {
             return m_XSoulLevelConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_XSoulLevelConfigMgr.CollectDataFromDBC(file, root);
+            m_XSoulLevelConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public void Clear()
         {

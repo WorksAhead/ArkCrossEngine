@@ -25,9 +25,9 @@
         {
             return m_HitSoundConfigMgr.GetDataById(0);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_HitSoundConfigMgr.CollectDataFromDBC(file, root);
+            m_HitSoundConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static HitSoundConfigProvider Instance
         {

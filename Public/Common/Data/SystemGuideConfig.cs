@@ -29,9 +29,9 @@ namespace ArkCrossEngine
         {
             return m_SystemGuideConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_SystemGuideConfigMgr.CollectDataFromDBC(file, root);
+            m_SystemGuideConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static SystemGuideConfigProvider Instance
         {

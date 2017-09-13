@@ -43,6 +43,7 @@
     <Compile Include="ClientConcurrent\MyTaskDispatcher.cs" />
     <Compile Include="ClientConcurrent\MyThread.cs" />
     <Compile Include="CommonDefine\Mail.cs" />
+    <Compile Include="Coroutine\CoroutineManager.cs" />
     <Compile Include="DataPool\DataDictionaryMgr.cs" />
     <Compile Include="DataPool\DataListMgr.cs" />
     <Compile Include="DataPool\DBC.cs" />

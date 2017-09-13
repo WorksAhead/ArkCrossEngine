@@ -32,9 +32,9 @@ namespace ArkCrossEngine
             return m_AiSkillComboListConfigMgr.GetDataCount();
         }
 
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_AiSkillComboListConfigMgr.CollectDataFromDBC(file, root);
+            m_AiSkillComboListConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         public static AiSkillComboListProvider Instance

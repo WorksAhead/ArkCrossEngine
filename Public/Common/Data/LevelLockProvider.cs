@@ -44,9 +44,9 @@ namespace ArkCrossEngine
         {
             return m_LevelLockMgr.GetData();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_LevelLockMgr.CollectDataFromDBC(file, root);
+            m_LevelLockMgr.CollectDataFromDBC(file, root, bytes);
         }
         public int GetDataCount()
         {

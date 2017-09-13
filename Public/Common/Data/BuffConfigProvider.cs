@@ -43,9 +43,9 @@
         {
             return m_BuffConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_BuffConfigMgr.CollectDataFromDBC(file, root);
+            m_BuffConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<BuffConfig> m_BuffConfigMgr = new DataDictionaryMgr<BuffConfig>();

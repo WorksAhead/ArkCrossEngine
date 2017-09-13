@@ -38,16 +38,16 @@
     public CameraConfig GetCameraConfig()
     {
       return GetDataById(1);
-    }
-    public void Load(string file, string root)
-    {
-      m_CameraConfigMgr.CollectDataFromDBC(file, root);
-    }
-    public static CameraConfigProvider Instance
-    {
-      get { return s_Instance; }
-    }
-    private CameraConfig GetDataById(int id)
+        }
+        public void Load(string file, string root, byte[] bytes)
+        {
+            m_CameraConfigMgr.CollectDataFromDBC(file, root, bytes);
+        }
+        public static CameraConfigProvider Instance
+        {
+            get { return s_Instance; }
+        }
+        private CameraConfig GetDataById(int id)
     {
       return m_CameraConfigMgr.GetDataById(id);
     }

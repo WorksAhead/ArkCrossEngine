@@ -69,9 +69,9 @@ namespace ArkCrossEngine
         {
             return m_VipConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_VipConfigMgr.CollectDataFromDBC(file, root);
+            m_VipConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<VipConfig> m_VipConfigMgr = new DataDictionaryMgr<VipConfig>();
         public static VipConfigProvider Instance

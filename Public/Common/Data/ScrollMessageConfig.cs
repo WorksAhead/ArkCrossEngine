@@ -40,9 +40,9 @@
             get { return m_ScrollMessageConfigMgr; }
         }
 
-        public void LoadForClient()
+        public void LoadForClient(byte[] bytes = null)
         {
-            m_ScrollMessageConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ScrollMessageConfig, "ScrollMessage");
+            m_ScrollMessageConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ScrollMessageConfig, "ScrollMessage", bytes);
         }
 
         private DataListMgr<ScrollMessageConfig> m_ScrollMessageConfigMgr = new DataListMgr<ScrollMessageConfig>();

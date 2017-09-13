@@ -1,21 +1,54 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ArkCrossEngine
 {
-    public delegate byte[] delegate_ReadFile(string path);
-    public delegate bool delegate_FileExists(string path);
+    public delegate void callback_readFile(byte[] bytes);
 
+    public delegate System.Collections.IEnumerator delegate_readFileCoroutine(string path, callback_readFile callback);
+    public delegate byte[] delegate_readFile(string path);
+    public delegate bool delegate_fileExists(string path);
+    
     public static class FileReaderProxy
     {
-        private static delegate_ReadFile handlerReadFile;
-        private static delegate_FileExists handlerFileExists;
+        private static delegate_readFile handlerReadFile;
+        private static delegate_readFileCoroutine handlerReadFileCoroutine;
+        private static delegate_fileExists handlerFileExists;
 
-        public static MemoryStream ReadFileAsMemoryStream(string filePath)
+        public static int preloadCoroutine(string file, callback_readFile callback)
+        {
+            CoroutineObject obj = new CoroutineObject();
+            return CoroutineManager.Instance.StartSingle(handlerReadFileCoroutine(file, delegate (byte[] bytes) {
+                callback(bytes);
+                obj.RetObject = true;
+            }), obj);
+        }
+
+        public static int preloadTable(string file)
+        {
+            CoroutineObject obj = new CoroutineObject();
+            return CoroutineManager.Instance.StartSingle(handlerReadFileCoroutine(file, delegate (byte[] bytes)
+            {
+                file = Path.GetFullPath(file).ToLower();
+                byte[] o;
+                if (!PreloadedTables.TryGetValue(file, out o))
+                {
+                    PreloadedTables.Add(file, bytes);
+                }
+                obj.RetObject = true;
+            }), obj);
+        }
+
+        public static MemoryStream ReadFileAsMemoryStream(string filePath, byte[] buffer = null)
         {
             try
             {
-                byte[] buffer = ReadFileAsArray(filePath);
+                if (buffer == null)
+                {
+                    buffer = ReadFileAsArray(filePath);
+                }
+                
                 if (buffer == null)
                 {
                     LogSystem.Debug("Err ReadFileAsMemoryStream failed:{0}\n", filePath);
@@ -36,13 +69,23 @@ namespace ArkCrossEngine
             byte[] buffer = null;
             try
             {
-                if (handlerReadFile != null)
+                // try preloaded tables first
+                filePath = Path.GetFullPath(filePath).ToLower();
+                byte[] bytes;
+                if (PreloadedTables.TryGetValue(filePath, out bytes))
                 {
-                    buffer = handlerReadFile(filePath);
+                    return bytes;
                 }
                 else
                 {
-                    LogSystem.Debug("ReadFileByEngine handler have not register: {0}", filePath);
+                    if (handlerReadFile != null)
+                    {
+                        buffer = handlerReadFile(filePath);
+                    }
+                    else
+                    {
+                        LogSystem.Debug("ReadFileByEngine handler have not register: {0}", filePath);
+                    }
                 }
             }
             catch (Exception e)
@@ -76,16 +119,23 @@ namespace ArkCrossEngine
             }
         }
 
-        public static void RegisterReadFileHandler(delegate_ReadFile hReadFile, delegate_FileExists hExists)
+        public static void RegisterReadFileHandler(delegate_readFile hReadFile, delegate_fileExists hExists)
         {
             handlerReadFile = hReadFile;
             handlerFileExists = hExists;
         }
 
-        public static bool IsAllHandlerRegistered()
+        public static void RegisterReadFileCoroutineHandler(delegate_readFileCoroutine hReadFile, delegate_fileExists hExists)
         {
-            return (handlerReadFile != null) && (handlerFileExists != null);
+            handlerReadFileCoroutine = hReadFile;
+            handlerFileExists = hExists;
         }
 
+        public static bool IsAllHandlerRegistered()
+        {
+            return (handlerReadFile != null || handlerReadFileCoroutine != null) && (handlerFileExists != null);
+        }
+
+        private static Dictionary<string, byte[]> PreloadedTables = new Dictionary<string, byte[]>();
     }
 }

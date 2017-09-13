@@ -297,9 +297,9 @@ namespace ArkCrossEngine
             return null;
         }
 
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ActionConfigMgr.CollectDataFromDBC(file, root);
+            m_ActionConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<Data_ActionConfig> m_ActionConfigMgr = new DataDictionaryMgr<Data_ActionConfig>();

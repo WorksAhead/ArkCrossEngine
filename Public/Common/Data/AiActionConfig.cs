@@ -50,9 +50,9 @@
         {
             return m_AiActionConfigMrg.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_AiActionConfigMrg.CollectDataFromDBC(file, root);
+            m_AiActionConfigMrg.CollectDataFromDBC(file, root, bytes);
         }
         public static AiActionConfigProvider Instance
         {

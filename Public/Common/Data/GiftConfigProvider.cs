@@ -38,9 +38,9 @@ namespace ArkCrossEngine
         {
             return m_GiftConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_GiftConfigMgr.CollectDataFromDBC(file, root);
+            m_GiftConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static GiftConfigProvider Instance
         {

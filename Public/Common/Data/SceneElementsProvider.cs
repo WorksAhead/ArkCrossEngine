@@ -40,19 +40,19 @@ namespace ArkCrossEngine
          *
          * @return 
          */
-        public bool CollectData(DataMap_Type type, string file, string rootLabel)
+        public bool CollectData(DataMap_Type type, string file, string rootLabel, byte[] bytes = null)
         {
             bool result = false;
             switch (type)
             {
                 case DataMap_Type.DT_Unit:
                     {
-                        result = m_UnitMgr.CollectDataFromDBC(file, rootLabel);
+                        result = m_UnitMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 case DataMap_Type.DT_SceneLogic:
                     {
-                        result = m_SceneLogicMgr.CollectDataFromDBC(file, rootLabel);
+                        result = m_SceneLogicMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 case DataMap_Type.DT_All:

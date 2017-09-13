@@ -402,7 +402,18 @@ namespace ArkCrossEngine
             m_PrizeConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ArenaPrizeConfig, "ArenaPrize");
             m_BuyFightCountConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ArenaBuyFightCountConfig, "ArenaBuyFightCount");
         }
-
+        public void LoadClientConfigBase(byte[] bytes)
+        {
+            m_BaseConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ArenaBaseConfig, "ArenaBase", bytes);
+        }
+        public void LoadClientConfigPrize(byte[] bytes)
+        {
+            m_PrizeConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ArenaPrizeConfig, "ArenaPrize", bytes);
+        }
+        public void LoadClientConfigFight(byte[] bytes)
+        {
+            m_BuyFightCountConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_ArenaBuyFightCountConfig, "ArenaBuyFightCount", bytes);
+        }
         DataDictionaryMgr<ArenaBaseConfig> m_BaseConfigMgr = new DataDictionaryMgr<ArenaBaseConfig>();
         DataDictionaryMgr<ArenaPrizeConfig> m_PrizeConfigMgr = new DataDictionaryMgr<ArenaPrizeConfig>();
         DataDictionaryMgr<ArenaRobotConfig> m_RobotConfigMgr = new DataDictionaryMgr<ArenaRobotConfig>();

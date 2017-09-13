@@ -4,12 +4,12 @@ namespace ArkCrossEngine
 {
     public sealed class DataListMgr<TData> where TData : IData, new()
     {
-        public bool CollectDataFromDBC(string file, string rootLabel)
+        public bool CollectDataFromDBC(string file, string rootLabel, byte[] bytes = null)
         {
             bool result = true;
 
             DBC document = new DBC();
-            document.Load(HomePath.GetAbsolutePath(file));
+            document.Load(HomePath.GetAbsolutePath(file), bytes);
 
             for (int index = 0; index < document.RowNum; index++)
             {

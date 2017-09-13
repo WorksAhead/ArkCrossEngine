@@ -59,9 +59,9 @@
         {
             return m_StrDictionaryMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_StrDictionaryMgr.CollectDataFromDBC(file, root);
+            m_StrDictionaryMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<StrDictionary> m_StrDictionaryMgr = new DataDictionaryMgr<StrDictionary>();

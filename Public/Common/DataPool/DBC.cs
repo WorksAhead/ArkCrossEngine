@@ -427,7 +427,7 @@ namespace ArkCrossEngine
          *
          * @return 
          */
-        public bool Load(string path)
+        public bool Load(string path, byte[] bytes = null)
         {
             bool ret = false;
 
@@ -440,7 +440,7 @@ namespace ArkCrossEngine
             StreamReader sr = null;
             try
             {
-                ms = FileReaderProxy.ReadFileAsMemoryStream(path);
+                ms = FileReaderProxy.ReadFileAsMemoryStream(path, bytes);
                 if (ms == null)
                 {
                     LogSystem.Debug("DBC, Warning, Load file error or file is empty: {0}", path);

@@ -42,9 +42,9 @@ namespace ArkCrossEngine
         {
             return m_MpveMonsterConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_MpveMonsterConfigMgr.CollectDataFromDBC(file, root);
+            m_MpveMonsterConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<MpveMonsterConfig> m_MpveMonsterConfigMgr = new DataDictionaryMgr<MpveMonsterConfig>();

@@ -15,43 +15,43 @@ namespace ArkCrossEngine
         private static WordFilter s_Instance = new WordFilter();
         public void Load(string dictPath)
         {
-            return;
-            string path = HomePath.GetAbsolutePath(dictPath);
-            if (path != string.Empty)
-            {
-                List<string> wordList = new List<string>();
-                Array.Clear(MEMORYLEXICON, 0, MEMORYLEXICON.Length);
-                string[] words = System.IO.File.ReadAllLines(path, System.Text.Encoding.UTF8);
-                foreach (string word in words)
-                {
-                    string key = this.ToDBC(word);
-                    wordList.Add(key);
-                    //繁体转简体，暂不考虑  
-                    //wordList.Add(Microsoft.VisualBasic.Strings.StrConv(key, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0));
-                }
-                Comparison<string> cmp = delegate (string key1, string key2)
-                {
-                    return key1.CompareTo(key2);
-                };
-                wordList.Sort(cmp);
-                for (int i = wordList.Count - 1; i > 0; i--)
-                {
-                    if (wordList[i].ToString() == wordList[i - 1].ToString())
-                    {
-                        wordList.RemoveAt(i);
-                    }
-                }
-                foreach (var word in wordList)
-                {
-                    WordGroup group = MEMORYLEXICON[(int)word[0]];
-                    if (group == null)
-                    {
-                        group = new WordGroup();
-                        MEMORYLEXICON[(int)word[0]] = group;
-                    }
-                    group.Add(word.Substring(1));
-                }
-            }
+//             return;
+//             string path = HomePath.GetAbsolutePath(dictPath);
+//             if (path != string.Empty)
+//             {
+//                 List<string> wordList = new List<string>();
+//                 Array.Clear(MEMORYLEXICON, 0, MEMORYLEXICON.Length);
+//                 string[] words = System.IO.File.ReadAllLines(path, System.Text.Encoding.UTF8);
+//                 foreach (string word in words)
+//                 {
+//                     string key = this.ToDBC(word);
+//                     wordList.Add(key);
+//                     //繁体转简体，暂不考虑  
+//                     //wordList.Add(Microsoft.VisualBasic.Strings.StrConv(key, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0));
+//                 }
+//                 Comparison<string> cmp = delegate (string key1, string key2)
+//                 {
+//                     return key1.CompareTo(key2);
+//                 };
+//                 wordList.Sort(cmp);
+//                 for (int i = wordList.Count - 1; i > 0; i--)
+//                 {
+//                     if (wordList[i].ToString() == wordList[i - 1].ToString())
+//                     {
+//                         wordList.RemoveAt(i);
+//                     }
+//                 }
+//                 foreach (var word in wordList)
+//                 {
+//                     WordGroup group = MEMORYLEXICON[(int)word[0]];
+//                     if (group == null)
+//                     {
+//                         group = new WordGroup();
+//                         MEMORYLEXICON[(int)word[0]] = group;
+//                     }
+//                     group.Add(word.Substring(1));
+//                 }
+//             }
         }
         //检查是否含有敏感词
         public bool Check(string inputText)

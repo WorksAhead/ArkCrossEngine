@@ -36,9 +36,9 @@ namespace ArkCrossEngine
         {
             return m_LegacyComplexAttrConifgMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_LegacyComplexAttrConifgMgr.CollectDataFromDBC(file, root);
+            m_LegacyComplexAttrConifgMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<LegacyComplexAttrConifg> m_LegacyComplexAttrConifgMgr = new DataDictionaryMgr<LegacyComplexAttrConifg>();
         public static LegacyComplexAttrConifgProvider Instance

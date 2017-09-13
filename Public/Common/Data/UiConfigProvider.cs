@@ -52,9 +52,9 @@ namespace ArkCrossEngine
         {
             return m_UiConfigMgr.GetData();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_UiConfigMgr.CollectDataFromDBC(file, root);
+            m_UiConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public int GetDataCount()
         {

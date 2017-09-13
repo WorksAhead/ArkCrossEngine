@@ -109,9 +109,9 @@ namespace ArkCrossEngine
         {
             return m_NewbieGuideMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_NewbieGuideMgr.CollectDataFromDBC(file, root);
+            m_NewbieGuideMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<NewbieGuideConfig> m_NewbieGuideMgr = new DataDictionaryMgr<NewbieGuideConfig>();

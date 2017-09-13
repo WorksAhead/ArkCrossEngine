@@ -85,9 +85,9 @@ namespace ArkCrossEngine
             }
             return -1;
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ActivityConfigMgr.CollectDataFromDBC(file, root);
+            m_ActivityConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static WeeklyLoginConfigProvider Instance
         {

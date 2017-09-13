@@ -47,9 +47,9 @@ namespace ArkCrossEngine
         {
             return m_ItemLevelupConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ItemLevelupConfigMgr.CollectDataFromDBC(file, root);
+            m_ItemLevelupConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<ItemLevelupConfig> m_ItemLevelupConfigMgr = new DataDictionaryMgr<ItemLevelupConfig>();

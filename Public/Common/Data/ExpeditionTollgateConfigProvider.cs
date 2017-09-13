@@ -60,9 +60,9 @@ namespace ArkCrossEngine
         {
             return m_ExpeditionTollgateConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ExpeditionTollgateConfigMgr.CollectDataFromDBC(file, root);
+            m_ExpeditionTollgateConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<ExpeditionTollgateConfig> m_ExpeditionTollgateConfigMgr = new DataDictionaryMgr<ExpeditionTollgateConfig>();

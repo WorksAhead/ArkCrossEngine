@@ -50,9 +50,9 @@ namespace ArkCrossEngine
         {
             return m_LegacyLevelupConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_LegacyLevelupConfigMgr.CollectDataFromDBC(file, root);
+            m_LegacyLevelupConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<LegacyLevelupConfig> m_LegacyLevelupConfigMgr = new DataDictionaryMgr<LegacyLevelupConfig>();
         public static LegacyLevelupConfigProvider Instance

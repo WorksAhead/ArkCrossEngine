@@ -4,6 +4,7 @@ using System.Text;
 using ArkCrossEngine.Network;
 using ArkCrossEngineMessage;
 using ArkCrossEngineSpatial;
+using System.Collections;
 
 namespace ArkCrossEngine
 {
@@ -460,7 +461,7 @@ namespace ArkCrossEngine
                 GmCommands.ClientGmStorySystem.Instance.LoadStoryText("script(1){onmessage(\"start\"){" + cmd + "}}");
                 GmCommands.ClientGmStorySystem.Instance.StartStory(1);
 #else
-        LogSystem.Error("GM command can't used in RELEASE !");
+                LogSystem.Error("GM command can't used in RELEASE !");
 #endif
                 if (IsPvpScene() || IsMultiPveScene())
                 {
@@ -680,7 +681,7 @@ namespace ArkCrossEngine
             else
                 return m_CurScene.IsServerSelectScene;
         }
-        
+
         // main ticks
         internal void Tick()
         {
@@ -703,7 +704,7 @@ namespace ArkCrossEngine
 
             TimeSnapshot.Start();
             TimeSnapshot.DoCheckPoint();
-            
+
             // first time player enter a new scene
             if (!m_CurScene.IsWaitSceneLoad && m_CurScene.IsWaitRoomServerConnect)
             {
@@ -755,7 +756,7 @@ namespace ArkCrossEngine
                     {
                         // create scene logics
                         CreateSceneLogics();
-                        
+
                         if (IsExpeditionScene())
                         {
                             // expedition mode
@@ -1409,90 +1410,53 @@ namespace ArkCrossEngine
             ClientStorySystem.Instance.ClearStoryInstancePool();
             StorySystem.StoryConfigManager.Instance.Clear();
         }
-        internal void LoadData()
+        private IEnumerator LoadSceneConfig()
         {
-            SceneConfigProvider.Instance.Load(FilePathDefine_Client.C_SceneConfig, "ScenesConfigs");
-            SceneConfigProvider.Instance.LoadDropOutConfig(FilePathDefine_Client.C_SceneDropOut, "SceneDropOut");
-            UiConfigProvider.Instance.Load(FilePathDefine_Client.C_UiConfig, "UiConfig");
-            SceneConfigProvider.Instance.LoadAllSceneConfig(FilePathDefine_Client.C_RootPath);
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SceneConfig, delegate (byte[] bytes)
+            {
+                SceneConfigProvider.Instance.Load(FilePathDefine_Client.C_SceneConfig, "ScenesConfigs", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SceneConfig, delegate (byte[] bytes)
+            {
+                SceneConfigProvider.Instance.LoadDropOutConfig(FilePathDefine_Client.C_SceneDropOut, "SceneDropOut", bytes);
+            });
+
+            while (!CoroutineManager.Instance.IsAllJobsDone())
+            {
+                yield return null;
+            }
             
-            ActionConfigProvider.Instance.Load(FilePathDefine_Client.C_ActionConfig, "ActionConfig");
-            NpcConfigProvider.Instance.LoadNpcConfig(FilePathDefine_Client.C_NpcConfig, "NpcConfig");
-            NpcConfigProvider.Instance.LoadNpcLevelupConfig(FilePathDefine_Client.C_NpcLevelupConfig, "NpcLevelupConfig");
-            PlayerConfigProvider.Instance.LoadPlayerConfig(FilePathDefine_Client.C_PlayerConfig, "PlayerConfig");
-            PlayerConfigProvider.Instance.LoadPlayerLevelupConfig(FilePathDefine_Client.C_PlayerLevelupConfig, "PlayerLevelupConfig");
-            PlayerConfigProvider.Instance.LoadPlayerLevelupExpConfig(FilePathDefine_Client.C_PlayerLevelupExpConfig, "PlayerLevelupExpConfig");
-            //CriticalConfigProvider.Instance.Load(FilePathDefine_Client.C_CriticalConfig, "CriticalConfig");
-            AttributeScoreConfigProvider.Instance.Load(FilePathDefine_Client.C_AttributeScoreConfig, "AttributeScoreConfig");
+            var allScenes = SceneConfigProvider.Instance.RecollectAllScene();
+            foreach(var scene in allScenes.GetData().Keys)
+            {
+                Data_SceneConfig sceneCfg = allScenes.GetDataById(scene);
+                FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_RootPath + sceneCfg.m_UnitFile, delegate (byte[] bytes)
+                {
+                    SceneConfigProvider.Instance.LoadSceneConfigUnit(scene, FilePathDefine_Client.C_RootPath, bytes);
+                });
+                FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_RootPath + sceneCfg.m_SceneLogicFile, delegate (byte[] bytes)
+                {
+                    SceneConfigProvider.Instance.LoadSceneConfigSceneLogic(scene, FilePathDefine_Client.C_RootPath, bytes);
+                });
 
-            AiActionConfigProvider.Instance.Load(FilePathDefine_Client.C_AiActionConfig, "AiActionConfig");
-            AiConfigProvider.Instance.Load(FilePathDefine_Client.C_AiConfig, "AiConfig");
-            AiSkillComboListProvider.Instance.Load(FilePathDefine_Client.C_AiSkillComboList, "AiSkillComboList");
+//                 foreach(var dsl in sceneCfg.m_StoryDslFile)
+//                 {
+//                     FileReaderProxy.preloadTable(FilePathDefine_Client.C_RootPath + dsl);
+//                 }
+            }
+        }
 
-            ItemConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemConfig, "ItemConfig");
-            ItemAttributeConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemAttributeConfig, "ItemAttributeConfig");
-            ItemLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemLevelupConfig, "ItemLevelupConfig");
-            ItemCompoundConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemCompoundConfig, "ItemCompoundConfig");
-            XSoulLevelConfigProvider.Instance.Load(FilePathDefine_Client.C_XSoulLevelConfig, "XSoulLevelConfig");
-            EquipmentConfigProvider.Instance.LoadEquipmentConfig(FilePathDefine_Client.C_EquipmentConfig, "EquipmentConfig");
-            BuyStaminaConfigProvider.Instance.Load(FilePathDefine_Client.C_BuyStaminaConfig, "BuyStaminaConfig");
-            AppendAttributeConfigProvider.Instance.Load(FilePathDefine_Client.C_AppendAttributeConfig, "AppendAttributeConfig");
-            LegacyLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_LegacyLevelupConfig, "LegacyLevelupConfig");
-            LegacyComplexAttrConifgProvider.Instance.Load(FilePathDefine_Client.C_LegacyComplexAttrConifg, "LegacyComplexAttrConifg");
-            ArenaConfigProvider.Instance.LoadClientConfig();
-            SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_SOUND, FilePathDefine_Client.C_SoundConfig, "SoundConfig");
-            SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_SKILL, FilePathDefine_Client.C_SkillSystemConfig, "SkillConfig");
-            SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_IMPACT, FilePathDefine_Client.C_ImpactSystemConfig, "ImpactConfig");
-            SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_EFFECT, FilePathDefine_Client.C_EffectConfig, "EffectConfig");
-            SkillLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_SkillLevelupConfig, "SkillLevelupConfig");
+        private IEnumerator LoadScrollMessages()
+        {
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SceneConfig, delegate (byte[] bytes)
+            {
+                ScrollMessageConfigProvider.Instance.LoadForClient(bytes);
+            });
 
-            BuffConfigProvider.Instance.Load(FilePathDefine_Client.C_BuffConfig, "BuffConfig");
-
-            SoundConfigProvider.Instance.Load(FilePathDefine_Client.C_GlobalSoundConfig, "C_GlobalSoundConfig");
-            StrDictionaryProvider.Instance.Load(FilePathDefine_Client.C_StrDictionary, "StrDictionary");
-
-            NewbieGuideProvider.Instance.Load(FilePathDefine_Client.C_NewbieGuide, "NewbieGuide");
-            SystemGuideConfigProvider.Instance.Load(FilePathDefine_Client.C_SystemGuideConfig, "SystemGuideConfig");
-
-            
-            LoadingChangeProvider.Instance.Load(FilePathDefine_Client.C_LoadingChange, "LoadingChange");
-            LevelLockProvider.Instance.Load(FilePathDefine_Client.C_LevelLock, "LevelLock");
-            ServerConfigProvider.Instance.Load(FilePathDefine_Client.C_ServerConfig, "ServerConfig");
-            MissionConfigProvider.Instance.Load(FilePathDefine_Client.C_MissionConfig, "MissionConfig");
-            PartnerConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerConfig, "PartnerConfig");
-            PartnerLevelUpConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerLevelUpConfig, "PartnerLevelUpConfig");
-            PartnerStageUpConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerStageUpConfig, "PartnerStageUpConfig");
-            WordFilter.Instance.Load(FilePathDefine_Client.C_SensitiveDictionary);
-            DynamicSceneConfigProvider.Instance.CollectData(FilePathDefine_Client.C_DynamicSceneConfig, "DynamicSceneConfig");
-
-            ExpeditionMonsterAttrConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionMonsterAttrConfig, "ExpeditionMonsterAttrConfig");
-            ExpeditionTollgateConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionTollgateConfig, "ExpeditionTollgateConfig");
-            ExpeditionMonsterConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionMonsterConfig, "ExpeditionMonsterConfig");
-
-            BuyMoneyConfigProvider.Instance.Load(FilePathDefine_Client.C_BuyMoneyConfig, "BuyMoneyConfig");
-            GowConfigProvider.Instance.LoadForClient();
-
-            VipConfigProvider.Instance.Load(FilePathDefine_Client.C_VipConfig, "VipConfig");
-            VersionConfigProvider.Instance.Load(FilePathDefine_Client.C_VersionConfig, "VersionConfig");
-
-            MpveMonsterConfigProvider.Instance.Load(FilePathDefine_Client.C_MpveMonsterConfig, "MpveMonsterConfig");
-            AttemptTollgateConfigProvider.Instance.Load(FilePathDefine_Client.C_AttemptTollgateConfig, "AttemptTollgateConfig");
-            MpveTimeConfigProvider.Instance.Load(FilePathDefine_Client.C_MpveTimeConfig, "MpveTimeConfig");
-            // 活动
-            SignInRewardConfigProvider.Instance.Load(FilePathDefine_Client.C_SignInRewardConfig, "SignInRewardConfig");
-            MonthCardConfigProvider.Instacne.Load(FilePathDefine_Client.C_MonthCardConfig, "MonthCardConfig");
-            GiftConfigProvider.Instance.Load(FilePathDefine_Client.C_GiftConfig, "GiftConfig");
-            WeeklyLoginConfigProvider.Instance.Load(FilePathDefine_Client.C_WeeklyLoginConfig, "WeeklyLoginConfig");
-            OnlineDurationRewardConfigProvider.Instance.Load(FilePathDefine_Client.C_OnlineDurationRewardConfig, "OnlineDurationRewardConfig");
-
-            ScrollMessageConfigProvider.Instance.LoadForClient();
-
-            StoreConfigProvider.Instance.Load(FilePathDefine_Client.C_ExchangeShopConfig, "ExchangeShop");
-            NotificationConfigProvider.Instance.Load(FilePathDefine_Client.C_NotificationConfig, "NotificationConfig");
-            CameraConfigProvider.Instance.Load(FilePathDefine_Client.C_CameraConfig, "CameraConfig");
-            HitSoundConfigProvider.Instance.Load(FilePathDefine_Client.C_HitSoundConfig, "HitSoundConfig");
-
-            MainCityConfigProvider.Instance.Load(FilePathDefine_Client.C_MainCityConfig, "MainCityConfig");
+            while (!CoroutineManager.Instance.IsAllJobsDone())
+            {
+                yield return null;
+            }
 
             foreach (ScrollMessageConfig cfg in ScrollMessageConfigProvider.Instance.ScrollMessageConfigMgr.GetData())
             {
@@ -1507,6 +1471,277 @@ namespace ArkCrossEngine
 
                 m_ScrollMessageInfos.Add(info);
             }
+        }
+
+        internal IEnumerator LoadData()
+        {
+            yield return LoadSceneConfig();
+            yield return LoadScrollMessages();
+
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_UiConfig, delegate (byte[] bytes)
+            {
+                UiConfigProvider.Instance.Load(FilePathDefine_Client.C_UiConfig, "UiConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ActionConfig, delegate (byte[] bytes)
+            {
+                ActionConfigProvider.Instance.Load(FilePathDefine_Client.C_ActionConfig, "ActionConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_NpcConfig, delegate (byte[] bytes)
+            {
+                NpcConfigProvider.Instance.LoadNpcConfig(FilePathDefine_Client.C_NpcConfig, "NpcConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_NpcLevelupConfig, delegate (byte[] bytes)
+            {
+                NpcConfigProvider.Instance.LoadNpcLevelupConfig(FilePathDefine_Client.C_NpcLevelupConfig, "NpcLevelupConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PlayerConfig, delegate (byte[] bytes)
+            {
+                PlayerConfigProvider.Instance.LoadPlayerConfig(FilePathDefine_Client.C_PlayerConfig, "PlayerConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PlayerLevelupConfig, delegate (byte[] bytes)
+            {
+                PlayerConfigProvider.Instance.LoadPlayerLevelupConfig(FilePathDefine_Client.C_PlayerLevelupConfig, "PlayerLevelupConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PlayerLevelupExpConfig, delegate (byte[] bytes)
+            {
+                PlayerConfigProvider.Instance.LoadPlayerLevelupExpConfig(FilePathDefine_Client.C_PlayerLevelupExpConfig, "PlayerLevelupExpConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AttributeScoreConfig, delegate (byte[] bytes)
+            {
+                AttributeScoreConfigProvider.Instance.Load(FilePathDefine_Client.C_AttributeScoreConfig, "AttributeScoreConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AiActionConfig, delegate (byte[] bytes)
+            {
+                AiActionConfigProvider.Instance.Load(FilePathDefine_Client.C_AiActionConfig, "AiActionConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AiConfig, delegate (byte[] bytes)
+            {
+                AiConfigProvider.Instance.Load(FilePathDefine_Client.C_AiConfig, "AiConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AiSkillComboList, delegate (byte[] bytes)
+            {
+                AiSkillComboListProvider.Instance.Load(FilePathDefine_Client.C_AiSkillComboList, "AiSkillComboList", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ItemConfig, delegate (byte[] bytes)
+            {
+                ItemConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemConfig, "ItemConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ItemAttributeConfig, delegate (byte[] bytes)
+            {
+                ItemAttributeConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemAttributeConfig, "ItemAttributeConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ItemLevelupConfig, delegate (byte[] bytes)
+            {
+                ItemLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemLevelupConfig, "ItemLevelupConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ItemCompoundConfig, delegate (byte[] bytes)
+            {
+                ItemCompoundConfigProvider.Instance.Load(FilePathDefine_Client.C_ItemCompoundConfig, "ItemCompoundConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_XSoulLevelConfig, delegate (byte[] bytes)
+            {
+                XSoulLevelConfigProvider.Instance.Load(FilePathDefine_Client.C_XSoulLevelConfig, "XSoulLevelConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_EquipmentConfig, delegate (byte[] bytes)
+            {
+                EquipmentConfigProvider.Instance.LoadEquipmentConfig(FilePathDefine_Client.C_EquipmentConfig, "EquipmentConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_BuyStaminaConfig, delegate (byte[] bytes)
+            {
+                BuyStaminaConfigProvider.Instance.Load(FilePathDefine_Client.C_BuyStaminaConfig, "BuyStaminaConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AppendAttributeConfig, delegate (byte[] bytes)
+            {
+                AppendAttributeConfigProvider.Instance.Load(FilePathDefine_Client.C_AppendAttributeConfig, "AppendAttributeConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_LegacyLevelupConfig, delegate (byte[] bytes)
+            {
+                LegacyLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_LegacyLevelupConfig, "LegacyLevelupConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_LegacyComplexAttrConifg, delegate (byte[] bytes)
+            {
+                LegacyComplexAttrConifgProvider.Instance.Load(FilePathDefine_Client.C_LegacyComplexAttrConifg, "LegacyComplexAttrConifg", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ArenaBaseConfig, delegate (byte[] bytes)
+            {
+                ArenaConfigProvider.Instance.LoadClientConfigBase(bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ArenaPrizeConfig, delegate (byte[] bytes)
+            {
+                ArenaConfigProvider.Instance.LoadClientConfigPrize(bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ArenaBuyFightCountConfig, delegate (byte[] bytes)
+            {
+                ArenaConfigProvider.Instance.LoadClientConfigFight(bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SoundConfig, delegate (byte[] bytes)
+            {
+                SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_SOUND, FilePathDefine_Client.C_SoundConfig, "SoundConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SkillSystemConfig, delegate (byte[] bytes)
+            {
+                SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_SKILL, FilePathDefine_Client.C_SkillSystemConfig, "SkillConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ImpactSystemConfig, delegate (byte[] bytes)
+            {
+                SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_IMPACT, FilePathDefine_Client.C_ImpactSystemConfig, "ImpactConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_EffectConfig, delegate (byte[] bytes)
+            {
+                SkillConfigProvider.Instance.CollectData(SkillConfigType.SCT_EFFECT, FilePathDefine_Client.C_EffectConfig, "EffectConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SkillLevelupConfig, delegate (byte[] bytes)
+            {
+                SkillLevelupConfigProvider.Instance.Load(FilePathDefine_Client.C_SkillLevelupConfig, "SkillLevelupConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_BuffConfig, delegate (byte[] bytes)
+            {
+                BuffConfigProvider.Instance.Load(FilePathDefine_Client.C_BuffConfig, "BuffConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_GlobalSoundConfig, delegate (byte[] bytes)
+            {
+                SoundConfigProvider.Instance.Load(FilePathDefine_Client.C_GlobalSoundConfig, "C_GlobalSoundConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_StrDictionary, delegate (byte[] bytes)
+            {
+                StrDictionaryProvider.Instance.Load(FilePathDefine_Client.C_StrDictionary, "StrDictionary", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_NewbieGuide, delegate (byte[] bytes)
+            {
+                NewbieGuideProvider.Instance.Load(FilePathDefine_Client.C_NewbieGuide, "NewbieGuide", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SystemGuideConfig, delegate (byte[] bytes)
+            {
+                SystemGuideConfigProvider.Instance.Load(FilePathDefine_Client.C_SystemGuideConfig, "SystemGuideConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_LoadingChange, delegate (byte[] bytes)
+            {
+                LoadingChangeProvider.Instance.Load(FilePathDefine_Client.C_LoadingChange, "LoadingChange", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_LevelLock, delegate (byte[] bytes)
+            {
+                LevelLockProvider.Instance.Load(FilePathDefine_Client.C_LevelLock, "LevelLock", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ServerConfig, delegate (byte[] bytes)
+            {
+                ServerConfigProvider.Instance.Load(FilePathDefine_Client.C_ServerConfig, "ServerConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_MissionConfig, delegate (byte[] bytes)
+            {
+                MissionConfigProvider.Instance.Load(FilePathDefine_Client.C_MissionConfig, "MissionConfig", bytes);
+            });
+
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PartnerConfig, delegate (byte[] bytes)
+            {
+                PartnerConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerConfig, "PartnerConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PartnerLevelUpConfig, delegate (byte[] bytes)
+            {
+                PartnerLevelUpConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerLevelUpConfig, "PartnerLevelUpConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_PartnerStageUpConfig, delegate (byte[] bytes)
+            {
+                PartnerStageUpConfigProvider.Instance.Load(FilePathDefine_Client.C_PartnerStageUpConfig, "PartnerStageUpConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_DynamicSceneConfig, delegate (byte[] bytes)
+            {
+                DynamicSceneConfigProvider.Instance.CollectData(FilePathDefine_Client.C_DynamicSceneConfig, "DynamicSceneConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ExpeditionMonsterAttrConfig, delegate (byte[] bytes)
+            {
+                ExpeditionMonsterAttrConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionMonsterAttrConfig, "ExpeditionMonsterAttrConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ExpeditionTollgateConfig, delegate (byte[] bytes)
+            {
+                ExpeditionTollgateConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionTollgateConfig, "ExpeditionTollgateConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ExpeditionMonsterConfig, delegate (byte[] bytes)
+            {
+                ExpeditionMonsterConfigProvider.Instance.Load(FilePathDefine_Client.C_ExpeditionMonsterConfig, "ExpeditionMonsterConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_BuyMoneyConfig, delegate (byte[] bytes)
+            {
+                BuyMoneyConfigProvider.Instance.Load(FilePathDefine_Client.C_BuyMoneyConfig, "BuyMoneyConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_GowPrizeConfig, delegate (byte[] bytes)
+             {
+                 GowConfigProvider.Instance.LoadForClientPrize(bytes);
+             });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_GowTimeConfig, delegate (byte[] bytes)
+            {
+                GowConfigProvider.Instance.LoadForClientTime(bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_GowRankConfig, delegate (byte[] bytes)
+            {
+                GowConfigProvider.Instance.LoadForClientRank(bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_VipConfig, delegate (byte[] bytes)
+            {
+                VipConfigProvider.Instance.Load(FilePathDefine_Client.C_VipConfig, "VipConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_VersionConfig, delegate (byte[] bytes)
+            {
+                VersionConfigProvider.Instance.Load(FilePathDefine_Client.C_VersionConfig, "VersionConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_MpveMonsterConfig, delegate (byte[] bytes)
+            {
+                MpveMonsterConfigProvider.Instance.Load(FilePathDefine_Client.C_MpveMonsterConfig, "MpveMonsterConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_AttemptTollgateConfig, delegate (byte[] bytes)
+            {
+                AttemptTollgateConfigProvider.Instance.Load(FilePathDefine_Client.C_AttemptTollgateConfig, "AttemptTollgateConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_MpveTimeConfig, delegate (byte[] bytes)
+            {
+                MpveTimeConfigProvider.Instance.Load(FilePathDefine_Client.C_MpveTimeConfig, "MpveTimeConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_SignInRewardConfig, delegate (byte[] bytes)
+            {
+                SignInRewardConfigProvider.Instance.Load(FilePathDefine_Client.C_SignInRewardConfig, "SignInRewardConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_MonthCardConfig, delegate (byte[] bytes)
+            {
+                MonthCardConfigProvider.Instacne.Load(FilePathDefine_Client.C_MonthCardConfig, "MonthCardConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_GiftConfig, delegate (byte[] bytes)
+             {
+                 GiftConfigProvider.Instance.Load(FilePathDefine_Client.C_GiftConfig, "GiftConfig", bytes);
+             });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_WeeklyLoginConfig, delegate (byte[] bytes)
+            {
+                WeeklyLoginConfigProvider.Instance.Load(FilePathDefine_Client.C_WeeklyLoginConfig, "WeeklyLoginConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_OnlineDurationRewardConfig, delegate (byte[] bytes)
+            {
+                OnlineDurationRewardConfigProvider.Instance.Load(FilePathDefine_Client.C_OnlineDurationRewardConfig, "OnlineDurationRewardConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_ExchangeShopConfig, delegate (byte[] bytes)
+            {
+                StoreConfigProvider.Instance.Load(FilePathDefine_Client.C_ExchangeShopConfig, "ExchangeShop", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_NotificationConfig, delegate (byte[] bytes)
+            {
+                NotificationConfigProvider.Instance.Load(FilePathDefine_Client.C_NotificationConfig, "NotificationConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_CameraConfig, delegate (byte[] bytes)
+            {
+                CameraConfigProvider.Instance.Load(FilePathDefine_Client.C_CameraConfig, "CameraConfig", bytes);
+            });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_HitSoundConfig, delegate (byte[] bytes)
+             {
+                 HitSoundConfigProvider.Instance.Load(FilePathDefine_Client.C_HitSoundConfig, "HitSoundConfig", bytes);
+             });
+            FileReaderProxy.preloadCoroutine(FilePathDefine_Client.C_MainCityConfig, delegate (byte[] bytes)
+            {
+                MainCityConfigProvider.Instance.Load(FilePathDefine_Client.C_MainCityConfig, "MainCityConfig", bytes);
+            });
+
+            while (!CoroutineManager.Instance.IsAllJobsDone())
+            {
+                yield return null;
+            }
+
+            CoroutineManager.Instance.RemoveAllFinishedJobs();
         }
         internal void ReloadNpc()
         {
@@ -2151,7 +2386,7 @@ namespace ArkCrossEngine
                 }
             }
             GfxSystem.PublishGfxEvent("ge_show_name_plates", "ui", gfxUsers);
-            
+
             // temp: gain newbie tools
             ArkCrossEngine.RoleInfo ri = ArkCrossEngine.LobbyClient.Instance.CurrentRole;
             if (ri != null && ri.Level < 10)

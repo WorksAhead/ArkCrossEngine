@@ -43,9 +43,9 @@ namespace ArkCrossEngine
             }
             return game_version;
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_VersionConfigMgr.CollectDataFromDBC(file, root);
+            m_VersionConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<VersionConfig> m_VersionConfigMgr = new DataDictionaryMgr<VersionConfig>();
         public static VersionConfigProvider Instance

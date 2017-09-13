@@ -225,9 +225,9 @@ namespace ArkCrossEngine
         {
             return m_PlayerConfigMgr.GetDataById(id);
         }
-        public void LoadPlayerConfig(string file, string root)
+        public void LoadPlayerConfig(string file, string root, byte[] bytes)
         {
-            m_PlayerConfigMgr.CollectDataFromDBC(file, root);
+            m_PlayerConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<Data_PlayerConfig> m_PlayerConfigMgr = new DataDictionaryMgr<Data_PlayerConfig>();
@@ -240,9 +240,9 @@ namespace ArkCrossEngine
         {
             return m_PlayerLevelupConfigMgr.GetDataById(id);
         }
-        public void LoadPlayerLevelupConfig(string file, string root)
+        public void LoadPlayerLevelupConfig(string file, string root, byte[] bytes)
         {
-            m_PlayerLevelupConfigMgr.CollectDataFromDBC(file, root);
+            m_PlayerLevelupConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<LevelupConfig> m_PlayerLevelupConfigMgr = new DataDictionaryMgr<LevelupConfig>();
@@ -255,9 +255,9 @@ namespace ArkCrossEngine
         {
             return m_PlayerLevelupExpConfigMgr.GetDataById(id);
         }
-        public void LoadPlayerLevelupExpConfig(string file, string root)
+        public void LoadPlayerLevelupExpConfig(string file, string root, byte[] bytes)
         {
-            m_PlayerLevelupExpConfigMgr.CollectDataFromDBC(file, root);
+            m_PlayerLevelupExpConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public void Clear()
         {

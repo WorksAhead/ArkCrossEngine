@@ -40,9 +40,9 @@ namespace ArkCrossEngine
         {
             return m_ItemCompoundConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ItemCompoundConfigMgr.CollectDataFromDBC(file, root);
+            m_ItemCompoundConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<ItemCompoundConfig> m_ItemCompoundConfigMgr = new DataDictionaryMgr<ItemCompoundConfig>();

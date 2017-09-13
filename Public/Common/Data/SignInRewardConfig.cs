@@ -49,9 +49,9 @@ namespace ArkCrossEngine
             }
             return false;
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_SignInRewardConfigMgr.CollectDataFromDBC(file, root);
+            m_SignInRewardConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static SignInRewardConfigProvider Instance
         {

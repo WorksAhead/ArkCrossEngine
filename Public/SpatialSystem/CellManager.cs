@@ -38,6 +38,7 @@ namespace ArkCrossEngineSpatial
         // 从文件读取
         public bool Init(string filename)
         {
+            /*
             if (!FileReaderProxy.Exists(filename))
             {
                 return false;
@@ -59,6 +60,8 @@ namespace ArkCrossEngineSpatial
                 return false;
             }
             return true;
+            */
+            return false;
         }
 
         // 保存到文件

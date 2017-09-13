@@ -45,9 +45,9 @@ namespace ArkCrossEngine
         {
             return m_ExpeditionMonsterConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ExpeditionMonsterConfigMgr.CollectDataFromDBC(file, root);
+            m_ExpeditionMonsterConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         private DataDictionaryMgr<ExpeditionMonsterConfig> m_ExpeditionMonsterConfigMgr = new DataDictionaryMgr<ExpeditionMonsterConfig>();

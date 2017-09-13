@@ -1,11 +1,12 @@
-﻿/**
- * @file DataDictionaryMgr.cs
- * @brief 数据模板管理器
- *              负责：
- *                      定义数据接口
- *                      使用MyDictionary存储数据
- */
+﻿using System.Collections;
 
+/**
+* @file DataDictionaryMgr.cs
+* @brief 数据模板管理器
+*              负责：
+*                      定义数据接口
+*                      使用MyDictionary存储数据
+*/
 using System.Collections.Generic;
 
 namespace ArkCrossEngine
@@ -41,12 +42,12 @@ namespace ArkCrossEngine
          *
          * @return 
          */
-        public bool CollectDataFromDBC(string file, string rootLabel)
+        public bool CollectDataFromDBC(string file, string rootLabel, byte[] bytes = null)
         {
             bool result = true;
 
             DBC document = new DBC();
-            document.Load(HomePath.GetAbsolutePath(file));
+            document.Load(HomePath.GetAbsolutePath(file), bytes);
 
             for (int index = 0; index < document.RowNum; index++)
             {

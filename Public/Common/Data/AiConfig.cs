@@ -42,9 +42,9 @@ namespace ArkCrossEngine
             return m_AiConfigMgr.GetDataCount();
         }
 
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_AiConfigMgr.CollectDataFromDBC(file, root);
+            m_AiConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         public static AiConfigProvider Instance

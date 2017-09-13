@@ -165,7 +165,7 @@ namespace ArkCrossEngine
             GfxSystem.SetGameLogicNotification(GameLogicNotification.Instance);
             GfxModule.Skill.GfxSkillSystem.Instance.Init();
         }
-        public static void InitLogic()
+        public static System.Collections.IEnumerator InitLogic()
         {
             LogicSystem.LogFromGfx("GameControler.InitLogic");
 
@@ -173,7 +173,7 @@ namespace ArkCrossEngine
             WorldSystem.Instance.Init();
 
             ArkProfiler.Start("WorldSystem.Instance.LoadData");
-            WorldSystem.Instance.LoadData();
+            yield return WorldSystem.Instance.LoadData();
             ArkProfiler.Stop("WorldSystem.Instance.LoadData");
             
             GfxModule.Impact.GfxImpactSystem.Instance.Init();
@@ -187,6 +187,7 @@ namespace ArkCrossEngine
             AiViewManager.Instance.Init();
             SceneLogicViewManager.Instance.Init();
             ImpactViewManager.Instance.Init();
+            yield return null;
         }
         public static void StartLogic()
         {

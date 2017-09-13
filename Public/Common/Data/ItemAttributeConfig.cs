@@ -32,9 +32,9 @@ namespace ArkCrossEngine
         {
             return m_ItemAttributeConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ItemAttributeConfigMgr.CollectDataFromDBC(file, root);
+            m_ItemAttributeConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
 
         public static ItemAttributeConfigProvider Instance

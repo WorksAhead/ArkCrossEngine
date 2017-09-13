@@ -53,9 +53,9 @@ namespace ArkCrossEngine
         {
             return m_AttributeScoreConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_AttributeScoreConfigMgr.CollectDataFromDBC(file, root);
+            m_AttributeScoreConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public float GetAloneAttributeScore(AttributeScoreName name, float value)
         {

@@ -27,9 +27,9 @@
         {
             return m_ExpeditionMonsterAttrConfigMgr.GetDataById(id);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_ExpeditionMonsterAttrConfigMgr.CollectDataFromDBC(file, root);
+            m_ExpeditionMonsterAttrConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         private DataDictionaryMgr<ExpeditionMonsterAttrConfig> m_ExpeditionMonsterAttrConfigMgr = new DataDictionaryMgr<ExpeditionMonsterAttrConfig>();
         public static ExpeditionMonsterAttrConfigProvider Instance

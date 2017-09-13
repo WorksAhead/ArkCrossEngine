@@ -141,10 +141,10 @@ namespace ArkCrossEngine
         {
             return m_PartnerConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_PartnerConfigMgr.CollectDataFromDBC(file, root);
-        }
+            m_PartnerConfigMgr.CollectDataFromDBC(file, root, bytes);
+        }   
         public void Clear()
         {
             m_PartnerConfigMgr.Clear();
@@ -166,9 +166,9 @@ namespace ArkCrossEngine
         {
             return m_PartnerLevelUpConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_PartnerLevelUpConfigMgr.CollectDataFromDBC(file, root);
+            m_PartnerLevelUpConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static PartnerLevelUpConfigProvider Instance
         {
@@ -187,9 +187,9 @@ namespace ArkCrossEngine
         {
             return m_PartnerStageUpConfigMgr.GetDataCount();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_PartnerStageUpConfigMgr.CollectDataFromDBC(file, root);
+            m_PartnerStageUpConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static PartnerStageUpConfigProvider Instance
         {

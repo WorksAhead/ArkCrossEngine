@@ -50,9 +50,9 @@ namespace ArkCrossEngine
         {
             return m_NotificationConfigMgr.GetData();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_NotificationConfigMgr.CollectDataFromDBC(file, root);
+            m_NotificationConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public void Clear()
         {

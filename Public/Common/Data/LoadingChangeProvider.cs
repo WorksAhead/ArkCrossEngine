@@ -40,9 +40,9 @@ namespace ArkCrossEngine
         {
             return m_LoadingChangeMgr.GetData();
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_LoadingChangeMgr.CollectDataFromDBC(file, root);
+            m_LoadingChangeMgr.CollectDataFromDBC(file, root, bytes);
         }
         public int GetDataCount()
         {

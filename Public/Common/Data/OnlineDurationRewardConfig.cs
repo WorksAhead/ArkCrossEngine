@@ -51,9 +51,9 @@ namespace ArkCrossEngine
         {
             return m_OnlineDurationConfigMgr.GetDataById(day);
         }
-        public void Load(string file, string root)
+        public void Load(string file, string root, byte[] bytes)
         {
-            m_OnlineDurationConfigMgr.CollectDataFromDBC(file, root);
+            m_OnlineDurationConfigMgr.CollectDataFromDBC(file, root, bytes);
         }
         public static OnlineDurationRewardConfigProvider Instance
         {

@@ -30,29 +30,29 @@
          *
          * @return 
          */
-        public bool CollectData(SkillConfigType type, string file, string rootLabel)
+        public bool CollectData(SkillConfigType type, string file, string rootLabel, byte[] bytes)
         {
             bool result = false;
             switch (type)
             {
                 case SkillConfigType.SCT_SKILL:
                     {
-                        result = skillLogicDataMgr.CollectDataFromDBC(file, rootLabel);
+                        result = skillLogicDataMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 case SkillConfigType.SCT_IMPACT:
                     {
-                        result = impactLogicDataMgr.CollectDataFromDBC(file, rootLabel);
+                        result = impactLogicDataMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 case SkillConfigType.SCT_EFFECT:
                     {
-                        result = effectLogicDataMgr.CollectDataFromDBC(file, rootLabel);
+                        result = effectLogicDataMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 case SkillConfigType.SCT_SOUND:
                     {
-                        result = soundLogicDataMgr.CollectDataFromDBC(file, rootLabel);
+                        result = soundLogicDataMgr.CollectDataFromDBC(file, rootLabel, bytes);
                     }
                     break;
                 default:

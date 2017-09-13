@@ -244,6 +244,18 @@ namespace ArkCrossEngine
             m_GowTimeConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_GowTimeConfig, "GowTime");
             m_GowRankConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_GowRankConfig, "GowRank");
         }
+        public void LoadForClientPrize(byte[] bytes)
+        {
+            m_GowPrizeConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_GowPrizeConfig, "GowPrize", bytes);
+        }
+        public void LoadForClientTime(byte[] bytes)
+        {
+            m_GowTimeConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_GowTimeConfig, "GowTime", bytes);
+        }
+        public void LoadForClientRank(byte[] bytes)
+        {
+            m_GowRankConfigMgr.CollectDataFromDBC(FilePathDefine_Client.C_GowRankConfig, "GowRank", bytes);
+        }
         public void LoadForServer()
         {
             m_GowPrizeConfigMgr.CollectDataFromDBC(FilePathDefine_Server.C_GowPrizeConfig, "GowPrize");
