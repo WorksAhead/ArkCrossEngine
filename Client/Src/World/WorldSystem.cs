@@ -2938,6 +2938,7 @@ namespace ArkCrossEngine
             // 目前只考虑了单人pve情况.
             if (IsPveScene() && !IsExpeditionScene() && !IsPvapScene())
             {
+                /*
                 bool isCameraInCombatState = m_IsCameraInCombatState;
                 if (IsPlayerInCombatState() && NpcManager.HasCombatNpcAlive())
                 {
@@ -2979,6 +2980,7 @@ namespace ArkCrossEngine
                     GfxSystem.SendMessage("GfxGameRoot", "CameraHeight", heightArgs);
                     GfxSystem.SendMessage("GfxGameRoot", "CameraInit", initArgs);
                 }
+                */
             }
             else
             {

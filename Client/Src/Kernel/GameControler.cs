@@ -139,10 +139,7 @@ namespace ArkCrossEngine
             HomePath.CurHomePath = dataPath;
             GlobalVariables.Instance.IsDebug = false;
 
-            if (!FileReaderProxy.IsAllHandlerRegistered())
-            {
-                throw new Exception("File Reader Proxy Not Registered.");
-            }
+            FileReaderProxy.MakeSureAllHandlerRegistered();
 
             LogSystem.OnOutput = (Log_Type type, string msg) =>
             {

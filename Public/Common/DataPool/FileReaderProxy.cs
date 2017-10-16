@@ -82,10 +82,35 @@ namespace ArkCrossEngine
             handlerFileExists = hExists;
         }
 
-        public static bool IsAllHandlerRegistered()
+        public static void MakeSureAllHandlerRegistered()
         {
-            return (handlerReadFile != null) && (handlerFileExists != null);
+            if (handlerReadFile == null)
+            {
+                handlerReadFile = DefaultReadFileProxy;
+            }
+            if (handlerFileExists == null)
+            {
+                handlerFileExists = DefaultFileExistsProxy;
+            }
         }
 
+        private static byte[] DefaultReadFileProxy(string filePath)
+        {
+            try
+            {
+                byte[] buffer = null;
+                buffer = File.ReadAllBytes(filePath);
+                return buffer;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        private static bool DefaultFileExistsProxy(string filePath)
+        {
+            return File.Exists(filePath);
+        }
     }
 }
