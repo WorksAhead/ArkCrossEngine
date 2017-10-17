@@ -192,11 +192,11 @@ namespace LobbyRobot
             }
 
             
-            if (curTime - m_LastTickLogicTime > 1000)
+            if (curTime - m_LastTickLogicTime > 10000)
             {
                 UpdatePosition(WayPoints[CurrentWayPointIndex].x, WayPoints[CurrentWayPointIndex].y, 0);
 
-                CurrentWayPointIndex = (CurrentWayPointIndex + 1) % WayPoints.Count;
+                CurrentWayPointIndex = (CurrentWayPointIndex + 10) % WayPoints.Count;
             }
         }
 

@@ -4392,9 +4392,9 @@ namespace Lobby
             ui.CurStamina = 120;
             ui.Vigor = 500;
             ui.ExpPoints = 0;
-            ui.CitySceneId = 1010;
-            ui.Level = 1;
-            ui.Vip = 0;
+            ui.CitySceneId = 1020;
+            ui.Level = 30;
+            ui.Vip = 1;
             ui.CreateTime = DateTime.Now;
             ui.NextUserSaveCount = 1;
             ui.CurrentUserSaveCount = 0;
