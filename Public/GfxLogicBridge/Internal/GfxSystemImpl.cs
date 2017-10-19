@@ -1639,6 +1639,35 @@ namespace ArkCrossEngine
 
             user.PathFindingFinished = true;
         }
+        private void NpcCommonMeleePathToTargetImpl(NpcInfo npc, Vector3 pathTargetPos)
+        {
+            GameObjectInfo goInfo = GetGameObjectInfo(npc.ActorId);
+            float objHeight = goInfo.ObjectInstance.transform.position.y;
+
+            NavMeshPath path = new NavMeshPath();
+            UnityEngine.Vector3 srcPos = new UnityEngine.Vector3(npc.GetMovementStateInfo().PositionX, objHeight, npc.GetMovementStateInfo().PositionZ);
+            UnityEngine.Vector3 dstPos = new UnityEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z);
+            bool result = NavMesh.CalculatePath(srcPos, dstPos, NavMesh.AllAreas, path);
+
+            List<ArkCrossEngine.Vector3> waypoints = new List<ArkCrossEngine.Vector3>();
+            if (result)
+            {
+                for (int i = 0; i < path.corners.Length; i++)
+                {
+                    waypoints.Add(new ArkCrossEngine.Vector3(path.corners[i].x, path.corners[i].y, path.corners[i].z));
+                }
+            }
+            else
+            {
+                waypoints.Add(new ArkCrossEngine.Vector3(pathTargetPos.X, srcPos.y, pathTargetPos.Z));
+            }
+
+            AiData_Npc_CommonMelee data = npc.GetAiStateInfo().AiDatas.GetData<AiData_Npc_CommonMelee>();
+            data.FoundPath.Clear();
+            data.FoundPath.SetPathPoints(waypoints[0], waypoints, 1);
+
+            npc.PathFindingFinished = true;
+        }
         private void ForMoveCommandPathToTargetImpl(UserInfo user, Vector3 pathTargetPos)
         {
             GameObjectInfo goInfo = GetGameObjectInfo(user.ActorId);

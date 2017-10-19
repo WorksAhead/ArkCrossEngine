@@ -63,7 +63,23 @@ namespace ArkCrossEngine
                         if (info.Time > m_IntervalTime)
                         {
                             info.Time = 0;
-                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            if (!npc.UnityPathFinding)
+                            {
+                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            }
+                            else
+                            {
+                                if (!npc.PathFindingFinished)
+                                {
+                                    GfxSystem.NpcCommonMeleePathToTarget(npc, targetPos);
+                                    ChangeToState(npc, (int)AiStateId.PathFinding);
+                                }
+                                else
+                                {
+                                    npc.PathFindingFinished = false;
+                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                }
+                            }
                         }
                         return;
                     }
@@ -77,7 +93,23 @@ namespace ArkCrossEngine
                         if (info.Time > m_IntervalTime)
                         {
                             info.Time = 0;
-                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            if (!npc.UnityPathFinding)
+                            {
+                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            }
+                            else
+                            {
+                                if (!npc.PathFindingFinished)
+                                {
+                                    GfxSystem.NpcCommonMeleePathToTarget(npc, targetPos);
+                                    ChangeToState(npc, (int)AiStateId.PathFinding);
+                                }
+                                else
+                                {
+                                    npc.PathFindingFinished = false;
+                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                }
+                            }
                         }
                     }
                     else
@@ -103,7 +135,24 @@ namespace ArkCrossEngine
                                     {
                                         info.Time = 0;
                                         NotifyNpcRun(npc);
-                                        AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                        if (!npc.UnityPathFinding)
+                                        {
+                                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                        }
+                                        else
+                                        {
+                                            if (!npc.PathFindingFinished)
+                                            {
+
+                                                GfxSystem.NpcCommonMeleePathToTarget(npc, targetPos);
+                                                ChangeToState(npc, (int)AiStateId.PathFinding);
+                                            }
+                                            else
+                                            {
+                                                npc.PathFindingFinished = false;
+                                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                            }
+                                        }
                                     }
                                 }
                                 else
@@ -146,7 +195,23 @@ namespace ArkCrossEngine
                                 {
                                     info.Time = 0;
                                     NotifyNpcWalk(npc);
-                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                    if (!npc.UnityPathFinding)
+                                    {
+                                        AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                    }
+                                    else
+                                    {
+                                        if (!npc.PathFindingFinished)
+                                        {
+                                            GfxSystem.NpcCommonMeleePathToTarget(npc, targetPos);
+                                            ChangeToState(npc, (int)AiStateId.PathFinding);
+                                        }
+                                        else
+                                        {
+                                            npc.PathFindingFinished = false;
+                                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                        }
+                                    }
                                 }
                                 if (data.ChaseWalkTime > m_ChaseStandMaxTime)
                                 {
@@ -241,7 +306,7 @@ namespace ArkCrossEngine
 
             if (npc.PathFindingFinished)
             {
-                npc.PathFindingFinished = false;
+                // npc.PathFindingFinished = false;
                 NpcAiStateInfo info = npc.GetAiStateInfo();
                 ChangeToState(npc, info.PreviousState);
             }

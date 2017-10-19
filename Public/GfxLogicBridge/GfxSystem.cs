@@ -428,6 +428,13 @@ namespace ArkCrossEngine
 #endif
             QueueGfxAction(s_Instance.UserSelfGeneralPathToTargetImpl, user, pathTargetPos);
         }
+        public static void NpcCommonMeleePathToTarget(NpcInfo npc, Vector3 pathTargetPos)
+        {
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("NpcCommonMeleePathToTarget");
+#endif
+            QueueGfxAction(s_Instance.NpcCommonMeleePathToTargetImpl, npc, pathTargetPos);
+        }
         public static void ForMoveCommandPathToTarget(UserInfo user, Vector3 pathTargetPos)
         {
 #if UNITY_EDITOR

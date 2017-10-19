@@ -905,48 +905,69 @@ namespace ArkCrossEngine
             Vector3 srcPos = npc.GetMovementStateInfo().GetPosition3D();
             if (null != data)
             {
-                data.Clear();
-                data.UpdateTime += deltaTime;
                 Vector3 targetPos = pathTargetPos;
                 bool canGo = true;
-                if (!npc.SpatialSystem.GetCellMapView(npc.AvoidanceRadius).CanPass(targetPos))
+                if (!npc.UnityPathFinding)
                 {
-                    if (!AiLogicUtility.GetWalkablePosition(npc.SpatialSystem.GetCellMapView(npc.AvoidanceRadius), targetPos, srcPos, ref targetPos))
-                        if (!AiLogicUtility.GetForwardTargetPos(npc, targetPos, 2.0f, ref targetPos))
-                        {
-                            canGo = false;
-                        }
+                    data.Clear();
+                    if (!npc.SpatialSystem.GetCellMapView(npc.AvoidanceRadius).CanPass(targetPos))
+                    {
+                        if (!AiLogicUtility.GetWalkablePosition(npc.SpatialSystem.GetCellMapView(npc.AvoidanceRadius), targetPos, srcPos, ref targetPos))
+                            if (!AiLogicUtility.GetForwardTargetPos(npc, targetPos, 2.0f, ref targetPos))
+                            {
+                                canGo = false;
+                            }
+                    }
                 }
+                else
+                {
+                    bool havePathPoint = data.HavePathPoint;
+                    if (!havePathPoint)
+                    {
+                        canGo = false;
+                    }
+                    float distance = Vector3.Distance(targetPos, srcPos);
+                    if (distance < 2.0f)
+                    {
+                        canGo = false;
+                    }
+                }
+
+                data.UpdateTime += deltaTime;
+
                 if (canGo)
                 {
-                    List<Vector3> posList = null;
-                    bool canPass = npc.SpatialSystem.CanPass(npc.SpaceObject, targetPos);
-                    if (canPass)
+                    if (!npc.UnityPathFinding)
                     {
-                        posList = new List<Vector3>();
-                        posList.Add(srcPos);
-                        posList.Add(targetPos);
-                    }
-                    else
-                    {
-                        long stTime = TimeUtility.GetElapsedTimeUs();
-                        posList = npc.SpatialSystem.FindPath(srcPos, targetPos, npc.AvoidanceRadius);
-                        long endTime = TimeUtility.GetElapsedTimeUs();
-                        long calcTime = endTime - stTime;
-                        if (calcTime > 10000)
+                        List<Vector3> posList = null;
+                        bool canPass = npc.SpatialSystem.CanPass(npc.SpaceObject, targetPos);
+                        if (canPass)
                         {
-                            LogSystem.Warn("*** pve FindPath consume {0} us,npc:{1} from:{2} to:{3} radius:{4} pos:{5}", calcTime, npc.GetId(), srcPos.ToString(), targetPos.ToString(), npc.AvoidanceRadius, npc.GetMovementStateInfo().GetPosition3D().ToString());
+                            posList = new List<Vector3>();
+                            posList.Add(srcPos);
+                            posList.Add(targetPos);
                         }
-                    }
-                    if (posList.Count >= 2)
-                    {
-                        data.SetPathPoints(posList[0], posList, 1);
-                    }
-                    else
-                    {
-                        npc.GetMovementStateInfo().IsMoving = false;
-                        logic.NotifyNpcMove(npc);
-                        data.IsUsingAvoidanceVelocity = false;
+                        else
+                        {
+                            long stTime = TimeUtility.GetElapsedTimeUs();
+                            posList = npc.SpatialSystem.FindPath(srcPos, targetPos, npc.AvoidanceRadius);
+                            long endTime = TimeUtility.GetElapsedTimeUs();
+                            long calcTime = endTime - stTime;
+                            if (calcTime > 10000)
+                            {
+                                LogSystem.Warn("*** pve FindPath consume {0} us,npc:{1} from:{2} to:{3} radius:{4} pos:{5}", calcTime, npc.GetId(), srcPos.ToString(), targetPos.ToString(), npc.AvoidanceRadius, npc.GetMovementStateInfo().GetPosition3D().ToString());
+                            }
+                        }
+                        if (posList.Count >= 2)
+                        {
+                            data.SetPathPoints(posList[0], posList, 1);
+                        }
+                        else
+                        {
+                            npc.GetMovementStateInfo().IsMoving = false;
+                            logic.NotifyNpcMove(npc);
+                            data.IsUsingAvoidanceVelocity = false;
+                        }
                     }
                     bool havePathPoint = data.HavePathPoint;
                     if (havePathPoint)
