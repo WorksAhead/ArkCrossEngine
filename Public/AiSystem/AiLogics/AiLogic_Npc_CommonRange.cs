@@ -129,7 +129,23 @@ namespace ArkCrossEngine
                         if (info.Time > m_IntervalTime)
                         {
                             info.Time = 0;
-                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            if (!npc.UnityPathFinding)
+                            {
+                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            }
+                            else
+                            {
+                                if (!npc.PathFindingFinished)
+                                {
+                                    GfxSystem.NpcCommonRangePathToTarget(npc, targetPos);
+                                    ChangeToState(npc, (int)AiStateId.PathFinding);
+                                }
+                                else
+                                {
+                                    npc.PathFindingFinished = false;
+                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                }
+                            }
                         }
                         return;
                     }
@@ -142,7 +158,23 @@ namespace ArkCrossEngine
                         {
                             NotifyNpcRun(npc);
                             info.Time = 0;
-                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            if (!npc.UnityPathFinding)
+                            {
+                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                            }
+                            else
+                            {
+                                if (!npc.PathFindingFinished)
+                                {
+                                    GfxSystem.NpcCommonRangePathToTarget(npc, targetPos);
+                                    ChangeToState(npc, (int)AiStateId.PathFinding);
+                                }
+                                else
+                                {
+                                    npc.PathFindingFinished = false;
+                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                }
+                            }
                         }
                     }
                     else /* if(powDist > m_EscapeRange * m_EscapeRange) */
@@ -170,13 +202,47 @@ namespace ArkCrossEngine
                                             if (AiLogicUtility.GetEscapeTargetPos(npc, target, 3.0f, ref escapePos))
                                             {
                                                 NotifyNpcRun(npc);
-                                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, escapePos, m_IntervalTime, true, this);
+                                                if (!npc.UnityPathFinding)
+                                                {
+                                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                                }
+                                                else
+                                                {
+                                                    if (!npc.PathFindingFinished)
+                                                    {
+
+                                                        GfxSystem.NpcCommonRangePathToTarget(npc, targetPos);
+                                                        ChangeToState(npc, (int)AiStateId.PathFinding);
+                                                    }
+                                                    else
+                                                    {
+                                                        npc.PathFindingFinished = false;
+                                                        AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                                    }
+                                                }
                                             }
                                         }
                                         else
                                         {
                                             NotifyNpcRun(npc);
-                                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                            if (!npc.UnityPathFinding)
+                                            {
+                                                AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                            }
+                                            else
+                                            {
+                                                if (!npc.PathFindingFinished)
+                                                {
+
+                                                    GfxSystem.NpcCommonRangePathToTarget(npc, targetPos);
+                                                    ChangeToState(npc, (int)AiStateId.PathFinding);
+                                                }
+                                                else
+                                                {
+                                                    npc.PathFindingFinished = false;
+                                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -219,7 +285,24 @@ namespace ArkCrossEngine
                                 {
                                     info.Time = 0;
                                     NotifyNpcWalk(npc);
-                                    AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                    if (!npc.UnityPathFinding)
+                                    {
+                                        AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                    }
+                                    else
+                                    {
+                                        if (!npc.PathFindingFinished)
+                                        {
+
+                                            GfxSystem.NpcCommonRangePathToTarget(npc, targetPos);
+                                            ChangeToState(npc, (int)AiStateId.PathFinding);
+                                        }
+                                        else
+                                        {
+                                            npc.PathFindingFinished = false;
+                                            AiLogicUtility.PathToTargetWithoutObstacle(npc, data.FoundPath, targetPos, m_IntervalTime, true, this);
+                                        }
+                                    }
                                 }
                                 if (data.ChaseWalkTime > m_ChaseWalkMaxTime)
                                 {
@@ -328,7 +411,7 @@ namespace ArkCrossEngine
 
             if (npc.PathFindingFinished)
             {
-                npc.PathFindingFinished = false;
+                // npc.PathFindingFinished = false;
                 NpcAiStateInfo info = npc.GetAiStateInfo();
                 ChangeToState(npc, info.PreviousState);
             }
