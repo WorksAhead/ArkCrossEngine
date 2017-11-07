@@ -54,7 +54,7 @@ namespace Lobby
         {
             get { return m_MpveMatchUserScore; }
         }
-        internal bool IsMeetTime(int type)
+        internal virtual bool IsMeetTime(int type)
         {
             bool ret = false;
             DateTime time = DateTime.Now;
@@ -292,6 +292,20 @@ namespace Lobby
                 ret.Add(TeamOperateResult.OR_Unknown);
             }
             return ret.Count > 0 ? false : true;
+        }
+    }
+
+    internal class CommonSceneMpve : MpveMatchHelper
+    {
+        internal override bool CanMatchMpve(ulong guid, out List<string> nick, out List<TeamOperateResult> ret)
+        {
+            nick = new List<string>();
+            ret = new List<TeamOperateResult>();
+            return true;
+        }
+        internal override bool IsMeetTime(int type)
+        {
+            return true;
         }
     }
 }

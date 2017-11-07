@@ -48,6 +48,19 @@ namespace DashFire
             Interlocked.Increment(ref preactive_room_count_);
         }
 
+        internal void AddNewUsr(int roomid, User[] users)
+        {
+            Room rm = GetRoomByID(roomid);
+            if (rm != null)
+            {
+                foreach (User us in users)
+                {
+                    LogSys.Log(LOG_TYPE.INFO, "[3] active room {0} scene {1} thread {2} for user {3}({4})", roomid, scenetype, cur_thread_id_, us.Guid, us.GetKey());
+                    rm.AddNewUser(us);
+                }
+            }
+        }
+
         internal void ActiveRoom(int roomid, int scenetype, User[] users)
         {
             LogSys.Log(LOG_TYPE.INFO, "[0] active room {0} scene {1} thread {2} for {3} users", roomid, scenetype, cur_thread_id_, users.Length);

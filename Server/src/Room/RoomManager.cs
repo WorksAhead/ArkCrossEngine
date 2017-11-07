@@ -138,6 +138,26 @@ namespace DashFire
             return true;
         }
 
+        internal bool AddNewUsr(int roomid, User[] users)
+        {
+            int thread_id = GetIdleThread();
+            if (thread_id < 0)
+            {
+                LogSys.Log(LOG_TYPE.ERROR, "all room are using, active room failed!");
+                foreach (User u in users)
+                {
+                    LogSys.Log(LOG_TYPE.INFO, "FreeUser {0} for {1} {2}, [RoomManager.ActiveRoom]", u.LocalID, u.Guid, u.GetKey());
+                    user_pool_.FreeUser(u.LocalID);
+                }
+                return false;
+            }
+            RoomThread roomThread = roomthread_list_[thread_id];
+            AddActiveRoom(roomid, thread_id);
+            roomThread.PreActiveRoom();
+            roomThread.QueueAction(roomThread.AddNewUsr, roomid, users);
+            return true;
+        }
+
         //--------------------------------------
         internal void RegisterMsgHandler(PBChannel channel)
         {

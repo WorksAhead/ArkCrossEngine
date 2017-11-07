@@ -167,7 +167,12 @@ namespace Lobby
                     else
                     {
                         MpveMatchHelper helper = null;
-                        if (m_MpveMatch.TryGetValue(type, out helper))
+                        if (!m_MpveMatch.TryGetValue(type, out helper))
+                        {
+                            helper = new CommonSceneMpve();
+                            m_MpveMatch.Add(type, helper);
+                        }
+
                         {
                             List<string> nick = null;
                             List<TeamOperateResult> ret = null;

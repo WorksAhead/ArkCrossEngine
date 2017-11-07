@@ -77,6 +77,12 @@ message Msg_LR_CreateBattleRoom
 	repeated Msg_LR_RoomUserInfo Users = 3;
 }
 
+message Msg_LR_AddNewUsr
+{
+	required int32 RoomId = 1;
+	repeated Msg_LR_RoomUserInfo Users = 3;
+}
+
 message Msg_RL_ReplyCreateBattleRoom
 {
 	required int32 RoomId = 1;

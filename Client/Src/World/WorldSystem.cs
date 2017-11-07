@@ -801,8 +801,19 @@ namespace ArkCrossEngine
             }
             if (IsMultiPveScene() && m_CurScene.IsWaitRoomServerConnect && !m_CurScene.IsNoticeException)
             {
+
+                if (m_IsSceneRequested == false)
+                {
+                    LobbyNetworkSystem.Instance.RequestMatchMpve(1020);
+                    m_IsSceneRequested = true;
+                }
+
+                m_DelayActionProcessor.HandleActions(100);
+
+
                 if (curTime > m_LastTryChangeSceneTime + c_ExceptionGotoMainCityTimeout)
                 {
+                    
                     m_CurScene.IsNoticeException = true;
                     m_LastTryChangeSceneTime = curTime;
                     GfxSystem.PublishGfxEvent("ge_show_exception_dialog", "ui", Dict.Get(34), Dict.Get(4), null, null, true);
@@ -4465,6 +4476,8 @@ namespace ArkCrossEngine
         private bool m_IsCameraInCombatState = true;
         private bool m_ForceUpdateCamerState = false;
         private bool m_IsAreaClear = true;
+
+        private bool m_IsSceneRequested = false;
 
         //冒血缓存处理数据
         private int m_CurIdx = 0;

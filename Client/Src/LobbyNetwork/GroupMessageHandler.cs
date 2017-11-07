@@ -380,6 +380,12 @@ namespace ArkCrossEngine.Network
                     WorldSystem.Instance.WaitMatchSceneId = -1;
                 }
                 GfxSystem.PublishGfxEvent("ge_mpve_match_result", "group", protoData.m_Nick, protoData.m_Result, protoData.m_Type);
+
+                // temp
+                if ((int)TeamOperateResult.OR_Succeed == protoData.m_Result)
+                {
+                    LobbyNetworkSystem.Instance.StartMpve(1020);
+                }
             }
         }
     }
