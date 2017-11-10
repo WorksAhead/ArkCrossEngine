@@ -129,24 +129,16 @@ namespace LobbyRobot
 
         internal void Load(string gmTxt)
         {
-            m_StorySystem.LoadStoryText(gmTxt);
-
-            // find all waypoints data
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Robot");
-            string[] wps = Directory.GetFiles(path, "*.wp", SearchOption.TopDirectoryOnly);
-            if (wps == null || wps.Length == 0)
+            // m_StorySystem.LoadStoryText(gmTxt);
             {
-                return;
-            }
-
-            // choose random file
-            int num = m_Random.Next(0, wps.Length - 1);
-            string p = wps[num];
-
-            {
-                string[] allLines = File.ReadAllLines(p);
+                gmTxt = gmTxt.Replace("\n", "");
+                string[] allLines = gmTxt.Split('\r');
                 foreach(string line in allLines)
                 {
+                    // skip empty line
+                    if (String.IsNullOrEmpty(line))
+                        continue;
+
                     string[] pos = line.Split('\t');
                     if (pos.Length != 3)
                     {
@@ -164,12 +156,13 @@ namespace LobbyRobot
                 }
             }
         }
-        internal void Start(string url, string user, string pwd)
+        internal void Start(string url, string user, string pwd, int sceneId)
         {
             m_WaitLogin = true;
             m_Url = url;
             m_User = user;
             m_Pass = pwd;
+            m_SceneId = sceneId;
 
             m_WaitStart = false;
 
@@ -202,7 +195,11 @@ namespace LobbyRobot
                 //if (IsPositionEqual(m_CurrentPositionX, WayPoints[CurrentWayPointIndex].x) &&
                 //    IsPositionEqual(m_CurrentPositionY, WayPoints[CurrentWayPointIndex].y))
                 {
-                    CurrentWayPointIndex = (CurrentWayPointIndex + 1) % WayPoints.Count;
+                    Console.WriteLine("Updating Position...");
+
+                    // random next way point
+                    CurrentWayPointIndex = m_Random.Next(0, WayPoints.Count);
+                    //CurrentWayPointIndex = (CurrentWayPointIndex + 1) % WayPoints.Count;
                     UpdatePosition(WayPoints[CurrentWayPointIndex].x, WayPoints[CurrentWayPointIndex].y, 0);
                 }
 
@@ -237,7 +234,7 @@ namespace LobbyRobot
                 m_StorySystem.Tick();
 
                 long curTime = TimeUtility.GetLocalMilliseconds();
-                if (m_LastTickLogTime + 10000 < curTime)
+                if (m_LastTickLogTime + 1000 < curTime)
                 {
                     m_LastTickLogTime = curTime;
 
@@ -247,11 +244,11 @@ namespace LobbyRobot
                         LogSystem.Info("AverageRoundtripTime:{0} robot {1} {2}", AverageRoundtripTime, LobbyNetworkSystem.User, Robot.GetDateTime());
                     }
 
-                    if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing && m_LobbyNetworkSystem.LastConnectTime + 2000 < curTime && m_StorySystem.ActiveStoryCount <= 0)
-                    {
-                        LogSystem.Error("******************** robot {0} run failed, try again.{1}", LobbyNetworkSystem.User, Robot.GetDateTime());
-                        m_LobbyNetworkSystem.Disconnect();
-                    }
+//                     if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing /*&& m_LobbyNetworkSystem.LastConnectTime + 2000 < curTime*/ /*&& m_StorySystem.ActiveStoryCount <= 0*/)
+//                     {
+//                         LogSystem.Error("******************** robot {0} run failed, try again.{1}", LobbyNetworkSystem.User, Robot.GetDateTime());
+//                         //m_LobbyNetworkSystem.Disconnect();
+//                     }
                 }
 
                 LogicTick();
@@ -986,12 +983,12 @@ namespace LobbyRobot
                     if (!m_LobbyNetworkSystem.HasLoggedOn)
                     {
                         GlobalInfo.Instance.FinishLogin();
-                        m_StorySystem.StartStory(1, this);
+                        //m_StorySystem.StartStory(1, this);
                     }
                     m_LobbyNetworkSystem.IsLogining = false;
                     m_LobbyNetworkSystem.HasLoggedOn = true;
 
-                    ChangeScene(1010);
+                    ChangeScene(m_SceneId);
 
                     LogSystem.Info("Robot {0} is logged. {1}", LobbyNetworkSystem.User, Robot.GetDateTime());
                 }
@@ -1419,6 +1416,7 @@ namespace LobbyRobot
         private string m_Url = "";
         private string m_User = "";
         private string m_Pass = "";
+        private int m_SceneId = 0;
 
         private int m_CurScene = 1010;
         private int m_MyselfId = 0;
@@ -1433,7 +1431,7 @@ namespace LobbyRobot
         private const long c_TickLogInterval = 10000;
         private long m_LastTickLogTime = 0;
         private long m_LastTickLogicTime = 0;
-        private long m_DelayTimeRamdom = m_Random.Next(0, 5000);
+        private long m_DelayTimeRamdom = m_Random.Next(0, 20000);
         private bool m_DelayMoveStart = false;
         private long m_DelayTime = 0;
 
