@@ -475,9 +475,28 @@ namespace ArkCrossEngine
                 List<GameObject> subObjects = new List<GameObject>();
                 List<GameObject> clothObjects = new List<GameObject>();
 
+                
                 for (int i = 0; i < equips.Count; ++i)
                 {
-                    GameObject go = GameObject.Instantiate(ResourceManager.Instance.GetSharedResource(equips[i])) as GameObject;
+                    // temp, change suit random
+                    int equipIndex = Random.Range(1, 3);
+
+                    Object equipObj = null;
+                    equips[i] = equips[i].Replace("Equip_1", "Equip_"+equipIndex);
+                    try
+                    {
+                        equipObj = ResourceManager.Instance.GetSharedResource(equips[i]);
+                        if (equipObj == null)
+                        {
+                            continue;
+                        }
+                    }
+                    catch(System.Exception ex)
+                    {
+                        continue;
+                    }
+
+                    GameObject go = GameObject.Instantiate(equipObj) as GameObject;
                     Cloth cloth = go.GetComponentInChildren<Cloth>();
 
                     if (cloth == null)
@@ -563,9 +582,10 @@ namespace ArkCrossEngine
             r.sharedMesh = new Mesh();
             r.sharedMesh.CombineMeshes(combineInstances.ToArray(), bAutoCombineMaterials, false);
             r.bones = bones.ToArray();
+
             if (bAutoCombineMaterials)
             {
-                ;
+                r.materials = TryCombineMaterial(combineInstances, materials.ToArray());
             }
             else
             {
@@ -602,56 +622,77 @@ namespace ArkCrossEngine
             }
         }
 
-        private void TryCombineMaterial(List<Material> materials)
+        private Material[] TryCombineMaterial(List<CombineInstance> combinedInstance, Material[] materials)
         {
-            if (materials.Count <= 1)
+            if (materials.Length <= 1)
             {
-                return;
+                return materials;
             }
 
             List<Texture> Albedos = new List<Texture>();
             List<Texture> Metallic = new List<Texture>();
             List<Texture> Normalmaps = new List<Texture>();
             int[] MaxTextureSize = new int[3];
-
-            // 1、check is same shader shared, find all shared textures
-            string firstShaderName = materials[0].shader.name;
-            for (int i = 1; i < materials.Count; ++i)
+            
+            // collect textures
+            for (int i = 0; i < materials.Length; ++i)
             {
-                Shader shader = materials[i].shader;
-                if (firstShaderName != shader.name)
+                var tex = materials[i].GetTexture("_MainTex");
+                if (tex != null)
                 {
-                    return;
+                    MaxTextureSize[0] += (int)Mathf.Max(tex.width, tex.height);
+                    if (Albedos.IndexOf(tex) == -1)
+                        Albedos.Add(tex);
                 }
-
-                Albedos.Add(materials[i].GetTexture("_MainTex"));
-                Metallic.Add(materials[i].GetTexture("_MetallicGlossMap"));
-                Normalmaps.Add(materials[i].GetTexture("_BumpMap"));
-
-                MaxTextureSize[0] += (int)Mathf.Max(Albedos[i].width, Albedos[i].height);
-                MaxTextureSize[1] += (int)Mathf.Max(Metallic[i].width, Albedos[i].height);
-                MaxTextureSize[2] += (int)Mathf.Max(Normalmaps[i].width, Albedos[i].height);
-            }
-
-            // 2、check texture combined size
-            if (MaxTextureSize[0] > 4096 || MaxTextureSize[1] > 4096 || MaxTextureSize[2] > 4096)
-            {
-                return;
+                tex = materials[i].GetTexture("_MetallicGlossMap");
+                if (tex != null)
+                {
+                    MaxTextureSize[1] += (int)Mathf.Max(tex.width, tex.height);
+                    if (Metallic.IndexOf(tex) == -1)
+                        Metallic.Add(tex);
+                }
+                tex = materials[i].GetTexture("_BumpMap");
+                if (tex != null)
+                {
+                    MaxTextureSize[2] += (int)Mathf.Max(tex.width, tex.height);
+                    if (Normalmaps.IndexOf(tex) == -1)
+                        Normalmaps.Add(tex);
+                }
             }
 
             // 3、combine
-            Material newMaterial = new Material(Shader.Find(firstShaderName));
-            List<Vector2> oldUV = new List<Vector2>();
+            Material newMaterial = new Material(materials[0].shader);
+
+            MaxTextureSize[0] = 4096;// UnityEngine.Mathf.NextPowerOfTwo(MaxTextureSize[0]);
+            MaxTextureSize[1] = 4096;//UnityEngine.Mathf.NextPowerOfTwo(MaxTextureSize[0]);
+            MaxTextureSize[2] = 4096;//UnityEngine.Mathf.NextPowerOfTwo(MaxTextureSize[0]);
 
             Texture2D newAlbodo = new Texture2D(MaxTextureSize[0], MaxTextureSize[0]);
             UnityEngine.Rect[] uvs1 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
             Texture2D newMetallic = new Texture2D(MaxTextureSize[1], MaxTextureSize[1]);
-            UnityEngine.Rect[] uvs2 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
+            UnityEngine.Rect[] uvs2 = newAlbodo.PackTextures(Metallic.ToArray() as Texture2D[], 0);
             Texture2D newNormaps = new Texture2D(MaxTextureSize[2], MaxTextureSize[2]);
-            UnityEngine.Rect[] uvs3 = newAlbodo.PackTextures(Albedos.ToArray() as Texture2D[], 0);
+            UnityEngine.Rect[] uvs3 = newAlbodo.PackTextures(Normalmaps.ToArray() as Texture2D[], 0);
 
-            // reset uv
-            // TODO...
+            newMaterial.SetTexture("_MainTex", newAlbodo);
+            newMaterial.SetTexture("_MetallicGlossMap", newMetallic);
+            newMaterial.SetTexture("_BumpMap", newNormaps);
+
+            UnityEngine.Vector2[] uva, uvb;
+            for (int i = 0; i < combinedInstance.Count; ++i)
+            {
+                uva = (UnityEngine.Vector2[])(combinedInstance[i].mesh.uv);
+                uvb = new UnityEngine.Vector2[uva.Length];
+
+                for (int j = 0; j < uva.Length; ++j)
+                {
+                    uvb[j] = new UnityEngine.Vector2(uva[j].x * uvs1[i].width + uvs1[i].x, uva[j].y * uvs1[i].height + uvs1[i].y);
+                }
+
+                combinedInstance[i].mesh.uv = uvb;
+            }
+
+            return new Material[] { newMaterial };
         }
 
         private Transform DestroyCurEquip(GameObject obj, string equip_name)
@@ -1774,9 +1815,9 @@ namespace ArkCrossEngine
         internal float SampleTerrainHeight(float x, float z)
         {
             float y = c_MinTerrainHeight;
-            if (false/*null != Terrain.activeTerrain*/)
+            if (null != Terrain.activeTerrain)
             {
-                y = Terrain.activeTerrain.SampleHeight(new UnityEngine.Vector3(x, c_MinTerrainHeight, z));
+                y = Terrain.activeTerrain.SampleHeight(new UnityEngine.Vector3(x, c_MinTerrainHeight, z)) + Terrain.activeTerrain.transform.position.y;
             }
             else
             {
@@ -2420,6 +2461,6 @@ namespace ArkCrossEngine
 
         private long m_LastLogTime = 0;
 
-        private float c_MinTerrainHeight = 240.0f;
+        private float c_MinTerrainHeight = 24.0f;
     }
 }

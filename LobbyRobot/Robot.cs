@@ -49,7 +49,7 @@ namespace LobbyRobot
         SP_B,
         SP_C,
         SP_D,
-    }
+    } 
     internal sealed class Robot
     {
         internal LobbyNetworkSystem LobbyNetworkSystem
@@ -187,7 +187,7 @@ namespace LobbyRobot
                 m_DelayMoveStart = true;
             }
             
-            if (curTime - m_LastTickLogicTime > 10000)
+            if (curTime - m_LastTickLogicTime > 7000)
             {
                 // request user positions
                 // RequestUserPosition();

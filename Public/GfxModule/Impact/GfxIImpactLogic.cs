@@ -469,7 +469,7 @@ namespace GfxModule.Impact
         {
             if (Terrain.activeTerrain != null)
             {
-                return Terrain.activeTerrain.SampleHeight(pos);
+                return Terrain.activeTerrain.SampleHeight(pos) + Terrain.activeTerrain.transform.position.y;
             }
             else
             {

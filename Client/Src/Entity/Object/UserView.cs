@@ -78,9 +78,6 @@ namespace ArkCrossEngine
                 return;
             }
 
-            // 华为展示不需要换装功能,暂注
-            return;
-
             //string playerModel = playerConfig.m_Model;
             List<string> skinnedModels = new List<string>();
             
@@ -118,6 +115,7 @@ namespace ArkCrossEngine
             {
                 return;
             }
+
             string wear_node_and_name = equip.ItemConfig.m_WearNodeAndName;
             string new_equip = equip.ItemConfig.m_Model;
             GfxSystem.ChangeEquip(Actor, wear_node_and_name, new_equip);

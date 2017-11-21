@@ -3611,6 +3611,7 @@ namespace Lobby
                             info.m_XSoulItemId = 0;
                         }
 
+                        /*
                         ItemInfo wingItemInfo = user.Equip.GetEquipmentData((int)EquipmentType.E_Wing);
                         if (null != wingItemInfo)
                         {
@@ -3618,6 +3619,7 @@ namespace Lobby
                             info.m_WingLevel = wingItemInfo.Level;
                         }
                         else
+                        */
                         {
                             info.m_WingItemId = 0;
                         }
