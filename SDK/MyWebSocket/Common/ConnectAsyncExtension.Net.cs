@@ -33,7 +33,7 @@ namespace SuperSocket.ClientEngine
 
             var currentIndex = state.NextAddressIndex;
 
-            while(attempSocket == null)
+            while (attempSocket == null)
             {
                 if (currentIndex >= state.Addresses.Length)
                     return null;
@@ -54,123 +54,125 @@ namespace SuperSocket.ClientEngine
             return address;
         }
 
-        static partial void CreateAttempSocket(DnsConnectState connectState);        
+        static partial void CreateAttempSocket(DnsConnectState connectState);
 
         //异步创建网络连接
         private static void MyConnectAsyncInternal(this EndPoint remoteEndPoint, MyConnectedCallback callback, object state)
         {
-          if (remoteEndPoint is DnsEndPoint)
-          {
-            var dnsEndPoint = (DnsEndPoint)remoteEndPoint;
+            if (remoteEndPoint is DnsEndPoint)
+            {
+                var dnsEndPoint = (DnsEndPoint)remoteEndPoint;
 
-            var asyncResult = Dns.BeginGetHostAddresses(dnsEndPoint.Host, MyOnGetHostAddresses,
-                new DnsConnectState
-                {
-                  Port = dnsEndPoint.Port,
-                  Callback = callback,
-                  State = state
-                });
+                var asyncResult = Dns.BeginGetHostAddresses(dnsEndPoint.Host, MyOnGetHostAddresses,
+                    new DnsConnectState
+                    {
+                        Port = dnsEndPoint.Port,
+                        Callback = callback,
+                        State = state
+                    });
 
-            if (asyncResult.CompletedSynchronously)
-              MyOnGetHostAddresses(asyncResult);
-          }
-          else
-          {
-            var e = MyCreateSocketAsyncArgs(remoteEndPoint, callback, state);
-            var socket = new Socket(remoteEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            e.AcceptSocket = socket;
-            socket.BeginConnect(remoteEndPoint, new AsyncCallback(MyConnectionCallback), e);
-          }
-        }        
+                if (asyncResult.CompletedSynchronously)
+                    MyOnGetHostAddresses(asyncResult);
+            }
+            else
+            {
+                var e = MyCreateSocketAsyncArgs(remoteEndPoint, callback, state);
+                var socket = new Socket(remoteEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                e.AcceptSocket = socket;
+                socket.BeginConnect(remoteEndPoint, new AsyncCallback(MyConnectionCallback), e);
+            }
+        }
         //创建自定义连接参数
         static MySocketAsyncArgs MyCreateSocketAsyncArgs(EndPoint remoteEndPoint, MyConnectedCallback callback, object state)
         {
-          var e = new MySocketAsyncArgs();
-          e.State = state;
-          e.Callback = callback;
-          e.RemoteEndPoint = remoteEndPoint;
-          return e;
+            var e = new MySocketAsyncArgs();
+            e.State = state;
+            e.Callback = callback;
+            e.RemoteEndPoint = remoteEndPoint;
+            return e;
         }
         //异步创建连接的回调方法
         private static void MyConnectionCallback(IAsyncResult ar)
         {
-          MySocketAsyncArgs args = (MySocketAsyncArgs)ar.AsyncState;
-          try
-          {
-            args.AcceptSocket.EndConnect(ar);
+            MySocketAsyncArgs args = (MySocketAsyncArgs)ar.AsyncState;
+            try
+            {
+                args.AcceptSocket.EndConnect(ar);
                 //args.AcceptSocket.Blocking = true;
-            //args.AcceptSocket.SendTimeout = 3;
-            //args.AcceptSocket.ReceiveTimeout = 3;
-            args.SocketError = SocketError.Success;
-            //连接成功，主动调用原事件            
-            args.Callback(args.AcceptSocket, args.State, args);
-          }
-          catch (System.Exception ex)
-          {
-            // 错误处理
-            if (ex.GetType() == typeof(SocketException))
-            {
-              if (((SocketException)ex).SocketErrorCode == SocketError.ConnectionRefused)
-              {
-                //连接被服务器拒绝
-              }
-              else
-              {
-                //连接丢失
-              }
+                args.AcceptSocket.SendTimeout = 10;
+                args.AcceptSocket.ReceiveTimeout = 10;
+                args.SocketError = SocketError.Success;
+                //连接成功，主动调用原事件            
+                args.Callback(args.AcceptSocket, args.State, args);
             }
-            if (args.AcceptSocket.Connected)
+            catch (System.Exception ex)
             {
-              args.AcceptSocket.Shutdown(SocketShutdown.Receive);
-              args.AcceptSocket.Close(0);
+                // 错误处理
+                if (ex.GetType() == typeof(SocketException))
+                {
+                    if (((SocketException)ex).SocketErrorCode == SocketError.ConnectionRefused)
+                    {
+                        //连接被服务器拒绝
+                        throw new Exception("socket error because of connection refused.");
+                    }
+                    else
+                    {
+                        //连接丢失
+                        throw new Exception("socket error: " + ex.Message);
+                    }
+                }
+                if (args.AcceptSocket.Connected)
+                {
+                    args.AcceptSocket.Shutdown(SocketShutdown.Receive);
+                    args.AcceptSocket.Close(0);
+                }
+                else
+                {
+                    args.AcceptSocket.Close();
+                }
             }
-            else
-            {
-              args.AcceptSocket.Close();
-            }
-          }
         }
         private static void MyOnGetHostAddresses(IAsyncResult result)
         {
-          var connectState = result.AsyncState as DnsConnectState;
+            var connectState = result.AsyncState as DnsConnectState;
 
-          IPAddress[] addresses;
+            IPAddress[] addresses;
 
-          try
-          {
-            addresses = Dns.EndGetHostAddresses(result);
-          }
-          catch
-          {
-            connectState.Callback(null, connectState.State, null);
-            return;
-          }
+            try
+            {
+                addresses = Dns.EndGetHostAddresses(result);
+            }
+            catch
+            {
+                connectState.Callback(null, connectState.State, null);
+                return;
+            }
 
-          if (addresses == null || addresses.Length <= 0)
-          {
-            connectState.Callback(null, connectState.State, null);
-            return;
-          }
+            if (addresses == null || addresses.Length <= 0)
+            {
+                connectState.Callback(null, connectState.State, null);
+                return;
+            }
 
-          connectState.Addresses = addresses;
+            connectState.Addresses = addresses;
 
-          CreateAttempSocket(connectState);
+            CreateAttempSocket(connectState);
 
-          Socket attempSocket;
+            Socket attempSocket;
 
-          var address = GetNextAddress(connectState, out attempSocket);
+            var address = GetNextAddress(connectState, out attempSocket);
 
-          if (address == null)
-          {
-            connectState.Callback(null, connectState.State, null);
-            return;
-          }
+            if (address == null)
+            {
+                connectState.Callback(null, connectState.State, null);
+                return;
+            }
 
-          var ipEndPoint = new IPEndPoint(address, connectState.Port);
-          var e = MyCreateSocketAsyncArgs(ipEndPoint, connectState.Callback, null);
-          var socket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-          e.AcceptSocket = socket;
-          socket.BeginConnect(ipEndPoint, new AsyncCallback(MyConnectionCallback), e);
+            var ipEndPoint = new IPEndPoint(address, connectState.Port);
+            var e = MyCreateSocketAsyncArgs(ipEndPoint, connectState.Callback, null);
+            var socket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            e.AcceptSocket = socket;
+            socket.BeginConnect(ipEndPoint, new AsyncCallback(MyConnectionCallback), e);
         }
     }
 }

@@ -4449,7 +4449,7 @@ namespace ArkCrossEngine
         private int m_CurCityUserTickCount = 0;
 
         private const int c_CityUserUpdatePositionTickNum = 1;
-        private const int c_MaxCityUsers = 100;
+        private const int c_MaxCityUsers = 500;
         private int m_NextCityUserId = 2;
 
         private const int c_MaxCityUserWithModel = 30;
