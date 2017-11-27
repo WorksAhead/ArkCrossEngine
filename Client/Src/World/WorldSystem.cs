@@ -1245,6 +1245,7 @@ namespace ArkCrossEngine
                             user.GetXSoulInfo().SetXSoulPartData(XSoulPart.kWeapon, xsoul);
                         }
 
+                        /*
                         if (wingItemId > 0)
                         {
                             ItemDataInfo itemInfo2 = new ItemDataInfo();
@@ -1252,10 +1253,15 @@ namespace ArkCrossEngine
                             itemInfo2.Level = wingLevel;
                             user.GetEquipmentStateInfo().SetEquipmentData((int)EquipmentType.E_Wing, itemInfo2);
                         }
+                        */
 
                         EntityManager.Instance.CreateUserView(id);
 
-                        SyncGfxUserInfo(id);
+                        // disable name plate if too many player
+                        if (m_CurCityUserWithModelCount < c_MaxCityUserWithModel)
+                        {
+                            SyncGfxUserInfo(id);
+                        }
                     }
                 }
             }
@@ -4454,10 +4460,10 @@ namespace ArkCrossEngine
         private int m_CurCityUserTickCount = 0;
 
         private const int c_CityUserUpdatePositionTickNum = 1;
-        private const int c_MaxCityUsers = 100;
+        private const int c_MaxCityUsers = 500;
         private int m_NextCityUserId = 2;
 
-        private const int c_MaxCityUserWithModel = 500;
+        private const int c_MaxCityUserWithModel = 30;
         private const int c_LowModelIdDeviation = 100;
         private const int c_LowModelId2Deviation = 200;
         private int m_CurCityUserWithModelCount = 0;

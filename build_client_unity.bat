@@ -22,10 +22,10 @@ set logdir=%workdir%\BuildLog
 
 rem xbuild is copy from mono-3.0.3/lib/mono/4.5
 rem this xbuild will probably not work in a clean machine
-set xbuild=%workdir%\Tools\xbuild\xbuild.exe
+set xbuild=%workdir%\Tools\lib\mono\4.5\xbuild.exe
 
 rem mdb generator
-set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.0\pdb2mdb.exe
+set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.5\pdb2mdb.exe
 
 rem show xbuild version
 %xbuild% /version
@@ -61,6 +61,14 @@ echo "update binaries"
 xcopy %workdir%\Bin\*.dll %plugindir% /y /q
 xcopy %workdir%\Bin\*.mdb %plugindir% /y /q
 del /a /f %plugindir%\UnityEngine.dll
+del /a /f %plugindir%\UnityEngine.AIModule.dll
+del /a /f %plugindir%\UnityEngine.AnimationModule.dll
+del /a /f %plugindir%\UnityEngine.AudioModule.dll
+del /a /f %plugindir%\UnityEngine.ClothModule.dll
+del /a /f %plugindir%\UnityEngine.CoreModule.dll
+del /a /f %plugindir%\UnityEngine.ParticleSystemModule.dll
+del /a /f %plugindir%\UnityEngine.PhysicsModule.dll
+del /a /f %plugindir%\UnityEngine.TerrainModule.dll
 if NOT %ERRORLEVEL% EQU 0 (
   echo copy failed, exclusive access error? check your running process and retry.
   goto error_end

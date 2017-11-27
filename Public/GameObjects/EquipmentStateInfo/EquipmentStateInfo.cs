@@ -2,7 +2,7 @@
 {
     public class EquipmentInfo
     {
-        public const int c_MaxEquipmentNum = 8;
+        public const int c_MaxEquipmentNum = (int)EquipmentType.MaxNum;
         public ItemDataInfo[] Armor
         {
             get
@@ -22,7 +22,7 @@
 
     public class EquipmentStateInfo
     {
-        public const int c_EquipmentCapacity = 8;
+        public const int c_EquipmentCapacity = (int)EquipmentType.MaxNum;
         public bool EquipmentChanged
         {
             get { return m_EquipmentChanged; }

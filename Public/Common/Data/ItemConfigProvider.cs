@@ -12,13 +12,18 @@ namespace ArkCrossEngine
     public enum EquipmentType : int
     {
         E_Weapon = 0,
-        E_Clothes = 1,
-        E_Hat = 2,
-        E_Shoes = 3,
-        E_Jewelry = 4,
-        E_Ring = 5,
-        E_Fashion = 6,
-        E_Wing = 7,
+
+        E_Head = 1,
+        E_Hair = 2,
+        E_TouShi = 3,
+
+        E_Shenti = 4,
+        E_Jianjia = 5,
+        E_Qunbai = 6,
+
+        E_Tui = 7,
+        E_Shou = 8,
+        
         MaxNum
     }
     public enum ElementDamageType : int

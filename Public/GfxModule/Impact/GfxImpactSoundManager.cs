@@ -52,6 +52,7 @@ namespace GfxModule.Impact
         }
         public void UpdateSoundInfos()
         {
+            /*
             List<GfxImpactSoundInfo> deletes = new List<GfxImpactSoundInfo>();
             for (int i = 0; i < m_SoundInfos.Count; ++i)
             {
@@ -63,6 +64,20 @@ namespace GfxModule.Impact
             for (int i = 0; i < deletes.Count; ++i)
             {
                 m_SoundInfos.Remove(deletes[i]);
+            }
+            */
+
+            int index = 0;
+            while (index < m_SoundInfos.Count)
+            {
+                if (Time.time - m_SoundInfos[index].StartTime > m_PeriodTime)
+                {
+                    m_SoundInfos.RemoveAt(index);
+                }
+                else
+                {
+                    index++;
+                }
             }
         }
         public static GfxImpactSoundManager Instacne

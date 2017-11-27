@@ -49,7 +49,7 @@ namespace LobbyRobot
         SP_B,
         SP_C,
         SP_D,
-    }
+    } 
     internal sealed class Robot
     {
         internal LobbyNetworkSystem LobbyNetworkSystem
@@ -129,44 +129,40 @@ namespace LobbyRobot
 
         internal void Load(string gmTxt)
         {
-            m_StorySystem.LoadStoryText(gmTxt);
-
-            // find all waypoints data
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Robot");
-            string[] wps = Directory.GetFiles(path, "*.wp", SearchOption.TopDirectoryOnly);
-            if (wps == null || wps.Length == 0)
+            // m_StorySystem.LoadStoryText(gmTxt);
             {
-                return;
-            }
-
-            // choose random file
-            int num = m_Random.Next(0, wps.Length - 1);
-            string p = wps[num];
-
-            {
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.Read);
-                byte[] bytes = new byte[4];
-                stream.Read(bytes, 0, 4);
-                int len = BitConverter.ToInt32(bytes, 0);
-
-                for (int i = 0; i < len; ++i)
+                gmTxt = gmTxt.Replace("\n", "");
+                string[] allLines = gmTxt.Split('\r');
+                foreach(string line in allLines)
                 {
-                    WayPoint w = new WayPoint();
-                    stream.Read(bytes, 0, 4);
-                    w.x = BitConverter.ToSingle(bytes, 0);
-                    stream.Read(bytes, 0, 4);
-                    w.y = BitConverter.ToSingle(bytes, 0);
-                    WayPoints.Add(w);
+                    // skip empty line
+                    if (String.IsNullOrEmpty(line))
+                        continue;
+
+                    string[] pos = line.Split('\t');
+                    if (pos.Length != 3)
+                    {
+                        continue;
+                    }
+
+                    WayPoint wp = new WayPoint();
+                    float x, y;
+                    if (float.TryParse(pos[0], out x) && float.TryParse(pos[2], out y))
+                    {
+                        wp.x = x;
+                        wp.y = y;
+                        WayPoints.Add(wp);
+                    }
                 }
             }
         }
-        internal void Start(string url, string user, string pwd)
+        internal void Start(string url, string user, string pwd, int sceneId)
         {
             m_WaitLogin = true;
             m_Url = url;
             m_User = user;
             m_Pass = pwd;
+            m_SceneId = sceneId;
 
             m_WaitStart = false;
 
@@ -190,14 +186,30 @@ namespace LobbyRobot
             {
                 m_DelayMoveStart = true;
             }
-
             
-            if (curTime - m_LastTickLogicTime > 10000)
+            if (curTime - m_LastTickLogicTime > 7000)
             {
-                UpdatePosition(WayPoints[CurrentWayPointIndex].x, WayPoints[CurrentWayPointIndex].y, 0);
+                // request user positions
+                // RequestUserPosition();
 
-                CurrentWayPointIndex = (CurrentWayPointIndex + 10) % WayPoints.Count;
+                //if (IsPositionEqual(m_CurrentPositionX, WayPoints[CurrentWayPointIndex].x) &&
+                //    IsPositionEqual(m_CurrentPositionY, WayPoints[CurrentWayPointIndex].y))
+                {
+                    Console.WriteLine("Updating Position...");
+
+                    // random next way point
+                    CurrentWayPointIndex = m_Random.Next(0, WayPoints.Count);
+                    //CurrentWayPointIndex = (CurrentWayPointIndex + 1) % WayPoints.Count;
+                    UpdatePosition(WayPoints[CurrentWayPointIndex].x, WayPoints[CurrentWayPointIndex].y, 0);
+                }
+
+                m_LastTickLogicTime = curTime;
             }
+        }
+
+        internal bool IsPositionEqual(float x, float y)
+        {
+            return Math.Abs(x - y) < 0.001f;
         }
 
         internal void Tick()
@@ -222,7 +234,7 @@ namespace LobbyRobot
                 m_StorySystem.Tick();
 
                 long curTime = TimeUtility.GetLocalMilliseconds();
-                if (m_LastTickLogTime + 10000 < curTime)
+                if (m_LastTickLogTime + 1000 < curTime)
                 {
                     m_LastTickLogTime = curTime;
 
@@ -232,11 +244,11 @@ namespace LobbyRobot
                         LogSystem.Info("AverageRoundtripTime:{0} robot {1} {2}", AverageRoundtripTime, LobbyNetworkSystem.User, Robot.GetDateTime());
                     }
 
-                    if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing && m_LobbyNetworkSystem.LastConnectTime + 2000 < curTime && m_StorySystem.ActiveStoryCount <= 0)
-                    {
-                        LogSystem.Error("******************** robot {0} run failed, try again.{1}", LobbyNetworkSystem.User, Robot.GetDateTime());
-                        m_LobbyNetworkSystem.Disconnect();
-                    }
+//                     if (m_LobbyNetworkSystem.IsConnected && !m_LobbyNetworkSystem.IsQueueing /*&& m_LobbyNetworkSystem.LastConnectTime + 2000 < curTime*/ /*&& m_StorySystem.ActiveStoryCount <= 0*/)
+//                     {
+//                         LogSystem.Error("******************** robot {0} run failed, try again.{1}", LobbyNetworkSystem.User, Robot.GetDateTime());
+//                         //m_LobbyNetworkSystem.Disconnect();
+//                     }
                 }
 
                 LogicTick();
@@ -258,6 +270,24 @@ namespace LobbyRobot
             m_RoomNetworkSystem.SendMessage(msg);
         }
 
+        internal void ChangeScene(int id)
+        {
+            try
+            {
+                JsonMessage changeSceneMsg = new JsonMessage(JsonMessageID.ChangeCityScene);
+                changeSceneMsg.m_JsonData.SetJsonType(JsonType.Object);
+                changeSceneMsg.m_JsonData.Set("m_Guid", LobbyNetworkSystem.Guid);
+                ArkCrossEngineMessage.Msg_CL_ChangeCityScene protoData = new ArkCrossEngineMessage.Msg_CL_ChangeCityScene();
+                protoData.m_SceneId = id;
+
+                changeSceneMsg.m_ProtoData = protoData;
+                SendLobbyMessage(changeSceneMsg);
+            }
+            catch (Exception ex)
+            {
+                LogSystem.Error("Exception:{0}\n{1}", ex.Message, ex.StackTrace);
+            }
+        }
         internal void SelectScene(int id)
         {
             try
@@ -324,6 +354,24 @@ namespace LobbyRobot
                 reqMsg.m_JsonData.Set("m_Guid", LobbyNetworkSystem.Guid);
                 ArkCrossEngineMessage.Msg_CL_RequestUsers protoData = new ArkCrossEngineMessage.Msg_CL_RequestUsers();
                 protoData.m_Count = ct;
+
+                reqMsg.m_ProtoData = protoData;
+                SendLobbyMessage(reqMsg);
+            }
+            catch (Exception ex)
+            {
+                LogSystem.Error("Exception:{0}\n{1}", ex.Message, ex.StackTrace);
+            }
+        }
+
+        internal void RequestUserPosition()
+        {
+            try
+            {
+                JsonMessage reqMsg = new JsonMessage(JsonMessageID.RequestUserPosition);
+                reqMsg.m_JsonData.Set("m_Guid", LobbyNetworkSystem.Guid);
+                ArkCrossEngineMessage.Msg_CL_RequestUserPosition protoData = new ArkCrossEngineMessage.Msg_CL_RequestUserPosition();
+                protoData.m_User = LobbyNetworkSystem.Guid;
 
                 reqMsg.m_ProtoData = protoData;
                 SendLobbyMessage(reqMsg);
@@ -865,7 +913,7 @@ namespace LobbyRobot
                         JsonMessage sendMsg = new JsonMessage(JsonMessageID.CreateRole);
                         sendMsg.m_JsonData["m_Account"] = m_LobbyNetworkSystem.User;
                         sendMsg.m_JsonData["m_HeroId"] = 1;// Helper.Random.Next(1, 3);
-                        sendMsg.m_JsonData["m_Nickname"] = "gm007_" + m_LobbyNetworkSystem.User;
+                        sendMsg.m_JsonData["m_Nickname"] = "gm0026_" + m_LobbyNetworkSystem.User;
                         SendLobbyMessage(sendMsg);
 
                         LogSystem.Info("Create Role {0} {1}", m_LobbyNetworkSystem.User, Robot.GetDateTime());
@@ -935,10 +983,12 @@ namespace LobbyRobot
                     if (!m_LobbyNetworkSystem.HasLoggedOn)
                     {
                         GlobalInfo.Instance.FinishLogin();
-                        m_StorySystem.StartStory(1, this);
+                        //m_StorySystem.StartStory(1, this);
                     }
                     m_LobbyNetworkSystem.IsLogining = false;
                     m_LobbyNetworkSystem.HasLoggedOn = true;
+
+                    ChangeScene(m_SceneId);
 
                     LogSystem.Info("Robot {0} is logged. {1}", LobbyNetworkSystem.User, Robot.GetDateTime());
                 }
@@ -1203,6 +1253,17 @@ namespace LobbyRobot
                 LogSystem.Info("Robot {0} Gow result:{1}, my elo:{2}->{3} other elo:{4}->{5} {6}", LobbyNetworkSystem.User, result, oldelo, elo, enemyoldelo, enemyelo, Robot.GetDateTime());
             }
         }
+        private void HandleRequestUserPosition(JsonMessage lobbyMsg)
+        {
+            if (null == lobbyMsg) return;
+            JsonData jsonData = lobbyMsg.m_JsonData;
+            ArkCrossEngineMessage.Msg_LC_RequestUserPositionResult protoData = lobbyMsg.m_ProtoData as ArkCrossEngineMessage.Msg_LC_RequestUserPositionResult;
+            if (null != protoData)
+            {
+                m_CurrentPositionX = protoData.m_X;
+                m_CurrentPositionY = protoData.m_Z;
+            }
+        }
         private void HandleStageClearResult(JsonMessage lobbyMsg)
         {
             if (null == lobbyMsg) return;
@@ -1336,6 +1397,8 @@ namespace LobbyRobot
             RegisterMsgHandler(JsonMessageID.ExpeditionAwardResult, typeof(ArkCrossEngineMessage.Msg_LC_ExpeditionAwardResult), HandleExpeditionAwardResult);
             RegisterMsgHandler(JsonMessageID.SyncMpveBattleResult, typeof(ArkCrossEngineMessage.Msg_LC_SyncMpveBattleResult), HandleSyncMpveBattleResult);
             RegisterMsgHandler(JsonMessageID.SyncGowBattleResult, typeof(ArkCrossEngineMessage.Msg_LC_SyncGowBattleResult), HandleSyncGowBattleResult);
+
+            RegisterMsgHandler(JsonMessageID.RequestUserPositionResult, typeof(ArkCrossEngineMessage.Msg_LC_RequestUserPositionResult), HandleRequestUserPosition);
         }
 
         private void RegisterMsgHandler(JsonMessageID id, JsonMessageHandlerDelegate handler)
@@ -1353,6 +1416,7 @@ namespace LobbyRobot
         private string m_Url = "";
         private string m_User = "";
         private string m_Pass = "";
+        private int m_SceneId = 0;
 
         private int m_CurScene = 1010;
         private int m_MyselfId = 0;
@@ -1367,7 +1431,7 @@ namespace LobbyRobot
         private const long c_TickLogInterval = 10000;
         private long m_LastTickLogTime = 0;
         private long m_LastTickLogicTime = 0;
-        private long m_DelayTimeRamdom = m_Random.Next(0, 5000);
+        private long m_DelayTimeRamdom = m_Random.Next(0, 20000);
         private bool m_DelayMoveStart = false;
         private long m_DelayTime = 0;
 
@@ -1390,6 +1454,8 @@ namespace LobbyRobot
         }
         private List<WayPoint> WayPoints = new List<WayPoint>();
         private int CurrentWayPointIndex = 0;
+        private float m_CurrentPositionX;
+        private float m_CurrentPositionY;
 
         internal static CharacterRelation GetRelation(int campA, int campB)
         {

@@ -50,14 +50,17 @@ namespace LobbyRobot
             int robotGroup = int.Parse(args[0]);
             int threadNum = int.Parse(args[1]);
             int robotNum = int.Parse(args[2]);
-            string gmScript = args[3];
+            string wayPointScript = args[3];
             string url = args[4];
-            string gmTxt = File.ReadAllText(gmScript);
+            string gmTxt = File.ReadAllText(wayPointScript);
+            // file name as scene id
+            string filename = Path.GetFileNameWithoutExtension(wayPointScript);
+            int sceneId = int.Parse(filename);
             Console.WriteLine("====================================================");
             Console.WriteLine("robot group: {0}", robotGroup);
             Console.WriteLine("thread num: {0}", threadNum);
             Console.WriteLine("robot num per thread: {0}", robotNum);
-            Console.WriteLine("gmScript {0}:", gmScript);
+            Console.WriteLine("gmScript {0}:", wayPointScript);
             Console.WriteLine("url: {0}", url);
             Console.WriteLine("====================================================");
             Console.WriteLine("{0}", gmTxt);
@@ -107,7 +110,7 @@ namespace LobbyRobot
                 {
                     string user = string.Format("robot_{0}_{1}_{2}", robotGroup, i, j);
                     string pwd = "robot";
-                    thread.QueueAction(thread.AddRobot, url, user, pwd, gmTxt);
+                    thread.QueueAction(thread.AddRobot, url, user, pwd, gmTxt, sceneId);
                 }
             }
             Console.WriteLine("Enter infinite running ...");
