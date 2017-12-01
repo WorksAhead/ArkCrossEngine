@@ -40,6 +40,10 @@ namespace Lobby_RoomServer {
     internal static pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_CreateBattleRoom, global::Lobby_RoomServer.Msg_LR_CreateBattleRoom.Builder> internal__static_Msg_LR_CreateBattleRoom__FieldAccessorTable;
     internal static pbd::MessageDescriptor internal__static_Msg_RL_ReplyCreateBattleRoom__Descriptor;
     internal static pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_ReplyCreateBattleRoom, global::Lobby_RoomServer.Msg_RL_ReplyCreateBattleRoom.Builder> internal__static_Msg_RL_ReplyCreateBattleRoom__FieldAccessorTable;
+    internal static pbd::MessageDescriptor internal__static_Msg_LR_AddNewUsr__Descriptor;
+    internal static pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_AddNewUsr, global::Lobby_RoomServer.Msg_LR_AddNewUsr.Builder> internal__static_Msg_LR_AddNewUsr__FieldAccessorTable;
+    internal static pbd::MessageDescriptor internal__static_Msg_RL_ReplyAddNewUsr__Descriptor;
+    internal static pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr, global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr.Builder> internal__static_Msg_RL_ReplyAddNewUsr__FieldAccessorTable;
     internal static pbd::MessageDescriptor internal__static_Msg_RL_RoomServerUpdateInfo__Descriptor;
     internal static pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_RoomServerUpdateInfo, global::Lobby_RoomServer.Msg_RL_RoomServerUpdateInfo.Builder> internal__static_Msg_RL_RoomServerUpdateInfo__FieldAccessorTable;
     internal static pbd::MessageDescriptor internal__static_Msg_RL_UserLobbyItemInfo__Descriptor;
@@ -90,24 +94,27 @@ namespace Lobby_RoomServer {
           "IAIoCCJhChdNc2dfTFJfQ3JlYXRlQmF0dGxlUm9vbRIOCgZSb29tSWQYASAC" + 
           "KAUSEQoJU2NlbmVUeXBlGAIgAigFEiMKBVVzZXJzGAMgAygLMhQuTXNnX0xS" + 
           "X1Jvb21Vc2VySW5mbyJBChxNc2dfUkxfUmVwbHlDcmVhdGVCYXR0bGVSb29t" + 
-          "Eg4KBlJvb21JZBgBIAIoBRIRCglJc1N1Y2Nlc3MYAiACKAgiVwobTXNnX1JM" + 
-          "X1Jvb21TZXJ2ZXJVcGRhdGVJbmZvEhIKClNlcnZlck5hbWUYASACKAkSEwoL" + 
-          "SWRsZVJvb21OdW0YAiACKAUSDwoHVXNlck51bRgDIAIoBSI7ChhNc2dfUkxf" + 
-          "VXNlckxvYmJ5SXRlbUluZm8SDgoGSXRlbUlkGAEgAigFEg8KB0l0ZW1OdW0Y" + 
-          "AiACKAUiqgIKFU1zZ19STF9Vc2VyQmF0dGxlSW5mbxIQCghVc2VyR3VpZBgB" + 
-          "IAIoBBI9CgxCYXR0bGVSZXN1bHQYAiACKA4yJy5Nc2dfUkxfVXNlckJhdHRs" + 
-          "ZUluZm8uQmF0dGxlUmVzdWx0RW51bRINCgVNb25leRgDIAEoBRIQCghIaXRD" + 
-          "b3VudBgEIAEoBRIUCgxLaWxsTnBjQ291bnQYBSABKAUSGAoQTWF4TXVsdGlI" + 
-          "aXRDb3VudBgGIAEoBRIbChNUb3RhbERhbWFnZVRvTXlzZWxmGAcgASgFEh0K" + 
-          "FVRvdGFsRGFtYWdlRnJvbU15c2VsZhgIIAEoBSIzChBCYXR0bGVSZXN1bHRF" + 
-          "bnVtEgcKA1dpbhAAEggKBExvc3QQARIMCghVbmZpbmlzaBACIrgBChBNc2df" + 
-          "UkxfQmF0dGxlRW5kEg4KBlJvb21JRBgBIAIoBRI0CgpXaW5uZXJDYW1wGAIg" + 
-          "AigOMiAuTXNnX1JMX0JhdHRsZUVuZC5XaW5uZXJDYW1wRW51bRIvCg9Vc2Vy" + 
-          "QmF0dGxlSW5mb3MYAyADKAsyFi5Nc2dfUkxfVXNlckJhdHRsZUluZm8iLQoO" + 
-          "V2lubmVyQ2FtcEVudW0SCAoETm9uZRAAEgcKA1JlZBABEggKBEJsdWUQAiJI" + 
-          "Cg9Nc2dfUkxfVXNlclF1aXQSEAoIVXNlckd1aWQYASACKAQSDgoGUm9vbUlE" + 
-          "GAIgAigFEhMKC0lzQmF0dGxlRW5kGAMgAigIIjUKEU1zZ19MUl9Vc2VyUmVM" + 
-          "aXZlEhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21JRBgCIAIoBQ==");
+          "Eg4KBlJvb21JZBgBIAIoBRIRCglJc1N1Y2Nlc3MYAiACKAgiRwoQTXNnX0xS" + 
+          "X0FkZE5ld1VzchIOCgZSb29tSWQYASACKAUSIwoFVXNlcnMYAiADKAsyFC5N" + 
+          "c2dfTFJfUm9vbVVzZXJJbmZvIjoKFU1zZ19STF9SZXBseUFkZE5ld1VzchIO" + 
+          "CgZSb29tSWQYASACKAUSEQoJSXNTdWNjZXNzGAIgAigIIlcKG01zZ19STF9S" + 
+          "b29tU2VydmVyVXBkYXRlSW5mbxISCgpTZXJ2ZXJOYW1lGAEgAigJEhMKC0lk" + 
+          "bGVSb29tTnVtGAIgAigFEg8KB1VzZXJOdW0YAyACKAUiOwoYTXNnX1JMX1Vz" + 
+          "ZXJMb2JieUl0ZW1JbmZvEg4KBkl0ZW1JZBgBIAIoBRIPCgdJdGVtTnVtGAIg" + 
+          "AigFIqoCChVNc2dfUkxfVXNlckJhdHRsZUluZm8SEAoIVXNlckd1aWQYASAC" + 
+          "KAQSPQoMQmF0dGxlUmVzdWx0GAIgAigOMicuTXNnX1JMX1VzZXJCYXR0bGVJ" + 
+          "bmZvLkJhdHRsZVJlc3VsdEVudW0SDQoFTW9uZXkYAyABKAUSEAoISGl0Q291" + 
+          "bnQYBCABKAUSFAoMS2lsbE5wY0NvdW50GAUgASgFEhgKEE1heE11bHRpSGl0" + 
+          "Q291bnQYBiABKAUSGwoTVG90YWxEYW1hZ2VUb015c2VsZhgHIAEoBRIdChVU" + 
+          "b3RhbERhbWFnZUZyb21NeXNlbGYYCCABKAUiMwoQQmF0dGxlUmVzdWx0RW51" + 
+          "bRIHCgNXaW4QABIICgRMb3N0EAESDAoIVW5maW5pc2gQAiK4AQoQTXNnX1JM" + 
+          "X0JhdHRsZUVuZBIOCgZSb29tSUQYASACKAUSNAoKV2lubmVyQ2FtcBgCIAIo" + 
+          "DjIgLk1zZ19STF9CYXR0bGVFbmQuV2lubmVyQ2FtcEVudW0SLwoPVXNlckJh" + 
+          "dHRsZUluZm9zGAMgAygLMhYuTXNnX1JMX1VzZXJCYXR0bGVJbmZvIi0KDldp" + 
+          "bm5lckNhbXBFbnVtEggKBE5vbmUQABIHCgNSZWQQARIICgRCbHVlEAIiSAoP" + 
+          "TXNnX1JMX1VzZXJRdWl0EhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21JRBgC" + 
+          "IAIoBRITCgtJc0JhdHRsZUVuZBgDIAIoCCI1ChFNc2dfTFJfVXNlclJlTGl2" + 
+          "ZRIQCghVc2VyR3VpZBgBIAIoBBIOCgZSb29tSUQYAiACKAU=");
       pbd::FileDescriptor.InternalDescriptorAssigner assigner = delegate(pbd::FileDescriptor root) {
         descriptor = root;
         internal__static_Msg_RL_RegisterRoomServer__Descriptor = Descriptor.MessageTypes[0];
@@ -158,27 +165,35 @@ namespace Lobby_RoomServer {
         internal__static_Msg_RL_ReplyCreateBattleRoom__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_ReplyCreateBattleRoom, global::Lobby_RoomServer.Msg_RL_ReplyCreateBattleRoom.Builder>(internal__static_Msg_RL_ReplyCreateBattleRoom__Descriptor,
                 new string[] { "RoomId", "IsSuccess", });
-        internal__static_Msg_RL_RoomServerUpdateInfo__Descriptor = Descriptor.MessageTypes[7];
+        internal__static_Msg_LR_AddNewUsr__Descriptor = Descriptor.MessageTypes[7];
+        internal__static_Msg_LR_AddNewUsr__FieldAccessorTable = 
+            new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_AddNewUsr, global::Lobby_RoomServer.Msg_LR_AddNewUsr.Builder>(internal__static_Msg_LR_AddNewUsr__Descriptor,
+                new string[] { "RoomId", "Users", });
+        internal__static_Msg_RL_ReplyAddNewUsr__Descriptor = Descriptor.MessageTypes[8];
+        internal__static_Msg_RL_ReplyAddNewUsr__FieldAccessorTable = 
+            new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr, global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr.Builder>(internal__static_Msg_RL_ReplyAddNewUsr__Descriptor,
+                new string[] { "RoomId", "IsSuccess", });
+        internal__static_Msg_RL_RoomServerUpdateInfo__Descriptor = Descriptor.MessageTypes[9];
         internal__static_Msg_RL_RoomServerUpdateInfo__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_RoomServerUpdateInfo, global::Lobby_RoomServer.Msg_RL_RoomServerUpdateInfo.Builder>(internal__static_Msg_RL_RoomServerUpdateInfo__Descriptor,
                 new string[] { "ServerName", "IdleRoomNum", "UserNum", });
-        internal__static_Msg_RL_UserLobbyItemInfo__Descriptor = Descriptor.MessageTypes[8];
+        internal__static_Msg_RL_UserLobbyItemInfo__Descriptor = Descriptor.MessageTypes[10];
         internal__static_Msg_RL_UserLobbyItemInfo__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_UserLobbyItemInfo, global::Lobby_RoomServer.Msg_RL_UserLobbyItemInfo.Builder>(internal__static_Msg_RL_UserLobbyItemInfo__Descriptor,
                 new string[] { "ItemId", "ItemNum", });
-        internal__static_Msg_RL_UserBattleInfo__Descriptor = Descriptor.MessageTypes[9];
+        internal__static_Msg_RL_UserBattleInfo__Descriptor = Descriptor.MessageTypes[11];
         internal__static_Msg_RL_UserBattleInfo__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_UserBattleInfo, global::Lobby_RoomServer.Msg_RL_UserBattleInfo.Builder>(internal__static_Msg_RL_UserBattleInfo__Descriptor,
                 new string[] { "UserGuid", "BattleResult", "Money", "HitCount", "KillNpcCount", "MaxMultiHitCount", "TotalDamageToMyself", "TotalDamageFromMyself", });
-        internal__static_Msg_RL_BattleEnd__Descriptor = Descriptor.MessageTypes[10];
+        internal__static_Msg_RL_BattleEnd__Descriptor = Descriptor.MessageTypes[12];
         internal__static_Msg_RL_BattleEnd__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_BattleEnd, global::Lobby_RoomServer.Msg_RL_BattleEnd.Builder>(internal__static_Msg_RL_BattleEnd__Descriptor,
                 new string[] { "RoomID", "WinnerCamp", "UserBattleInfos", });
-        internal__static_Msg_RL_UserQuit__Descriptor = Descriptor.MessageTypes[11];
+        internal__static_Msg_RL_UserQuit__Descriptor = Descriptor.MessageTypes[13];
         internal__static_Msg_RL_UserQuit__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_UserQuit, global::Lobby_RoomServer.Msg_RL_UserQuit.Builder>(internal__static_Msg_RL_UserQuit__Descriptor,
                 new string[] { "UserGuid", "RoomID", "IsBattleEnd", });
-        internal__static_Msg_LR_UserReLive__Descriptor = Descriptor.MessageTypes[12];
+        internal__static_Msg_LR_UserReLive__Descriptor = Descriptor.MessageTypes[14];
         internal__static_Msg_LR_UserReLive__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_UserReLive, global::Lobby_RoomServer.Msg_LR_UserReLive.Builder>(internal__static_Msg_LR_UserReLive__Descriptor,
                 new string[] { "UserGuid", "RoomID", });
@@ -5134,6 +5149,665 @@ namespace Lobby_RoomServer {
       }
     }
     static Msg_RL_ReplyCreateBattleRoom() {
+      object.ReferenceEquals(global::Lobby_RoomServer.MessageDefine.Descriptor, null);
+    }
+  }
+  
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+  public sealed partial class Msg_LR_AddNewUsr : pb::GeneratedMessage<Msg_LR_AddNewUsr, Msg_LR_AddNewUsr.Builder> {
+    private Msg_LR_AddNewUsr() { }
+    private static readonly Msg_LR_AddNewUsr defaultInstance = new Msg_LR_AddNewUsr().MakeReadOnly();
+    private static readonly string[] _msgLRAddNewUsrFieldNames = new string[] { "RoomId", "Users" };
+    private static readonly uint[] _msgLRAddNewUsrFieldTags = new uint[] { 8, 18 };
+    public static Msg_LR_AddNewUsr DefaultInstance {
+      get { return defaultInstance; }
+    }
+    
+    public override Msg_LR_AddNewUsr DefaultInstanceForType {
+      get { return DefaultInstance; }
+    }
+    
+    protected override Msg_LR_AddNewUsr ThisMessage {
+      get { return this; }
+    }
+    
+    public static pbd::MessageDescriptor Descriptor {
+      get { return global::Lobby_RoomServer.MessageDefine.internal__static_Msg_LR_AddNewUsr__Descriptor; }
+    }
+    
+    protected override pb::FieldAccess.FieldAccessorTable<Msg_LR_AddNewUsr, Msg_LR_AddNewUsr.Builder> InternalFieldAccessors {
+      get { return global::Lobby_RoomServer.MessageDefine.internal__static_Msg_LR_AddNewUsr__FieldAccessorTable; }
+    }
+    
+    public const int RoomIdFieldNumber = 1;
+    private bool hasRoomId;
+    private int roomId_;
+    public bool HasRoomId {
+      get { return hasRoomId; }
+    }
+    public int RoomId {
+      get { return roomId_; }
+    }
+    
+    public const int UsersFieldNumber = 2;
+    private pbc::PopsicleList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo> users_ = new pbc::PopsicleList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo>();
+    public scg::IList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo> UsersList {
+      get { return users_; }
+    }
+    public int UsersCount {
+      get { return users_.Count; }
+    }
+    public global::Lobby_RoomServer.Msg_LR_RoomUserInfo GetUsers(int index) {
+      return users_[index];
+    }
+    
+    public override bool IsInitialized {
+      get {
+        if (!hasRoomId) return false;
+        foreach (global::Lobby_RoomServer.Msg_LR_RoomUserInfo element in UsersList) {
+          if (!element.IsInitialized) return false;
+        }
+        return true;
+      }
+    }
+    
+    public override void WriteTo(pb::ICodedOutputStream output) {
+      int size = SerializedSize;
+      string[] field_names = _msgLRAddNewUsrFieldNames;
+      if (hasRoomId) {
+        output.WriteInt32(1, field_names[0], RoomId);
+      }
+      if (users_.Count > 0) {
+        output.WriteMessageArray(2, field_names[1], users_);
+      }
+      UnknownFields.WriteTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public override int SerializedSize {
+      get {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+        
+        size = 0;
+        if (hasRoomId) {
+          size += pb::CodedOutputStream.ComputeInt32Size(1, RoomId);
+        }
+        foreach (global::Lobby_RoomServer.Msg_LR_RoomUserInfo element in UsersList) {
+          size += pb::CodedOutputStream.ComputeMessageSize(2, element);
+        }
+        size += UnknownFields.SerializedSize;
+        memoizedSerializedSize = size;
+        return size;
+      }
+    }
+    
+    public static Msg_LR_AddNewUsr ParseFrom(pb::ByteString data) {
+      return ((Builder) CreateBuilder().MergeFrom(data)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(pb::ByteString data, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(data, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(byte[] data) {
+      return ((Builder) CreateBuilder().MergeFrom(data)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(byte[] data, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(data, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(global::System.IO.Stream input) {
+      return ((Builder) CreateBuilder().MergeFrom(input)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(global::System.IO.Stream input, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(input, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseDelimitedFrom(global::System.IO.Stream input) {
+      return CreateBuilder().MergeDelimitedFrom(input).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseDelimitedFrom(global::System.IO.Stream input, pb::ExtensionRegistry extensionRegistry) {
+      return CreateBuilder().MergeDelimitedFrom(input, extensionRegistry).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(pb::ICodedInputStream input) {
+      return ((Builder) CreateBuilder().MergeFrom(input)).BuildParsed();
+    }
+    public static Msg_LR_AddNewUsr ParseFrom(pb::ICodedInputStream input, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(input, extensionRegistry)).BuildParsed();
+    }
+    private Msg_LR_AddNewUsr MakeReadOnly() {
+      users_.MakeReadOnly();
+      return this;
+    }
+    
+    public static Builder CreateBuilder() { return new Builder(); }
+    public override Builder ToBuilder() { return CreateBuilder(this); }
+    public override Builder CreateBuilderForType() { return new Builder(); }
+    public static Builder CreateBuilder(Msg_LR_AddNewUsr prototype) {
+      return new Builder(prototype);
+    }
+    
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    public sealed partial class Builder : pb::GeneratedBuilder<Msg_LR_AddNewUsr, Builder> {
+      protected override Builder ThisBuilder {
+        get { return this; }
+      }
+      public Builder() {
+        result = DefaultInstance;
+        resultIsReadOnly = true;
+      }
+      internal Builder(Msg_LR_AddNewUsr cloneFrom) {
+        result = cloneFrom;
+        resultIsReadOnly = true;
+      }
+      
+      private bool resultIsReadOnly;
+      private Msg_LR_AddNewUsr result;
+      
+      private Msg_LR_AddNewUsr PrepareBuilder() {
+        if (resultIsReadOnly) {
+          Msg_LR_AddNewUsr original = result;
+          result = new Msg_LR_AddNewUsr();
+          resultIsReadOnly = false;
+          MergeFrom(original);
+        }
+        return result;
+      }
+      
+      public override bool IsInitialized {
+        get { return result.IsInitialized; }
+      }
+      
+      protected override Msg_LR_AddNewUsr MessageBeingBuilt {
+        get { return PrepareBuilder(); }
+      }
+      
+      public override Builder Clear() {
+        result = DefaultInstance;
+        resultIsReadOnly = true;
+        return this;
+      }
+      
+      public override Builder Clone() {
+        if (resultIsReadOnly) {
+          return new Builder(result);
+        } else {
+          return new Builder().MergeFrom(result);
+        }
+      }
+      
+      public override pbd::MessageDescriptor DescriptorForType {
+        get { return global::Lobby_RoomServer.Msg_LR_AddNewUsr.Descriptor; }
+      }
+      
+      public override Msg_LR_AddNewUsr DefaultInstanceForType {
+        get { return global::Lobby_RoomServer.Msg_LR_AddNewUsr.DefaultInstance; }
+      }
+      
+      public override Msg_LR_AddNewUsr BuildPartial() {
+        if (resultIsReadOnly) {
+          return result;
+        }
+        resultIsReadOnly = true;
+        return result.MakeReadOnly();
+      }
+      
+      public override Builder MergeFrom(pb::IMessage other) {
+        if (other is Msg_LR_AddNewUsr) {
+          return MergeFrom((Msg_LR_AddNewUsr) other);
+        } else {
+          base.MergeFrom(other);
+          return this;
+        }
+      }
+      
+      public override Builder MergeFrom(Msg_LR_AddNewUsr other) {
+        if (other == global::Lobby_RoomServer.Msg_LR_AddNewUsr.DefaultInstance) return this;
+        PrepareBuilder();
+        if (other.HasRoomId) {
+          RoomId = other.RoomId;
+        }
+        if (other.users_.Count != 0) {
+          result.users_.Add(other.users_);
+        }
+        this.MergeUnknownFields(other.UnknownFields);
+        return this;
+      }
+      
+      public override Builder MergeFrom(pb::ICodedInputStream input) {
+        return MergeFrom(input, pb::ExtensionRegistry.Empty);
+      }
+      
+      public override Builder MergeFrom(pb::ICodedInputStream input, pb::ExtensionRegistry extensionRegistry) {
+        PrepareBuilder();
+        pb::UnknownFieldSet.Builder unknownFields = null;
+        uint tag;
+        string field_name;
+        while (input.ReadTag(out tag, out field_name)) {
+          if(tag == 0 && field_name != null) {
+            int field_ordinal = global::System.Array.BinarySearch(_msgLRAddNewUsrFieldNames, field_name, global::System.StringComparer.Ordinal);
+            if(field_ordinal >= 0)
+              tag = _msgLRAddNewUsrFieldTags[field_ordinal];
+            else {
+              if (unknownFields == null) {
+                unknownFields = pb::UnknownFieldSet.CreateBuilder(this.UnknownFields);
+              }
+              ParseUnknownField(input, unknownFields, extensionRegistry, tag, field_name);
+              continue;
+            }
+          }
+          switch (tag) {
+            case 0: {
+              throw pb::InvalidProtocolBufferException.InvalidTag();
+            }
+            default: {
+              if (pb::WireFormat.IsEndGroupTag(tag)) {
+                if (unknownFields != null) {
+                  this.UnknownFields = unknownFields.Build();
+                }
+                return this;
+              }
+              if (unknownFields == null) {
+                unknownFields = pb::UnknownFieldSet.CreateBuilder(this.UnknownFields);
+              }
+              ParseUnknownField(input, unknownFields, extensionRegistry, tag, field_name);
+              break;
+            }
+            case 8: {
+              result.hasRoomId = input.ReadInt32(ref result.roomId_);
+              break;
+            }
+            case 18: {
+              input.ReadMessageArray(tag, field_name, result.users_, global::Lobby_RoomServer.Msg_LR_RoomUserInfo.DefaultInstance, extensionRegistry);
+              break;
+            }
+          }
+        }
+        
+        if (unknownFields != null) {
+          this.UnknownFields = unknownFields.Build();
+        }
+        return this;
+      }
+      
+      
+      public bool HasRoomId {
+        get { return result.hasRoomId; }
+      }
+      public int RoomId {
+        get { return result.RoomId; }
+        set { SetRoomId(value); }
+      }
+      public Builder SetRoomId(int value) {
+        PrepareBuilder();
+        result.hasRoomId = true;
+        result.roomId_ = value;
+        return this;
+      }
+      public Builder ClearRoomId() {
+        PrepareBuilder();
+        result.hasRoomId = false;
+        result.roomId_ = 0;
+        return this;
+      }
+      
+      public pbc::IPopsicleList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo> UsersList {
+        get { return PrepareBuilder().users_; }
+      }
+      public int UsersCount {
+        get { return result.UsersCount; }
+      }
+      public global::Lobby_RoomServer.Msg_LR_RoomUserInfo GetUsers(int index) {
+        return result.GetUsers(index);
+      }
+      public Builder SetUsers(int index, global::Lobby_RoomServer.Msg_LR_RoomUserInfo value) {
+        pb::ThrowHelper.ThrowIfNull(value, "value");
+        PrepareBuilder();
+        result.users_[index] = value;
+        return this;
+      }
+      public Builder SetUsers(int index, global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Builder builderForValue) {
+        pb::ThrowHelper.ThrowIfNull(builderForValue, "builderForValue");
+        PrepareBuilder();
+        result.users_[index] = builderForValue.Build();
+        return this;
+      }
+      public Builder AddUsers(global::Lobby_RoomServer.Msg_LR_RoomUserInfo value) {
+        pb::ThrowHelper.ThrowIfNull(value, "value");
+        PrepareBuilder();
+        result.users_.Add(value);
+        return this;
+      }
+      public Builder AddUsers(global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Builder builderForValue) {
+        pb::ThrowHelper.ThrowIfNull(builderForValue, "builderForValue");
+        PrepareBuilder();
+        result.users_.Add(builderForValue.Build());
+        return this;
+      }
+      public Builder AddRangeUsers(scg::IEnumerable<global::Lobby_RoomServer.Msg_LR_RoomUserInfo> values) {
+        PrepareBuilder();
+        result.users_.Add(values);
+        return this;
+      }
+      public Builder ClearUsers() {
+        PrepareBuilder();
+        result.users_.Clear();
+        return this;
+      }
+    }
+    static Msg_LR_AddNewUsr() {
+      object.ReferenceEquals(global::Lobby_RoomServer.MessageDefine.Descriptor, null);
+    }
+  }
+  
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+  public sealed partial class Msg_RL_ReplyAddNewUsr : pb::GeneratedMessage<Msg_RL_ReplyAddNewUsr, Msg_RL_ReplyAddNewUsr.Builder> {
+    private Msg_RL_ReplyAddNewUsr() { }
+    private static readonly Msg_RL_ReplyAddNewUsr defaultInstance = new Msg_RL_ReplyAddNewUsr().MakeReadOnly();
+    private static readonly string[] _msgRLReplyAddNewUsrFieldNames = new string[] { "IsSuccess", "RoomId" };
+    private static readonly uint[] _msgRLReplyAddNewUsrFieldTags = new uint[] { 16, 8 };
+    public static Msg_RL_ReplyAddNewUsr DefaultInstance {
+      get { return defaultInstance; }
+    }
+    
+    public override Msg_RL_ReplyAddNewUsr DefaultInstanceForType {
+      get { return DefaultInstance; }
+    }
+    
+    protected override Msg_RL_ReplyAddNewUsr ThisMessage {
+      get { return this; }
+    }
+    
+    public static pbd::MessageDescriptor Descriptor {
+      get { return global::Lobby_RoomServer.MessageDefine.internal__static_Msg_RL_ReplyAddNewUsr__Descriptor; }
+    }
+    
+    protected override pb::FieldAccess.FieldAccessorTable<Msg_RL_ReplyAddNewUsr, Msg_RL_ReplyAddNewUsr.Builder> InternalFieldAccessors {
+      get { return global::Lobby_RoomServer.MessageDefine.internal__static_Msg_RL_ReplyAddNewUsr__FieldAccessorTable; }
+    }
+    
+    public const int RoomIdFieldNumber = 1;
+    private bool hasRoomId;
+    private int roomId_;
+    public bool HasRoomId {
+      get { return hasRoomId; }
+    }
+    public int RoomId {
+      get { return roomId_; }
+    }
+    
+    public const int IsSuccessFieldNumber = 2;
+    private bool hasIsSuccess;
+    private bool isSuccess_;
+    public bool HasIsSuccess {
+      get { return hasIsSuccess; }
+    }
+    public bool IsSuccess {
+      get { return isSuccess_; }
+    }
+    
+    public override bool IsInitialized {
+      get {
+        if (!hasRoomId) return false;
+        if (!hasIsSuccess) return false;
+        return true;
+      }
+    }
+    
+    public override void WriteTo(pb::ICodedOutputStream output) {
+      int size = SerializedSize;
+      string[] field_names = _msgRLReplyAddNewUsrFieldNames;
+      if (hasRoomId) {
+        output.WriteInt32(1, field_names[1], RoomId);
+      }
+      if (hasIsSuccess) {
+        output.WriteBool(2, field_names[0], IsSuccess);
+      }
+      UnknownFields.WriteTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public override int SerializedSize {
+      get {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+        
+        size = 0;
+        if (hasRoomId) {
+          size += pb::CodedOutputStream.ComputeInt32Size(1, RoomId);
+        }
+        if (hasIsSuccess) {
+          size += pb::CodedOutputStream.ComputeBoolSize(2, IsSuccess);
+        }
+        size += UnknownFields.SerializedSize;
+        memoizedSerializedSize = size;
+        return size;
+      }
+    }
+    
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(pb::ByteString data) {
+      return ((Builder) CreateBuilder().MergeFrom(data)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(pb::ByteString data, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(data, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(byte[] data) {
+      return ((Builder) CreateBuilder().MergeFrom(data)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(byte[] data, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(data, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(global::System.IO.Stream input) {
+      return ((Builder) CreateBuilder().MergeFrom(input)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(global::System.IO.Stream input, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(input, extensionRegistry)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseDelimitedFrom(global::System.IO.Stream input) {
+      return CreateBuilder().MergeDelimitedFrom(input).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseDelimitedFrom(global::System.IO.Stream input, pb::ExtensionRegistry extensionRegistry) {
+      return CreateBuilder().MergeDelimitedFrom(input, extensionRegistry).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(pb::ICodedInputStream input) {
+      return ((Builder) CreateBuilder().MergeFrom(input)).BuildParsed();
+    }
+    public static Msg_RL_ReplyAddNewUsr ParseFrom(pb::ICodedInputStream input, pb::ExtensionRegistry extensionRegistry) {
+      return ((Builder) CreateBuilder().MergeFrom(input, extensionRegistry)).BuildParsed();
+    }
+    private Msg_RL_ReplyAddNewUsr MakeReadOnly() {
+      return this;
+    }
+    
+    public static Builder CreateBuilder() { return new Builder(); }
+    public override Builder ToBuilder() { return CreateBuilder(this); }
+    public override Builder CreateBuilderForType() { return new Builder(); }
+    public static Builder CreateBuilder(Msg_RL_ReplyAddNewUsr prototype) {
+      return new Builder(prototype);
+    }
+    
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    public sealed partial class Builder : pb::GeneratedBuilder<Msg_RL_ReplyAddNewUsr, Builder> {
+      protected override Builder ThisBuilder {
+        get { return this; }
+      }
+      public Builder() {
+        result = DefaultInstance;
+        resultIsReadOnly = true;
+      }
+      internal Builder(Msg_RL_ReplyAddNewUsr cloneFrom) {
+        result = cloneFrom;
+        resultIsReadOnly = true;
+      }
+      
+      private bool resultIsReadOnly;
+      private Msg_RL_ReplyAddNewUsr result;
+      
+      private Msg_RL_ReplyAddNewUsr PrepareBuilder() {
+        if (resultIsReadOnly) {
+          Msg_RL_ReplyAddNewUsr original = result;
+          result = new Msg_RL_ReplyAddNewUsr();
+          resultIsReadOnly = false;
+          MergeFrom(original);
+        }
+        return result;
+      }
+      
+      public override bool IsInitialized {
+        get { return result.IsInitialized; }
+      }
+      
+      protected override Msg_RL_ReplyAddNewUsr MessageBeingBuilt {
+        get { return PrepareBuilder(); }
+      }
+      
+      public override Builder Clear() {
+        result = DefaultInstance;
+        resultIsReadOnly = true;
+        return this;
+      }
+      
+      public override Builder Clone() {
+        if (resultIsReadOnly) {
+          return new Builder(result);
+        } else {
+          return new Builder().MergeFrom(result);
+        }
+      }
+      
+      public override pbd::MessageDescriptor DescriptorForType {
+        get { return global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr.Descriptor; }
+      }
+      
+      public override Msg_RL_ReplyAddNewUsr DefaultInstanceForType {
+        get { return global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr.DefaultInstance; }
+      }
+      
+      public override Msg_RL_ReplyAddNewUsr BuildPartial() {
+        if (resultIsReadOnly) {
+          return result;
+        }
+        resultIsReadOnly = true;
+        return result.MakeReadOnly();
+      }
+      
+      public override Builder MergeFrom(pb::IMessage other) {
+        if (other is Msg_RL_ReplyAddNewUsr) {
+          return MergeFrom((Msg_RL_ReplyAddNewUsr) other);
+        } else {
+          base.MergeFrom(other);
+          return this;
+        }
+      }
+      
+      public override Builder MergeFrom(Msg_RL_ReplyAddNewUsr other) {
+        if (other == global::Lobby_RoomServer.Msg_RL_ReplyAddNewUsr.DefaultInstance) return this;
+        PrepareBuilder();
+        if (other.HasRoomId) {
+          RoomId = other.RoomId;
+        }
+        if (other.HasIsSuccess) {
+          IsSuccess = other.IsSuccess;
+        }
+        this.MergeUnknownFields(other.UnknownFields);
+        return this;
+      }
+      
+      public override Builder MergeFrom(pb::ICodedInputStream input) {
+        return MergeFrom(input, pb::ExtensionRegistry.Empty);
+      }
+      
+      public override Builder MergeFrom(pb::ICodedInputStream input, pb::ExtensionRegistry extensionRegistry) {
+        PrepareBuilder();
+        pb::UnknownFieldSet.Builder unknownFields = null;
+        uint tag;
+        string field_name;
+        while (input.ReadTag(out tag, out field_name)) {
+          if(tag == 0 && field_name != null) {
+            int field_ordinal = global::System.Array.BinarySearch(_msgRLReplyAddNewUsrFieldNames, field_name, global::System.StringComparer.Ordinal);
+            if(field_ordinal >= 0)
+              tag = _msgRLReplyAddNewUsrFieldTags[field_ordinal];
+            else {
+              if (unknownFields == null) {
+                unknownFields = pb::UnknownFieldSet.CreateBuilder(this.UnknownFields);
+              }
+              ParseUnknownField(input, unknownFields, extensionRegistry, tag, field_name);
+              continue;
+            }
+          }
+          switch (tag) {
+            case 0: {
+              throw pb::InvalidProtocolBufferException.InvalidTag();
+            }
+            default: {
+              if (pb::WireFormat.IsEndGroupTag(tag)) {
+                if (unknownFields != null) {
+                  this.UnknownFields = unknownFields.Build();
+                }
+                return this;
+              }
+              if (unknownFields == null) {
+                unknownFields = pb::UnknownFieldSet.CreateBuilder(this.UnknownFields);
+              }
+              ParseUnknownField(input, unknownFields, extensionRegistry, tag, field_name);
+              break;
+            }
+            case 8: {
+              result.hasRoomId = input.ReadInt32(ref result.roomId_);
+              break;
+            }
+            case 16: {
+              result.hasIsSuccess = input.ReadBool(ref result.isSuccess_);
+              break;
+            }
+          }
+        }
+        
+        if (unknownFields != null) {
+          this.UnknownFields = unknownFields.Build();
+        }
+        return this;
+      }
+      
+      
+      public bool HasRoomId {
+        get { return result.hasRoomId; }
+      }
+      public int RoomId {
+        get { return result.RoomId; }
+        set { SetRoomId(value); }
+      }
+      public Builder SetRoomId(int value) {
+        PrepareBuilder();
+        result.hasRoomId = true;
+        result.roomId_ = value;
+        return this;
+      }
+      public Builder ClearRoomId() {
+        PrepareBuilder();
+        result.hasRoomId = false;
+        result.roomId_ = 0;
+        return this;
+      }
+      
+      public bool HasIsSuccess {
+        get { return result.hasIsSuccess; }
+      }
+      public bool IsSuccess {
+        get { return result.IsSuccess; }
+        set { SetIsSuccess(value); }
+      }
+      public Builder SetIsSuccess(bool value) {
+        PrepareBuilder();
+        result.hasIsSuccess = true;
+        result.isSuccess_ = value;
+        return this;
+      }
+      public Builder ClearIsSuccess() {
+        PrepareBuilder();
+        result.hasIsSuccess = false;
+        result.isSuccess_ = false;
+        return this;
+      }
+    }
+    static Msg_RL_ReplyAddNewUsr() {
       object.ReferenceEquals(global::Lobby_RoomServer.MessageDefine.Descriptor, null);
     }
   }

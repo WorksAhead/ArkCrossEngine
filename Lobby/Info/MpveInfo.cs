@@ -73,6 +73,7 @@ namespace Lobby
             }
             return ret;
         }
+        internal virtual bool RequireDirectRoom() { return false; }
         private struct Time
         {
             internal int m_Hour;
@@ -304,6 +305,11 @@ namespace Lobby
             return true;
         }
         internal override bool IsMeetTime(int type)
+        {
+            return true;
+        }
+
+        internal override bool RequireDirectRoom()
         {
             return true;
         }

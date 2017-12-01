@@ -55,7 +55,6 @@ namespace DashFire
             {
                 foreach (User us in users)
                 {
-                    LogSys.Log(LOG_TYPE.INFO, "[3] active room {0} scene {1} thread {2} for user {3}({4})", roomid, scenetype, cur_thread_id_, us.Guid, us.GetKey());
                     rm.AddNewUser(us);
                 }
             }

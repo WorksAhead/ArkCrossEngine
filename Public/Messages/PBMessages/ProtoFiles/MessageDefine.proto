@@ -77,13 +77,19 @@ message Msg_LR_CreateBattleRoom
 	repeated Msg_LR_RoomUserInfo Users = 3;
 }
 
+message Msg_RL_ReplyCreateBattleRoom
+{
+	required int32 RoomId = 1;
+	required bool IsSuccess = 2;
+}
+
 message Msg_LR_AddNewUsr
 {
 	required int32 RoomId = 1;
-	repeated Msg_LR_RoomUserInfo Users = 3;
+	repeated Msg_LR_RoomUserInfo Users = 2;
 }
 
-message Msg_RL_ReplyCreateBattleRoom
+message Msg_RL_ReplyAddNewUsr
 {
 	required int32 RoomId = 1;
 	required bool IsSuccess = 2;

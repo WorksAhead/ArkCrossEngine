@@ -88,7 +88,7 @@ namespace Lobby
                         }
                         ///
                         RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
-                        roomProcess.QueueAction(roomProcess.AllocLobbyRoom, guidList.ToArray(), type);
+                        roomProcess.QueueAction(roomProcess.AllocOrUpdateLobbyRoom, guidList.ToArray(), type);
                     }
                     else
                     {
@@ -166,64 +166,63 @@ namespace Lobby
                     }
                     else
                     {
+                        // check scene
                         MpveMatchHelper helper = null;
                         if (!m_MpveMatch.TryGetValue(type, out helper))
                         {
-                            helper = new CommonSceneMpve();
-                            m_MpveMatch.Add(type, helper);
+                            return;
                         }
-
+                        
+                        List<string> nick = null;
+                        List<TeamOperateResult> ret = null;
+                        bool isMeetTime = helper.IsMeetTime(type);
+                        if (isMeetTime)
                         {
-                            List<string> nick = null;
-                            List<TeamOperateResult> ret = null;
-                            bool isMeetTime = helper.IsMeetTime(type);
-                            if (isMeetTime)
+                            bool iscross = helper.CanMatchMpve(guid, out nick, out ret);
+                            if (iscross)
                             {
-                                bool iscross = helper.CanMatchMpve(guid, out nick, out ret);
-                                if (iscross)
-                                {
-                                    AddMpveUser(type, guid, user);
-                                    user.CurrentState = UserState.Teaming;
+                                AddMpveUser(type, guid, user);
+                                user.CurrentState = UserState.Teaming;
 
-                                    ret.Add(TeamOperateResult.OR_Succeed);
-                                    LogSys.Log(LOG_TYPE.DEBUG, "RequestMatch Mpve, guid:{0},type:{1}", guid, type);
-                                }
+                                ret.Add(TeamOperateResult.OR_Succeed);
+                                LogSys.Log(LOG_TYPE.DEBUG, "RequestMatch Mpve, guid:{0},type:{1}", guid, type);
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (null == ret || null == nick)
                             {
-                                if (null == ret || null == nick)
-                                {
-                                    ret = new List<TeamOperateResult>();
-                                    nick = new List<string>();
-                                    ret.Add(TeamOperateResult.OR_TimeError);
-                                }
+                                ret = new List<TeamOperateResult>();
+                                nick = new List<string>();
+                                ret.Add(TeamOperateResult.OR_TimeError);
                             }
-                            if (null != nick && null != ret)
+                        }
+                        if (null != nick && null != ret)
+                        {
+                            for (int i = 0; i < ret.Count; i++)
                             {
-                                for (int i = 0; i < ret.Count; i++)
+                                string t_nick = nick.Count > i ? nick[i] : "";
+                                if (TeamOperateResult.OR_NotCaptain == ret[i])
                                 {
-                                    string t_nick = nick.Count > i ? nick[i] : "";
-                                    if (TeamOperateResult.OR_NotCaptain == ret[i])
+                                    PublishMpveMsg2Client(guid, ret[i], t_nick, type);
+                                }
+                                else
+                                {
+                                    if (null != user.Group)
                                     {
-                                        PublishMpveMsg2Client(guid, ret[i], t_nick, type);
+                                        foreach (GroupMemberInfo m in user.Group.Members)
+                                        {
+                                            PublishMpveMsg2Client(m.Guid, ret[i], t_nick, type);
+                                        }
                                     }
                                     else
                                     {
-                                        if (null != user.Group)
-                                        {
-                                            foreach (GroupMemberInfo m in user.Group.Members)
-                                            {
-                                                PublishMpveMsg2Client(m.Guid, ret[i], t_nick, type);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            PublishMpveMsg2Client(guid, ret[i], t_nick, type);
-                                        }
+                                        PublishMpveMsg2Client(guid, ret[i], t_nick, type);
                                     }
                                 }
                             }
                         }
+
                         LogSys.Log(LOG_TYPE.DEBUG, "RequestMatch mpve, guid:{0},type:{1}", guid, type);
                     }
                 }
@@ -321,6 +320,11 @@ namespace Lobby
                         MpvePlatformDefense assit_ = new MpvePlatformDefense();
                         m_MpveMatch.Add(sceneInfo.SceneID, assit_);
                     }
+                    else
+                    {
+                        CommonSceneMpve assit_ = new CommonSceneMpve();
+                        m_MpveMatch.Add(sceneInfo.SceneID, assit_);
+                    }
                 }
             }
         }
@@ -388,7 +392,7 @@ namespace Lobby
                         }
                         ///
                         RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
-                        roomProcess.QueueAction(roomProcess.AllocLobbyRoom, guidList.ToArray(), (int)MatchSceneEnum.Gow);
+                        roomProcess.QueueAction(roomProcess.AllocOrUpdateLobbyRoom, guidList.ToArray(), (int)MatchSceneEnum.Gow);
                         ++ct;
                     }
                     else
@@ -685,85 +689,126 @@ namespace Lobby
                     MpveMatchHelper helper = null;
                     if (m_MpveMatch.TryGetValue(scene_type, out helper))
                     {
-                        LinkedListDictionary<ulong, MpveMatchInfo> users_dic = helper.MpveMatchUsers;
-                        if (users_dic.Count >= MpveMatchHelper.c_MpveCount - 1)
+                        if (helper.RequireDirectRoom())
                         {
-                            int ct = 0;
-                            for (LinkedListNode<MpveMatchInfo> node = users_dic.FirstValue; null != node && ct < 256;)
+                            // try join exist room
+                            RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
+                            List<ulong> guidList = new List<ulong>();
+                            LinkedListDictionary<ulong, MpveMatchInfo> users_dic = helper.MpveMatchUsers;
+                            for (LinkedListNode<MpveMatchInfo> node = users_dic.FirstValue; null != node; node = node.Next)
                             {
                                 MpveMatchInfo matchInfo = node.Value;
-                                float x = MpveMatchHelper.c_BaseRateX;
-                                if (curTime - matchInfo.m_StartTime > MpveMatchHelper.c_TC)
-                                {
-                                    x *= (curTime - matchInfo.m_StartTime) / (float)MpveMatchHelper.c_TC;
-                                    x = x > MpveMatchHelper.c_MaxRateX ? MpveMatchHelper.c_MaxRateX : x;
-                                }
-                                //LogSys.Log(LOG_TYPE.DEBUG, "try find match for Mpve user {0}(score:{1} time:{2} x:{3})", matchInfo.m_Guid, matchInfo.m_Score, curTime - matchInfo.m_StartTime, x);
-                                List<ulong> guidList = null;
                                 UserInfo cur_player = scheduler.GetUserInfo(matchInfo.m_Guid);
-                                if (null != cur_player)
+                                if (cur_player.CurrentState == UserState.Teaming)
                                 {
-                                    if (null != cur_player.Group)
+                                    guidList.Add(cur_player.Guid);
+                                }
+                            }
+
+
+                            for (int idx = 0; idx < guidList.Count; ++idx)
+                            {
+                                ulong guid = guidList[idx];
+                                if (users_dic.Contains(guid))
+                                {
+                                    MpveMatchInfo findMatchInfo = users_dic[guid];
+                                    UserInfo mbr = scheduler.GetUserInfo(findMatchInfo.m_Guid);
+                                    if (null != mbr)
                                     {
-                                        int match_score_ = matchInfo.m_Score;
-                                        ulong cur_player_m_ = 0;
-                                        foreach (GroupMemberInfo m in cur_player.Group.Members)
+                                        mbr.CurrentBattleInfo.init(scene_type, mbr.HeroId);
+                                    }
+                                    RemoveMpveUser(scene_type, guid, false);
+                                }
+                            }
+
+                            if (guidList.Count != 0)
+                            {
+                                roomProcess.QueueAction(roomProcess.AllocOrUpdateLobbyRoom, guidList.ToArray(), scene_type);
+                            }
+
+                        }
+                        else
+                        {
+                            LinkedListDictionary<ulong, MpveMatchInfo> users_dic = helper.MpveMatchUsers;
+                            if (users_dic.Count >= MpveMatchHelper.c_MpveCount - 1)
+                            {
+                                int ct = 0;
+                                for (LinkedListNode<MpveMatchInfo> node = users_dic.FirstValue; null != node && ct < 256;)
+                                {
+                                    MpveMatchInfo matchInfo = node.Value;
+                                    float x = MpveMatchHelper.c_BaseRateX;
+                                    if (curTime - matchInfo.m_StartTime > MpveMatchHelper.c_TC)
+                                    {
+                                        x *= (curTime - matchInfo.m_StartTime) / (float)MpveMatchHelper.c_TC;
+                                        x = x > MpveMatchHelper.c_MaxRateX ? MpveMatchHelper.c_MaxRateX : x;
+                                    }
+                                    //LogSys.Log(LOG_TYPE.DEBUG, "try find match for Mpve user {0}(score:{1} time:{2} x:{3})", matchInfo.m_Guid, matchInfo.m_Score, curTime - matchInfo.m_StartTime, x);
+                                    List<ulong> guidList = null;
+                                    UserInfo cur_player = scheduler.GetUserInfo(matchInfo.m_Guid);
+                                    if (null != cur_player)
+                                    {
+                                        if (null != cur_player.Group)
                                         {
-                                            if (matchInfo.m_Guid != m.Guid)
+                                            int match_score_ = matchInfo.m_Score;
+                                            ulong cur_player_m_ = 0;
+                                            foreach (GroupMemberInfo m in cur_player.Group.Members)
                                             {
-                                                cur_player_m_ = m.Guid;
-                                                break;
+                                                if (matchInfo.m_Guid != m.Guid)
+                                                {
+                                                    cur_player_m_ = m.Guid;
+                                                    break;
+                                                }
+                                            }
+                                            if (cur_player_m_ > 0)
+                                            {
+                                                UserInfo cur_member_ = scheduler.GetUserInfo(cur_player_m_);
+                                                match_score_ = null == cur_member_ ? match_score_ : (int)((match_score_ + cur_member_.FightingScore) / 2.0f);
+                                            }
+                                            guidList = FindMatchedMpveUsers(scene_type, matchInfo.m_Guid, match_score_, x, MpveMatchHelper.c_MpveCount - 2);
+                                            if (cur_player_m_ > 0)
+                                                guidList.Add(cur_player_m_);
+                                        }
+                                        else
+                                        {
+                                            guidList = FindMatchedMpveUsers(scene_type, matchInfo.m_Guid, matchInfo.m_Score, x, MpveMatchHelper.c_MpveCount - 1);
+                                        }
+                                    }
+                                    guidList.Add(matchInfo.m_Guid);
+                                    if (guidList.Count == MpveMatchHelper.c_MpveCount)
+                                    {
+                                        ///
+                                        AutoFormTeam(guidList);
+                                        ///
+                                        node = node.Next;
+                                        for (int idx = 0; idx < MpveMatchHelper.c_MpveCount; ++idx)
+                                        {
+                                            ulong guid = guidList[idx];
+                                            if (users_dic.Contains(guid))
+                                            {
+                                                if (null != node && node.Value.m_Guid == guid)
+                                                    node = node.Next;
+                                                ///
+                                                MpveMatchInfo findMatchInfo = users_dic[guid];
+                                                LogSys.Log(LOG_TYPE.DEBUG, "found matched user {0}(score:{1}) for mpve user {2}(score:{3})", findMatchInfo.m_Guid, findMatchInfo.m_Score, matchInfo.m_Guid, matchInfo.m_Score);
+                                                ///
+                                                UserInfo mbr = scheduler.GetUserInfo(findMatchInfo.m_Guid);
+                                                if (null != mbr)
+                                                {
+                                                    mbr.CurrentBattleInfo.init(scene_type, mbr.HeroId);
+                                                }
+                                                ///
+                                                RemoveMpveUser(scene_type, guid, false);
                                             }
                                         }
-                                        if (cur_player_m_ > 0)
-                                        {
-                                            UserInfo cur_member_ = scheduler.GetUserInfo(cur_player_m_);
-                                            match_score_ = null == cur_member_ ? match_score_ : (int)((match_score_ + cur_member_.FightingScore) / 2.0f);
-                                        }
-                                        guidList = FindMatchedMpveUsers(scene_type, matchInfo.m_Guid, match_score_, x, MpveMatchHelper.c_MpveCount - 2);
-                                        if (cur_player_m_ > 0)
-                                            guidList.Add(cur_player_m_);
+                                        ///
+                                        RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
+                                        roomProcess.QueueAction(roomProcess.AllocOrUpdateLobbyRoom, guidList.ToArray(), scene_type);
+                                        ++ct;
                                     }
                                     else
                                     {
-                                        guidList = FindMatchedMpveUsers(scene_type, matchInfo.m_Guid, matchInfo.m_Score, x, MpveMatchHelper.c_MpveCount - 1);
+                                        node = node.Next;
                                     }
-                                }
-                                guidList.Add(matchInfo.m_Guid);
-                                if (guidList.Count == MpveMatchHelper.c_MpveCount)
-                                {
-                                    ///
-                                    AutoFormTeam(guidList);
-                                    ///
-                                    node = node.Next;
-                                    for (int idx = 0; idx < MpveMatchHelper.c_MpveCount; ++idx)
-                                    {
-                                        ulong guid = guidList[idx];
-                                        if (users_dic.Contains(guid))
-                                        {
-                                            if (null != node && node.Value.m_Guid == guid)
-                                                node = node.Next;
-                                            ///
-                                            MpveMatchInfo findMatchInfo = users_dic[guid];
-                                            LogSys.Log(LOG_TYPE.DEBUG, "found matched user {0}(score:{1}) for mpve user {2}(score:{3})", findMatchInfo.m_Guid, findMatchInfo.m_Score, matchInfo.m_Guid, matchInfo.m_Score);
-                                            ///
-                                            UserInfo mbr = scheduler.GetUserInfo(findMatchInfo.m_Guid);
-                                            if (null != mbr)
-                                            {
-                                                mbr.CurrentBattleInfo.init(scene_type, mbr.HeroId);
-                                            }
-                                            ///
-                                            RemoveMpveUser(scene_type, guid, false);
-                                        }
-                                    }
-                                    ///
-                                    RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
-                                    roomProcess.QueueAction(roomProcess.AllocLobbyRoom, guidList.ToArray(), scene_type);
-                                    ++ct;
-                                }
-                                else
-                                {
-                                    node = node.Next;
                                 }
                             }
                         }

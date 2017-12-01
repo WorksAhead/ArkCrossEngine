@@ -158,7 +158,7 @@ namespace Lobby
             return info;
         }
 
-        internal void AddUsers(int camp, params ulong[] users)
+        internal void AddUsers(int camp, ulong[] users)
         {
             DataProcessScheduler dataProcess = LobbyServer.Instance.DataProcessScheduler;
             foreach (ulong user in users)
@@ -169,6 +169,7 @@ namespace Lobby
                     info.Room = this;
                     info.IsPrepared = false;
                     info.CampId = camp;
+
                     if (m_Users.ContainsKey(user))
                     {
                         m_Users[user] = new WeakReference(info);
@@ -253,14 +254,17 @@ namespace Lobby
 
         internal void StartBattleRoom()
         {
-            this.CurrentState = RoomState.Game;  //房间进入游戏状态
+            if (CurrentState != RoomState.Game)
+            {
+                CurrentState = RoomState.Game;  //房间进入游戏状态
+            }
             RoomServerInfo svrInfo;
             if (m_LobbyInfo.RoomServerInfos.TryGetValue(m_RoomServerName, out svrInfo))
             {
                 foreach (WeakReference userRef in m_Users.Values)
                 {
                     UserInfo info = userRef.Target as UserInfo;
-                    if (info != null)
+                    if (info != null && info.CurrentState != UserState.Room)
                     {
                         JsonMessageWithGuid startGameResultMsg = new JsonMessageWithGuid(JsonMessageID.StartGameResult);
                         startGameResultMsg.m_Guid = info.Guid;
@@ -293,6 +297,141 @@ namespace Lobby
         internal bool CheckJoinCondition(ulong guid)
         {
             return true;
+        }
+
+        internal List<Msg_LR_RoomUserInfo> BuildRoomUsersInfo(long curTime)
+        {
+            List<Msg_LR_RoomUserInfo> builder = new List<Msg_LR_RoomUserInfo>();
+            foreach (KeyValuePair<ulong, WeakReference> pair in m_Users)
+            {
+                ulong guid = pair.Key;
+                UserInfo info = pair.Value.Target as UserInfo;
+                if (info != null && guid == info.Guid)
+                {
+                    // check state
+                    if (!info.IsPrepared || (info.CurrentState != UserState.Teaming))
+                    {
+                        continue;
+                    }
+
+                    // check time stamp
+                    if (info.LastAddUserTime + 5000 < curTime)
+                    {
+                        info.LastAddUserTime = curTime;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    Msg_LR_RoomUserInfo.Builder ruiBuilder = Msg_LR_RoomUserInfo.CreateBuilder();
+                    ruiBuilder.SetGuid(info.Guid);
+                    ruiBuilder.SetNick(info.Nickname);
+                    ruiBuilder.SetKey(info.Key);
+                    ruiBuilder.SetHero(info.HeroId);
+                    ruiBuilder.SetCamp(info.CampId);
+                    ruiBuilder.SetIsMachine(info.IsMachine);
+                    ruiBuilder.SetLevel(info.Level);
+                    int arg_score = info.FightingScore;
+                    if (null != info.Group && null != info.Group.Members)
+                    {
+                        foreach (GroupMemberInfo m in info.Group.Members)
+                        {
+                            UserInfo member = LobbyServer.Instance.DataProcessScheduler.GetUserInfo(m.Guid);
+                            if (null != member && member.Guid != guid)
+                            {
+                                if (member.FightingScore > arg_score)
+                                    arg_score = member.FightingScore;
+                            }
+                        }
+                    }
+                    arg_score = (int)(arg_score * 0.8);
+                    ruiBuilder.SetArgScore(arg_score);
+                    ///
+                    Msg_LR_RoomUserInfo.Types.SkillInfo.Builder[] skill_assit = new Msg_LR_RoomUserInfo.Types.SkillInfo.Builder[4];
+                    for (int i = 0; i < skill_assit.Length; i++)
+                    {
+                        skill_assit[i] = Msg_LR_RoomUserInfo.Types.SkillInfo.CreateBuilder();
+                        skill_assit[i].SetSkillId(0);
+                        skill_assit[i].SetSkillLevel(0);
+                    }
+                    if (null != info.Skill && null != info.Skill.Skills)
+                    {
+                        int cur_preset_index = info.Skill.CurPresetIndex;
+                        if (cur_preset_index >= 0)
+                        {
+                            for (int i = 0; i < skill_assit.Length; i++)
+                            {
+                                for (int j = 0; j < info.Skill.Skills.Count; j++)
+                                {
+                                    if (info.Skill.Skills[j].Postions.Presets[cur_preset_index] == (SlotPosition)(i + 1))
+                                    {
+                                        skill_assit[i].SetSkillId(info.Skill.Skills[j].ID);
+                                        skill_assit[i].SetSkillLevel(info.Skill.Skills[j].Level);
+                                        break;
+                                    }
+                                }
+                            }
+                            for (int i = 0; i < skill_assit.Length; i++)
+                            {
+                                ruiBuilder.SkillsList.Add(skill_assit[i].Build());
+                            }
+                            ruiBuilder.SetPresetIndex(cur_preset_index);
+                        }
+                    }
+                    ///
+                    if (null != info.Equip && null != info.Equip.Armor)
+                    {
+                        for (int i = 0; i < info.Equip.Armor.Length; i++)
+                        {
+                            Msg_LR_RoomUserInfo.Types.EquipInfo.Builder equip_assit = Msg_LR_RoomUserInfo.Types.EquipInfo.CreateBuilder();
+                            equip_assit.SetEquipId(info.Equip.Armor[i].ItemId);
+                            equip_assit.SetEquipLevel(info.Equip.Armor[i].Level);
+                            equip_assit.SetEquipRandomProperty(info.Equip.Armor[i].AppendProperty);
+                            ruiBuilder.EquipsList.Add(equip_assit.Build());
+                        }
+                    }
+                    ///
+                    if (null != info.Legacy && null != info.Legacy.SevenArcs)
+                    {
+                        for (int i = 0; i < info.Legacy.SevenArcs.Length; i++)
+                        {
+                            Msg_LR_RoomUserInfo.Types.LegacyInfo.Builder legacy_assit = Msg_LR_RoomUserInfo.Types.LegacyInfo.CreateBuilder();
+                            legacy_assit.SetLegacyId(info.Legacy.SevenArcs[i].ItemId);
+                            legacy_assit.SetLegacyLevel(info.Legacy.SevenArcs[i].Level);
+                            legacy_assit.SetLegacyRandomProperty(info.Legacy.SevenArcs[i].AppendProperty);
+                            legacy_assit.SetLegacyIsUnlock(info.Legacy.SevenArcs[i].IsUnlock);
+                            ruiBuilder.LegacysList.Add(legacy_assit.Build());
+                        }
+                    }
+                    ///
+                    if (null != info.XSoul)
+                    {
+                        foreach (ItemInfo item in info.XSoul.GetAllXSoulPartData().Values)
+                        {
+                            Msg_LR_RoomUserInfo.Types.XSoulDataInfo.Builder xsoul_msg = Msg_LR_RoomUserInfo.Types.XSoulDataInfo.CreateBuilder();
+                            xsoul_msg.ItemId = item.ItemId;
+                            xsoul_msg.Level = item.Level;
+                            xsoul_msg.ModelLevel = item.ShowModelLevel;
+                            xsoul_msg.Experience = item.Experience;
+                            ruiBuilder.XSoulsList.Add(xsoul_msg.Build());
+                        }
+                    }
+                    // partner
+                    PartnerInfo partnerInfo = info.PartnerStateInfo.GetActivePartner();
+                    if (null != partnerInfo)
+                    {
+                        Msg_LR_RoomUserInfo.Types.PartnerInfo.Builder partner = Msg_LR_RoomUserInfo.Types.PartnerInfo.CreateBuilder();
+                        partner.SetPartnerId(partnerInfo.Id);
+                        partner.SetPartnerLevel(partnerInfo.CurAdditionLevel);
+                        partner.SetPartnerStage(partnerInfo.CurSkillStage);
+                        ruiBuilder.SetPartner(partner);
+                    }
+                    builder.Add(ruiBuilder.Build());
+                }
+            }
+
+            return builder;
         }
 
         internal void Tick()
@@ -338,12 +477,15 @@ namespace Lobby
                     UpdateUserCount();
                 }
             }
-            //准备过程处理
-            if (!m_IsPrepared)
+            // 首次创建房间
+            // if (!m_IsPrepared)
             {
                 if (UserCount > 0)
                 {
                     long curTime = TimeUtility.GetServerMilliseconds();
+
+                    // log per second
+                    /*
                     bool canLog = false;
                     if (m_LastLogTime + 1000 < curTime)
                     {
@@ -354,11 +496,14 @@ namespace Lobby
                     {
                         LogSys.Log(LOG_TYPE.DEBUG, "Room {0} will on {1}", m_RoomId, m_RoomServerName);
                     }
+                    */
+
+                    // notify match result
                     foreach (KeyValuePair<ulong, WeakReference> pair in m_Users)
                     {
                         ulong guid = pair.Key;
                         UserInfo info = pair.Value.Target as UserInfo;
-                        if (info != null)
+                        if (info != null && !info.IsPrepared)
                         {
                             if (info.LastNotifyMatchTime + 5000 < curTime)
                             {
@@ -371,155 +516,74 @@ namespace Lobby
                                 mrMsg.m_ProtoData = protoData;
                                 JsonMessageDispatcher.SendDcoreMessage(info.NodeName, mrMsg);
                             }
+                        }
+                    }
 
-                            if (canLog)
-                            {
-                                LogSys.Log(LOG_TYPE.DEBUG, "==>User(guid:{0} acc:{1} key:{2}) State {3} key guid:{4}", info.Guid, info.AccountId, info.Key, info.IsPrepared, guid);
-                            }
-                        }
-                        else
-                        {
-                            if (canLog)
-                            {
-                                LogSys.Log(LOG_TYPE.DEBUG, "==>Oops, a null user, ignore him !!!");
-                            }
-                        }
-                    }
-                    //检查成员状态，如果都准备好则通知RoomServer创建副本
-                    bool isOk = true;
-                    foreach (KeyValuePair<ulong, WeakReference> pair in m_Users)
+                    // 检查成员状态，如果都准备好则通知RoomServer创建副本
+                    if (this.CurrentState == RoomState.Prepare)
                     {
-                        ulong guid = pair.Key;
-                        UserInfo info = pair.Value.Target as UserInfo;
-                        if (info != null && !info.IsPrepared && guid == info.Guid)
-                        {
-                            isOk = false;
-                            break;
-                        }
-                    }
-                    if (isOk)
-                    {
-                        m_IsPrepared = true;
-                        Msg_LR_CreateBattleRoom.Builder cbrBuilder = Msg_LR_CreateBattleRoom.CreateBuilder();
-                        cbrBuilder.SetRoomId(RoomId);
-                        cbrBuilder.SetSceneType(SceneType);
+                        bool isOk = true;
                         foreach (KeyValuePair<ulong, WeakReference> pair in m_Users)
                         {
                             ulong guid = pair.Key;
                             UserInfo info = pair.Value.Target as UserInfo;
-                            if (info != null && guid == info.Guid)
+                            if (info != null && !info.IsPrepared && guid == info.Guid)
                             {
-                                Msg_LR_RoomUserInfo.Builder ruiBuilder = Msg_LR_RoomUserInfo.CreateBuilder();
-                                ruiBuilder.SetGuid(info.Guid);
-                                ruiBuilder.SetNick(info.Nickname);
-                                ruiBuilder.SetKey(info.Key);
-                                ruiBuilder.SetHero(info.HeroId);
-                                ruiBuilder.SetCamp(info.CampId);
-                                ruiBuilder.SetIsMachine(info.IsMachine);
-                                ruiBuilder.SetLevel(info.Level);
-                                int arg_score = info.FightingScore;
-                                if (null != info.Group && null != info.Group.Members)
-                                {
-                                    foreach (GroupMemberInfo m in info.Group.Members)
-                                    {
-                                        UserInfo member = LobbyServer.Instance.DataProcessScheduler.GetUserInfo(m.Guid);
-                                        if (null != member && member.Guid != guid)
-                                        {
-                                            if (member.FightingScore > arg_score)
-                                                arg_score = member.FightingScore;
-                                        }
-                                    }
-                                }
-                                arg_score = (int)(arg_score * 0.8);
-                                ruiBuilder.SetArgScore(arg_score);
-                                ///
-                                Msg_LR_RoomUserInfo.Types.SkillInfo.Builder[] skill_assit = new Msg_LR_RoomUserInfo.Types.SkillInfo.Builder[4];
-                                for (int i = 0; i < skill_assit.Length; i++)
-                                {
-                                    skill_assit[i] = Msg_LR_RoomUserInfo.Types.SkillInfo.CreateBuilder();
-                                    skill_assit[i].SetSkillId(0);
-                                    skill_assit[i].SetSkillLevel(0);
-                                }
-                                if (null != info.Skill && null != info.Skill.Skills)
-                                {
-                                    int cur_preset_index = info.Skill.CurPresetIndex;
-                                    if (cur_preset_index >= 0)
-                                    {
-                                        for (int i = 0; i < skill_assit.Length; i++)
-                                        {
-                                            for (int j = 0; j < info.Skill.Skills.Count; j++)
-                                            {
-                                                if (info.Skill.Skills[j].Postions.Presets[cur_preset_index] == (SlotPosition)(i + 1))
-                                                {
-                                                    skill_assit[i].SetSkillId(info.Skill.Skills[j].ID);
-                                                    skill_assit[i].SetSkillLevel(info.Skill.Skills[j].Level);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        for (int i = 0; i < skill_assit.Length; i++)
-                                        {
-                                            ruiBuilder.SkillsList.Add(skill_assit[i].Build());
-                                        }
-                                        ruiBuilder.SetPresetIndex(cur_preset_index);
-                                    }
-                                }
-                                ///
-                                if (null != info.Equip && null != info.Equip.Armor)
-                                {
-                                    for (int i = 0; i < info.Equip.Armor.Length; i++)
-                                    {
-                                        Msg_LR_RoomUserInfo.Types.EquipInfo.Builder equip_assit = Msg_LR_RoomUserInfo.Types.EquipInfo.CreateBuilder();
-                                        equip_assit.SetEquipId(info.Equip.Armor[i].ItemId);
-                                        equip_assit.SetEquipLevel(info.Equip.Armor[i].Level);
-                                        equip_assit.SetEquipRandomProperty(info.Equip.Armor[i].AppendProperty);
-                                        ruiBuilder.EquipsList.Add(equip_assit.Build());
-                                    }
-                                }
-                                ///
-                                if (null != info.Legacy && null != info.Legacy.SevenArcs)
-                                {
-                                    for (int i = 0; i < info.Legacy.SevenArcs.Length; i++)
-                                    {
-                                        Msg_LR_RoomUserInfo.Types.LegacyInfo.Builder legacy_assit = Msg_LR_RoomUserInfo.Types.LegacyInfo.CreateBuilder();
-                                        legacy_assit.SetLegacyId(info.Legacy.SevenArcs[i].ItemId);
-                                        legacy_assit.SetLegacyLevel(info.Legacy.SevenArcs[i].Level);
-                                        legacy_assit.SetLegacyRandomProperty(info.Legacy.SevenArcs[i].AppendProperty);
-                                        legacy_assit.SetLegacyIsUnlock(info.Legacy.SevenArcs[i].IsUnlock);
-                                        ruiBuilder.LegacysList.Add(legacy_assit.Build());
-                                    }
-                                }
-                                ///
-                                if (null != info.XSoul)
-                                {
-                                    foreach (ItemInfo item in info.XSoul.GetAllXSoulPartData().Values)
-                                    {
-                                        Msg_LR_RoomUserInfo.Types.XSoulDataInfo.Builder xsoul_msg = Msg_LR_RoomUserInfo.Types.XSoulDataInfo.CreateBuilder();
-                                        xsoul_msg.ItemId = item.ItemId;
-                                        xsoul_msg.Level = item.Level;
-                                        xsoul_msg.ModelLevel = item.ShowModelLevel;
-                                        xsoul_msg.Experience = item.Experience;
-                                        ruiBuilder.XSoulsList.Add(xsoul_msg.Build());
-                                    }
-                                }
-                                // partner
-                                PartnerInfo partnerInfo = info.PartnerStateInfo.GetActivePartner();
-                                if (null != partnerInfo)
-                                {
-                                    Msg_LR_RoomUserInfo.Types.PartnerInfo.Builder partner = Msg_LR_RoomUserInfo.Types.PartnerInfo.CreateBuilder();
-                                    partner.SetPartnerId(partnerInfo.Id);
-                                    partner.SetPartnerLevel(partnerInfo.CurAdditionLevel);
-                                    partner.SetPartnerStage(partnerInfo.CurSkillStage);
-                                    ruiBuilder.SetPartner(partner);
-                                }
-                                cbrBuilder.AddUsers(ruiBuilder.Build());
+                                isOk = false;
+                                break;
                             }
                         }
-                        //sirius TODO:在此处确定要连接的RoomServer
-                        LobbyServer.Instance.RoomSvrChannel.Send(m_RoomServerName, cbrBuilder.Build());
-                        this.CurrentState = RoomState.Start;  //房间启动状态
-                        this.StartTime = DateTime.Now;
-                        LogSys.Log(LOG_TYPE.INFO, "Multi Play Room will run on Roomserver {0} roomid {1} scene {2} for {3} users ...", m_RoomServerName, RoomId, SceneType, UserCount);
+                        if (isOk)
+                        {
+                            var userInfoBuilders = BuildRoomUsersInfo(curTime);
+                            if (userInfoBuilders.Count > 0)
+                            {
+                                Msg_LR_CreateBattleRoom.Builder cbrBuilder = Msg_LR_CreateBattleRoom.CreateBuilder();
+                                cbrBuilder.SetRoomId(RoomId);
+                                cbrBuilder.SetSceneType(SceneType);
+                                cbrBuilder.AddRangeUsers(userInfoBuilders);
+
+                                //sirius TODO:在此处确定要连接的RoomServer
+                                LobbyServer.Instance.RoomSvrChannel.Send(m_RoomServerName, cbrBuilder.Build());
+                                this.CurrentState = RoomState.Start;  //房间启动状态
+                                this.StartTime = DateTime.Now;
+                                LogSys.Log(LOG_TYPE.INFO, "Multi Play Room will run on Roomserver {0} roomid {1} scene {2} for {3} users ...", m_RoomServerName, RoomId, SceneType, UserCount);
+                            }
+                        }
+                    }
+                    // 检查是否有新添加进来的用户
+                    else if (CurrentState == RoomState.Game)
+                    {
+                        bool isOk = false;
+                        foreach (KeyValuePair<ulong, WeakReference> pair in m_Users)
+                        {
+                            ulong guid = pair.Key;
+                            UserInfo info = pair.Value.Target as UserInfo;
+                            if (info != null && info.IsPrepared && info.CurrentState != UserState.Room && guid == info.Guid)
+                            {
+                                isOk = true;
+                                break;
+                            }
+                        }
+
+                        if (isOk)
+                        {
+                            var userInfoBuilders = BuildRoomUsersInfo(curTime);
+                            if (userInfoBuilders.Count > 0)
+                            {
+                                Msg_LR_AddNewUsr.Builder anuBuilder = Msg_LR_AddNewUsr.CreateBuilder();
+                                anuBuilder.SetRoomId(RoomId);
+                                anuBuilder.AddRangeUsers(userInfoBuilders);
+
+                                //sirius TODO:在此处确定要连接的RoomServer
+                                LobbyServer.Instance.RoomSvrChannel.Send(m_RoomServerName, anuBuilder.Build());
+                                LogSys.Log(LOG_TYPE.INFO, "Add {1} users on roomid {0} ...", RoomId, UserCount);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ;
                     }
                 }
             }

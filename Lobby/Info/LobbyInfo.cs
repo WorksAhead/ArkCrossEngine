@@ -36,6 +36,18 @@ namespace Lobby
             return info;
         }
 
+        internal RoomInfo GetRoomBySceneType(int sceneType)
+        {
+            foreach(var room in m_Rooms)
+            {
+                if (room.Value.SceneType == sceneType)
+                {
+                    return room.Value;
+                }
+            }
+            return null;
+        }
+
         internal RoomInfoForMessage[] GetRoomList(int page, int countPerPage, out bool haveNextPage)
         {
             haveNextPage = false;

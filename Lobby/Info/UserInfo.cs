@@ -522,6 +522,11 @@ namespace Lobby
             get { return m_LastNotifyMatchTime; }
             set { m_LastNotifyMatchTime = value; }
         }
+        internal long LastAddUserTime
+        {
+            get { return m_LastNotifyAddUserTime; }
+            set { m_LastNotifyAddUserTime = value; }
+        }
         internal LoginRewardInfo LoginRewardInfo
         {
             get { return m_LoginRewardInfo; }
@@ -1746,6 +1751,7 @@ namespace Lobby
         private object m_Lock = new object();
 
         private long m_LastNotifyMatchTime = 0;
+        private long m_LastNotifyAddUserTime = 0;
         private bool m_IsPrepared = false;
 
         private WeakReference m_Group = null;
@@ -1760,6 +1766,7 @@ namespace Lobby
         private long m_NextUserSaveCount = 1;
         private long m_CurrentUserSaveCount = 0;       //数据存储计数,1...表示tick中定期存储；0表示正常退出
         private int m_NewbieScene = 1001;
+        
         //Mpve
         private int m_AttemptAward = 0;
         private int m_AttemptCurAcceptedCount = 0;

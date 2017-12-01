@@ -214,9 +214,20 @@ namespace Lobby
             JsonMessageDispatcher.SendDcoreMessage(ui.NodeName, syncCombatDataMsg);
         }
 
-        internal void AllocLobbyRoom(ulong[] users, int type)
+        internal void AllocOrUpdateLobbyRoom(ulong[] users, int type)
         {
-            int roomId = m_LobbyInfo.CreateAutoRoom(users, type);
+            RoomInfo room = m_LobbyInfo.GetRoomBySceneType(type);
+            int roomId = 0;
+            if (room == null)
+            {
+                roomId = m_LobbyInfo.CreateAutoRoom(users, type);
+            }
+            else
+            {
+                room.AddUsers((int)CampIdEnum.Blue, users);
+                roomId = room.RoomId;
+            }
+            
             long time = TimeUtility.GetServerMilliseconds();
 
             DataProcessScheduler dataProcess = LobbyServer.Instance.DataProcessScheduler;
@@ -240,7 +251,7 @@ namespace Lobby
 
             LogSys.Log(LOG_TYPE.DEBUG, "Alloc lobby room for {0} users, roomid {1} scene {2}", users.Length, roomId, type);
         }
-
+        
         internal void RequestStartGame(ulong guid)
         {
             UserInfo info = LobbyServer.Instance.DataProcessScheduler.GetUserInfo(guid);
@@ -427,6 +438,46 @@ namespace Lobby
                 m_LobbyInfo.StopBattleRoom(roomId);
             }
         }
+        internal void OnReplyAddNewUser(int roomId, bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                RoomInfo room = m_LobbyInfo.GetRoomByID(roomId);
+                if (room == null) return;
+
+                m_LobbyInfo.StartBattleRoom(roomId);
+
+                foreach (WeakReference info in room.Users.Values)
+                {
+                    UserInfo user = info.Target as UserInfo;
+                    if (user != null && user.CurrentState != UserState.Room)
+                    {
+                        user.CurrentState = UserState.Room;
+                        user.CurrentRoomID = roomId;
+                    }
+                }
+            }
+            else
+            {
+                //玩家重新进入匹配队列
+                RoomInfo room = m_LobbyInfo.GetRoomByID(roomId);
+                if (room == null) return;
+
+                LogSys.Log(LOG_TYPE.DEBUG, "StartGameResult, failed from RoomServer:{0},room id:{1}", room.RoomServerName, room.RoomId);
+
+                foreach (WeakReference info in room.Users.Values)
+                {
+                    UserInfo user = info.Target as UserInfo;
+                    if (user != null)
+                    {
+                        user.CurrentState = UserState.Online;
+                        user.IsPrepared = false;
+                        LobbyServer.Instance.MatchFormThread.QueueAction(LobbyServer.Instance.MatchFormThread.RequestMatch, user.Guid, room.SceneType);
+                    }
+                }
+            }
+        }
+
         //响应RoomServer玩家重新连接进入房间的反馈消息
         internal void OnReplyReconnectUser(ulong userGuid, int roomID, bool isSuccess)
         {

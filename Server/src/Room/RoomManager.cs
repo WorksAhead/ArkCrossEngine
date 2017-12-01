@@ -164,6 +164,7 @@ namespace DashFire
             channel.Register<Msg_LR_CreateBattleRoom>(HandleCreateBattleRoom);
             channel.Register<Msg_LR_ReconnectUser>(HandleReconnectUser);
             channel.Register<Msg_LR_UserReLive>(HandleUserRelive);
+            channel.Register<Msg_LR_AddNewUsr>(HandleAddUser);
         }
         //--------------------------------------
         private void HandleCreateBattleRoom(Msg_LR_CreateBattleRoom createRoomMsg, PBChannel channel, int handle, uint seq)
@@ -361,6 +362,153 @@ namespace DashFire
                 RoomThread roomThread = roomthread_list_[ix];
                 roomThread.QueueAction(roomThread.HandleUserRelive, msg);
             }
+        }
+
+        private void HandleAddUser(Msg_LR_AddNewUsr urMsg, PBChannel channel, int handle, uint seq)
+        {
+            LogSys.Log(LOG_TYPE.DEBUG, "channel:{0}, seq:{1}", channel, seq);
+
+            bool canContinue = true;
+            //先检查是否玩家已经在room上。
+            foreach (Msg_LR_RoomUserInfo rui in urMsg.UsersList)
+            {
+                if (RoomPeerMgr.Instance.IsKeyExist(rui.Key))
+                {
+                    canContinue = false;
+                    LogSys.Log(LOG_TYPE.WARN, "User is already in room. UserGuid:{0}, Key:{1}", rui.Guid, rui.Key);
+                    break;
+                }
+            }
+            if (!canContinue)
+            {
+//                 Msg_RL_ReplyAddNewUsr.Builder replyBuilder0 = Msg_RL_ReplyAddNewUsr.CreateBuilder();
+//                 replyBuilder0.SetRoomId(urMsg.RoomId);
+//                 replyBuilder0.SetIsSuccess(false);
+//                 channel.Send(replyBuilder0.Build());
+                return;
+            }
+
+            List<User> users = new List<User>();
+            foreach (Msg_LR_RoomUserInfo rui in urMsg.UsersList)
+            {
+                User rsUser = user_pool_.NewUser();
+                LogSys.Log(LOG_TYPE.INFO, "NewUser {0} for {1} {2}", rsUser.LocalID, rui.Guid, rui.Key);
+                rsUser.Init();
+                if (!rsUser.SetKey(rui.Key))
+                {
+//                     LogSys.Log(LOG_TYPE.WARN, "user who's key is {0} already in room!", rui.Key);
+//                     LogSys.Log(LOG_TYPE.INFO, "FreeUser {0} for {1} {2}, [RoomManager.HandleCreateBattleRoom]", rsUser.LocalID, rui.Guid, rui.Key);
+//                     user_pool_.FreeUser(rsUser.LocalID);
+                    continue;
+                }
+                rsUser.Guid = rui.Guid;
+                rsUser.Name = rui.Nick;
+                rsUser.HeroId = rui.Hero;
+                rsUser.CampId = rui.Camp;
+                rsUser.Level = rui.Level;
+                rsUser.ArgFightingScore = rui.ArgScore;
+                if (rui.IsMachine == true)
+                    rsUser.UserControlState = (int)UserControlState.Ai;
+                else
+                    rsUser.UserControlState = (int)UserControlState.User;
+                //装备数据
+                for (int index = 0; index < rui.ShopEquipmentsIdCount; ++index)
+                {
+                    rsUser.ShopEquipmentsId.Add(rui.GetShopEquipmentsId(index));
+                }
+                if (null != rsUser.Skill)
+                {
+                    rsUser.Skill.Clear();
+                    for (int i = 0; i < rui.SkillsCount; i++)
+                    {
+                        SkillTransmitArg skill_arg = new SkillTransmitArg();
+                        skill_arg.SkillId = rui.SkillsList[i].SkillId;
+                        skill_arg.SkillLevel = rui.SkillsList[i].SkillLevel;
+                        rsUser.Skill.Add(skill_arg);
+                    }
+                    if (rui.HasPresetIndex)
+                    {
+                        rsUser.PresetIndex = rui.PresetIndex;
+                    }
+                }
+                ///
+                if (null != rsUser.Equip)
+                {
+                    rsUser.Equip.Clear();
+                    for (int i = 0; i < rui.EquipsCount; i++)
+                    {
+                        ItemTransmitArg equip_arg = new ItemTransmitArg();
+                        equip_arg.ItemId = rui.EquipsList[i].EquipId;
+                        equip_arg.ItemLevel = rui.EquipsList[i].EquipLevel;
+                        equip_arg.ItemRandomProperty = rui.EquipsList[i].EquipRandomProperty;
+                        rsUser.Equip.Add(equip_arg);
+                    }
+                }
+                ///
+                if (null != rsUser.Legacy)
+                {
+                    rsUser.Legacy.Clear();
+                    for (int i = 0; i < rui.LegacysCount; i++)
+                    {
+                        ItemTransmitArg legacy_arg = new ItemTransmitArg();
+                        legacy_arg.ItemId = rui.LegacysList[i].LegacyId;
+                        legacy_arg.ItemLevel = rui.LegacysList[i].LegacyLevel;
+                        legacy_arg.ItemRandomProperty = rui.LegacysList[i].LegacyRandomProperty;
+                        legacy_arg.IsUnlock = rui.LegacysList[i].LegacyIsUnlock;
+                        rsUser.Legacy.Add(legacy_arg);
+                    }
+                }
+                ///
+                if (null != rsUser.XSouls)
+                {
+                    rsUser.XSouls.GetAllXSoulPartData().Clear();
+                    for (int i = 0; i < rui.XSoulsCount; i++)
+                    {
+                        ItemDataInfo item = new ItemDataInfo();
+                        item.ItemId = rui.XSoulsList[i].ItemId;
+                        item.Level = rui.XSoulsList[i].Level;
+                        item.Experience = rui.XSoulsList[i].Experience;
+                        ItemConfig configer = ItemConfigProvider.Instance.GetDataById(item.ItemId);
+                        item.ItemConfig = configer;
+                        if (configer != null)
+                        {
+                            XSoulPartInfo part_info = new XSoulPartInfo((XSoulPart)configer.m_WearParts, item);
+                            part_info.ShowModelLevel = rui.XSoulsList[i].ModelLevel;
+                            rsUser.XSouls.SetXSoulPartData((XSoulPart)configer.m_WearParts, part_info);
+                        }
+                    }
+                }
+                // partner
+                if (null != rui.Partner)
+                {
+                    PartnerConfig partnerConfig = PartnerConfigProvider.Instance.GetDataById(rui.Partner.PartnerId);
+                    if (null != partnerConfig)
+                    {
+                        PartnerInfo partnerInfo = new PartnerInfo(partnerConfig);
+                        partnerInfo.CurAdditionLevel = rui.Partner.PartnerLevel;
+                        partnerInfo.CurSkillStage = rui.Partner.PartnerStage;
+                        rsUser.Partner = partnerInfo;
+                    }
+                }
+                users.Add(rsUser);
+            }
+
+            Msg_RL_ReplyAddNewUsr.Builder replyBuilder = Msg_RL_ReplyAddNewUsr.CreateBuilder();
+
+            int ix = GetActiveRoomThreadIndex(urMsg.RoomId);
+            if (ix < 0)
+            {
+                replyBuilder.SetRoomId(urMsg.RoomId);
+                replyBuilder.SetIsSuccess(false);
+                channel.Send(replyBuilder.Build());
+            }
+
+            RoomThread roomThread = roomthread_list_[ix];
+            roomThread.QueueAction(roomThread.AddNewUsr, urMsg.RoomId, users.ToArray());
+            
+            replyBuilder.SetRoomId(urMsg.RoomId);
+            replyBuilder.SetIsSuccess(true);
+            channel.Send(replyBuilder.Build());
         }
 
         // private functions--------------------

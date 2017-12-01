@@ -116,7 +116,7 @@ namespace Lobby
             guidList.Add(info.offense);
             guidList.Add(info.defence);
             RoomProcessThread roomProcess = LobbyServer.Instance.RoomProcessThread;
-            roomProcess.QueueAction(roomProcess.AllocLobbyRoom, guidList.ToArray(), (int)MatchSceneEnum.Dare);
+            roomProcess.QueueAction(roomProcess.AllocOrUpdateLobbyRoom, guidList.ToArray(), (int)MatchSceneEnum.Dare);
             return true;
         }
     }

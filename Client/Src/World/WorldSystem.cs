@@ -804,7 +804,7 @@ namespace ArkCrossEngine
 
                 if (m_IsSceneRequested == false)
                 {
-                    LobbyNetworkSystem.Instance.RequestMatchMpve(1020);
+                    LobbyNetworkSystem.Instance.RequestMatchMpve(m_CurScene.SceneConfig.m_Id);
                     m_IsSceneRequested = true;
                 }
 
@@ -4439,9 +4439,9 @@ namespace ArkCrossEngine
         private long m_SceneStartTime = 0;
         private long m_LastLogicTickTime = 0;
 
-        private const long c_ExceptionGotoMainCityTimeout = 15000;
-        private const long c_ChangeSceneTimeout = 60000;
-        private const long c_PromptExceptionTimeout = 10000;
+        private const long c_ExceptionGotoMainCityTimeout = 150000;
+        private const long c_ChangeSceneTimeout = 120000;
+        private const long c_PromptExceptionTimeout = 100000;
         private long m_LastTryChangeSceneTime = 0;
         private long m_LastPromptExceptionTime = 0;
 
