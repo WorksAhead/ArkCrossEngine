@@ -315,7 +315,7 @@ namespace Lobby
                     }
 
                     // check time stamp
-                    if (info.LastAddUserTime + 5000 < curTime)
+                    if (info.LastAddUserTime + 1000 < curTime)
                     {
                         info.LastAddUserTime = curTime;
                     }

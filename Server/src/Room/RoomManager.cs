@@ -367,25 +367,15 @@ namespace DashFire
         private void HandleAddUser(Msg_LR_AddNewUsr urMsg, PBChannel channel, int handle, uint seq)
         {
             LogSys.Log(LOG_TYPE.DEBUG, "channel:{0}, seq:{1}", channel, seq);
-
-            bool canContinue = true;
+            
             //先检查是否玩家已经在room上。
             foreach (Msg_LR_RoomUserInfo rui in urMsg.UsersList)
             {
                 if (RoomPeerMgr.Instance.IsKeyExist(rui.Key))
                 {
-                    canContinue = false;
                     LogSys.Log(LOG_TYPE.WARN, "User is already in room. UserGuid:{0}, Key:{1}", rui.Guid, rui.Key);
-                    break;
+                    return;
                 }
-            }
-            if (!canContinue)
-            {
-//                 Msg_RL_ReplyAddNewUsr.Builder replyBuilder0 = Msg_RL_ReplyAddNewUsr.CreateBuilder();
-//                 replyBuilder0.SetRoomId(urMsg.RoomId);
-//                 replyBuilder0.SetIsSuccess(false);
-//                 channel.Send(replyBuilder0.Build());
-                return;
             }
 
             List<User> users = new List<User>();
@@ -396,9 +386,6 @@ namespace DashFire
                 rsUser.Init();
                 if (!rsUser.SetKey(rui.Key))
                 {
-//                     LogSys.Log(LOG_TYPE.WARN, "user who's key is {0} already in room!", rui.Key);
-//                     LogSys.Log(LOG_TYPE.INFO, "FreeUser {0} for {1} {2}, [RoomManager.HandleCreateBattleRoom]", rsUser.LocalID, rui.Guid, rui.Key);
-//                     user_pool_.FreeUser(rsUser.LocalID);
                     continue;
                 }
                 rsUser.Guid = rui.Guid;
