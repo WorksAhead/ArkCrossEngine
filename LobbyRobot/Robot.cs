@@ -274,6 +274,7 @@ namespace LobbyRobot
         {
             try
             {
+                /*
                 JsonMessage changeSceneMsg = new JsonMessage(JsonMessageID.ChangeCityScene);
                 changeSceneMsg.m_JsonData.SetJsonType(JsonType.Object);
                 changeSceneMsg.m_JsonData.Set("m_Guid", LobbyNetworkSystem.Guid);
@@ -282,6 +283,13 @@ namespace LobbyRobot
 
                 changeSceneMsg.m_ProtoData = protoData;
                 SendLobbyMessage(changeSceneMsg);
+                */
+                JsonMessage msg = new JsonMessage(JsonMessageID.RequestMatch);
+                msg.m_JsonData.Set("m_Guid", LobbyNetworkSystem.Guid);
+                ArkCrossEngineMessage.Msg_CL_RequestMatch protoData = new ArkCrossEngineMessage.Msg_CL_RequestMatch();
+                protoData.m_SceneType = id;
+                msg.m_ProtoData = protoData;
+                SendLobbyMessage(msg);
             }
             catch (Exception ex)
             {

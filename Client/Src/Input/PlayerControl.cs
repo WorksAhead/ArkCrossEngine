@@ -677,6 +677,7 @@ namespace ArkCrossEngine
 
         private void FindPath(Vector3 targetpos)
         {
+            /*
             UserInfo playerself = WorldSystem.Instance.GetPlayerSelf();
             if (playerself != null && !playerself.IsDead())
             {
@@ -692,6 +693,8 @@ namespace ArkCrossEngine
                 aiInfo.TargetPos = targetpos;
                 aiInfo.ChangeToState((int)AiStateId.Move);
             }
+            */
+            MovePosition(targetpos);
         }
 
         private void UpdateTowards(UserInfo playerself, float towards)
