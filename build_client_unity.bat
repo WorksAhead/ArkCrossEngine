@@ -22,10 +22,10 @@ set logdir=%workdir%\BuildLog
 
 rem xbuild is copy from mono-3.0.3/lib/mono/4.5
 rem this xbuild will probably not work in a clean machine
-set xbuild=%workdir%\Tools\lib\mono\4.5\xbuild.exe
+set xbuild=%workdir%\Tools\xbuild\xbuild.exe
 
 rem mdb generator
-set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.5\pdb2mdb.exe
+set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.0\pdb2mdb.exe
 
 rem show xbuild version
 %xbuild% /version
