@@ -16,10 +16,10 @@ set workdir=%~dp0
 set svrbin=%workdir%\DcoreEnv\bin
 set logdir=%workdir%\BuildLog
 
-set xbuild=%workdir%\Tools\xbuild\xbuild.exe
+set xbuild=%workdir%\Tools\lib\mono\4.5\xbuild.exe
 
 rem mdb generator
-set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.0\pdb2mdb.exe
+set pdb2mdb=%workdir%\Tools\mono\mono.exe %workdir%\Tools\lib\mono\4.5\pdb2mdb.exe
 
 rem show xbuild version
 %xbuild% /version
