@@ -14,6 +14,7 @@ namespace DashFire
             peer_ = new RoomPeer();
             is_entered_ = false;
             is_idle_ = true;
+            HasSyncInfo = false;
         }
 
         internal void Reset()
@@ -23,6 +24,7 @@ namespace DashFire
             user_name_ = "";
             is_entered_ = false;
             is_idle_ = true;
+            HasSyncInfo = false;
         }
 
         internal bool SetKey(uint key)
@@ -163,6 +165,7 @@ namespace DashFire
             get { return is_idle_; }
             set { is_idle_ = value; }
         }
+        internal bool HasSyncInfo { set; get; }
 
         private RoomPeer peer_;
         private Room own_room_;

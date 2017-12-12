@@ -39,31 +39,39 @@ namespace DashFire
                         user.SetHp(Operate_Type.OT_Absolute, user.GetActualProperty().HpMax);
                         user.SetEnergy(Operate_Type.OT_Absolute, user.GetActualProperty().EnergyMax);
                     }
-                    //先让各客户端创建自己与场景相关信息
-                    foreach (User us in m_Room.RoomUsers)
-                    {
-                        if (us.IsEntered)
-                        {
-                            SyncUserToSelf(us);
-                            SyncSceneObjectsToUser(us);
-                        }
-                    }
-                    //再通知其他客户端看见自己
-                    foreach (User us in m_Room.RoomUsers)
-                    {
-                        if (us.IsEntered)
-                        {
-                            SyncUserToOthers(us);
-                        }
-                    }
-                    //给观察者发初始玩家与场景对象信息
-                    foreach (Observer observer in m_Room.RoomObservers)
-                    {
-                        if (null != observer && !observer.IsIdle && observer.IsEntered)
-                        {
-                            SyncForNewObserver(observer);
-                        }
-                    }
+                    SyncUsers();
+                }
+            }
+        }
+
+        private void SyncUsers()
+        { 
+            //先让各客户端创建自己与场景相关信息
+            foreach (User us in m_Room.RoomUsers)
+            {
+                if (us.IsEntered && !us.HasSyncInfo)
+                {
+                    SyncUserToSelf(us);
+                    SyncSceneObjectsToUser(us);
+                    us.HasSyncInfo = true;
+                }
+            }
+            //再通知其他客户端看见自己
+            foreach (User us in m_Room.RoomUsers)
+            {
+                if (us.IsEntered && !us.HasSyncInfo)
+                {
+                    SyncUserToOthers(us);
+                    us.HasSyncInfo = true;
+                }
+            }
+            //给观察者发初始玩家与场景对象信息
+            foreach (Observer observer in m_Room.RoomObservers)
+            {
+                if (null != observer && !observer.IsIdle && observer.IsEntered && !observer.HasSyncInfo)
+                {
+                    SyncForNewObserver(observer);
+                    observer.HasSyncInfo = true;
                 }
             }
         }
@@ -71,6 +79,9 @@ namespace DashFire
         private void TickRunning()
         {
             TimeSnapshot.DoCheckPoint();
+
+            // 如果有玩家在房间创建后被加入,在这里更新同步数据
+            SyncUsers();
 
             m_ServerDelayActionProcessor.HandleActions(100);
             m_SceneProfiler.DelayActionProcessorTime = TimeSnapshot.DoCheckPoint();

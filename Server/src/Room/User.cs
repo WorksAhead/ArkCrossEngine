@@ -21,6 +21,7 @@ namespace DashFire
             peer_ = new RoomPeer();
             dispatcher_ = new Dispatcher();
             IsEntered = false;
+            HasSyncInfo = false;
             IsDebug = false;
             m_UserControlState = (int)DashFire.UserControlState.User;
         }
@@ -32,6 +33,7 @@ namespace DashFire
             user_guid_ = 0;
             user_name_ = "";
             IsEntered = false;
+            HasSyncInfo = false;
             HeroId = 0;
             IsDebug = false;
             m_UserControlState = (int)DashFire.UserControlState.User;
@@ -332,6 +334,7 @@ namespace DashFire
             set { m_UserControlState = value; }
         }
         internal bool IsEntered { set; get; }
+        internal bool HasSyncInfo { set; get; }
         internal int HeroId { set; get; }
         internal int CampId { set; get; }
         internal bool IsDebug { set; get; }
