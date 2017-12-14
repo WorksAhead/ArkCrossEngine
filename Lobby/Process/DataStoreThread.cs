@@ -616,6 +616,8 @@ namespace Lobby
                 userBasicBuilder.SetCreateTime(ui.CreateTime.ToString());
                 userBasicBuilder.SetNewbieStep(ui.NewBieGuideInfo.NewbieFlag);
                 userBasicBuilder.SetNewbieActionFlag(ui.NewBieGuideInfo.NewbieActionFlag);
+                userBasicBuilder.SetX((long)ui.X);
+                userBasicBuilder.SetZ((long)ui.Z);
                 dataUserBuilder.SetUserBasic(userBasicBuilder.Build());
 
                 DS_UserInfoExtra.Builder userExtraBuilder = DS_UserInfoExtra.CreateBuilder();

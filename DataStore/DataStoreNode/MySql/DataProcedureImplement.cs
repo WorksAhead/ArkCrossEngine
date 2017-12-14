@@ -5,12 +5,12 @@ using System.Data;
 
 internal static class DataProcedureImplement
 {
-    internal static string GetDSNodeVersion()
+    internal static string GetDSNodeVersion ()
     {
         string version = string.Empty;
         try
         {
-            using (MySqlCommand cmd = new MySqlCommand())
+            using ( MySqlCommand cmd = new MySqlCommand() )
             {
                 cmd.Connection = DBConn.MySqlConn;
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -20,7 +20,7 @@ internal static class DataProcedureImplement
                 version = (string)cmd.Parameters["@dsversion"].Value;
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "GetDSNodeVersion procedure ERROR:{0}\n Stacktrace:{1}", ex.Message, ex.StackTrace);
         }

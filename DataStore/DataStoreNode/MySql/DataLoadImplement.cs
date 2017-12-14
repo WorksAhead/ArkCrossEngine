@@ -15,7 +15,7 @@ internal static class DataLoadImplement
 {
     private class ColumnInfo
     {
-        internal ColumnInfo(string cn, string dt, string ct)
+        internal ColumnInfo ( string cn, string dt, string ct )
         {
             ColumnName = cn;
             DataType = dt;
@@ -25,32 +25,32 @@ internal static class DataLoadImplement
         internal string DataType { get; private set; }
         internal string ColumnType { get; private set; }
     }
-    internal static void LoadSingleRowWithCallback(Type dsType, string primaryKey, ArkCrossEngine.MyAction<IMessage> resultCallback)
+    internal static void LoadSingleRowWithCallback ( Type dsType, string primaryKey, ArkCrossEngine.MyAction<IMessage> resultCallback )
     {
         IMessage dataMsg = LoadSingleRow(dsType, primaryKey);
-        if (null != resultCallback)
+        if ( null != resultCallback )
         {
             DataCacheSystem.Instance.QueueAction(resultCallback, dataMsg);
         }
     }
-    internal static void LoadMultiRowsWithCallback(Type dsType, string foreignKey, ArkCrossEngine.MyAction<List<IMessage>> resultCallback)
+    internal static void LoadMultiRowsWithCallback ( Type dsType, string foreignKey, ArkCrossEngine.MyAction<List<IMessage>> resultCallback )
     {
         List<IMessage> datas = LoadMultiRows(dsType, foreignKey);
-        if (null != datas)
+        if ( null != datas )
         {
             DataCacheSystem.Instance.QueueAction(resultCallback, datas);
         }
     }
-    internal static void LoadTableWithCallback(Type dsType, ArkCrossEngine.MyAction<List<IMessage>> resultCallback)
+    internal static void LoadTableWithCallback ( Type dsType, ArkCrossEngine.MyAction<List<IMessage>> resultCallback )
     {
         List<IMessage> datas = LoadTable(dsType);
-        if (null != resultCallback)
+        if ( null != resultCallback )
         {
             DataCacheSystem.Instance.QueueAction(resultCallback, datas);
         }
     }
 
-    internal static IMessage LoadSingleRow(Type dsType, string primaryKey)
+    internal static IMessage LoadSingleRow ( Type dsType, string primaryKey )
     {
         string tableName = GetTableName(dsType);
         MessageDescriptor md = (MessageDescriptor)dsType.InvokeMember(
@@ -62,7 +62,7 @@ internal static class DataLoadImplement
         string statement = string.Format("select * from {0} where {1} = '{2}'", tableName, pri_key_name, primaryKey);
         //LogSys.Log(LOG_TYPE.INFO, "Load {0}: {1}", table, statement);
         List<IMessage> datas = ExecuteLoadSQL(dsType, tableName, statement, md);
-        if (datas.Count == 1)
+        if ( datas.Count == 1 )
         {
             return datas[0];
         }
@@ -71,7 +71,7 @@ internal static class DataLoadImplement
             return null;
         }
     }
-    internal static List<IMessage> LoadMultiRows(Type dsType, string foreignKey)
+    internal static List<IMessage> LoadMultiRows ( Type dsType, string foreignKey )
     {
         string tableName = GetTableName(dsType);
         MessageDescriptor md = (MessageDescriptor)dsType.InvokeMember(
@@ -84,7 +84,7 @@ internal static class DataLoadImplement
         //LogSys.Log(LOG_TYPE.INFO, "Load {0}: {1}", table, statement);
         return ExecuteLoadSQL(dsType, tableName, statement, md);
     }
-    internal static List<IMessage> LoadTable(Type dsType)
+    internal static List<IMessage> LoadTable ( Type dsType )
     {
         string tableName = GetTableName(dsType);
         MessageDescriptor md = (MessageDescriptor)dsType.InvokeMember(
@@ -95,7 +95,7 @@ internal static class DataLoadImplement
         //LogSys.Log(LOG_TYPE.INFO, "Load {0}: {1}", table, select_stat);
         return ExecuteLoadSQL(dsType, tableName, statement, md);
     }
-    private static List<IMessage> ExecuteLoadSQL(Type tableType, string tableName, string statement, MessageDescriptor md)
+    private static List<IMessage> ExecuteLoadSQL ( Type tableType, string tableName, string statement, MessageDescriptor md )
     {
         List<IMessage> datas = new List<IMessage>();
         Dictionary<string, ColumnInfo> columnInfos = GetColumnInfo(tableName);
@@ -108,17 +108,17 @@ internal static class DataLoadImplement
         {
             MySqlCommand cmd = new MySqlCommand(statement, DBConn.MySqlConn);
             cmd.CommandType = CommandType.Text;
-            using (DbDataReader reader = cmd.ExecuteReader())
+            using ( DbDataReader reader = cmd.ExecuteReader() )
             {
-                while (reader.Read())
+                while ( reader.Read() )
                 {
-                    foreach (FieldDescriptor fd in md.Fields)
+                    foreach ( FieldDescriptor fd in md.Fields )
                     {
                         string col_name = fd.Name;
                         string func_name = string.Format("Set{0}", fd.CSharpOptions.PropertyName);
                         ColumnInfo ci = columnInfos[col_name];
                         object value = reader[col_name];
-                        if (fd.FieldType == FieldType.Bytes)
+                        if ( fd.FieldType == FieldType.Bytes )
                         {
                             value = ByteString.Unsafe.FromBytes((byte[])value);
                         }
@@ -134,16 +134,16 @@ internal static class DataLoadImplement
                 return datas;
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Execute load SQL ERROR:{0}\n Stacktrace:{1} \n SQL statement:{2}\n", ex.Message, ex.StackTrace, statement);
             throw ex;
         }
     }
-    private static string GetTableName(Type tableType)
+    private static string GetTableName ( Type tableType )
     {
         string tableName = tableType.Name;
-        if (tableName.StartsWith("DS_"))
+        if ( tableName.StartsWith("DS_") )
         {
             tableName = tableName.Substring(3);     //去除“DS_”，得到数据表名
         }
@@ -154,15 +154,15 @@ internal static class DataLoadImplement
         }
         return tableName;
     }
-    private static Dictionary<string, ColumnInfo> GetColumnInfo(string tableName)
+    private static Dictionary<string, ColumnInfo> GetColumnInfo ( string tableName )
     {
         Dictionary<string, ColumnInfo> columnInfos;
-        if (!s_TableColumnDict.TryGetValue(tableName, out columnInfos))
+        if ( !s_TableColumnDict.TryGetValue(tableName, out columnInfos) )
         {
-            lock (s_Guard)
+            lock ( s_Guard )
             {
                 // double check
-                if (!s_TableColumnDict.TryGetValue(tableName, out columnInfos))
+                if ( !s_TableColumnDict.TryGetValue(tableName, out columnInfos) )
                 {
                     // 访问information_schema取得table的列信息
                     string sql = string.Format("select column_name,data_type,column_type from information_schema.columns where table_name='{0}' and table_schema='{1}'",
@@ -170,9 +170,9 @@ internal static class DataLoadImplement
                     columnInfos = new Dictionary<string, ColumnInfo>();
                     MySqlCommand cmd = new MySqlCommand(sql, DBConn.MySqlConn);
                     cmd.CommandType = CommandType.Text;
-                    using (DbDataReader reader = cmd.ExecuteReader())
+                    using ( DbDataReader reader = cmd.ExecuteReader() )
                     {
-                        while (reader.Read())
+                        while ( reader.Read() )
                         {
                             var ci = new ColumnInfo(
                               reader.GetString(0),

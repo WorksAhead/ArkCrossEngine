@@ -68,53 +68,54 @@ namespace Lobby_RoomServer {
           "ChNNZXNzYWdlRGVmaW5lLnByb3RvImkKGU1zZ19STF9SZWdpc3RlclJvb21T" + 
           "ZXJ2ZXISEgoKU2VydmVyTmFtZRgBIAIoCRISCgpNYXhSb29tTnVtGAIgAigF" + 
           "EhAKCFNlcnZlcklwGAMgAigJEhIKClNlcnZlclBvcnQYBCACKA0iLgoeTXNn" + 
-          "X0xSX1JlcGx5UmVnaXN0ZXJSb29tU2VydmVyEgwKBElzT2sYASACKAgi1wYK" + 
+          "X0xSX1JlcGx5UmVnaXN0ZXJSb29tU2VydmVyEgwKBElzT2sYASACKAgi7QYK" + 
           "E01zZ19MUl9Sb29tVXNlckluZm8SDAoER3VpZBgBIAIoBBIMCgROaWNrGAIg" + 
           "AigJEgsKA0tleRgDIAIoDRIMCgRIZXJvGAQgAigFEhAKCEFyZ1Njb3JlGAUg" + 
           "AigFEgwKBENhbXAYBiACKAUSEQoJSXNNYWNoaW5lGAcgAigIEhgKEFNob3BF" + 
-          "cXVpcG1lbnRzSWQYCCADKAUSLgoGU2tpbGxzGAkgAygLMh4uTXNnX0xSX1Jv" + 
-          "b21Vc2VySW5mby5Ta2lsbEluZm8SEwoLUHJlc2V0SW5kZXgYCiABKAUSLgoG" + 
-          "RXF1aXBzGAsgAygLMh4uTXNnX0xSX1Jvb21Vc2VySW5mby5FcXVpcEluZm8S" + 
-          "DQoFTGV2ZWwYDCACKAUSMAoHTGVnYWN5cxgNIAMoCzIfLk1zZ19MUl9Sb29t" + 
-          "VXNlckluZm8uTGVnYWN5SW5mbxIyCgZYU291bHMYDiADKAsyIi5Nc2dfTFJf" + 
-          "Um9vbVVzZXJJbmZvLlhTb3VsRGF0YUluZm8SMQoHUGFydG5lchgPIAEoCzIg" + 
-          "Lk1zZ19MUl9Sb29tVXNlckluZm8uUGFydG5lckluZm8aMgoJU2tpbGxJbmZv" + 
-          "EhAKCHNraWxsX2lkGAEgAigFEhMKC3NraWxsX2xldmVsGAIgAigFGlEKCUVx" + 
-          "dWlwSW5mbxIQCghlcXVpcF9pZBgBIAIoBRITCgtlcXVpcF9sZXZlbBgCIAIo" + 
-          "BRIdChVlcXVpcF9yYW5kb21fcHJvcGVydHkYAyACKAUabwoKTGVnYWN5SW5m" + 
-          "bxIRCglsZWdhY3lfaWQYASACKAUSFAoMbGVnYWN5X2xldmVsGAIgAigFEh4K" + 
-          "FmxlZ2FjeV9yYW5kb21fcHJvcGVydHkYAyACKAUSGAoQbGVnYWN5X2lzX3Vu" + 
-          "bG9jaxgEIAIoCBpWCg1YU291bERhdGFJbmZvEg4KBkl0ZW1JZBgBIAIoBRIN" + 
-          "CgVMZXZlbBgCIAIoBRISCgpNb2RlbExldmVsGAMgAigFEhIKCkV4cGVyaWVu" + 
-          "Y2UYBCACKAUaTwoLUGFydG5lckluZm8SEgoKcGFydG5lcl9pZBgBIAIoBRIV" + 
-          "Cg1wYXJ0bmVyX2xldmVsGAIgAigFEhUKDXBhcnRuZXJfc3RhZ2UYAyACKAUi" + 
-          "OAoUTXNnX0xSX1JlY29ubmVjdFVzZXISEAoIVXNlckd1aWQYASACKAQSDgoG" + 
-          "Um9vbUlEGAIgAigFIlAKGU1zZ19STF9SZXBseVJlY29ubmVjdFVzZXISEAoI" + 
-          "VXNlckd1aWQYASACKAQSDgoGUm9vbUlEGAIgAigFEhEKCUlzU3VjY2VzcxgD" + 
-          "IAIoCCJhChdNc2dfTFJfQ3JlYXRlQmF0dGxlUm9vbRIOCgZSb29tSWQYASAC" + 
-          "KAUSEQoJU2NlbmVUeXBlGAIgAigFEiMKBVVzZXJzGAMgAygLMhQuTXNnX0xS" + 
-          "X1Jvb21Vc2VySW5mbyJBChxNc2dfUkxfUmVwbHlDcmVhdGVCYXR0bGVSb29t" + 
-          "Eg4KBlJvb21JZBgBIAIoBRIRCglJc1N1Y2Nlc3MYAiACKAgiRwoQTXNnX0xS" + 
-          "X0FkZE5ld1VzchIOCgZSb29tSWQYASACKAUSIwoFVXNlcnMYAiADKAsyFC5N" + 
-          "c2dfTFJfUm9vbVVzZXJJbmZvIjoKFU1zZ19STF9SZXBseUFkZE5ld1VzchIO" + 
-          "CgZSb29tSWQYASACKAUSEQoJSXNTdWNjZXNzGAIgAigIIlcKG01zZ19STF9S" + 
-          "b29tU2VydmVyVXBkYXRlSW5mbxISCgpTZXJ2ZXJOYW1lGAEgAigJEhMKC0lk" + 
-          "bGVSb29tTnVtGAIgAigFEg8KB1VzZXJOdW0YAyACKAUiOwoYTXNnX1JMX1Vz" + 
-          "ZXJMb2JieUl0ZW1JbmZvEg4KBkl0ZW1JZBgBIAIoBRIPCgdJdGVtTnVtGAIg" + 
-          "AigFIqoCChVNc2dfUkxfVXNlckJhdHRsZUluZm8SEAoIVXNlckd1aWQYASAC" + 
-          "KAQSPQoMQmF0dGxlUmVzdWx0GAIgAigOMicuTXNnX1JMX1VzZXJCYXR0bGVJ" + 
-          "bmZvLkJhdHRsZVJlc3VsdEVudW0SDQoFTW9uZXkYAyABKAUSEAoISGl0Q291" + 
-          "bnQYBCABKAUSFAoMS2lsbE5wY0NvdW50GAUgASgFEhgKEE1heE11bHRpSGl0" + 
-          "Q291bnQYBiABKAUSGwoTVG90YWxEYW1hZ2VUb015c2VsZhgHIAEoBRIdChVU" + 
-          "b3RhbERhbWFnZUZyb21NeXNlbGYYCCABKAUiMwoQQmF0dGxlUmVzdWx0RW51" + 
-          "bRIHCgNXaW4QABIICgRMb3N0EAESDAoIVW5maW5pc2gQAiK4AQoQTXNnX1JM" + 
-          "X0JhdHRsZUVuZBIOCgZSb29tSUQYASACKAUSNAoKV2lubmVyQ2FtcBgCIAIo" + 
-          "DjIgLk1zZ19STF9CYXR0bGVFbmQuV2lubmVyQ2FtcEVudW0SLwoPVXNlckJh" + 
-          "dHRsZUluZm9zGAMgAygLMhYuTXNnX1JMX1VzZXJCYXR0bGVJbmZvIi0KDldp" + 
-          "bm5lckNhbXBFbnVtEggKBE5vbmUQABIHCgNSZWQQARIICgRCbHVlEAIiSAoP" + 
-          "TXNnX1JMX1VzZXJRdWl0EhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21JRBgC" + 
-          "IAIoBRITCgtJc0JhdHRsZUVuZBgDIAIoCCI1ChFNc2dfTFJfVXNlclJlTGl2" + 
-          "ZRIQCghVc2VyR3VpZBgBIAIoBBIOCgZSb29tSUQYAiACKAU=");
+          "cXVpcG1lbnRzSWQYCCADKAUSCQoBWBgQIAIoAxIJCgFaGBEgAigDEi4KBlNr" + 
+          "aWxscxgJIAMoCzIeLk1zZ19MUl9Sb29tVXNlckluZm8uU2tpbGxJbmZvEhMK" + 
+          "C1ByZXNldEluZGV4GAogASgFEi4KBkVxdWlwcxgLIAMoCzIeLk1zZ19MUl9S" + 
+          "b29tVXNlckluZm8uRXF1aXBJbmZvEg0KBUxldmVsGAwgAigFEjAKB0xlZ2Fj" + 
+          "eXMYDSADKAsyHy5Nc2dfTFJfUm9vbVVzZXJJbmZvLkxlZ2FjeUluZm8SMgoG" + 
+          "WFNvdWxzGA4gAygLMiIuTXNnX0xSX1Jvb21Vc2VySW5mby5YU291bERhdGFJ" + 
+          "bmZvEjEKB1BhcnRuZXIYDyABKAsyIC5Nc2dfTFJfUm9vbVVzZXJJbmZvLlBh" + 
+          "cnRuZXJJbmZvGjIKCVNraWxsSW5mbxIQCghza2lsbF9pZBgBIAIoBRITCgtz" + 
+          "a2lsbF9sZXZlbBgCIAIoBRpRCglFcXVpcEluZm8SEAoIZXF1aXBfaWQYASAC" + 
+          "KAUSEwoLZXF1aXBfbGV2ZWwYAiACKAUSHQoVZXF1aXBfcmFuZG9tX3Byb3Bl" + 
+          "cnR5GAMgAigFGm8KCkxlZ2FjeUluZm8SEQoJbGVnYWN5X2lkGAEgAigFEhQK" + 
+          "DGxlZ2FjeV9sZXZlbBgCIAIoBRIeChZsZWdhY3lfcmFuZG9tX3Byb3BlcnR5" + 
+          "GAMgAigFEhgKEGxlZ2FjeV9pc191bmxvY2sYBCACKAgaVgoNWFNvdWxEYXRh" + 
+          "SW5mbxIOCgZJdGVtSWQYASACKAUSDQoFTGV2ZWwYAiACKAUSEgoKTW9kZWxM" + 
+          "ZXZlbBgDIAIoBRISCgpFeHBlcmllbmNlGAQgAigFGk8KC1BhcnRuZXJJbmZv" + 
+          "EhIKCnBhcnRuZXJfaWQYASACKAUSFQoNcGFydG5lcl9sZXZlbBgCIAIoBRIV" + 
+          "Cg1wYXJ0bmVyX3N0YWdlGAMgAigFIjgKFE1zZ19MUl9SZWNvbm5lY3RVc2Vy" + 
+          "EhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21JRBgCIAIoBSJQChlNc2dfUkxf" + 
+          "UmVwbHlSZWNvbm5lY3RVc2VyEhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21J" + 
+          "RBgCIAIoBRIRCglJc1N1Y2Nlc3MYAyACKAgiYQoXTXNnX0xSX0NyZWF0ZUJh" + 
+          "dHRsZVJvb20SDgoGUm9vbUlkGAEgAigFEhEKCVNjZW5lVHlwZRgCIAIoBRIj" + 
+          "CgVVc2VycxgDIAMoCzIULk1zZ19MUl9Sb29tVXNlckluZm8iQQocTXNnX1JM" + 
+          "X1JlcGx5Q3JlYXRlQmF0dGxlUm9vbRIOCgZSb29tSWQYASACKAUSEQoJSXNT" + 
+          "dWNjZXNzGAIgAigIIkcKEE1zZ19MUl9BZGROZXdVc3ISDgoGUm9vbUlkGAEg" + 
+          "AigFEiMKBVVzZXJzGAIgAygLMhQuTXNnX0xSX1Jvb21Vc2VySW5mbyI6ChVN" + 
+          "c2dfUkxfUmVwbHlBZGROZXdVc3ISDgoGUm9vbUlkGAEgAigFEhEKCUlzU3Vj" + 
+          "Y2VzcxgCIAIoCCJXChtNc2dfUkxfUm9vbVNlcnZlclVwZGF0ZUluZm8SEgoK" + 
+          "U2VydmVyTmFtZRgBIAIoCRITCgtJZGxlUm9vbU51bRgCIAIoBRIPCgdVc2Vy" + 
+          "TnVtGAMgAigFIjsKGE1zZ19STF9Vc2VyTG9iYnlJdGVtSW5mbxIOCgZJdGVt" + 
+          "SWQYASACKAUSDwoHSXRlbU51bRgCIAIoBSKqAgoVTXNnX1JMX1VzZXJCYXR0" + 
+          "bGVJbmZvEhAKCFVzZXJHdWlkGAEgAigEEj0KDEJhdHRsZVJlc3VsdBgCIAIo" + 
+          "DjInLk1zZ19STF9Vc2VyQmF0dGxlSW5mby5CYXR0bGVSZXN1bHRFbnVtEg0K" + 
+          "BU1vbmV5GAMgASgFEhAKCEhpdENvdW50GAQgASgFEhQKDEtpbGxOcGNDb3Vu" + 
+          "dBgFIAEoBRIYChBNYXhNdWx0aUhpdENvdW50GAYgASgFEhsKE1RvdGFsRGFt" + 
+          "YWdlVG9NeXNlbGYYByABKAUSHQoVVG90YWxEYW1hZ2VGcm9tTXlzZWxmGAgg" + 
+          "ASgFIjMKEEJhdHRsZVJlc3VsdEVudW0SBwoDV2luEAASCAoETG9zdBABEgwK" + 
+          "CFVuZmluaXNoEAIiuAEKEE1zZ19STF9CYXR0bGVFbmQSDgoGUm9vbUlEGAEg" + 
+          "AigFEjQKCldpbm5lckNhbXAYAiACKA4yIC5Nc2dfUkxfQmF0dGxlRW5kLldp" + 
+          "bm5lckNhbXBFbnVtEi8KD1VzZXJCYXR0bGVJbmZvcxgDIAMoCzIWLk1zZ19S" + 
+          "TF9Vc2VyQmF0dGxlSW5mbyItCg5XaW5uZXJDYW1wRW51bRIICgROb25lEAAS" + 
+          "BwoDUmVkEAESCAoEQmx1ZRACIl4KD01zZ19STF9Vc2VyUXVpdBIQCghVc2Vy" + 
+          "R3VpZBgBIAIoBBIOCgZSb29tSUQYAiACKAUSEwoLSXNCYXR0bGVFbmQYAyAC" + 
+          "KAgSCQoBWBgEIAIoAxIJCgFaGAUgAigDIjUKEU1zZ19MUl9Vc2VyUmVMaXZl" + 
+          "EhAKCFVzZXJHdWlkGAEgAigEEg4KBlJvb21JRBgCIAIoBQ==");
       pbd::FileDescriptor.InternalDescriptorAssigner assigner = delegate(pbd::FileDescriptor root) {
         descriptor = root;
         internal__static_Msg_RL_RegisterRoomServer__Descriptor = Descriptor.MessageTypes[0];
@@ -128,7 +129,7 @@ namespace Lobby_RoomServer {
         internal__static_Msg_LR_RoomUserInfo__Descriptor = Descriptor.MessageTypes[2];
         internal__static_Msg_LR_RoomUserInfo__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_RoomUserInfo, global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Builder>(internal__static_Msg_LR_RoomUserInfo__Descriptor,
-                new string[] { "Guid", "Nick", "Key", "Hero", "ArgScore", "Camp", "IsMachine", "ShopEquipmentsId", "Skills", "PresetIndex", "Equips", "Level", "Legacys", "XSouls", "Partner", });
+                new string[] { "Guid", "Nick", "Key", "Hero", "ArgScore", "Camp", "IsMachine", "ShopEquipmentsId", "X", "Z", "Skills", "PresetIndex", "Equips", "Level", "Legacys", "XSouls", "Partner", });
         internal__static_Msg_LR_RoomUserInfo_SkillInfo__Descriptor = internal__static_Msg_LR_RoomUserInfo__Descriptor.NestedTypes[0];
         internal__static_Msg_LR_RoomUserInfo_SkillInfo__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo, global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo.Builder>(internal__static_Msg_LR_RoomUserInfo_SkillInfo__Descriptor,
@@ -192,7 +193,7 @@ namespace Lobby_RoomServer {
         internal__static_Msg_RL_UserQuit__Descriptor = Descriptor.MessageTypes[13];
         internal__static_Msg_RL_UserQuit__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_RL_UserQuit, global::Lobby_RoomServer.Msg_RL_UserQuit.Builder>(internal__static_Msg_RL_UserQuit__Descriptor,
-                new string[] { "UserGuid", "RoomID", "IsBattleEnd", });
+                new string[] { "UserGuid", "RoomID", "IsBattleEnd", "X", "Z", });
         internal__static_Msg_LR_UserReLive__Descriptor = Descriptor.MessageTypes[14];
         internal__static_Msg_LR_UserReLive__FieldAccessorTable = 
             new pb::FieldAccess.FieldAccessorTable<global::Lobby_RoomServer.Msg_LR_UserReLive, global::Lobby_RoomServer.Msg_LR_UserReLive.Builder>(internal__static_Msg_LR_UserReLive__Descriptor,
@@ -887,8 +888,8 @@ namespace Lobby_RoomServer {
   public sealed partial class Msg_LR_RoomUserInfo : pb::GeneratedMessage<Msg_LR_RoomUserInfo, Msg_LR_RoomUserInfo.Builder> {
     private Msg_LR_RoomUserInfo() { }
     private static readonly Msg_LR_RoomUserInfo defaultInstance = new Msg_LR_RoomUserInfo().MakeReadOnly();
-    private static readonly string[] _msgLRRoomUserInfoFieldNames = new string[] { "ArgScore", "Camp", "Equips", "Guid", "Hero", "IsMachine", "Key", "Legacys", "Level", "Nick", "Partner", "PresetIndex", "ShopEquipmentsId", "Skills", "XSouls" };
-    private static readonly uint[] _msgLRRoomUserInfoFieldTags = new uint[] { 40, 48, 90, 8, 32, 56, 24, 106, 96, 18, 122, 80, 64, 74, 114 };
+    private static readonly string[] _msgLRRoomUserInfoFieldNames = new string[] { "ArgScore", "Camp", "Equips", "Guid", "Hero", "IsMachine", "Key", "Legacys", "Level", "Nick", "Partner", "PresetIndex", "ShopEquipmentsId", "Skills", "X", "XSouls", "Z" };
+    private static readonly uint[] _msgLRRoomUserInfoFieldTags = new uint[] { 40, 48, 90, 8, 32, 56, 24, 106, 96, 18, 122, 80, 64, 74, 128, 114, 136 };
     public static Msg_LR_RoomUserInfo DefaultInstance {
       get { return defaultInstance; }
     }
@@ -2836,6 +2837,26 @@ namespace Lobby_RoomServer {
       return shopEquipmentsId_[index];
     }
     
+    public const int XFieldNumber = 16;
+    private bool hasX;
+    private long x_;
+    public bool HasX {
+      get { return hasX; }
+    }
+    public long X {
+      get { return x_; }
+    }
+    
+    public const int ZFieldNumber = 17;
+    private bool hasZ;
+    private long z_;
+    public bool HasZ {
+      get { return hasZ; }
+    }
+    public long Z {
+      get { return z_; }
+    }
+    
     public const int SkillsFieldNumber = 9;
     private pbc::PopsicleList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo> skills_ = new pbc::PopsicleList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo>();
     public scg::IList<global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo> SkillsList {
@@ -2923,6 +2944,8 @@ namespace Lobby_RoomServer {
         if (!hasArgScore) return false;
         if (!hasCamp) return false;
         if (!hasIsMachine) return false;
+        if (!hasX) return false;
+        if (!hasZ) return false;
         if (!hasLevel) return false;
         foreach (global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo element in SkillsList) {
           if (!element.IsInitialized) return false;
@@ -2986,10 +3009,16 @@ namespace Lobby_RoomServer {
         output.WriteMessageArray(13, field_names[7], legacys_);
       }
       if (xSouls_.Count > 0) {
-        output.WriteMessageArray(14, field_names[14], xSouls_);
+        output.WriteMessageArray(14, field_names[15], xSouls_);
       }
       if (hasPartner) {
         output.WriteMessage(15, field_names[10], Partner);
+      }
+      if (hasX) {
+        output.WriteInt64(16, field_names[14], X);
+      }
+      if (hasZ) {
+        output.WriteInt64(17, field_names[16], Z);
       }
       UnknownFields.WriteTo(output);
     }
@@ -3029,6 +3058,12 @@ namespace Lobby_RoomServer {
           }
           size += dataSize;
           size += 1 * shopEquipmentsId_.Count;
+        }
+        if (hasX) {
+          size += pb::CodedOutputStream.ComputeInt64Size(16, X);
+        }
+        if (hasZ) {
+          size += pb::CodedOutputStream.ComputeInt64Size(17, Z);
         }
         foreach (global::Lobby_RoomServer.Msg_LR_RoomUserInfo.Types.SkillInfo element in SkillsList) {
           size += pb::CodedOutputStream.ComputeMessageSize(9, element);
@@ -3204,6 +3239,12 @@ namespace Lobby_RoomServer {
         if (other.shopEquipmentsId_.Count != 0) {
           result.shopEquipmentsId_.Add(other.shopEquipmentsId_);
         }
+        if (other.HasX) {
+          X = other.X;
+        }
+        if (other.HasZ) {
+          Z = other.Z;
+        }
         if (other.skills_.Count != 0) {
           result.skills_.Add(other.skills_);
         }
@@ -3332,6 +3373,14 @@ namespace Lobby_RoomServer {
               }
               input.ReadMessage(subBuilder, extensionRegistry);
               Partner = subBuilder.BuildPartial();
+              break;
+            }
+            case 128: {
+              result.hasX = input.ReadInt64(ref result.x_);
+              break;
+            }
+            case 136: {
+              result.hasZ = input.ReadInt64(ref result.z_);
               break;
             }
           }
@@ -3512,6 +3561,46 @@ namespace Lobby_RoomServer {
       public Builder ClearShopEquipmentsId() {
         PrepareBuilder();
         result.shopEquipmentsId_.Clear();
+        return this;
+      }
+      
+      public bool HasX {
+        get { return result.hasX; }
+      }
+      public long X {
+        get { return result.X; }
+        set { SetX(value); }
+      }
+      public Builder SetX(long value) {
+        PrepareBuilder();
+        result.hasX = true;
+        result.x_ = value;
+        return this;
+      }
+      public Builder ClearX() {
+        PrepareBuilder();
+        result.hasX = false;
+        result.x_ = 0L;
+        return this;
+      }
+      
+      public bool HasZ {
+        get { return result.hasZ; }
+      }
+      public long Z {
+        get { return result.Z; }
+        set { SetZ(value); }
+      }
+      public Builder SetZ(long value) {
+        PrepareBuilder();
+        result.hasZ = true;
+        result.z_ = value;
+        return this;
+      }
+      public Builder ClearZ() {
+        PrepareBuilder();
+        result.hasZ = false;
+        result.z_ = 0L;
         return this;
       }
       
@@ -7492,8 +7581,8 @@ namespace Lobby_RoomServer {
   public sealed partial class Msg_RL_UserQuit : pb::GeneratedMessage<Msg_RL_UserQuit, Msg_RL_UserQuit.Builder> {
     private Msg_RL_UserQuit() { }
     private static readonly Msg_RL_UserQuit defaultInstance = new Msg_RL_UserQuit().MakeReadOnly();
-    private static readonly string[] _msgRLUserQuitFieldNames = new string[] { "IsBattleEnd", "RoomID", "UserGuid" };
-    private static readonly uint[] _msgRLUserQuitFieldTags = new uint[] { 24, 16, 8 };
+    private static readonly string[] _msgRLUserQuitFieldNames = new string[] { "IsBattleEnd", "RoomID", "UserGuid", "X", "Z" };
+    private static readonly uint[] _msgRLUserQuitFieldTags = new uint[] { 24, 16, 8, 32, 40 };
     public static Msg_RL_UserQuit DefaultInstance {
       get { return defaultInstance; }
     }
@@ -7544,11 +7633,33 @@ namespace Lobby_RoomServer {
       get { return isBattleEnd_; }
     }
     
+    public const int XFieldNumber = 4;
+    private bool hasX;
+    private long x_;
+    public bool HasX {
+      get { return hasX; }
+    }
+    public long X {
+      get { return x_; }
+    }
+    
+    public const int ZFieldNumber = 5;
+    private bool hasZ;
+    private long z_;
+    public bool HasZ {
+      get { return hasZ; }
+    }
+    public long Z {
+      get { return z_; }
+    }
+    
     public override bool IsInitialized {
       get {
         if (!hasUserGuid) return false;
         if (!hasRoomID) return false;
         if (!hasIsBattleEnd) return false;
+        if (!hasX) return false;
+        if (!hasZ) return false;
         return true;
       }
     }
@@ -7564,6 +7675,12 @@ namespace Lobby_RoomServer {
       }
       if (hasIsBattleEnd) {
         output.WriteBool(3, field_names[0], IsBattleEnd);
+      }
+      if (hasX) {
+        output.WriteInt64(4, field_names[3], X);
+      }
+      if (hasZ) {
+        output.WriteInt64(5, field_names[4], Z);
       }
       UnknownFields.WriteTo(output);
     }
@@ -7583,6 +7700,12 @@ namespace Lobby_RoomServer {
         }
         if (hasIsBattleEnd) {
           size += pb::CodedOutputStream.ComputeBoolSize(3, IsBattleEnd);
+        }
+        if (hasX) {
+          size += pb::CodedOutputStream.ComputeInt64Size(4, X);
+        }
+        if (hasZ) {
+          size += pb::CodedOutputStream.ComputeInt64Size(5, Z);
         }
         size += UnknownFields.SerializedSize;
         memoizedSerializedSize = size;
@@ -7717,6 +7840,12 @@ namespace Lobby_RoomServer {
         if (other.HasIsBattleEnd) {
           IsBattleEnd = other.IsBattleEnd;
         }
+        if (other.HasX) {
+          X = other.X;
+        }
+        if (other.HasZ) {
+          Z = other.Z;
+        }
         this.MergeUnknownFields(other.UnknownFields);
         return this;
       }
@@ -7770,6 +7899,14 @@ namespace Lobby_RoomServer {
             }
             case 24: {
               result.hasIsBattleEnd = input.ReadBool(ref result.isBattleEnd_);
+              break;
+            }
+            case 32: {
+              result.hasX = input.ReadInt64(ref result.x_);
+              break;
+            }
+            case 40: {
+              result.hasZ = input.ReadInt64(ref result.z_);
               break;
             }
           }
@@ -7839,6 +7976,46 @@ namespace Lobby_RoomServer {
         PrepareBuilder();
         result.hasIsBattleEnd = false;
         result.isBattleEnd_ = false;
+        return this;
+      }
+      
+      public bool HasX {
+        get { return result.hasX; }
+      }
+      public long X {
+        get { return result.X; }
+        set { SetX(value); }
+      }
+      public Builder SetX(long value) {
+        PrepareBuilder();
+        result.hasX = true;
+        result.x_ = value;
+        return this;
+      }
+      public Builder ClearX() {
+        PrepareBuilder();
+        result.hasX = false;
+        result.x_ = 0L;
+        return this;
+      }
+      
+      public bool HasZ {
+        get { return result.hasZ; }
+      }
+      public long Z {
+        get { return result.Z; }
+        set { SetZ(value); }
+      }
+      public Builder SetZ(long value) {
+        PrepareBuilder();
+        result.hasZ = true;
+        result.z_ = value;
+        return this;
+      }
+      public Builder ClearZ() {
+        PrepareBuilder();
+        result.hasZ = false;
+        result.z_ = 0L;
         return this;
       }
     }

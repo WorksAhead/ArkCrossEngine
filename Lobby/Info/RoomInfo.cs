@@ -332,6 +332,8 @@ namespace Lobby
                     ruiBuilder.SetCamp(info.CampId);
                     ruiBuilder.SetIsMachine(info.IsMachine);
                     ruiBuilder.SetLevel(info.Level);
+                    ruiBuilder.SetX((long)info.X);
+                    ruiBuilder.SetZ((long)info.Z);
                     int arg_score = info.FightingScore;
                     if (null != info.Group && null != info.Group.Members)
                     {

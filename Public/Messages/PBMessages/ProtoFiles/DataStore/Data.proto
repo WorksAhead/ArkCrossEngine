@@ -180,6 +180,8 @@ message DS_UserInfo
   required string CreateTime = 13 [(max_size) = 24];
   required int64 NewbieStep = 14;
   required int64 NewbieActionFlag = 15;
+  required int64 X = 16;
+  required int64 Z = 17;
 }
 
 message DS_UserInfoExtra 

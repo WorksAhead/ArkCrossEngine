@@ -34,34 +34,34 @@ internal class DataStoreConfig
         get { return s_Instance.m_SaveThreadNum; }
     }
 
-    internal static void Init()
+    internal static void Init ()
     {
         StringBuilder sb = new StringBuilder(256);
-        if (CenterClientApi.GetConfig("Server", sb, 256))
+        if ( CenterClientApi.GetConfig("Server", sb, 256) )
         {
             s_Instance.m_Server = sb.ToString();
         }
-        if (CenterClientApi.GetConfig("User", sb, 256))
+        if ( CenterClientApi.GetConfig("User", sb, 256) )
         {
             s_Instance.m_User = sb.ToString();
         }
-        if (CenterClientApi.GetConfig("Password", sb, 256))
+        if ( CenterClientApi.GetConfig("Password", sb, 256) )
         {
             s_Instance.m_Password = sb.ToString();
         }
-        if (CenterClientApi.GetConfig("Database", sb, 256))
+        if ( CenterClientApi.GetConfig("Database", sb, 256) )
         {
             s_Instance.m_Database = sb.ToString();
         }
-        if (CenterClientApi.GetConfig("PersistentInterval", sb, 256))
+        if ( CenterClientApi.GetConfig("PersistentInterval", sb, 256) )
         {
             s_Instance.m_PersistentInterval = uint.Parse(sb.ToString());
         }
-        if (CenterClientApi.GetConfig("LoadThreadNum", sb, 256))
+        if ( CenterClientApi.GetConfig("LoadThreadNum", sb, 256) )
         {
             s_Instance.m_LoadThreadNum = int.Parse(sb.ToString());
         }
-        if (CenterClientApi.GetConfig("SaveThreadNum", sb, 256))
+        if ( CenterClientApi.GetConfig("SaveThreadNum", sb, 256) )
         {
             s_Instance.m_SaveThreadNum = int.Parse(sb.ToString());
         }

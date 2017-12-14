@@ -58,7 +58,10 @@ namespace DashFire
                     Data_Unit unit = m_MapData.ExtractData(DataMap_Type.DT_Unit, info.GetUnitId()) as Data_Unit;
                     if (null != unit)
                     {
-                        info.GetMovementStateInfo().SetPosition(unit.m_Pos);
+                        if (info.GetMovementStateInfo().PositionX == 0 && info.GetMovementStateInfo().PositionZ == 0)
+                        {
+                            info.GetMovementStateInfo().SetPosition(unit.m_Pos);
+                        }
                         info.GetMovementStateInfo().SetFaceDir(unit.m_RotAngle);
                         info.RevivePoint = unit.m_Pos;
                     }

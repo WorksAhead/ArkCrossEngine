@@ -622,6 +622,8 @@ namespace Lobby
                                     ui.CreateTime = DateTime.Parse(dataUser.CreateTime);
                                     ui.NewBieGuideInfo.NewbieFlag = dataUser.NewbieStep;
                                     ui.NewBieGuideInfo.NewbieActionFlag = dataUser.NewbieActionFlag;
+                                    ui.X = dataUser.X;
+                                    ui.Z = dataUser.Z;
 
                                     DS_UserInfoExtra dataUserExtra = data.UserExtra;
                                     ui.GowInfo.GowElo = dataUserExtra.GowElo;

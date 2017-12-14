@@ -2,9 +2,9 @@
 
 internal static class DSNodeVersion
 {
-  internal static string Version
-  {
-    get { return "0.1.15"; }
-  }
+    internal static string Version
+    {
+        get { return "0.1.16"; }
+    }
 }
 

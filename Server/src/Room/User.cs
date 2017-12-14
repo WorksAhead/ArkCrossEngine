@@ -338,6 +338,16 @@ namespace DashFire
         internal int HeroId { set; get; }
         internal int CampId { set; get; }
         internal bool IsDebug { set; get; }
+        internal long InitialPosX
+        {
+            get { return m_InitialPositionX; }
+            set { m_InitialPositionX = value; }
+        }
+        internal long InitialPosY
+        {
+            get { return m_InitialPositionY; }
+            set { m_InitialPositionY = value; }
+        }
 
         internal UserInfo Info
         {
@@ -404,12 +414,16 @@ namespace DashFire
         private UserInfo m_Info;
         private int m_UserControlState;
 
-        //移动校验数据
+        // 移动校验数据
         private Vector3 m_LastClientPosition = Vector3.Zero;
         private float m_LastMoveVelocity = 0;
         private float m_LastMoveDirCosAngle = 0;
         private float m_LastMoveDirSinAngle = 0;
         private long m_LastSampleTime = 0;
         private bool m_LastIsMoving = false;
+
+        // 同步初始位置
+        private long m_InitialPositionX = 0;
+        private long m_InitialPositionY = 0;
     }
 } // namespace 

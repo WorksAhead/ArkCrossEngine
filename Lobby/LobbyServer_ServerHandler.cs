@@ -56,7 +56,7 @@ namespace Lobby
         private void HandleUserQuit(Msg_RL_UserQuit msg, PBChannel channel, int src, uint session)
         {
             //响应RoomServer游戏客户端退出消息
-            m_RoomProcessThread.QueueAction(m_RoomProcessThread.OnRoomUserQuit, msg.RoomID, msg.UserGuid, msg.IsBattleEnd);
+            m_RoomProcessThread.QueueAction(m_RoomProcessThread.OnRoomUserQuit, msg.RoomID, msg.UserGuid, msg.IsBattleEnd, msg.X, msg.Z);
         }
 
         private void HandelReplyReconnectUser(Msg_RL_ReplyReconnectUser replyMsg, PBChannel channel, int src, uint session)

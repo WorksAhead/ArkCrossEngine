@@ -208,6 +208,8 @@ namespace DashFire
                 rsUser.CampId = rui.Camp;
                 rsUser.Level = rui.Level;
                 rsUser.ArgFightingScore = rui.ArgScore;
+                rsUser.InitialPosX = rui.X;
+                rsUser.InitialPosY = rui.Z;
                 if (rui.IsMachine == true)
                     rsUser.UserControlState = (int)UserControlState.Ai;
                 else
@@ -394,6 +396,8 @@ namespace DashFire
                 rsUser.CampId = rui.Camp;
                 rsUser.Level = rui.Level;
                 rsUser.ArgFightingScore = rui.ArgScore;
+                rsUser.InitialPosX = rui.X;
+                rsUser.InitialPosY = rui.Z;
                 if (rui.IsMachine == true)
                     rsUser.UserControlState = (int)UserControlState.Ai;
                 else

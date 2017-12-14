@@ -1698,8 +1698,8 @@ namespace Lobby
         private int m_Gold = 0;
         private int m_ExpPoints = 0;
         private int m_CitySceneId = 0;        //角色所在的主城场景ID
-        private float m_X = 1;
-        private float m_Z = 1;
+        private float m_X = 0;
+        private float m_Z = 0;
         private float m_FaceDir = 0;
         private int m_FightingScore = 0;      //战力 
         private DateTime m_LastLogoutTime = new DateTime(1970, 1, 1, 0, 0, 0);

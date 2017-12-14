@@ -11,7 +11,7 @@ using ArkCrossEngine;
 
 class DataStore
 {
-    private void Init(string[] args)
+    private void Init ( string[] args )
     {
         m_NameHandleCallback = this.OnNameHandleChanged;
         m_MsgCallback = this.OnMessage;
@@ -27,23 +27,23 @@ class DataStore
 
         ArkCrossEngine.GlobalVariables.Instance.IsClient = false;
 
-        FileReaderProxy.RegisterReadFileHandler((string filePath) =>
+        FileReaderProxy.RegisterReadFileHandler(( string filePath ) =>
         {
             byte[] buffer = null;
             try
             {
                 buffer = File.ReadAllBytes(filePath);
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 LogSys.Log(LOG_TYPE.ERROR, "Exception:{0}\n{1}", e.Message, e.StackTrace);
                 return null;
             }
             return buffer;
-        }, (string filepath) => { return File.Exists(filepath); });
-        LogSystem.OnOutput += (Log_Type type, string msg) =>
+        }, ( string filepath ) => { return File.Exists(filepath); });
+        LogSystem.OnOutput += ( Log_Type type, string msg ) =>
         {
-            switch (type)
+            switch ( type )
             {
                 case Log_Type.LT_Debug:
                     LogSys.Log(LOG_TYPE.DEBUG, msg);
@@ -66,15 +66,15 @@ class DataStore
         DataCacheSystem.Instance.Init();
         LogSys.Log(LOG_TYPE.INFO, "DataStore initialized");
     }
-    private void Loop()
+    private void Loop ()
     {
         try
         {
-            while (CenterClientApi.IsRun())
+            while ( CenterClientApi.IsRun() )
             {
                 CenterClientApi.Tick();
                 Thread.Sleep(10);
-                if (m_WaitQuit && PersistentSystem.Instance.LastSaveFinished)
+                if ( m_WaitQuit && PersistentSystem.Instance.LastSaveFinished )
                 {
                     DataOpSystem.Instance.Enable = false;
                     LogSys.Log(LOG_TYPE.MONITOR, "DataStore quit.");
@@ -82,12 +82,12 @@ class DataStore
                 }
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "DataStore.Loop throw exception:{0}\n{1}", ex.Message, ex.StackTrace);
         }
     }
-    private void Release()
+    private void Release ()
     {
         LogSys.Log(LOG_TYPE.INFO, "DataStore release");
         DataCacheSystem.Instance.Stop();
@@ -97,43 +97,43 @@ class DataStore
         //简单点，kill掉自己
         System.Diagnostics.Process.GetCurrentProcess().Kill();
     }
-    private void OnNameHandleChanged(bool addOrUpdate, string name, int handle)
+    private void OnNameHandleChanged ( bool addOrUpdate, string name, int handle )
     {
         try
         {
             m_Channel.OnUpdateNameHandle(addOrUpdate, name, handle);
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Exception {0}\n{1}", ex.Message, ex.StackTrace);
         }
     }
-    private void OnMessageResult(uint seq, int src, int dest, int result)
+    private void OnMessageResult ( uint seq, int src, int dest, int result )
     {
 
     }
 
-    private void OnCommand(int src, int dest, string command)
+    private void OnCommand ( int src, int dest, string command )
     {
         try
         {
-            if (0 == command.CompareTo("QuitDataStore"))
+            if ( 0 == command.CompareTo("QuitDataStore") )
             {
                 LogSys.Log(LOG_TYPE.MONITOR, "receive {0} command, save data and then quitting ...", command);
-                if (!m_WaitQuit)
+                if ( !m_WaitQuit )
                 {
                     DataCacheSystem.Instance.QueueAction(DataCacheSystem.Instance.DoLastSave);
                     m_WaitQuit = true;
                 }
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Exception {0}\n{1}", ex.Message, ex.StackTrace);
         }
     }
-    private void OnMessage(uint seq, int source_handle, int dest_handle,
-        IntPtr data, int len)
+    private void OnMessage ( uint seq, int source_handle, int dest_handle,
+        IntPtr data, int len )
     {
         try
         {
@@ -141,7 +141,7 @@ class DataStore
             Marshal.Copy(data, bytes, 0, len);
             m_Channel.Dispatch(source_handle, seq, bytes);
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Exception {0}\n{1}", ex.Message, ex.StackTrace);
         }
@@ -155,7 +155,7 @@ class DataStore
     private CenterClientApi.HandleCommandCallback m_CmdCallback = null;
     private CenterClientApi.HandleMessageResultCallback m_MsgResultCallback = null;
 
-    internal static void Main(string[] args)
+    internal static void Main ( string[] args )
     {
         DataStore svr = new DataStore();
         svr.Init(args);

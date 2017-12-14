@@ -8,7 +8,7 @@ using ArkCrossEngine;
 
 internal class DataOpSystem
 {
-    internal void Init(PBChannel channel)
+    internal void Init ( PBChannel channel )
     {
         channel_ = channel;
         channel_.Register<LNReq_Connect>(ConnectHandler);
@@ -18,7 +18,7 @@ internal class DataOpSystem
         LogSys.Log(LOG_TYPE.INFO, "DataOperator initialized");
     }
 
-    internal void Release()
+    internal void Release ()
     {
         channel_ = null;
         LogSys.Log(LOG_TYPE.INFO, "DataOperator disposed");
@@ -30,10 +30,10 @@ internal class DataOpSystem
         set { enable_ = value; }
     }
 
-    internal void InitDSNodeVersion()
+    internal void InitDSNodeVersion ()
     {
         m_DBVersion = DataProcedureImplement.GetDSNodeVersion().Trim();
-        if (m_DBVersion.Equals(DSNodeVersion.Version))
+        if ( m_DBVersion.Equals(DSNodeVersion.Version) )
         {
             Enable = true;
             LogSys.Log(LOG_TYPE.INFO, "Init DSNodeVersion Success:{0}", m_DBVersion);
@@ -45,9 +45,9 @@ internal class DataOpSystem
         }
     }
 
-    private void ConnectHandler(LNReq_Connect msg, PBChannel channel, int handle, uint seq)
+    private void ConnectHandler ( LNReq_Connect msg, PBChannel channel, int handle, uint seq )
     {
-        if (!Enable)
+        if ( !Enable )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Connect to DataStorNode while DataOperator is Disable");
             return;
@@ -62,7 +62,7 @@ internal class DataOpSystem
             reply.SetError(errorMsg);
             channel.Send(reply.Build());
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             var reply = NLRep_Connect.CreateBuilder();
             reply.SetResult(false);
@@ -71,9 +71,9 @@ internal class DataOpSystem
         }
     }
 
-    private void LoadHandler(LNReq_Load msg, PBChannel channel, int handle, uint seq)
+    private void LoadHandler ( LNReq_Load msg, PBChannel channel, int handle, uint seq )
     {
-        if (!Enable)
+        if ( !Enable )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Load a message while DataOperator is Disable");
             return;
@@ -83,23 +83,23 @@ internal class DataOpSystem
             DataCacheSystem.Instance.LoadActionQueue.QueueAction((MyAction<uint, string, MyAction<DSLoadResult, string, IMessage>>)DataCacheSystem.Instance.Load,
               msg.DsMsgId,
               msg.Key,
-              (ret, error, data) =>
+              ( ret, error, data ) =>
               {
                   //这段代码必须保证线程安全，会在不同线程调用！！！
                   var reply = NLRep_Load.CreateBuilder();
                   reply.SetDsMsgId(msg.DsMsgId);
                   reply.SetKey(msg.Key);
-                  if (ret == DSLoadResult.Success)
+                  if ( ret == DSLoadResult.Success )
                   {
                       reply.SetResult(NLRep_Load.Types.LoadResult.Success);
                       reply.SetData(ByteString.Unsafe.FromBytes(channel_.Encode(data)));
                   }
-                  else if (ret == DSLoadResult.Undone)
+                  else if ( ret == DSLoadResult.Undone )
                   {
                       reply.SetResult(NLRep_Load.Types.LoadResult.Undone);
                       reply.SetData(ByteString.Unsafe.FromBytes(channel_.Encode(data)));
                   }
-                  else if (ret == DSLoadResult.NotFound)
+                  else if ( ret == DSLoadResult.NotFound )
                   {
                       reply.SetResult(NLRep_Load.Types.LoadResult.NotFound);
                       reply.SetError(error);
@@ -114,7 +114,7 @@ internal class DataOpSystem
                   LogSys.Log(LOG_TYPE.INFO, "Load data finished. msgId:({0}) key:({1}) result:({2}) ", msg.DsMsgId, msg.Key, ret);
               });
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             var errorReply = NLRep_Load.CreateBuilder();
             errorReply.SetResult(NLRep_Load.Types.LoadResult.Error);
@@ -125,9 +125,9 @@ internal class DataOpSystem
         }
     }
 
-    private void SaveHandler(LNReq_Save msg, PBChannel channel, int handle, uint seq)
+    private void SaveHandler ( LNReq_Save msg, PBChannel channel, int handle, uint seq )
     {
-        if (!Enable)
+        if ( !Enable )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Save a message while DataOperator is Disable");
             return;
@@ -140,22 +140,22 @@ internal class DataOpSystem
         {
             byte[] data_bytes = ByteString.Unsafe.GetBuffer(msg.DsBytes);
             int calc_checksum = Crc32.Compute(data_bytes);
-            if (msg.Checksum != calc_checksum)
+            if ( msg.Checksum != calc_checksum )
             {
                 throw new DataChecksumError(msg.Checksum, calc_checksum);
             }
             string dataTypeName = string.Empty;
-            if (m_DSDMessages.TryGetValue(msg.DsMsgId, out dataTypeName))
+            if ( m_DSDMessages.TryGetValue(msg.DsMsgId, out dataTypeName) )
             {
                 DataCacheSystem.Instance.QueueAction(DataCacheSystem.Instance.DirectSave, msg.DsMsgId, msg.Key, data_bytes);
             }
             else
             {
                 dataTypeName = MessageMapping.Query(msg.DsMsgId).Name;
-                if (dataTypeName.StartsWith("DSD_"))
+                if ( dataTypeName.StartsWith("DSD_") )
                 {
                     //直接写入数据库
-                    m_DSDMessages.AddOrUpdate(msg.DsMsgId, dataTypeName, (key, oldValue) => dataTypeName);
+                    m_DSDMessages.AddOrUpdate(msg.DsMsgId, dataTypeName, ( key, oldValue ) => dataTypeName);
                     DataCacheSystem.Instance.QueueAction(DataCacheSystem.Instance.DirectSave, msg.DsMsgId, msg.Key, data_bytes);
                 }
                 else
@@ -165,7 +165,7 @@ internal class DataOpSystem
                 }
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             reply.Result = NLRep_Save.Types.SaveResult.Error;
             reply.SetError(e.Message);

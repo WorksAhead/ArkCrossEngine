@@ -522,7 +522,7 @@ namespace Lobby
             }
         }
         //响应RoomServer发来的房间内玩家掉线消息
-        internal void OnRoomUserQuit(int roomid, ulong guid, bool isBattleEnd)
+        internal void OnRoomUserQuit(int roomid, ulong guid, bool isBattleEnd, long x, long z)
         {
             UserInfo user = LobbyServer.Instance.DataProcessScheduler.GetUserInfo(guid);
             if (user != null)
@@ -536,6 +536,8 @@ namespace Lobby
                 {
                     user.CurrentRoomID = roomid;
                 }
+                user.X = x;
+                user.Z = z;
                 LogSys.Log(LOG_TYPE.INFO, "RoomServer User Quit , guid:{0} state:{1} isEnd:{2}", guid, user.CurrentState, isBattleEnd);
             }
         }

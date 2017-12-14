@@ -15,9 +15,9 @@ internal static class DataSaveImplement
     /// </summary>
     /// <param name="datas">存储的数据集</param>
     /// <returns></returns>
-    internal static int BatchSave(List<IMessage> datas)
+    internal static int BatchSave ( List<IMessage> datas )
     {
-        if (datas.Count <= 0)
+        if ( datas.Count <= 0 )
             return 0;
 
         // 提取出table名称, protobuf中消息数据的命名规则是"DS_<tablename>"
@@ -26,7 +26,7 @@ internal static class DataSaveImplement
         MessageDescriptor md = (MessageDescriptor)tableType.InvokeMember(
           "Descriptor", BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty, null, null, null);
         List<string> rowKeys = new List<string>();
-        foreach (FieldDescriptor fd in md.Fields)
+        foreach ( FieldDescriptor fd in md.Fields )
         {
             rowKeys.Add(fd.Name);
         }
@@ -34,18 +34,18 @@ internal static class DataSaveImplement
         sb.AppendFormat("({0})", string.Join(",", rowKeys));
         sb.Append(" values ");
         Dictionary<string, object> byteArrayParams = new Dictionary<string, object>();
-        for (int i = 0; i < datas.Count; ++i)
+        for ( int i = 0; i < datas.Count; ++i )
         {
             IMessage data = datas[i];
             sb.Append("(");
-            foreach (FieldDescriptor fd in md.Fields)
+            foreach ( FieldDescriptor fd in md.Fields )
             {
                 object value = tableType.InvokeMember(fd.CSharpOptions.PropertyName,
                   BindingFlags.DeclaredOnly | BindingFlags.Instance |
                   BindingFlags.Public | BindingFlags.GetProperty,
                   null, data, null);
                 string valueStr = null;
-                if (fd.FieldType == FieldType.Bytes)
+                if ( fd.FieldType == FieldType.Bytes )
                 {
                     //如果类型是bytes, ProtocolBuffers.dll使用的ByteString, 需要将byte[]取出来
                     //blob类型只能通过参数的方式写入数据库，不能通过SQL语句
@@ -55,10 +55,10 @@ internal static class DataSaveImplement
                     sb.AppendFormat("{0},", valueStr);
                     continue;
                 }
-                else if (fd.FieldType == FieldType.Bool)
+                else if ( fd.FieldType == FieldType.Bool )
                 {
                     //如果类型是bool, 转成数值 0或1
-                    if ((bool)value == true)
+                    if ( (bool)value == true )
                     {
                         valueStr = "1";
                     }
@@ -81,13 +81,13 @@ internal static class DataSaveImplement
         int count = 0;
         try
         {
-            using (MySqlCommand cmd = new MySqlCommand())
+            using ( MySqlCommand cmd = new MySqlCommand() )
             {
                 cmd.Connection = DBConn.MySqlConn;
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = statement;
                 cmd.CommandTimeout = 90;
-                foreach (var kv in byteArrayParams)
+                foreach ( var kv in byteArrayParams )
                 {
                     MySqlParameter param = new MySqlParameter(kv.Key, MySql.Data.MySqlClient.MySqlDbType.Blob);
                     param.Value = kv.Value;
@@ -98,9 +98,9 @@ internal static class DataSaveImplement
                 LogSys.Log(LOG_TYPE.MONITOR, "BatchSave {0}: {1} rows affected. Thread:{2}", tableName, count, Thread.CurrentThread.ManagedThreadId);
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            if (datas.Count > 100)
+            if ( datas.Count > 100 )
             {
                 statement = "the sql statement is too large to log.";
             }
@@ -111,10 +111,10 @@ internal static class DataSaveImplement
         return count;
     }
 
-    private static string GetTableName(Type tableType)
+    private static string GetTableName ( Type tableType )
     {
         string tableName = tableType.Name;
-        if (tableName.StartsWith("DS_"))
+        if ( tableName.StartsWith("DS_") )
         {
             tableName = tableName.Substring(3);     //去除“DS_”，得到数据表名
         }
@@ -126,12 +126,12 @@ internal static class DataSaveImplement
         return tableName;
     }
 
-    internal static int DirectSave(string statement)
+    internal static int DirectSave ( string statement )
     {
         int count = -1;
         try
         {
-            using (MySqlCommand cmd = new MySqlCommand())
+            using ( MySqlCommand cmd = new MySqlCommand() )
             {
                 cmd.Connection = DBConn.MySqlConn;
                 cmd.CommandType = CommandType.Text;
@@ -142,7 +142,7 @@ internal static class DataSaveImplement
                 LogSys.Log(LOG_TYPE.MONITOR, "Direct Save SUCCESS. Count:{0}, Statement:{1}", count, statement);
             }
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
             LogSys.Log(LOG_TYPE.ERROR, "Direct Save ERROR. Statement:{0} \nError:{1}\nStacktrace:{2}", statement, ex.Message, ex.StackTrace);
             throw ex;

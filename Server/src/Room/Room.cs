@@ -310,6 +310,8 @@ namespace DashFire
             newUser.Info.SetUnitId(GlobalVariables.GetUnitIdByCampId(newUser.CampId));
             newUser.Info.SetCampId(newUser.CampId);
             newUser.Info.SetLevel(newUser.Level);
+            newUser.Info.GetMovementStateInfo().SetPosition2D(newUser.InitialPosX, newUser.InitialPosY);
+            
             if ((int)UserControlState.Ai == newUser.UserControlState)
             {
                 newUser.Info.GetAiStateInfo().AiLogic = (int)AiStateLogicId.PvpUser_General;
@@ -478,6 +480,8 @@ namespace DashFire
             uaqBuilder.SetRoomID(cur_room_id_);
             uaqBuilder.SetUserGuid(user.Guid);
             uaqBuilder.SetIsBattleEnd(false);
+            uaqBuilder.SetX((long)user.Info.GetMovementStateInfo().PositionX);
+            uaqBuilder.SetZ((long)user.Info.GetMovementStateInfo().PositionZ);
             connector_.SendMsgToLobby(uaqBuilder.Build());
             //控制状态改为掉线
             user.UserControlState = (int)UserControlState.UserDropped;
@@ -502,6 +506,8 @@ namespace DashFire
                     unqBuilder.SetRoomID(cur_room_id_);
                     unqBuilder.SetUserGuid(user.Guid);
                     unqBuilder.SetIsBattleEnd(true);
+                    unqBuilder.SetX((long)user.Info.GetMovementStateInfo().PositionX);
+                    unqBuilder.SetZ((long)user.Info.GetMovementStateInfo().PositionZ);
                     connector_.SendMsgToLobby(unqBuilder.Build());
                 }
             }
