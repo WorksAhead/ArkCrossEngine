@@ -1,5 +1,5 @@
 ﻿story(1)
-{  
+{
   local
   {
     @targetPt(vector3(0,0,0));
@@ -29,7 +29,7 @@
 	  wait(10);
 	  loop(6)
 	  {
-	    createnpc(1005+$$);
+	    createnpc(1001+$$);
 	  };
 	  //wait(1000);
 	  //setblockedshader(0x0000ff90,0.5,0,0xff000090,0.5,0);
@@ -46,12 +46,12 @@
 	onmessage("cityusermove")
 	{
 	  //log("cityusermove:{0} {1} {2}",$0,$1,$2);
-	  //objmove($0,vector3($1,0,$2));
+	  objmove($0,vector3($1,0,$2));
 	};
 	onmessage("objarrived")
 	{
 	  //log("objarrived, adjust face {0}", $0);
-	  //objface($0,-1);
+	  objface($0,-1);
 	};
 	//0——单人PVE，1——多人活动，2——PVP
 	onmessage("cityplayermove")
@@ -64,7 +64,6 @@
 	  {
 	    
   	  };
-	  };
 	  if($0==2)
 	  {
 	    
