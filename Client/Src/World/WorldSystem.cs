@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ArkCrossEngine.Network;
 using ArkCrossEngineMessage;
@@ -165,6 +166,16 @@ namespace ArkCrossEngine
                 }
                 node = node.Next;
             }
+        }
+
+        public void UpdateMaxCityUserCount(int maxUsers)
+        {
+            c_MaxCityUsers = maxUsers;
+        }
+
+        public int GetMaxCityUserCount()
+        {
+            return c_MaxCityUsers;
         }
 
         private void UserManager_OnDamage(int receiver, int caster, bool /*isShootDamage*/isOrdinaryDamage, bool isCritical, int hpDamage, int npDamage)
@@ -3090,6 +3101,22 @@ namespace ArkCrossEngine
                 reqMsg.m_ProtoData = protoData;
                 JsonMessageDispatcher.SendMessage(reqMsg);
             }
+            else if (m_CityUsers.Count > c_MaxCityUsers)
+            {
+                // remove
+                int subCount = m_CityUsers.Count - c_MaxCityUsers;
+                List<ulong> toRemove = new List<ulong>();
+                foreach(var user in m_CityUsers.Reverse())
+                {
+                    if (subCount-- <= 0)
+                    {
+                        break;
+                    }
+
+                    toRemove.Add(user.Key);
+                }
+                toRemove.ForEach(e => RemoveCityUser(e));
+            }
         }
         private void DestroyNpc(NpcInfo ni)
         {
@@ -4460,7 +4487,7 @@ namespace ArkCrossEngine
         private int m_CurCityUserTickCount = 0;
 
         private const int c_CityUserUpdatePositionTickNum = 1;
-        private const int c_MaxCityUsers = 500;
+        private int c_MaxCityUsers = 30;
         private int m_NextCityUserId = 2;
 
         private const int c_MaxCityUserWithModel = 30;
