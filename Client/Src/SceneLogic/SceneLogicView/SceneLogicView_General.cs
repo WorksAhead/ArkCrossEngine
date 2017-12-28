@@ -11,7 +11,7 @@
         {
             if (WorldSystem.Instance.IsPveScene() || WorldSystem.Instance.IsPureClientScene())
             {
-                ClientStorySystem.Instance.SendMessage(msgId, args);
+                ClientScriptSystem.Instance.SendMessage(msgId, args);
             }
         }
     }

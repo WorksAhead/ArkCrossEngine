@@ -99,8 +99,6 @@
     <Compile Include="Entity\Object\NpcView.cs" />
     <Compile Include="Entity\Object\SpaceInfoView.cs" />
     <Compile Include="Entity\Object\UserView.cs" />
-    <Compile Include="GmCommands\ClientGmStorySystem.cs" />
-    <Compile Include="GmCommands\RoleCommands.cs" />
     <Compile Include="Input\PlayerControl.cs" />
     <Compile Include="Kernel\GameControler.cs" />
     <Compile Include="Kernel\GameLogicNotification.cs" />
@@ -135,18 +133,9 @@
     <Compile Include="Skill\ImpactViewManager.cs" />
     <Compile Include="Skill\SkillController.cs" />
     <Compile Include="Skill\SwordManControlHandler.cs" />
-    <Compile Include="Story\ClientStorySystem.cs" />
-    <Compile Include="Story\Commands\CameraCommands.cs" />
-    <Compile Include="Story\Commands\CharacterCommands.cs" />
-    <Compile Include="Story\Commands\GameLogicCommands.cs" />
-    <Compile Include="Story\Commands\GeneralCommands.cs" />
-    <Compile Include="Story\Commands\NpcCommands.cs" />
-    <Compile Include="Story\Commands\PlayerselfCommands.cs" />
-    <Compile Include="Story\Commands\UiControlCommands.cs" />
-    <Compile Include="Story\Values\CharacterValues.cs" />
-    <Compile Include="Story\Values\GameLogicValues.cs" />
-    <Compile Include="Story\Values\NpcValues.cs" />
-    <Compile Include="Story\Values\UserValues.cs" />
+    <Compile Include="Script\ClientScriptSystem.cs" />
+    <Compile Include="Script\StoryConfigManager.cs" />
+    <Compile Include="Script\StoryInstance.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="World\SceneResource.cs" />
     <Compile Include="World\WorldSystem.cs" />
@@ -203,10 +192,6 @@
     <ProjectReference Include="..\..\Public\SpatialSystem\SpatialSystem.csproj">
       <Project>{07597610-F5FD-4706-9BAF-9D6C3BEC366D}</Project>
       <Name>SpatialSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Public\StorySystem\StorySystem.csproj">
-      <Project>{6BF3969C-44BD-480B-9A74-6CD523ADAC0C}</Project>
-      <Name>StorySystem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

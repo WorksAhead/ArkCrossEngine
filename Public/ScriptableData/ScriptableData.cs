@@ -798,6 +798,19 @@ namespace ScriptableData
     public class ScriptableDataFile
     {
         readonly static string BOMMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+
+        // Callbacks
+        public Action<object> OnStart;
+        public Action<object> OnNpcStore;
+        public Action<object> OnCityUserMove;
+        public Action<object> OnObjArrived;
+        public Action<object> OnCityPlayerMove;
+        public Action<object> OnPlayerMoveToPos;
+        public Action<object> OnAiMoveStop;
+
+        // Local lua env
+        object Env;
+
         public List<ScriptableDataInfo> ScriptableDatas
         {
             get { return mScriptableDatas; }
@@ -809,7 +822,36 @@ namespace ScriptableData
 
         public bool Load(string file)
         {
-#if true
+            // temp, for test
+            if (file.ToLower().EndsWith(".dsl"))
+            {
+                byte[] content = FileReaderProxy.ReadFileAsArray(file);
+                string text = Encoding.UTF8.GetString(content);
+
+                // remove BOM if used
+                if ( text.StartsWith(BOMMarkUtf8) )
+                {
+                    text = text.Remove(0, BOMMarkUtf8.Length);
+                }
+
+                //DashFire.LogSystem.Debug("ScriptableDataFile.Load {0}:\n{1}", file, content);
+                return LoadFromString(text, file);
+            }
+            else
+            {
+                Env = ScriptManager.Instance.SetupNewEnv(file, false);
+                ScriptManager.Instance.ExecuteFile(file, false, Env, file);
+                OnStart = ScriptManager.Instance.QueryAction_1("start", Env, false);
+                OnNpcStore = ScriptManager.Instance.QueryAction_1("npcstore", Env, false);
+                OnCityUserMove = ScriptManager.Instance.QueryAction_1("cityusermove", Env, false);
+                OnObjArrived = ScriptManager.Instance.QueryAction_1("objarrived", Env, false);
+                OnCityPlayerMove = ScriptManager.Instance.QueryAction_1("cityplayermove", Env, false);
+                OnPlayerMoveToPos = ScriptManager.Instance.QueryAction_1("playermovetopos", Env, false);
+                OnAiMoveStop = ScriptManager.Instance.QueryAction_1("aimovestopped", Env, false);
+            }
+
+            return true;
+#if false
             //string content = File.ReadAllText(file);
             byte[] content = FileReaderProxy.ReadFileAsArray(file);
             string text = Encoding.UTF8.GetString(content);
@@ -823,7 +865,26 @@ namespace ScriptableData
             //DashFire.LogSystem.Debug("ScriptableDataFile.Load {0}:\n{1}", file, content);
             return LoadFromString(text, file);
 #else
-            return false;
+            /*
+            byte[] content = FileReaderProxy.ReadFileAsArray(file);
+            string text = Encoding.UTF8.GetString(content);
+            if ( text.StartsWith(BOMMarkUtf8) )
+            {
+                text = text.Remove(0, BOMMarkUtf8.Length);
+            }
+            */
+
+            Env = ScriptManager.Instance.SetupNewEnv(file, false);
+            ScriptManager.Instance.ExecuteFile(file, false, Env, file);
+            OnStart = ScriptManager.Instance.QueryAction_1("start", Env, false);
+            OnNpcStore = ScriptManager.Instance.QueryAction_1("npcstore", Env, false);
+            OnCityUserMove = ScriptManager.Instance.QueryAction_1("cityusermove", Env, false);
+            OnObjArrived = ScriptManager.Instance.QueryAction_1("objarrived", Env, false);
+            OnCityPlayerMove = ScriptManager.Instance.QueryAction_1("cityplayermove", Env, false);
+            OnPlayerMoveToPos = ScriptManager.Instance.QueryAction_1("playermovetopos", Env, false);
+            OnAiMoveStop = ScriptManager.Instance.QueryAction_1("aimovestopped", Env, false);
+
+            return true;
 #endif
         }
         public bool LoadFromString(string content, string resourceName)

@@ -1,5 +1,6 @@
 ﻿using System;
 using ArkCrossEngine.Network;
+using ScriptableData;
 
 namespace ArkCrossEngine
 {
@@ -7,6 +8,7 @@ namespace ArkCrossEngine
     {
         protected override void OnStart()
         {
+            // initialize lua env on logic thread
         }
 
         protected override void OnTick()
@@ -45,6 +47,7 @@ namespace ArkCrossEngine
                     LobbyNetworkSystem.Instance.Tick();
                     PlayerControl.Instance.Tick();
                     WorldSystem.Instance.Tick();
+                    ScriptManager.Instance.Tick(false);
                 }
                 GameControler.LogicLoggerInstance.Tick();
             }
@@ -56,6 +59,7 @@ namespace ArkCrossEngine
 
         protected override void OnQuit()
         {
+            ScriptManager.Instance.Destroy(false);
         }
 
         private long m_LastLogTime = 0;

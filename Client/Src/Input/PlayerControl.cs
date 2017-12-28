@@ -234,7 +234,7 @@ namespace ArkCrossEngine
                     aiInfo.AiDatas.RemoveData<AiData_ForPursuitCommand>();
                     aiInfo.AiDatas.RemoveData<AiData_ForPatrolCommand>();
                     aiInfo.ChangeToState((int)AiStateId.Idle);
-                    ClientStorySystem.Instance.SendMessage("aimovestopped");
+                    ClientScriptSystem.Instance.SendMessage("aimovestopped");
                 }
             }
         }

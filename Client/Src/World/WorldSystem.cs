@@ -236,8 +236,8 @@ namespace ArkCrossEngine
                         {
                             if (charObj.IsHaveStoryFlag(StoryListenFlagEnum.Damage))
                             {
-                                ClientStorySystem.Instance.SendMessage("objdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
-                                ClientStorySystem.Instance.SendMessage("playerselfdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
+                                ClientScriptSystem.Instance.SendMessage("objdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
+                                ClientScriptSystem.Instance.SendMessage("playerselfdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
                             }
                         }
 
@@ -264,8 +264,8 @@ namespace ArkCrossEngine
                 {
                     if (charObj.IsHaveStoryFlag(StoryListenFlagEnum.Damage))
                     {
-                        ClientStorySystem.Instance.SendMessage("objdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
-                        ClientStorySystem.Instance.SendMessage("npcdamage:" + charObj.GetUnitId(), receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
+                        ClientScriptSystem.Instance.SendMessage("objdamage", receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
+                        ClientScriptSystem.Instance.SendMessage("npcdamage:" + charObj.GetUnitId(), receiver, caster, hpDamage, npDamage, isCritical ? 1 : 0);
                     }
 
                     int estimateDamage = hpDamage;
@@ -276,7 +276,7 @@ namespace ArkCrossEngine
                     {
                         if (GetBattleNpcCount() == 1)
                         {
-                            ClientStorySystem.Instance.SendMessage("finalblow", receiver);
+                            ClientScriptSystem.Instance.SendMessage("finalblow", receiver);
                         }
                     }
                 }
@@ -414,12 +414,12 @@ namespace ArkCrossEngine
                 if (IsPureClientScene() || IsPveScene())
                 {
                     StorySystem.StoryConfigManager.Instance.Clear();
-                    ClientStorySystem.Instance.ClearStoryInstancePool();
+                    ClientScriptSystem.Instance.ClearStoryInstancePool();
                     for (int i = 1; i < 10; ++i)
                     {
-                        ClientStorySystem.Instance.PreloadStoryInstance(i);
+                        ClientScriptSystem.Instance.PreloadStoryInstance(i);
                     }
-                    ClientStorySystem.Instance.StartStory(1);
+                    ClientScriptSystem.Instance.StartStory(1);
                 }
                 else if (IsPvpScene() || IsMultiPveScene())
                 {
@@ -444,9 +444,9 @@ namespace ArkCrossEngine
                     {
                         scriptFile = HomePath.GetAbsolutePath(FilePathDefine_Client.C_RootPath + scriptFile);
                     }
-                    GmCommands.ClientGmStorySystem.Instance.Reset();
-                    GmCommands.ClientGmStorySystem.Instance.LoadStory(scriptFile);
-                    GmCommands.ClientGmStorySystem.Instance.StartStory(1);
+                    //GmCommands.ClientGmStorySystem.Instance.Reset();
+                    //GmCommands.ClientGmStorySystem.Instance.LoadStory(scriptFile);
+                    //GmCommands.ClientGmStorySystem.Instance.StartStory(1);
                 }
                 else if (IsPvpScene() || IsMultiPveScene())
                 {
@@ -727,10 +727,10 @@ namespace ArkCrossEngine
 
                     // clear story pool
                     StorySystem.StoryConfigManager.Instance.Clear();
-                    ClientStorySystem.Instance.ClearStoryInstancePool();
+                    ClientScriptSystem.Instance.ClearStoryInstancePool();
                     for (int i = 1; i < 10; ++i)
                     {
-                        ClientStorySystem.Instance.PreloadStoryInstance(i);
+                        ClientScriptSystem.Instance.PreloadStoryInstance(i);
                     }
 
                     // reset cached states
@@ -779,7 +779,7 @@ namespace ArkCrossEngine
                         }
                         // mark player entered
                         m_CurScene.NotifyUserEnter();
-                        ClientStorySystem.Instance.StartStory(1);
+                        ClientScriptSystem.Instance.StartStory(1);
                     }
                     else
                     {
@@ -930,7 +930,7 @@ namespace ArkCrossEngine
             }
 
             // tick story system
-            GmCommands.ClientGmStorySystem.Instance.Tick();
+            // GmCommands.ClientGmStorySystem.Instance.Tick();
 
             // tick scene logic system
             if (!IsPvapScene())
@@ -1207,7 +1207,7 @@ namespace ArkCrossEngine
                         MovementStateInfo msi = user.GetMovementStateInfo();
                         msi.SetWantFaceDir(facedir);
 
-                        ClientStorySystem.Instance.SendMessage("cityusermove", id, x, z);
+                        ClientScriptSystem.Instance.SendMessage("cityusermove", id, x, z);
                     }
                 }
                 else
@@ -1312,7 +1312,7 @@ namespace ArkCrossEngine
                         float distSqr = Geometry.DistanceSquare(msi.GetPosition3D(), new Vector3(x, 0, z));
                         if (distSqr >= 1)
                         {
-                            ClientStorySystem.Instance.SendMessage("cityusermove", objId, x, z);
+                            ClientScriptSystem.Instance.SendMessage("cityusermove", objId, x, z);
                         }
                         else
                         {
@@ -1422,8 +1422,8 @@ namespace ArkCrossEngine
 
             ControlSystemOperation.Reset();
 
-            ClientStorySystem.Instance.Reset();
-            ClientStorySystem.Instance.ClearStoryInstancePool();
+            ClientScriptSystem.Instance.Reset();
+            ClientScriptSystem.Instance.ClearStoryInstancePool();
             StorySystem.StoryConfigManager.Instance.Clear();
         }
         internal void LoadData()
@@ -2470,7 +2470,7 @@ namespace ArkCrossEngine
             m_AiSystem.Tick();
             m_Profiler.aiSystemTickTime = TimeSnapshot.DoCheckPoint();
 
-            ClientStorySystem.Instance.Tick();
+            ClientScriptSystem.Instance.Tick();
             m_Profiler.storySystemTickTime = TimeSnapshot.DoCheckPoint();
         }
         private void TickRecover()
@@ -2661,8 +2661,8 @@ namespace ArkCrossEngine
 
                     if (IsPveScene() || IsPureClientScene())
                     {
-                        ClientStorySystem.Instance.SendMessage("userkilled", player.GetId(), 0);
-                        ClientStorySystem.Instance.SendMessage("playerselfkilled", player.GetId());
+                        ClientScriptSystem.Instance.SendMessage("userkilled", player.GetId(), 0);
+                        ClientScriptSystem.Instance.SendMessage("playerselfkilled", player.GetId());
                         FireAllUserKilled();
                     }
                     player.DeadTime = TimeUtility.GetServerMilliseconds();
@@ -3149,8 +3149,8 @@ namespace ArkCrossEngine
             {
                 if (info.IsCombatNpc())
                 {
-                    ClientStorySystem.Instance.SendMessage("objkilled", info.GetId(), GetBattleNpcCount());
-                    ClientStorySystem.Instance.SendMessage(string.Format("npckilled:{0}", info.GetUnitId()), info.GetId(), GetBattleNpcCount());
+                    ClientScriptSystem.Instance.SendMessage("objkilled", info.GetId(), GetBattleNpcCount());
+                    ClientScriptSystem.Instance.SendMessage(string.Format("npckilled:{0}", info.GetUnitId()), info.GetId(), GetBattleNpcCount());
                     TryFireAllNpcKilled(info.GetId());
                 }
             }
@@ -3161,12 +3161,12 @@ namespace ArkCrossEngine
             LogSystem.Debug("npc {0} killed, left {1}", deadNpcId, ct);
             if (0 == ct)
             {
-                ClientStorySystem.Instance.SendMessage("allnpckilled");
+                ClientScriptSystem.Instance.SendMessage("allnpckilled");
             }
         }
         private void FireAllUserKilled()
         {
-            ClientStorySystem.Instance.SendMessage("alluserkilled");
+            ClientScriptSystem.Instance.SendMessage("alluserkilled");
         }
         internal int GetBattleNpcCount()
         {
@@ -3411,7 +3411,7 @@ namespace ArkCrossEngine
                             {
                                 if (expedition.UserDeadTime < 0)
                                 {
-                                    ClientStorySystem.Instance.SendMessage("expeditioncompleted");
+                                    ClientScriptSystem.Instance.SendMessage("expeditioncompleted");
                                     expedition.UserDeadTime = TimeUtility.CurTimestamp;
                                     GfxSystem.PublishGfxEvent("ge_hide_input_ui", "ui");
                                 }
@@ -3483,7 +3483,7 @@ namespace ArkCrossEngine
                                 expedition.MonsterDeadTime = TimeUtility.CurTimestamp;
                                 if (tollgate_data.FlushNum <= 0)
                                 {
-                                    ClientStorySystem.Instance.SendMessage("expeditioncompleted");
+                                    ClientScriptSystem.Instance.SendMessage("expeditioncompleted");
                                     GfxSystem.PublishGfxEvent("ge_hide_input_ui", "ui");
                                 }
                             }
@@ -3797,7 +3797,7 @@ namespace ArkCrossEngine
                 info.GetMovementStateInfo().IsMoving = false;
             }
         }
-        internal int CreateNpcEntity(int unitId)
+        public int CreateNpcEntity(int unitId)
         {
             int objId = 0;
             Data_Unit mapUnit = GetCurScene().StaticData.ExtractData(DataMap_Type.DT_Unit, unitId) as Data_Unit;
@@ -3815,7 +3815,7 @@ namespace ArkCrossEngine
             }
             return objId;
         }
-        internal int CreateNpcEntity(int unitId, float rnd)
+        public int CreateNpcEntity(int unitId, float rnd)
         {
             int objId = 0;
             Data_Unit mapUnit = GetCurScene().StaticData.ExtractData(DataMap_Type.DT_Unit, unitId) as Data_Unit;
@@ -3843,7 +3843,7 @@ namespace ArkCrossEngine
             }
             return objId;
         }
-        internal int CreateNpcEntityWithPos(int unitId, float x, float y, float z, float rotateAngle)
+        public int CreateNpcEntityWithPos(int unitId, float x, float y, float z, float rotateAngle)
         {
             int objId = 0;
             Data_Unit mapUnit = GetCurScene().StaticData.ExtractData(DataMap_Type.DT_Unit, unitId) as Data_Unit;
@@ -3863,7 +3863,7 @@ namespace ArkCrossEngine
             return objId;
         }
 
-        internal NpcInfo CreateNpc(int id, int unitId)
+        public NpcInfo CreateNpc(int id, int unitId)
         {
             NpcInfo ret = null;
             Data_Unit mapUnit = GetCurScene().StaticData.ExtractData(DataMap_Type.DT_Unit, unitId) as Data_Unit;

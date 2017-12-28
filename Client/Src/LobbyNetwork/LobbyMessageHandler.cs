@@ -212,7 +212,7 @@ namespace ArkCrossEngine.Network
         }
         private void FilterLogicEventByStory(ProxyPublishData data)
         {
-            ClientStorySystem.Instance.SendMessage("logicevent", data.m_EventName, data.m_Group, data.m_Args);
+            ClientScriptSystem.Instance.SendMessage("logicevent", data.m_EventName, data.m_Group, data.m_Args);
         }
         private void SetIpAndChannel(string ip, string channel)
         {
@@ -1416,7 +1416,7 @@ namespace ArkCrossEngine.Network
                     // ·ÅÆú¸±±¾
                     if (WorldSystem.Instance.IsPveScene())
                     {
-                        ClientStorySystem.Instance.SendMessage("missionfailed");
+                        ClientScriptSystem.Instance.SendMessage("missionfailed");
                         LobbyNetworkSystem.Instance.QuitPve();
                     }
                     else
@@ -1798,7 +1798,7 @@ namespace ArkCrossEngine.Network
         {
             if (WorldSystem.Instance.IsPvapScene())
             {
-                ClientStorySystem.Instance.SendMessage("onbeginfight");
+                ClientScriptSystem.Instance.SendMessage("onbeginfight");
                 RoleInfo self = LobbyClient.Instance.CurrentRole;
                 if (self != null)
                 {
@@ -3623,7 +3623,7 @@ namespace ArkCrossEngine.Network
                     {
                         if (WorldSystem.Instance.IsPveScene())
                         {
-                            ClientStorySystem.Instance.SendMessage("missionfailed");
+                            ClientScriptSystem.Instance.SendMessage("missionfailed");
                         }
                         else
                         {

@@ -9,7 +9,7 @@ namespace ArkCrossEngine
         {
             if (WorldSystem.Instance.IsPveScene())
             {
-                ClientStorySystem.Instance.StartStory(id);
+                ClientScriptSystem.Instance.StartStory(id);
             }
             else
             {
@@ -20,7 +20,7 @@ namespace ArkCrossEngine
         {
             if (WorldSystem.Instance.IsPureClientScene() || WorldSystem.Instance.IsPveScene())
             {
-                ClientStorySystem.Instance.SendMessage(msgId, args);
+                ClientScriptSystem.Instance.SendMessage(msgId, args);
             }
             else
             {

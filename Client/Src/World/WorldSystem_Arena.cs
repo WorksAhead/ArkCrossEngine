@@ -28,7 +28,7 @@ namespace ArkCrossEngine
             {
                 m_AiSystem.Tick();
             }
-            ClientStorySystem.Instance.Tick();
+            ClientScriptSystem.Instance.Tick();
             CameraChangeCheck(arena_state, roleself);
             OverCheck(arena_state);
             TimeOutCheck(arena_state);
@@ -48,7 +48,7 @@ namespace ArkCrossEngine
             {
                 state.IsChallengeOver = true;
                 state.IsChallengeSuccess = false;
-                ClientStorySystem.Instance.SendMessage("timeout");
+                ClientScriptSystem.Instance.SendMessage("timeout");
             }
         }
 
@@ -143,7 +143,7 @@ namespace ArkCrossEngine
             if (state.IsChallengeOver)
             {
                 state.IsChallengeSuccess = isScuccess;
-                ClientStorySystem.Instance.SendMessage("onenemykilled");
+                ClientScriptSystem.Instance.SendMessage("onenemykilled");
                 //LobbyNetworkSystem.Instance.OnChallengeOver(isScuccess);
             }
         }

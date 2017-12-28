@@ -175,8 +175,8 @@ namespace ArkCrossEngine
             
             GfxModule.Impact.GfxImpactSystem.Instance.Init();
 
-            ClientStorySystem.Instance.Init();
-            GmCommands.ClientGmStorySystem.Instance.Init();
+            ClientScriptSystem.Instance.Init();
+            //GmCommands.ClientGmStorySystem.Instance.Init();
 
             PlayerControl.Instance.Init();
             LobbyNetworkSystem.Instance.Init(s_LogicThread);

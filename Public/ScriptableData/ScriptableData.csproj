@@ -16,7 +16,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UnityDebug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\..\Bin</OutputPath>
     <DefineConstants>FULL_VERSION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -32,6 +32,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lua\LuaInterface.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Parser\DslAction.cs" />
     <Compile Include="Parser\DslConstants.cs" />
@@ -42,6 +43,7 @@
     <Compile Include="Parser\DslToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptableData.cs" />
+    <Compile Include="ScriptableManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Parser\DslExecute.txt" />
